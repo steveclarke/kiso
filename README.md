@@ -36,6 +36,24 @@ bundle install
 bin/rails generate kiso:install
 ```
 
+### Local Development
+
+If you're working on Kiso alongside a host app, point the Gemfile at the git
+repo and use Bundler's local override to resolve from disk:
+
+```ruby
+# Gemfile (works everywhere — CI, deploy, other devs)
+gem "kiso", git: "https://github.com/steveclarke/kiso.git", branch: "master"
+```
+
+```bash
+# Your machine only (one-time setup)
+bundle config set local.kiso ~/src/kiso
+```
+
+Bundler resolves from your local checkout. Edit kiso on disk, changes are
+picked up immediately. Deploy works because it fetches from GitHub.
+
 ## Design Principles
 
 1. **Native first.** `<dialog>`, `[popover]`, `<details>`, `<progress>` before JavaScript.
