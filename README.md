@@ -1,6 +1,6 @@
-# Kiso
+# Kiso 基礎
 
-**Kiso** (Japanese: foundation) is a UI component library for Rails, distributed
+**Kiso** (基礎 — Japanese: foundation) is a UI component library for Rails, distributed
 as a gem. It follows the design language and component catalog of
 [shadcn/ui](https://ui.shadcn.com), adapted for the Rails + Hotwire stack.
 
