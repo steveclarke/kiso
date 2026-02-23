@@ -30,13 +30,13 @@ Three layers:
 ## Component Pattern
 
 ```erb
-<%# locals: (variant: :default, size: :md, css_classes: "", **html_options) %>
-<% merged_data = (html_options.delete(:data) || {}).merge(
+<%# locals: (variant: :default, size: :md, css_classes: "", **component_options) %>
+<% merged_data = (component_options.delete(:data) || {}).merge(
     component: :badge, variant: variant, size: size
   ).compact %>
 <%= content_tag :span,
     class: ["inline-flex items-center rounded-md font-medium", css_classes].compact_blank.join(" "),
-    data: merged_data, **html_options do %>
+    data: merged_data, **component_options do %>
   <%= yield %>
 <% end %>
 ```

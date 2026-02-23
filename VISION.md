@@ -94,15 +94,15 @@ for free.
 Every component follows the same conventions:
 
 ```erb
-<%# locals: (variant: :default, size: :md, css_classes: "", **html_options) %>
-<% merged_data = (html_options.delete(:data) || {}).merge(
+<%# locals: (variant: :default, size: :md, css_classes: "", **component_options) %>
+<% merged_data = (component_options.delete(:data) || {}).merge(
     component: :badge,
     variant: variant,
     size: size
   ).compact %>
 
 <%%= content_tag :span, class: css_classes.presence, data: merged_data,
-    **html_options do %>
+    **component_options do %>
   <%%= yield %>
 <%% end %>
 ```
@@ -112,7 +112,7 @@ Every component follows the same conventions:
 - `data-size` controls dimensions
 - `data-*-part` names sub-parts (e.g., `data-card-part="header"`)
 - `css_classes` allows additional Tailwind utilities
-- `**html_options` passes through arbitrary HTML attributes
+- `**component_options` passes through arbitrary HTML attributes
 - A `component_data` helper merges caller data with component defaults
 
 ### Rendering Components
