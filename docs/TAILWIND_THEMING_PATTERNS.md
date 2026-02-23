@@ -1,10 +1,11 @@
 # Tailwind Theming Patterns for Kiso
 
-Patterns extracted from **Nuxt UI** and **shadcn/ui**, adapted for Rails ERB
-partials with data-attribute selectors. Kiso takes the best of both:
-shadcn's simplicity (flat variants, single `css_classes` override) with
-Nuxt UI's dark mode discipline (pure CSS custom properties, zero `dark:`
-prefixes in component definitions).
+Patterns extracted from **Nuxt UI**, **shadcn/ui**, and **Fizzy** (37signals),
+adapted for Rails ERB partials with data-attribute selectors. Kiso takes the
+best of all three: shadcn's simplicity (flat variants, single `css_classes`
+override), Nuxt UI's dark mode discipline (pure CSS custom properties, zero
+`dark:` prefixes), and Fizzy's production Rails patterns (theme switching,
+native HTML5, CSS custom property APIs).
 
 ## Table of Contents
 
@@ -17,6 +18,7 @@ prefixes in component definitions).
 - [Class Deduplication](#class-deduplication)
 - [Kiso Implementation Recipes](#kiso-implementation-recipes)
 - [Patterns from Unio (Prior Art)](#patterns-from-unio-prior-art)
+- [Patterns from Fizzy (37signals Prior Art)](#patterns-from-fizzy-37signals-prior-art)
 
 ---
 
@@ -1062,24 +1064,397 @@ end
 
 ---
 
+## Patterns from Fizzy (37signals Prior Art)
+
+Fizzy is a production Rails app from 37signals (DHH's team). It ships **no
+Tailwind CSS at all** — pure handcrafted CSS with custom properties. This is
+the opposite end of the spectrum from shadcn/Nuxt UI, and provides useful
+contrast for Kiso's decisions.
+
+### Architecture: CSS Cascade Layers
+
+Fizzy organizes all CSS with `@layer` precedence:
+
+```css
+@layer reset, base, components, modules, utilities, native, platform;
+```
+
+Each layer has a clear responsibility:
+- **reset** — box-sizing, margin normalization
+- **base** — body/typography defaults, focus rings, link styles
+- **components** — `.btn`, `.panel`, `.card`, `.input`, `.dialog`, `.flash`
+- **utilities** — animation keyframes (`.shake`, etc.)
+- **native/platform** — native mobile app overrides via `[data-platform~=native]`
+
+**Takeaway for Kiso**: `@layer` is a good mental model even within Tailwind.
+Kiso's CSS files (for transitions, pseudo-states) should declare their layer
+explicitly. Not needed today, but worth knowing the pattern if component CSS
+grows.
+
+### Color System: OKLCH, Not Tailwind Palette
+
+Fizzy uses a **hand-tuned OKLCH color system** — the perceptually uniform
+color space. Every color family has 7 shades (darkest through lightest) defined
+as raw OKLCH triplets:
+
+```css
+:root {
+  --lch-blue-darkest: 26% 0.126 264;
+  --lch-blue-darker: 40% 0.166 262;
+  --lch-blue-dark: 57.02% 0.1895 260.46;
+  --lch-blue-medium: 66% 0.196 257.82;
+  --lch-blue-light: 84.04% 0.0719 255.29;
+  --lch-blue-lighter: 92% 0.026 254;
+  --lch-blue-lightest: 96% 0.016 252;
+}
+```
+
+Named colors then wrap these:
+
+```css
+--color-link: oklch(var(--lch-blue-dark));
+--color-negative: oklch(var(--lch-red-dark));
+--color-positive: oklch(var(--lch-green-dark));
+```
+
+**10 color families**: ink, uncolor (warm gray), red, yellow, lime, green,
+aqua, blue, violet, purple, pink. Each has 7 shades = 70+ base color tokens.
+
+**Contrast with Kiso**: Kiso uses `var(--color-blue-600)` — Tailwind's
+built-in palette. This is simpler to reason about ("just pick a Tailwind
+shade") but less perceptually uniform. Fizzy's approach gives finer control
+over perceived brightness but requires manual tuning of every shade.
+
+**Kiso's choice is right for an engine gem** — host apps already have Tailwind
+installed with its palette. Asking them to learn OKLCH triplets would be a
+barrier. But Fizzy proves that pure CSS custom properties (no framework) can
+scale to a full production app.
+
+### Semantic Token Design
+
+Fizzy's semantic layer is minimal and intentional:
+
+```css
+--color-canvas       /* Page/card background */
+--color-ink          /* Primary text (darkest shade of ink family) */
+--color-ink-inverted /* Text on dark backgrounds */
+--color-link         /* Interactive/link blue */
+--color-negative     /* Error/destructive red */
+--color-positive     /* Success green */
+--color-selected     /* Selection highlight (blue lighter) */
+--color-highlight    /* Yellow highlight */
+```
+
+Plus a **full ink shade scale** (`--color-ink-darkest` through
+`--color-ink-lightest`) used directly in components for subtle grays.
+
+**Key difference from shadcn**: No `-foreground` pairing convention. Fizzy
+uses `--color-ink-inverted` as a universal "text on colored backgrounds" token.
+This works because their button variants explicitly set both background AND
+text color via CSS custom properties on each variant.
+
+**What Kiso should note**: Fizzy's `--color-ink-inverted` is clever — one
+token for "white text on dark bg in light mode, dark text on light bg in dark
+mode." Kiso achieves the same with per-token `-foreground` pairs, which is
+more explicit but more verbose.
+
+### Dark Mode: The Gold Standard
+
+Fizzy's dark mode implementation is the most thorough of all the apps
+analyzed. Three layers:
+
+**1. FOUC prevention** — inline script in `<head>` before any CSS loads:
+
+```erb
+<%# layouts/_theme_preference.html.erb %>
+<%= javascript_tag nonce: true do %>
+  const theme = localStorage.getItem("theme")
+  if (theme && theme !== "auto") {
+    document.documentElement.dataset.theme = theme
+  }
+<% end %>
+```
+
+**2. Explicit theme via `data-theme` attribute**:
+
+```css
+html[data-theme="dark"] {
+  --lch-canvas: 20% 0.0195 232.58;
+  --lch-ink-darkest: 96.02% 0.0034 260;
+  /* Every single shade in every color family is redefined */
+}
+```
+
+**3. System preference fallback** when no explicit choice:
+
+```css
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    /* Same dark overrides as html[data-theme="dark"] */
+  }
+}
+```
+
+**4. Stimulus controller** with View Transitions for smooth switching:
+
+```javascript
+// theme_controller.js
+set #theme(theme) {
+  localStorage.setItem("theme", theme)
+  const applyTheme = () => {
+    if (theme === "auto") {
+      document.documentElement.removeAttribute("data-theme")
+    } else {
+      document.documentElement.setAttribute("data-theme", theme)
+    }
+  }
+  if (animate && document.startViewTransition) {
+    document.startViewTransition(applyTheme)
+  } else {
+    applyTheme()
+  }
+}
+```
+
+**What's impressive**: Every single OKLCH shade is redefined in dark mode.
+The "darkest" shade in light mode (low lightness) becomes the "darkest" shade
+in dark mode (high lightness). The entire scale inverts. This means
+`--color-ink-dark` always means "moderately de-emphasized text" regardless
+of mode — you never need to think about which shade to pick for dark mode.
+
+**Takeaway for Kiso**: Fizzy's `data-theme` + `@media` fallback pattern
+should be adopted. It gives users three choices (light/dark/auto) while
+respecting system preference as default. Kiso should:
+1. Use `.dark` class (Tailwind convention) instead of `data-theme="dark"`
+2. Include a FOUC-prevention script recipe in docs
+3. Document a Stimulus theme controller pattern
+4. Use View Transitions for theme switching (progressive enhancement)
+
+### Component Variant Pattern: CSS Custom Property Overrides
+
+This is where Fizzy diverges most from the Tailwind world. Instead of
+class-based variants (cva, class_variants), Fizzy uses **CSS custom property
+cascading** for variants:
+
+```css
+/* Base button — all styling via custom properties with defaults */
+.btn {
+  background-color: var(--btn-background, var(--color-canvas));
+  border: var(--btn-border-size, 1px) solid var(--btn-border-color, var(--color-ink-light));
+  color: var(--btn-color, var(--color-ink));
+  padding: var(--btn-padding, 0.5em 1.1em);
+  border-radius: var(--btn-border-radius, 99rem);
+}
+
+/* Variants just override the custom properties */
+.btn--link {
+  --btn-background: var(--color-link);
+  --btn-border-color: var(--color-canvas);
+  --btn-color: var(--color-ink-inverted);
+}
+
+.btn--negative {
+  --btn-background: var(--color-negative);
+  --btn-border-color: var(--color-negative);
+  --btn-color: var(--color-ink-inverted);
+}
+
+.btn--plain {
+  --btn-background: transparent;
+  --btn-border-radius: 0;
+  --btn-border-size: 0;
+  --btn-padding: 0;
+}
+```
+
+**Usage in ERB** — just compose class names:
+
+```erb
+<%= button_to card_pin_path(card), method: :delete,
+      class: "btn btn--reversed",
+      data: { controller: "tooltip hotkey" } do %>
+  <%= icon_tag "pinned" %>
+<% end %>
+```
+
+**Advantages of this approach**:
+- **One source of truth** — all button styles live in `buttons.css`. No
+  parallel definitions in Ruby theme modules.
+- **CSS-native cascading** — a parent can set `--btn-background` and all
+  child buttons inherit it. No prop drilling.
+- **Smaller ERB** — partials just add class names, no Ruby theme lookups.
+- **Dark mode is free** — hover uses `filter: brightness()` with a dark-mode
+  override on just one property (`--btn-hover-brightness: 1.25`).
+
+**Disadvantages vs Kiso's approach**:
+- **No class deduplication** — if you add `class="btn btn--link"` and also
+  inline `background-color: red`, there's no tailwind-merge to resolve it.
+- **No override escape hatch** — can't easily say "this one button should be
+  rounded-none" without inline styles or a new modifier class.
+- **Harder to customize per-instance** — Tailwind's `css_classes` override
+  with tailwind-merge gives finer-grained control.
+- **Requires writing real CSS** — Tailwind's utility-first approach means
+  most developers never open a CSS file.
+
+### Form Helpers: Stimulus Controller Composition
+
+Fizzy's form helpers show a clean pattern for composing Stimulus controllers:
+
+```ruby
+# forms_helper.rb
+def auto_submit_form_with(**attributes, &)
+  data = attributes.delete(:data) || {}
+  data[:controller] = "auto-submit #{data[:controller]}".strip
+  form_with **attributes, data: data, &
+end
+```
+
+This prepends a controller name to whatever controllers the caller already
+specified. Same pattern as Kiso's `component_data` helper idea, but applied
+at the form level.
+
+**Takeaway for Kiso**: Fizzy validates the "controller concatenation" pattern
+documented in Unio section. Kiso's `component_data` helper should use this
+same `"#{existing} #{new}".strip` approach.
+
+### Panel/Card/Dialog Composition
+
+Fizzy's approach to compound components is pure CSS:
+
+```css
+/* Panel base with CSS custom property API */
+.panel {
+  background-color: var(--panel-bg, var(--color-canvas));
+  border: var(--panel-border-size, 1px) solid var(--panel-border-color, var(--color-ink-lighter));
+  border-radius: var(--panel-border-radius, 1em);
+  padding: var(--panel-padding, var(--block-space));
+}
+
+.panel--centered {
+  --panel-border-size: 0;
+  --panel-size: 100%;
+}
+```
+
+Dialogs compose with panels:
+
+```css
+.dialog.panel {
+  max-inline-size: calc(100vw - var(--inline-space-double) * 2);
+}
+```
+
+**Cards use `color-mix()`** for derived colors from a single `--card-color`:
+
+```css
+.card {
+  --card-bg-color: color-mix(in srgb, var(--card-color) 4%, var(--color-canvas));
+  --card-content-color: color-mix(in srgb, var(--card-color) 30%, var(--color-ink));
+}
+```
+
+This is genuinely clever — set one color and get a coordinated background,
+text, and border. Kiso could use Tailwind's opacity modifiers (`bg-primary/10`)
+to achieve a similar effect, though less dynamically.
+
+### Native HTML5 Elements
+
+Fizzy validates Kiso's "native HTML5 first" principle:
+
+- **`<dialog>`** — used for modals with CSS `transition` and `@starting-style`
+  for enter/exit animations. No JS animation library.
+- **`html:has(dialog:modal)` → `overflow: hidden`** — prevents background
+  scroll when dialog is open. Pure CSS, no Stimulus.
+- **CSS `field-sizing: content`** — used for auto-growing textareas, with
+  `@supports` fallback. Progressive enhancement, not a Stimulus controller.
+- **`:has()` selectors** — heavily used for state-based styling (`:has(input:checked)`,
+  `:has(:focus-visible)`). Reduces need for JS state management.
+
+**Takeaway for Kiso**: Fizzy proves that `<dialog>` with CSS transitions and
+`@starting-style` is production-ready. Kiso's dialog component should use
+this approach — no Stimulus controller for open/close animation.
+
+### What Kiso Should Carry Forward from Fizzy
+
+**1. FOUC-prevention script pattern** — critical for dark mode. A small inline
+script in `<head>` that reads localStorage and sets the theme attribute
+before CSS loads.
+
+**2. Three-way theme switching** — light / dark / auto (system preference).
+`data-theme` attribute for explicit choice, `@media (prefers-color-scheme)`
+for auto mode, with `.dark` class in Kiso's case.
+
+**3. View Transitions for theme switching** — `document.startViewTransition()`
+with `prefers-reduced-motion` respect.
+
+**4. CSS custom property defaults with fallbacks** — Fizzy's
+`var(--btn-background, var(--color-canvas))` pattern is useful for Kiso's
+data-attribute CSS. Component CSS files can use this for transitions and
+pseudo-states that are awkward in ERB.
+
+**5. `color-mix()` for derived colors** — when a component needs "lighter
+version of its color", `color-mix(in srgb, var(--card-color) 10%, white)` is
+cleaner than maintaining separate tokens. Kiso can use this in the CSS layer.
+
+**6. `:has()` selectors for state** — `:has(input:checked)`,
+`:has(:focus-visible)` reduce Stimulus controller needs. Kiso should prefer
+these over JS state management for toggle/focus/checked behaviors.
+
+**7. `@starting-style` for dialog animations** — CSS-only enter/exit
+transitions for `<dialog>`. No animation JS needed.
+
+### What to Leave Behind
+
+- **No Tailwind** — Fizzy writes all CSS by hand. This works for a single
+  product team but doesn't suit an engine gem where host apps already use
+  Tailwind. Kiso's utility-first approach is correct for the distribution
+  model.
+
+- **OKLCH color values** — Hand-tuning OKLCH triplets for 70+ shades across
+  10 color families is a significant investment. Tailwind's built-in palette
+  is good enough and universally understood.
+
+- **BEM-ish class naming** (`.btn--link`, `.panel--centered`) — Kiso uses
+  `data-component` / `data-variant` attributes, which serve the same purpose
+  without class noise. Though Fizzy's naming is clean and consistent.
+
+- **CSS-only variant system** — Fizzy's "override custom properties for
+  variants" is elegant in CSS but doesn't give host apps the `css_classes`
+  escape hatch. Kiso needs class_variants + tailwind_merge for the override
+  model to work.
+
+- **Duplicated dark mode blocks** — Fizzy duplicates the entire dark mode
+  override block for both `html[data-theme="dark"]` and
+  `@media (prefers-color-scheme: dark) { html:not([data-theme]) }`. This is
+  ~200 lines of duplication. Kiso avoids this by using Tailwind's `.dark`
+  class with a single `@theme` block.
+
+---
+
 ## Summary: Kiso's Approach
 
-Kiso combines the best of shadcn/ui, Nuxt UI, and proven patterns from Unio:
+Kiso combines the best of shadcn/ui, Nuxt UI, Fizzy, and proven patterns from Unio:
 
 | Pattern | Source | Kiso Approach |
 |---------|--------|---------------|
 | Variant definitions | shadcn | Flat, self-contained variant strings by default |
 | Compound variants | Nuxt UI | Only for color x variant matrix (Button, Alert) |
-| Dark mode | Nuxt UI | Pure CSS custom properties, zero `dark:` prefixes |
+| Dark mode | Nuxt UI + Fizzy | Pure CSS custom properties, zero `dark:` prefixes |
+| Theme switching | Fizzy | Three-way (light/dark/auto) with FOUC prevention |
+| View Transitions | Fizzy | Smooth theme switching with `startViewTransition()` |
 | Semantic tokens | Both | ~30 tokens with `-foreground` pairing (shadcn's scope) |
 | Color values | Nuxt UI | Tailwind palette refs, not raw OKLCH |
 | Class merging | shadcn | `class_variants` + `tailwind_merge` (Ruby `cn()`) |
 | Override model | shadcn | Single `css_classes` param, no multi-layer config |
 | Theme inheritance | Nuxt UI | Shared Ruby constants for field/form base classes |
+| CSS property defaults | Fizzy | `var(--prop, var(--fallback))` in component CSS |
+| Derived colors | Fizzy | `color-mix()` / opacity modifiers for lighter variants |
+| `:has()` selectors | Fizzy | CSS state management over JS where possible |
+| Dialog animations | Fizzy | `@starting-style` + CSS transitions, no animation JS |
 | Smart tag selection | Unio | `<button>` auto-switches to `<a>` when `href:` present |
 | Attribute forwarding | Unio | `**component_options` splat in strict locals |
 | Test selectors | Unio | `data-test-selector` in non-production |
-| Stimulus wiring | Unio | Conditional `data-controller` injection based on props |
+| Stimulus wiring | Unio + Fizzy | Conditional controller injection, string concatenation |
 | Data merging | Unio | `component_data` helper for non-clobbering data attrs |
 
 ### Design Principles
