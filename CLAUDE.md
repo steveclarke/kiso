@@ -16,9 +16,10 @@ Three layers:
 
 - **Tailwind classes in ERB**, not `@apply` in CSS. Only use `@apply` for
   variant selectors, pseudo-states, or things you can't express in markup.
-- **Theme uses Tailwind palette references** — semantic tokens like
-  `--color-primary` alias Tailwind colors (`var(--color-blue-600)`). No
-  hand-rolled OKLCH values.
+- **Theme uses semantic tokens (Nuxt UI style)** — palette aliases
+  (`primary` → `blue`) for brand colors, surface tokens (`bg-elevated`,
+  `text-muted`, `border-accented`) that flip in dark mode automatically.
+  Components never use `dark:` for surface colors, text, or borders.
 - **Data attributes are the API** — `data-component="button"`,
   `data-variant="primary"`, `data-size="sm"`, `data-*-part="header"`.
 - **Native HTML5 first** — `<dialog>`, `[popover]`, `<details>`, `<progress>`
@@ -31,20 +32,20 @@ Three layers:
 
 ```erb
 <%# locals: (variant: :default, size: :md, css_classes: "", **component_options) %>
-<% merged_data = (component_options.delete(:data) || {}).merge(
-    component: :badge, variant: variant, size: size
-  ).compact %>
-<%= content_tag :span,
-    class: ["inline-flex items-center rounded-md font-medium", css_classes].compact_blank.join(" "),
-    data: merged_data, **component_options do %>
+<%= component_tag :span, :badge, variant:, size:, class: css_classes,
+    **component_options do %>
   <%= yield %>
 <% end %>
 ```
 
+`component_tag` (in `Kiso::ComponentHelper`) wraps `content_tag` — it sets
+`data-component`, `data-variant`, `data-size`, merges caller `data:`, and
+compacts nils. Sub-parts use `part:` → `data-card-part="header"`.
+
 ## File Structure
 
 ```
-app/views/components/     ERB partials (main + sub-parts)
+app/views/kiso/components/  ERB partials (namespaced, rendered via kiso() helper)
 app/assets/stylesheets/   Component CSS (thin, variant selectors only)
 app/javascript/controllers/kiso/  Stimulus controllers (namespaced)
 app/helpers/kiso/         Builder helpers

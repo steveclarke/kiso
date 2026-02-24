@@ -19,9 +19,9 @@ simplicity**. Every component works with Turbo out of the box.
 ### Three Layers
 
 ```
-1. ERB Partials          <%%= render "components/card" %>
+1. ERB Partials          <%= kiso(:card) { ... } %>
 2. CSS (data-attributes)  [data-component="card"] { ... }
-3. Stimulus Controllers   data-controller="combobox" (only when needed)
+3. Stimulus Controllers   data-controller="kiso--combobox" (only when needed)
 ```
 
 **ERB partials** use strict locals magic comments. Components compose through
@@ -39,102 +39,263 @@ palettes, auto-dismiss on toasts.
 
 ### Theme System
 
-Built on Tailwind's color palette — no hand-rolled OKLCH values. Semantic
-color tokens alias Tailwind's built-in colors, similar to how Nuxt UI works.
-You pick a palette name ("my primary is blue") and get the full shade range
-for free.
+Follows the [Nuxt UI](https://ui.nuxt.com/docs/getting-started/theme/css-variables)
+approach: a small set of CSS variables that flip automatically in dark mode.
+Component authors never write `dark:` variants — they use semantic tokens
+like `bg-elevated` or `text-muted` and dark mode just works.
+
+Two layers:
+
+**1. Semantic color palettes** — map purpose names to Tailwind palettes.
+These provide the full shade range (`primary-50` through `primary-950`)
+for when components need specific shades:
 
 ```css
-@theme {
-  /* Semantic aliases → Tailwind palette */
-  --color-primary: var(--color-blue-600);
-  --color-primary-foreground: var(--color-white);
-  --color-secondary: var(--color-zinc-100);
-  --color-secondary-foreground: var(--color-zinc-900);
-  --color-muted: var(--color-zinc-100);
-  --color-muted-foreground: var(--color-zinc-500);
-  --color-accent: var(--color-zinc-100);
-  --color-accent-foreground: var(--color-zinc-900);
-  --color-destructive: var(--color-red-600);
-  --color-destructive-foreground: var(--color-white);
-  --color-success: var(--color-green-600);
-  --color-success-foreground: var(--color-white);
-  --color-warning: var(--color-amber-500);
-  --color-warning-foreground: var(--color-white);
-  --color-border: var(--color-zinc-200);
-  --color-input: var(--color-zinc-200);
-  --color-ring: var(--color-blue-600);
-  --color-background: var(--color-white);
-  --color-foreground: var(--color-zinc-950);
-  --color-card: var(--color-white);
-  --color-card-foreground: var(--color-zinc-950);
+@theme inline {
+  --color-primary-*: var(--color-blue-*);    /* CTAs, brand, links */
+  --color-secondary-*: var(--color-teal-*);  /* Alternative actions */
+  --color-success-*: var(--color-green-*);   /* Success states */
+  --color-info-*: var(--color-sky-*);        /* Info, help text */
+  --color-warning-*: var(--color-amber-*);   /* Warnings, attention */
+  --color-error-*: var(--color-red-*);       /* Errors, destructive */
+  --color-neutral-*: var(--color-zinc-*);    /* Text, borders, surfaces */
+}
+```
+
+Changing the brand color: swap `blue` → `orange` on one line. No OKLCH values.
+
+**2. Semantic surface tokens** — the core of the dark-mode-just-works system.
+These CSS variables are redefined under `.dark` so components never need
+`dark:` prefixes:
+
+```css
+:root {
+  /* Backgrounds */
+  --color-bg-default: white;
+  --color-bg-muted: var(--color-neutral-50);
+  --color-bg-elevated: var(--color-neutral-100);
+  --color-bg-accented: var(--color-neutral-200);
+  --color-bg-inverted: var(--color-neutral-900);
+
+  /* Text */
+  --color-text-dimmed: var(--color-neutral-400);
+  --color-text-muted: var(--color-neutral-500);
+  --color-text-toned: var(--color-neutral-600);
+  --color-text-default: var(--color-neutral-700);
+  --color-text-highlighted: var(--color-neutral-900);
+  --color-text-inverted: white;
+
+  /* Borders */
+  --color-border-default: var(--color-neutral-200);
+  --color-border-accented: var(--color-neutral-300);
+  --color-border-inverted: var(--color-neutral-900);
 }
 
-/* Dark mode: swap to different shades from the same palettes */
 .dark {
-  --color-primary: var(--color-blue-400);
-  --color-background: var(--color-zinc-950);
-  --color-foreground: var(--color-zinc-50);
-  --color-border: var(--color-zinc-800);
-  /* ... */
+  --color-bg-default: var(--color-neutral-900);
+  --color-bg-muted: var(--color-neutral-800);
+  --color-bg-elevated: var(--color-neutral-800);
+  --color-bg-accented: var(--color-neutral-700);
+  --color-bg-inverted: white;
+
+  --color-text-dimmed: var(--color-neutral-500);
+  --color-text-muted: var(--color-neutral-400);
+  --color-text-toned: var(--color-neutral-300);
+  --color-text-default: var(--color-neutral-200);
+  --color-text-highlighted: white;
+  --color-text-inverted: var(--color-neutral-900);
+
+  --color-border-default: var(--color-neutral-800);
+  --color-border-accented: var(--color-neutral-700);
+  --color-border-inverted: white;
 }
+```
+
+**Usage in components — no `dark:` needed:**
+
+```erb
+<div class="bg-elevated text-highlighted border-default rounded-lg p-4">
+  <p class="text-muted">Secondary text adapts automatically.</p>
+  <button class="bg-primary-600 text-white">Brand button</button>
+</div>
 ```
 
 **Why this approach:**
-- Tailwind's palettes are professionally designed with consistent contrast
-- No time spent picking and tuning raw OKLCH values
-- Changing your brand color means changing one word (`blue` → `orange`)
-- Full shade range available (`primary-50` through `primary-950`) when needed
-- Dark mode is just remapping to darker/lighter shades of the same palettes
-- Components use `var(--color-primary)` in CSS, or `bg-primary` in Tailwind
-  utilities — both work
+- Dark mode is automatic — component markup never uses `dark:` for surface
+  colors, text, or borders
+- ~15 semantic tokens total (bg, text, border) — small and easy to understand
+- Semantic palette aliases give the full shade range when needed
+- Changing brand color = swapping one palette name
+- Follows Nuxt UI's proven naming (elevated, muted, toned, dimmed, inverted)
+  rather than shadcn's less intuitive names (card, card-foreground)
+
+### Icon System
+
+Kiso uses [Iconify](https://iconify.design) via its
+[Tailwind CSS plugin](https://iconify.design/docs/usage/css/tailwind/) for
+icons. No bundled SVGs, no JS icon libraries — Iconify generates CSS at build
+time using `mask-image` (monotone icons inherit `currentColor`) and
+`background-image` (colored icons). Only icons actually used in markup end up
+in the CSS.
+
+The host app owns icon installation. Kiso defaults to Lucide (the same set
+shadcn/ui uses), but any Iconify set works.
+
+```bash
+# Host app installs the Tailwind plugin + icon set(s)
+npm i -D @iconify/tailwind4 @iconify-json/lucide
+```
+
+```css
+/* Host app's Tailwind CSS */
+@plugin "@iconify/tailwind4";
+```
+
+**`icon()` helper** — a thin DSL over the Iconify class naming convention:
+
+```ruby
+# Kiso::IconsHelper
+icon("lucide:check")
+# => <span class="icon-[lucide--check] size-5 shrink-0" aria-hidden="true">
+
+icon("lucide:chevron-down", size: :sm)
+# => <span class="icon-[lucide--chevron-down] size-4 shrink-0" aria-hidden="true">
+
+icon("lucide:alert-triangle", class: "text-destructive")
+# => <span class="icon-[lucide--alert-triangle] size-5 shrink-0 text-destructive" aria-hidden="true">
+```
+
+The helper uses a `collection:name` format (e.g. `lucide:check`) which it
+converts to the Iconify Tailwind class (`icon-[lucide--check]`). Named size
+presets (`:xs` through `:xl`) map to Tailwind `size-*` utilities.
+
+**Component icon parameters** — components that need icons accept an `icon:`
+local:
+
+```erb
+<%= render "components/alert", variant: :destructive, icon: "lucide:alert-triangle" do %>
+  ...
+<% end %>
+```
+
+**Default icons** — Kiso defines defaults for internal component icons
+(close button, chevrons, search, etc.) in `Kiso.default_icons`. Host apps
+can override any default:
+
+```ruby
+# config/initializers/kiso.rb
+Kiso.default_icons[:close] = "heroicons:x-mark"
+```
+
+Components reference defaults internally:
+
+```erb
+<%= icon(Kiso.default_icons[:close], size: :sm) %>
+```
+
+This replaces maquina's approach of bundling 60+ inline SVGs in a Ruby helper.
+The entire icon system is one helper method (~10 lines), a config hash of
+defaults, and the host app's Iconify Tailwind plugin.
 
 ### Component API Pattern
 
-Every component follows the same conventions:
+Every component follows the same conventions, powered by a `component_tag`
+helper that handles all the data-attribute wiring:
 
 ```erb
+<%# kiso/components/_badge.html.erb %>
 <%# locals: (variant: :default, size: :md, css_classes: "", **component_options) %>
-<% merged_data = (component_options.delete(:data) || {}).merge(
-    component: :badge,
-    variant: variant,
-    size: size
-  ).compact %>
-
-<%%= content_tag :span, class: css_classes.presence, data: merged_data,
+<%= component_tag :span, :badge, variant:, size:, class: css_classes,
     **component_options do %>
-  <%%= yield %>
-<%% end %>
+  <%= yield %>
+<% end %>
 ```
 
-- `data-component` identifies the type (CSS hooks onto this)
-- `data-variant` selects visual style
-- `data-size` controls dimensions
-- `data-*-part` names sub-parts (e.g., `data-card-part="header"`)
-- `css_classes` allows additional Tailwind utilities
-- `**component_options` passes through arbitrary HTML attributes
-- A `component_data` helper merges caller data with component defaults
+This produces:
+
+```html
+<span data-component="badge" data-variant="default" data-size="md">Active</span>
+```
+
+The `component_tag` helper (in `Kiso::ComponentHelper`):
+- Wraps `content_tag` with automatic data-attribute merging
+- Sets `data-component`, `data-variant`, `data-size` from keyword args
+- Merges any caller-provided `data:` hash (so apps can add their own data
+  attributes without clobbering component ones)
+- Compacts nil values — omit `size:` and no `data-size` appears
+
+**Sub-parts** use the `part:` parameter:
+
+```erb
+<%# kiso/components/card/_header.html.erb %>
+<%# locals: (css_classes: "", **component_options) %>
+<%= component_tag :div, :card, part: :header, class: css_classes,
+    **component_options do %>
+  <%= yield %>
+<% end %>
+```
+
+Produces `<div data-card-part="header">` (no `data-component` on sub-parts).
+
+**API summary:**
+
+| Argument | Purpose | Output |
+|---|---|---|
+| `:span` | HTML element | `<span ...>` |
+| `:badge` | Component name | `data-component="badge"` |
+| `variant:` | Visual style | `data-variant="..."` |
+| `size:` | Dimensions | `data-size="..."` |
+| `part:` | Sub-part name | `data-badge-part="..."` |
+| `class:` | Extra Tailwind classes | `class="..."` |
+| `**options` | Passthrough HTML attrs | `id="..."`, `aria-*`, etc. |
 
 ### Rendering Components
 
-```erb
-<%%= render "components/badge", variant: :success do %>Active<%% end %>
+The `kiso()` helper (in `Kiso::ComponentHelper`) wraps `render` with the
+`kiso/components/` namespace so callers never think about paths:
 
-<%%= render "components/card" do %>
-  <%%= render "components/card/header" do %>
-    <%%= render "components/card/title", text: "Members" %>
-  <%% end %>
-  <%%= render "components/card/content" do %>
+```ruby
+def kiso(component, part = nil, collection: nil, **kwargs, &block)
+  path = if part
+    "kiso/components/#{component}/#{part}"
+  else
+    "kiso/components/#{component}"
+  end
+
+  if collection
+    render partial: path, collection: collection, **kwargs, &block
+  else
+    render path, **kwargs, &block
+  end
+end
+```
+
+**Usage:**
+
+```erb
+<%= kiso(:badge, variant: :success) { "Active" } %>
+
+<%= kiso(:card) do %>
+  <%= kiso(:card, :header) do %>
+    <%= kiso(:card, :title, text: "Members") %>
+  <% end %>
+  <%= kiso(:card, :content) do %>
     ...
-  <%% end %>
-<%% end %>
+  <% end %>
+<% end %>
+```
+
+**Collections:**
+
+```erb
+<%= kiso(:badge, collection: @statuses) %>
 ```
 
 CSS-only components (Button, Input, etc.) use data attributes directly:
 
 ```erb
-<%%= f.submit "Save", data: { component: "button", variant: "primary" } %>
-<%%= f.text_field :name, data: { component: "input" } %>
+<%= f.submit "Save", data: { component: "button", variant: "primary" } %>
+<%= f.text_field :name, data: { component: "input" } %>
 ```
 
 ## Gem Structure
@@ -145,6 +306,7 @@ kiso/
     kiso.rb
     kiso/
       engine.rb
+      icons.rb               # Default icon name registry (Kiso.default_icons)
       version.rb
     generators/
       kiso/
@@ -193,7 +355,7 @@ kiso/
           engine.css             # Master @import of all component CSS
     helpers/
       kiso/
-        icons_helper.rb
+        icons_helper.rb          # icon() helper — DSL over Iconify classes
         pagination_helper.rb
         breadcrumbs_helper.rb
         combobox_helper.rb
@@ -203,7 +365,7 @@ kiso/
         dropdown_menu_helper.rb
         table_helper.rb
         toggle_group_helper.rb
-        component_helper.rb      # component_data merge utility
+        component_helper.rb      # component_tag() + kiso() render helper
     javascript/
       controllers/
         kiso/                    # Namespaced under kiso--
@@ -222,91 +384,92 @@ kiso/
           breadcrumb_controller.js
           collapsible_controller.js
     views/
-      components/
-        _alert.html.erb
-        alert/
-          _title.html.erb
-          _description.html.erb
-        _avatar.html.erb
-        _badge.html.erb
-        _breadcrumbs.html.erb
-        _calendar.html.erb
-        _card.html.erb
-        card/
-          _header.html.erb
-          _title.html.erb
-          _description.html.erb
-          _content.html.erb
-          _footer.html.erb
-          _action.html.erb
-        _collapsible.html.erb
-        _combobox.html.erb
-        combobox/
-          _trigger.html.erb
-          _content.html.erb
-          _input.html.erb
-          _list.html.erb
-          _option.html.erb
+      kiso/                          # Namespaced to avoid collisions
+        components/
+          _alert.html.erb
+          alert/
+            _title.html.erb
+            _description.html.erb
+          _avatar.html.erb
+          _badge.html.erb
+          _breadcrumbs.html.erb
+          _calendar.html.erb
+          _card.html.erb
+          card/
+            _header.html.erb
+            _title.html.erb
+            _description.html.erb
+            _content.html.erb
+            _footer.html.erb
+            _action.html.erb
+          _collapsible.html.erb
+          _combobox.html.erb
+          combobox/
+            _trigger.html.erb
+            _content.html.erb
+            _input.html.erb
+            _list.html.erb
+            _option.html.erb
+            _empty.html.erb
+          _command.html.erb
+          _date_picker.html.erb
+          _dialog.html.erb
+          dialog/
+            _header.html.erb
+            _title.html.erb
+            _description.html.erb
+            _content.html.erb
+            _footer.html.erb
+            _close.html.erb
+          _drawer.html.erb
+          _dropdown_menu.html.erb
+          dropdown_menu/
+            _trigger.html.erb
+            _content.html.erb
+            _item.html.erb
+            _separator.html.erb
           _empty.html.erb
-        _command.html.erb
-        _date_picker.html.erb
-        _dialog.html.erb
-        dialog/
-          _header.html.erb
-          _title.html.erb
-          _description.html.erb
-          _content.html.erb
-          _footer.html.erb
-          _close.html.erb
-        _drawer.html.erb
-        _dropdown_menu.html.erb
-        dropdown_menu/
-          _trigger.html.erb
-          _content.html.erb
           _item.html.erb
+          _item_group.html.erb
+          item/
+            _media.html.erb
+            _content.html.erb
+            _title.html.erb
+            _description.html.erb
+            _actions.html.erb
+            _link.html.erb
+          _number_stepper.html.erb
+          _page.html.erb
+          page/
+            _header.html.erb
+            _body.html.erb
+          _pagination.html.erb
+          _popover.html.erb
+          _progress.html.erb
           _separator.html.erb
-        _empty.html.erb
-        _item.html.erb
-        _item_group.html.erb
-        item/
-          _media.html.erb
-          _content.html.erb
-          _title.html.erb
-          _description.html.erb
-          _actions.html.erb
-          _link.html.erb
-        _number_stepper.html.erb
-        _page.html.erb
-        page/
-          _header.html.erb
-          _body.html.erb
-        _pagination.html.erb
-        _popover.html.erb
-        _progress.html.erb
-        _separator.html.erb
-        _sheet.html.erb
-        _sidebar.html.erb
-        sidebar/
-          (sub-parts)
-        _skeleton.html.erb
-        _slider.html.erb
-        _table.html.erb
-        table/
-          _header.html.erb
-          _body.html.erb
-          _row.html.erb
-          _cell.html.erb
-          _head.html.erb
-          _caption.html.erb
-          _footer.html.erb
-        _tabs.html.erb
-        tabs/
-          _list.html.erb
-          _trigger.html.erb
-          _content.html.erb
-        _toast.html.erb
-        _toggle_group.html.erb
-        _tooltip.html.erb
+          _sheet.html.erb
+          _sidebar.html.erb
+          sidebar/
+            (sub-parts)
+          _skeleton.html.erb
+          _slider.html.erb
+          _table.html.erb
+          table/
+            _header.html.erb
+            _body.html.erb
+            _row.html.erb
+            _cell.html.erb
+            _head.html.erb
+            _caption.html.erb
+            _footer.html.erb
+          _tabs.html.erb
+          tabs/
+            _list.html.erb
+            _trigger.html.erb
+            _content.html.erb
+          _toast.html.erb
+          _toggle_group.html.erb
+          _tooltip.html.erb
   config/
     importmap.rb
   test/
@@ -334,6 +497,8 @@ The install generator:
 2. Injects default theme CSS variables (customizable)
 3. Creates `app/helpers/kiso_helper.rb` for icon/builder access
 4. Configures importmap for Stimulus controllers
+5. Installs `@iconify/tailwind4` and `@iconify-json/lucide` (npm)
+6. Adds `@plugin "@iconify/tailwind4"` to the app's Tailwind CSS
 
 ## Component Catalog
 
@@ -542,9 +707,9 @@ real usage.
    override. Master file imports them all. These files should be thin — most
    styling lives in ERB as Tailwind classes.
 
-7. **Theme via Tailwind palettes.** Semantic tokens (`--color-primary`, etc.)
-   alias Tailwind's built-in colors. Change your brand by swapping one palette
-   name. No hand-rolled color values.
+7. **Theme via semantic tokens.** Semantic palettes (primary, neutral, etc.)
+   alias Tailwind colors. Surface tokens (bg-elevated, text-muted, etc.) flip
+   automatically in dark mode — components never use `dark:` for these.
 
 8. **Turbo-compatible by default.** Components work inside Turbo Frames and
    respond to Turbo Streams without special handling.
@@ -555,21 +720,19 @@ real usage.
 
 ## Open Questions
 
-- **Icon system**: Maquina bundles 60+ inline SVG icons via a helper. Should
-  kiso do the same, or integrate with an icon library (Lucide via importmap)?
-  Inline SVGs are self-contained but bloat the helper. An icon component that
-  references a sprite sheet might scale better.
+- ~~**Icon system**~~: **Resolved.** Iconify via the Tailwind CSS plugin.
+  `icon()` helper with `collection:name` syntax, `Kiso.default_icons` for
+  component defaults. See "Icon System" section above.
 
-- **Lookbook bundling**: Should Lookbook previews ship with the gem (available
-  to all projects in dev) or live in a separate companion gem? Shipping with
-  the gem is convenient but adds test dependencies.
+- ~~**Lookbook bundling**~~: **Resolved.** Ship previews with the gem.
+  Lookbook is a dev-only dependency — any app that installs Kiso gets a
+  live component browser in development with zero extra setup.
 
-- **Stimulus controller namespacing**: Maquina uses bare names
-  (`data-controller="combobox"`). Kiso should namespace
-  (`data-controller="kiso--combobox"`) to avoid collisions with app-level
-  controllers. This is a breaking change from maquina's convention.
+- ~~**Stimulus controller namespacing**~~: **Resolved.** Namespace everything.
+  Controllers use `data-controller="kiso--combobox"`, views live under
+  `app/views/kiso/components/`, and the `kiso()` render helper hides the
+  path from callers.
 
-- **Monorepo or separate repo**: Kiso as its own GitHub repo (clean, focused)
-  vs. living in a monorepo with Ninjanizr (convenient during initial
-  development). Separate repo is the long-term answer; monorepo may be
-  practical for bootstrapping.
+- ~~**Monorepo or separate repo**~~: **Resolved.** Separate repo. Kiso lives
+  at its own GitHub repo. Host apps use `bundle config set local.kiso` for
+  local development (see README).
