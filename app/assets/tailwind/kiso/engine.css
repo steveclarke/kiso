@@ -1,4 +1,4 @@
 /* Kiso Engine CSS — imported by host apps via tailwindcss-rails engine bundling.
-   This file grows as components are added. */
-
-@import "../../stylesheets/kiso/badge.css";
+   Component CSS files go here for transitions, animations, and pseudo-states
+   that are awkward to express in ERB. Most styling lives in Ruby theme modules
+   (lib/kiso/themes/) as computed Tailwind classes. */
