@@ -1,0 +1,55 @@
+[data-component="badge"] {
+  @apply inline-flex items-center rounded-md border font-medium transition-colors;
+}
+
+/* Sizes */
+
+[data-component="badge"][data-size="sm"] {
+  @apply px-1.5 py-0.5 text-xs;
+}
+
+[data-component="badge"][data-size="md"] {
+  @apply px-2 py-0.5 text-xs;
+}
+
+[data-component="badge"][data-size="lg"] {
+  @apply px-2.5 py-1 text-sm;
+}
+
+/* Variants */
+
+[data-component="badge"][data-variant="default"] {
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-default);
+  border-color: var(--color-border-default);
+}
+
+[data-component="badge"][data-variant="primary"] {
+  @apply border-primary-200 bg-primary-50 text-primary-700;
+}
+
+[data-component="badge"][data-variant="secondary"] {
+  @apply border-secondary-200 bg-secondary-50 text-secondary-700;
+}
+
+[data-component="badge"][data-variant="success"] {
+  @apply border-success-200 bg-success-50 text-success-700;
+}
+
+[data-component="badge"][data-variant="info"] {
+  @apply border-info-200 bg-info-50 text-info-700;
+}
+
+[data-component="badge"][data-variant="warning"] {
+  @apply border-warning-200 bg-warning-50 text-warning-700;
+}
+
+[data-component="badge"][data-variant="error"] {
+  @apply border-error-200 bg-error-50 text-error-700;
+}
+
+[data-component="badge"][data-variant="outline"] {
+  background-color: transparent;
+  color: var(--color-text-default);
+  border-color: var(--color-border-accented);
+}

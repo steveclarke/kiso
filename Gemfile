@@ -4,6 +4,8 @@ source "https://rubygems.org"
 gemspec
 
 gem "puma"
+gem "propshaft"
 
-# Start debugger with binding.b [https://github.com/ruby/debug]
-# gem "debug", ">= 1.0.0"
+# Component preview browser
+gem "lookbook", ">= 2.3"
+gem "listen"

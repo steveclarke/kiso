@@ -1,0 +1,4 @@
+/* Kiso Engine CSS — imported by host apps via tailwindcss-rails engine bundling.
+   This file grows as components are added. */
+
+@import "../../stylesheets/kiso/badge.css";
