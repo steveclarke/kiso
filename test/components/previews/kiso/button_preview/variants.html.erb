@@ -1,0 +1,12 @@
+<div class="space-y-6 p-8">
+  <% %i[solid outline soft subtle ghost link].each do |variant| %>
+    <div>
+      <p class="text-sm text-muted-foreground mb-2"><%= variant.to_s.capitalize %></p>
+      <div class="flex flex-wrap gap-3 items-center">
+        <% %i[primary secondary success info warning error neutral].each do |color| %>
+          <%= kiso(:button, color: color, variant: variant) { color.to_s.capitalize } %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

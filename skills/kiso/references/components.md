@@ -10,6 +10,7 @@ All colored components use **identical compound variant formulas** — see `docs
 |---|---|
 | `badge` | `color`, `variant` (solid/outline/soft/subtle), `size` (xs-xl) |
 | `alert` | `color`, `variant` (solid/outline/soft/subtle) |
+| `button` | `color`, `variant` (solid/outline/soft/subtle/ghost/link), `size` (xs-xl) |
 
 ### Badge
 
@@ -67,6 +68,31 @@ Contextual feedback message with optional icon, title, and description. Composit
 **Note:** Description uses `opacity-90` (relative to parent text color), not `text-muted-foreground`.
 
 **Theme modules:** `Kiso::Themes::Alert`, `AlertTitle`, `AlertDescription` (`lib/kiso/themes/alert.rb`)
+
+### Button
+
+Interactive button with smart tag selection. Renders `<button>` by default,
+`<a>` when `href:` is present.
+
+**Locals:** `color:`, `variant:` (solid, outline, soft, subtle, ghost, link), `size:` (xs-xl), `block:` (true/false), `disabled:` (true/false), `type:` (button, submit, reset), `href:` (string), `css_classes:`, `**component_options`
+
+**Defaults:** `color: :primary, variant: :solid, size: :md`
+
+```erb
+<%= kiso(:button) { "Click me" } %>
+<%= kiso(:button, color: :error) { "Delete" } %>
+<%= kiso(:button, href: "/settings", variant: :outline) { "Settings" } %>
+<%= kiso(:button, variant: :ghost) { "Cancel" } %>
+<%= kiso(:button, block: true, type: :submit) { "Save" } %>
+
+<%# With inline icon %>
+<%= kiso(:button, variant: :outline) do %>
+  <svg class="size-4">...</svg>
+  Download
+<% end %>
+```
+
+**Theme module:** `Kiso::Themes::Button` (`lib/kiso/themes/button.rb`)
 
 ---
 

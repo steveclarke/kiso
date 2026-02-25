@@ -129,9 +129,10 @@ When referencing Nuxt UI source code, use this translation:
    Nuxt UI's single `text-inverted`) because per-color foregrounds give
    better accessibility control (e.g., warning uses dark text on amber).
 
-5. **7 colors, 4 variants.** Colors: primary, secondary, success, info,
-   warning, error, neutral. Variants: solid, outline, soft, subtle. No
-   component invents new colors or variants.
+5. **7 colors, 4 core variants.** Colors: primary, secondary, success, info,
+   warning, error, neutral. Core variants: solid, outline, soft, subtle.
+   Interactive components (Button) may add ghost and link variants with
+   their own compound formulas, but the core 4 remain identical.
 
 6. **No `border` for outline/subtle variants.** Use `ring ring-inset` +
    `ring-{color}/50` (outline) or `ring-{color}/25` (subtle). `border` is
@@ -142,3 +143,11 @@ When referencing Nuxt UI source code, use this translation:
    - `/25` — subtle ring opacity
    - `/10` — soft/subtle background tint
    - `opacity-90` — secondary/description text
+
+8. **Interactive components extend base formulas with states.** Button adds
+   hover/active/focus-visible classes to the same base color tokens. Pattern:
+   - Solid hover: `hover:bg-{color}/90 active:bg-{color}/80`
+   - Soft/subtle/ghost hover: `hover:bg-{color}/15 active:bg-{color}/20`
+   - Outline hover: `hover:bg-{color}/10 active:bg-{color}/15`
+   - Focus: `focus-visible:outline-{color}` (solid/soft/ghost/link) or
+     `focus-visible:ring-2 focus-visible:ring-{color}` (outline/subtle)
