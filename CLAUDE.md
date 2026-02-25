@@ -47,10 +47,16 @@ Two layers (CSS files only for transitions/pseudo-states):
   text inherits the parent color at 90% opacity. Never use
   `text-muted-foreground` inside colored components (it's absolute zinc-500,
   unreadable on colored backgrounds).
-- **Nuxt UI is the theming source of truth** — when building a component,
-  check the Nuxt UI theme file (`vendor/nuxt-ui/src/theme/`)
-  for the canonical variant formulas and token usage. shadcn/ui is the
-  aesthetic reference (layout, spacing, feel).
+- **shadcn is the structural source of truth** — when building a component,
+  match shadcn's implementation div-for-div, class-for-class
+  (`vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/`). Copy their
+  Tailwind utility classes for layout, spacing, typography, and structure.
+  Only deviate where Kiso's variant system or semantic tokens require it.
+- **Nuxt UI is the theming source of truth** — check the Nuxt UI theme file
+  (`vendor/nuxt-ui/src/theme/`) for variant formulas and token usage.
+  This is where `color:` × `variant:` axes, compound variants, and the
+  outline/soft/subtle system come from. shadcn provides the skeleton,
+  Nuxt UI provides the paint.
 - **`css_classes:` override** — single override point, merged via
   tailwind_merge. Conflicting classes are resolved automatically.
 - **Data attributes for identity, not styling** — `data-component="badge"`

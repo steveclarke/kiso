@@ -4,6 +4,12 @@ title: Components
 description: All available Kiso UI components.
 ---
 
+## Layout
+
+| Component | Description |
+|-----------|-------------|
+| [Card](/components/card) | Container for grouping related content with header, content, and footer sections |
+
 ## Elements
 
 | Component | Description |

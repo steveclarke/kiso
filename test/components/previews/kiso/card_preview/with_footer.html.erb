@@ -1,0 +1,31 @@
+<div class="max-w-sm p-8">
+  <%= kiso(:card) do %>
+    <%= kiso(:card, :header) do %>
+      <%= kiso(:card, :title) { "Create project" } %>
+      <%= kiso(:card, :description) { "Deploy your new project in one click." } %>
+    <% end %>
+    <%= kiso(:card, :content) do %>
+      <div class="space-y-4">
+        <div class="space-y-2">
+          <label class="text-sm font-medium" for="name">Name</label>
+          <input id="name" type="text" placeholder="My project"
+                 class="w-full rounded-md border border-border bg-background px-3 py-2 text-sm" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium" for="framework">Framework</label>
+          <select id="framework"
+                  class="w-full rounded-md border border-border bg-background px-3 py-2 text-sm">
+            <option>Next.js</option>
+            <option>SvelteKit</option>
+            <option>Nuxt</option>
+            <option>Rails</option>
+          </select>
+        </div>
+      </div>
+    <% end %>
+    <%= kiso(:card, :footer, css_classes: "justify-between gap-2") do %>
+      <%= kiso(:button, variant: :outline) { "Cancel" } %>
+      <%= kiso(:button) { "Deploy" } %>
+    <% end %>
+  <% end %>
+</div>

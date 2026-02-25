@@ -1,0 +1,17 @@
+<div class="max-w-sm p-8">
+  <%= kiso(:card, variant: variant) do %>
+    <%= kiso(:card, :header) do %>
+      <%= kiso(:card, :title) { title } %>
+      <%= kiso(:card, :description) { description } %>
+    <% end %>
+    <%= kiso(:card, :content) do %>
+      <p class="text-sm text-muted-foreground">
+        Your card content goes here. Add any elements you need.
+      </p>
+    <% end %>
+    <%= kiso(:card, :footer, css_classes: "gap-2") do %>
+      <%= kiso(:button, variant: :outline, size: :sm) { "Cancel" } %>
+      <%= kiso(:button, size: :sm) { "Save" } %>
+    <% end %>
+  <% end %>
+</div>

@@ -44,15 +44,22 @@ without drift.**
 
 ### What we take from each reference
 
-**From shadcn/ui — aesthetic + simplicity:**
-- Clean, minimal spacing and layout
+**From shadcn/ui — structure + implementation (the skeleton):**
+- **Match div-for-div, class-for-class.** Read the shadcn component at
+  `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/` and copy their
+  Tailwind utility classes for layout, spacing, typography, and structure.
+  Do not invent your own classes — use what shadcn uses.
 - Simple sub-parts (Title, Description, Action) as separate partials
 - Single `css_classes:` override — no multi-layer config system
 - ~30 semantic tokens is the right scope
+- Only deviate from shadcn where Kiso's variant system or semantic tokens
+  require it (e.g., replacing `border` with `ring ring-inset ring-border`
+  for the outline variant, or `bg-card` with `bg-background`).
 
-**From Nuxt UI — theming discipline + encapsulation:**
+**From Nuxt UI — theming + variants (the paint):**
 - Two-axis `color:` × `variant:` compound variants
 - Pure CSS custom properties, zero `dark:` prefixes
+- The outline/soft/subtle variant system and compound variant formulas
 - Props-driven API that encapsulates common patterns (icon, title, description,
   actions, close) — agents pass data, component handles layout
 - `opacity-90` for description text (relative to parent, not absolute)
@@ -64,8 +71,12 @@ without drift.**
 1. `project/DESIGN_SYSTEM.md` — compound variant formulas, token table, rules
 2. `project/components/COMPONENT.md` — vision doc for the specific component
    (if it exists)
-3. An existing component (Badge or Alert) — copy the exact compound variant
-   block, only change the base classes
+3. The shadcn component at `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/`
+   — read and copy the Tailwind classes for structure, spacing, and layout
+4. The Nuxt UI theme at `vendor/nuxt-ui/src/theme/` — read for variant
+   formulas and slot structure
+5. An existing Kiso component (Badge, Alert, or Card) — copy the exact
+   compound variant block for colored components, only change the base classes
 
 ## Project structure
 
@@ -100,11 +111,12 @@ docs/                          # Bridgetown docs site (published documentation)
    create one following the Badge/Alert pattern (Current API → Target API →
    Dependencies → Migration).
 2. Read `project/DESIGN_SYSTEM.md` for the compound variant formulas.
-3. Read the Nuxt UI theme file for this component at
-   `vendor/nuxt-ui/src/theme/{name}.ts` for slot structure
-   and variant patterns.
-4. Read the shadcn component for aesthetic reference at
-   `vendor/shadcn-ui/apps/v4/registry/`.
+3. **Read the shadcn component** at
+   `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx` — this is
+   the structural source of truth. Copy their Tailwind classes div-for-div.
+4. Read the Nuxt UI theme file at
+   `vendor/nuxt-ui/src/theme/{name}.ts` for variant formulas and slot
+   structure — this is the theming source of truth.
 
 ### Creation checklist
 

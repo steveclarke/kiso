@@ -4,6 +4,12 @@ Rails ERB components powered by Tailwind CSS and class_variants. Each component 
 
 All colored components use **identical compound variant formulas** — see `project/DESIGN_SYSTEM.md`.
 
+## Layout
+
+| Component | Key locals |
+|---|---|
+| `card` | `variant` (outline/soft/subtle) |
+
 ## Element
 
 | Component | Key locals |
@@ -93,6 +99,46 @@ Interactive button with smart tag selection. Renders `<button>` by default,
 ```
 
 **Theme module:** `Kiso::Themes::Button` (`lib/kiso/themes/button.rb`)
+
+### Card
+
+Container component for grouping related content. Composed from sub-parts:
+Header, Title, Description, Content, Footer.
+
+**Locals:** `variant:` (outline, soft, subtle), `css_classes:`, `**component_options`
+
+**Sub-parts:** `kiso(:card, :header)`, `kiso(:card, :title)`, `kiso(:card, :description)`, `kiso(:card, :content)`, `kiso(:card, :footer)`
+
+**Defaults:** `variant: :outline`
+
+```erb
+<%= kiso(:card) do %>
+  <%= kiso(:card, :header) do %>
+    <%= kiso(:card, :title) { "Card Title" } %>
+    <%= kiso(:card, :description) { "Card description goes here." } %>
+  <% end %>
+  <%= kiso(:card, :content) do %>
+    <p>Your content here.</p>
+  <% end %>
+  <%= kiso(:card, :footer) do %>
+    <%= kiso(:button, variant: :outline) { "Cancel" } %>
+    <%= kiso(:button) { "Save" } %>
+  <% end %>
+<% end %>
+
+<%# Soft variant, no footer %>
+<%= kiso(:card, variant: :soft) do %>
+  <%= kiso(:card, :header) do %>
+    <%= kiso(:card, :title) { "Notifications" } %>
+    <%= kiso(:card, :description) { "You have 3 unread messages." } %>
+  <% end %>
+  <%= kiso(:card, :content) do %>
+    <%# list items here %>
+  <% end %>
+<% end %>
+```
+
+**Theme modules:** `Kiso::Themes::Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter` (`lib/kiso/themes/card.rb`)
 
 ---
 
