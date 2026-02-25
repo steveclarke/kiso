@@ -6,11 +6,15 @@ module Kiso
     #
     #   icon("lucide:check")
     #   icon("check")                          # uses default set (lucide)
-    #   icon("check", size: :lg)               # size preset
+    #   icon("check", size: :md)               # size preset (standalone use)
     #   icon("check", class: "text-success")   # extra classes
     #   icon("check", aria: { label: "Done" }) # accessible icon
     #
-    def icon(name, size: :md, **options)
+    # Size defaults to nil so parent components (Button, Alert, Badge) can
+    # control icon sizing via CSS selectors like [&_svg]:size-4.
+    # Pass an explicit size: for standalone icons outside components.
+    #
+    def icon(name, size: nil, **options)
       css_classes = options.delete(:class) || ""
 
       icon_data = Kiso::Icons.resolve(name.to_s)

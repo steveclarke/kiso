@@ -16,12 +16,12 @@ module Kiso
       BASE_CLASSES = "shrink-0"
 
       class << self
-        def render(icon_data, size: :md, css_classes: "", **options)
+        def render(icon_data, size: nil, css_classes: "", **options)
           body = icon_data[:body]
           width = icon_data[:width]
           height = icon_data[:height]
 
-          size_class = SIZE_PRESETS.fetch(size, SIZE_PRESETS[:md])
+          size_class = size ? SIZE_PRESETS.fetch(size, nil) : nil
           merged_classes = merge_classes(BASE_CLASSES, size_class, css_classes)
 
           attrs = {
