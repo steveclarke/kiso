@@ -1,4 +1,4 @@
-<div class="max-w-lg space-y-3 p-8">
+<div class="max-w-lg space-y-3">
   <% %i[primary secondary success info warning error neutral].each do |color| %>
     <%= kiso(:alert, color: color) do %>
       <%= kiso(:alert, :title) { color.to_s.capitalize } %>

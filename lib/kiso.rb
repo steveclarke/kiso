@@ -7,6 +7,7 @@ require "kiso/themes/badge"
 require "kiso/themes/alert"
 require "kiso/themes/button"
 require "kiso/themes/card"
+require "kiso/themes/separator"
 
 module Kiso
 end

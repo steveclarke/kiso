@@ -17,5 +17,6 @@ module Dummy
     config.secret_key_base = "test-secret-key-base-for-dummy-app"
 
     config.lookbook.project_name = "Kiso"
+    config.lookbook.preview_layout = "preview"
   end
 end

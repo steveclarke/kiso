@@ -1,0 +1,7 @@
+<%# locals: (orientation: :horizontal, decorative: true, css_classes: "", **component_options) %>
+<%= tag.div(
+    role: (decorative ? "none" : "separator"),
+    aria: (decorative ? {} : { orientation: orientation }),
+    class: Kiso::Themes::Separator.render(orientation: orientation, class: css_classes),
+    data: { component: :separator },
+    **component_options) %>

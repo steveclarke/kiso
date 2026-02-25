@@ -12,7 +12,10 @@ Read these files in order:
 
 ## Current Status
 
-**Phase 1: Foundation** — in progress.
+**Phase 1: Maquina Parity** — in progress. Port all maquina_components so
+Ninjanizr can swap `gem "maquina-components"` for `gem "kiso"`.
+
+Reference: `vendor/maquina_components/` (local checkout)
 
 ### What's Done
 
@@ -25,12 +28,14 @@ Read these files in order:
 - [x] Alert component (color × variant, CSS Grid with has-[>svg] auto-layout)
 - [x] Button component (6 variants, smart tag, 5 sizes, has-[>svg] padding)
 - [x] Card component (3 variants, 6 sub-parts, shadcn gap-6/py-6 spacing)
+- [x] Separator component (horizontal/vertical, decorative prop)
 - [x] All components aligned div-for-div with shadcn structure
 - [x] bin/kiso CLI (`make component NAME` scaffolds all files)
 - [x] AI skills (usage + contributing)
 - [x] Docs site (Bridgetown 2.1, Tailwind v4, sidebar nav, dark mode)
-- [x] Docs pages for Badge, Alert, Button, Card
+- [x] Docs pages for Badge, Alert, Button, Card, Separator
 - [x] Overmind dev setup (root bin/dev, daemonized, Lookbook + CSS + docs)
+- [x] Lookbook preview layout with default padding
 
 ### Open Issues
 
@@ -43,12 +48,14 @@ Read these files in order:
 
 ### What's Next
 
-**Batch 1 remaining:** Separator, Label, Empty State. Then Batch 2 (form inputs).
+**Batch 1 remaining:** Label, Empty State, Header, Stats. Then Batch 2
+(form inputs).
 
-## Phase 1: Foundation
+## Phase 1: Maquina Parity
 
-Goal: Port maquina components into Kiso so Ninjanizr can replace
-`maquina-components` with `kiso` and see zero visual changes.
+Goal: Port every maquina_components component into Kiso so Ninjanizr can
+replace `gem "maquina-components"` with `gem "kiso"` and see zero visual
+changes. This is the sole focus until done.
 
 ### Component Scaffold Command
 
@@ -62,75 +69,69 @@ kiso.rb + skill docs. Then fill in the implementation.
 
 ### Components to Build (Priority Order)
 
-Start with the simplest, build up to Stimulus-dependent ones.
+Start with the simplest, build up to Stimulus-dependent ones. Every component
+below exists in maquina_components.
 
 **Batch 1 — Simple (ERB + computed classes only):**
 
-| Component | Type | Status | Notes |
-|-----------|------|--------|-------|
+| Component | Type | Status | Maquina Notes |
+|-----------|------|--------|---------------|
 | Badge | colored | done | color × variant × size, pill shape |
-| Alert | colored | done | CSS Grid, has-[>svg] auto-layout |
+| Alert | colored | done | CSS Grid, has-[>svg] auto-layout, sub-parts |
 | Button | colored | done | 6 variants, smart tag, has-[>svg] padding |
-| Card | simple | done | 3 variants, 6 sub-parts |
-| Separator | simple | **next** | Horizontal/vertical. |
-| Label | simple | | For form fields. |
-| Empty | simple | | Empty state placeholder. |
+| Card | simple | done | 3 variants, 6 sub-parts (+ action sub-part) |
+| Separator | simple | done | Horizontal/vertical, decorative |
+| Label | simple | **next** | Form field label, required indicator |
+| Empty State | simple | | 5 sub-parts: header, media, title, description, content |
+| Header | simple | | Top nav bar wrapper |
+| Stats | simple | | Stats card + stats grid for dashboards |
+| Table | simple | | 7 sub-parts: header, body, footer, row, head, cell, caption |
 
-**Batch 2 — Form inputs (CSS-only, applied via data attributes):**
+**Batch 2 — Form inputs (CSS-only via data attributes in maquina):**
 
-| Component | Type | Notes |
-|-----------|------|-------|
-| Input | simple | Text input styling. |
-| Input Group | simple | Input with leading/trailing addons. |
-| Textarea | simple | Auto-grow optional. |
-| Select | simple | Native select styling. |
-| Checkbox | simple | Custom styled. |
-| Radio | simple | Custom styled. |
-| Switch | simple | Toggle switch. |
+Maquina uses `data-component="input"` etc. for CSS-only form styling.
+Kiso will use `kiso(:input)` partials with class_variants themes.
+
+| Component | Type | Maquina Notes |
+|-----------|------|---------------|
+| Input | simple | Text input styling |
+| Textarea | simple | Text area styling |
+| Select | simple | Native select styling |
+| Checkbox | simple | Custom styled checkbox |
+| Radio | simple | Custom styled radio |
+| Switch | simple | Toggle switch |
 
 **Batch 3 — With Stimulus controllers:**
 
-| Component | Type | Notes |
-|-----------|------|-------|
-| Table | simple | Header, Body, Row, Cell sub-parts. |
-| Toast | colored | Auto-dismiss, Stimulus controller. |
-| Tabs | simple | Panel switching, ARIA. |
-| Toggle Group | colored | Multi-select toggle buttons. |
-| Dropdown Menu | simple | Trigger + Content + Items. Stimulus. |
-| Combobox | simple | Search + select. Stimulus. |
-| Breadcrumbs | simple | With truncation. |
-| Sidebar | simple | Collapsible navigation. |
-
-**Batch 4 — Port from Ninjanizr app:**
-
-| Component | Type | Notes |
-|-----------|------|-------|
-| Item / ItemGroup | simple | List items with media, content, actions. |
-| Page | simple | Page header + body layout. |
-| Number Stepper | simple | Increment/decrement input. Stimulus. |
-| Calendar | colored | Date grid. Stimulus. |
-| Date Picker | colored | Calendar + input. Stimulus. |
-| Slider | simple | Range input. |
-| Tooltip | simple | CSS + JS positioning. |
+| Component | Type | Maquina Notes |
+|-----------|------|---------------|
+| Toast / Toaster | colored | Auto-dismiss, flash integration, positioning |
+| Toggle Group | colored | Single/multi select, keyboard nav |
+| Dropdown Menu | simple | Popover-based, keyboard nav, click outside |
+| Combobox | simple | Search + select, keyboard nav, form integration |
+| Breadcrumbs | simple | Responsive collapse, separator sub-part |
+| Sidebar | simple | Collapsible, mobile offcanvas, cookie state |
+| Calendar | simple | Date grid, range mode, min/max, disabled dates |
+| Date Picker | simple | Calendar + popover trigger, form integration |
 
 ### Also Needed for Phase 1
 
 - [ ] Install generator (`bin/rails generate kiso:install`)
-- [ ] Icons helper (`icon()` — Iconify via Tailwind CSS plugin)
-- [ ] Pagination helper
-- [ ] Breadcrumbs helper
-- [ ] Combobox helper
+- [ ] Icons helper (`icon()` — port maquina's `icon_for()` or use Iconify)
+- [ ] Pagination helper (Pagy integration, port from maquina)
+- [ ] Toast helper (flash message integration)
+- [ ] Sidebar helper (cookie-based state)
 - [ ] importmap config for Stimulus controllers
 
 ### Phase 1 Milestone
 
 Ninjanizr replaces `gem "maquina-components"` with `gem "kiso"` in its
 Gemfile. `bin/rails generate kiso:install`. Zero visual changes. All
-existing components work.
+existing components work. Start dogfooding.
 
 ## Phase 2: Core Additions
 
-New components not in maquina:
+New components not in maquina. Build these after Ninjanizr is on Kiso.
 
 - Dialog (native `<dialog>`)
 - Sheet (slide-over variant)
@@ -138,6 +139,12 @@ New components not in maquina:
 - Popover (native Popover API)
 - Collapsible (native `<details>`)
 - Avatar, Skeleton, Progress, Spinner
+- Tabs (panel switching, ARIA)
+- Tooltip (CSS + JS positioning)
+- Slider (range input)
+- Item / ItemGroup (list items with media, content, actions)
+- Page (page header + body layout)
+- Number Stepper (increment/decrement input)
 
 **Milestone:** ~85% of common UI needs covered.
 
@@ -169,5 +176,5 @@ bundle exec standardrb --fix  # Lint & auto-format Ruby
 
 - shadcn source: `vendor/shadcn-ui` (git submodule)
 - Nuxt UI source: `vendor/nuxt-ui` (git submodule)
+- Maquina components: `vendor/maquina_components` (local checkout)
 - Lookbook source: https://github.com/ViewComponent/lookbook
-- Maquina components: check Ninjanizr's Gemfile for the repo location
