@@ -1,0 +1,7 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::StatsCardValue.render(class: css_classes),
+    data: { component: :stats_card, stats_card_part: :value },
+    **component_options do %>
+  <%= yield %>
+<% end %>

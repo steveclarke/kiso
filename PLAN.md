@@ -30,6 +30,7 @@ Reference: `vendor/maquina_components/` (local checkout)
 - [x] Card component (3 variants, 6 sub-parts, shadcn gap-6/py-6 spacing)
 - [x] Separator component (horizontal/vertical, decorative prop)
 - [x] Empty State component (5 sub-parts, media variant, shadcn structure)
+- [x] Stats Card + Stats Grid (dashboard metrics, Card-like variants, tabular-nums)
 - [x] All components aligned div-for-div with shadcn structure
 - [x] bin/kiso CLI (`make component NAME` scaffolds all files)
 - [x] AI skills (usage + contributing)
@@ -49,8 +50,8 @@ Reference: `vendor/maquina_components/` (local checkout)
 
 ### What's Next
 
-**Batch 1 remaining:** Header, Stats, Table, Pagination.
-Then Batch 2 (form inputs).
+**Batch 1 remaining:** Table. Then Batch 2 (form inputs).
+Header deferred to Phase 2 (page-level layouts: Header, Sidebar, Page).
 
 ## Phase 1: Maquina Parity
 
@@ -83,8 +84,7 @@ below exists in maquina_components.
 | Card | simple | done | 3 variants, 6 sub-parts (+ action sub-part) |
 | Separator | simple | done | Horizontal/vertical, decorative |
 | Empty State | simple | done | 5 sub-parts: header, media, title, description, content |
-| Header | simple | | Top nav bar wrapper |
-| Stats | simple | | Stats card + stats grid for dashboards |
+| Stats | simple | done | Stats card + stats grid for dashboards |
 | Table | simple | | 7 sub-parts: header, body, footer, row, head, cell, caption |
 
 **Batch 2 — Form inputs (CSS-only via data attributes in maquina):**
@@ -111,7 +111,6 @@ Kiso will use `kiso(:input)` partials with class_variants themes.
 | Dropdown Menu | simple | Popover-based, keyboard nav, click outside |
 | Combobox | simple | Search + select, keyboard nav, form integration |
 | Breadcrumbs | simple | Responsive collapse, separator sub-part |
-| Sidebar | simple | Collapsible, mobile offcanvas, cookie state |
 | Calendar | simple | Date grid, range mode, min/max, disabled dates |
 | Date Picker | simple | Calendar + popover trigger, form integration |
 
@@ -134,6 +133,9 @@ existing components work. Start dogfooding.
 
 New components not in maquina. Build these after Ninjanizr is on Kiso.
 
+- Header (top nav bar, app shell)
+- Sidebar (collapsible, mobile offcanvas)
+- Page (page header + body layout)
 - Dialog (native `<dialog>`)
 - Sheet (slide-over variant)
 - Drawer (bottom sheet variant)
@@ -144,7 +146,6 @@ New components not in maquina. Build these after Ninjanizr is on Kiso.
 - Tooltip (CSS + JS positioning)
 - Slider (range input)
 - Item / ItemGroup (list items with media, content, actions)
-- Page (page header + body layout)
 - Number Stepper (increment/decrement input)
 
 **Milestone:** ~85% of common UI needs covered.
