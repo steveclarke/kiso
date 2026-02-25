@@ -21,16 +21,29 @@ Read these files in order:
 - [x] Core helpers: `component_tag()`, `kiso()` in ComponentHelper
 - [x] class_variants + tailwind_merge integration
 - [x] Theme CSS: 7 semantic palettes + surface tokens + dark mode
-- [x] Badge component (two-axis: color × variant × size, compound variants)
+- [x] Badge component (color × variant × size, compound variants)
+- [x] Alert component (color × variant, CSS Grid with has-[>svg] auto-layout)
+- [x] Button component (6 variants, smart tag, 5 sizes, has-[>svg] padding)
+- [x] Card component (3 variants, 6 sub-parts, shadcn gap-6/py-6 spacing)
+- [x] All components aligned div-for-div with shadcn structure
 - [x] bin/kiso CLI (`make component NAME` scaffolds all files)
 - [x] AI skills (usage + contributing)
-- [x] PR #1: bootstrap-dummy-app-and-badge
+- [x] Docs site (Bridgetown 2.1, Tailwind v4, sidebar nav, dark mode)
+- [x] Docs pages for Badge, Alert, Button, Card
+- [x] Overmind dev setup (root bin/dev, daemonized, Lookbook + CSS + docs)
 
 ### Open Issues
 
-- **#2** — Theme override architecture (should engine ship defaults so host
-  apps only need overrides?)
-- **#3** — Lookbook dark mode toggle not applying to preview iframe
+- **#2** — Theme override architecture for host apps
+- **#4** — Icon system (standalone Ruby gem for Iconify icon sets)
+- **#6** — Deploy docs site to GitHub Pages
+- **#7** — Publish Lookbook and link from docs site
+- **#8** — Live component previews in documentation pages
+- **#9** — Polish component documentation to match Nuxt UI quality
+
+### What's Next
+
+**Batch 1 remaining:** Separator, Label, Empty State. Then Batch 2 (form inputs).
 
 ## Phase 1: Foundation
 
@@ -53,14 +66,15 @@ Start with the simplest, build up to Stimulus-dependent ones.
 
 **Batch 1 — Simple (ERB + computed classes only):**
 
-| Component | Type | Notes |
-|-----------|------|-------|
-| Button | colored | Solid/outline/soft/subtle/ghost/link variants. Smart tag (a vs button). |
-| Card | simple | Composed: Header, Title, Description, Content, Footer sub-parts. |
-| Alert | colored | Icon + title + description. |
-| Separator | simple | Horizontal/vertical. |
-| Label | simple | For form fields. |
-| Empty | simple | Empty state placeholder. |
+| Component | Type | Status | Notes |
+|-----------|------|--------|-------|
+| Badge | colored | done | color × variant × size, pill shape |
+| Alert | colored | done | CSS Grid, has-[>svg] auto-layout |
+| Button | colored | done | 6 variants, smart tag, has-[>svg] padding |
+| Card | simple | done | 3 variants, 6 sub-parts |
+| Separator | simple | **next** | Horizontal/vertical. |
+| Label | simple | | For form fields. |
+| Empty | simple | | Empty state placeholder. |
 
 **Batch 2 — Form inputs (CSS-only, applied via data attributes):**
 
@@ -140,6 +154,16 @@ New components not in maquina:
 - Data Table (sorting + filtering + pagination)
 - Charts
 - Pre-composed layout blocks (auth, settings, dashboards)
+
+## Dev Environment
+
+```bash
+bin/dev                       # All services via Overmind (Lookbook :4001 + docs :4000)
+overmind restart web          # Restart Lookbook server
+overmind restart docs         # Restart docs server
+bundle exec rake test         # Run tests
+bundle exec standardrb --fix  # Lint & auto-format Ruby
+```
 
 ## Reference
 
