@@ -31,6 +31,7 @@ Reference: `vendor/maquina_components/` (local checkout)
 - [x] Separator component (horizontal/vertical, decorative prop)
 - [x] Empty State component (5 sub-parts, media variant, shadcn structure)
 - [x] Stats Card + Stats Grid (dashboard metrics, Card-like variants, tabular-nums)
+- [x] Table (7 sub-parts, semantic HTML, scrollable container, shadcn 1:1)
 - [x] All components aligned div-for-div with shadcn structure
 - [x] bin/kiso CLI (`make component NAME` scaffolds all files)
 - [x] AI skills (usage + contributing)
@@ -50,7 +51,7 @@ Reference: `vendor/maquina_components/` (local checkout)
 
 ### What's Next
 
-**Batch 1 remaining:** Table. Then Batch 2 (form inputs).
+**Batch 1 complete.** Next: Batch 2 (form inputs).
 Header deferred to Phase 2 (page-level layouts: Header, Sidebar, Page).
 
 ## Phase 1: Maquina Parity
@@ -85,7 +86,7 @@ below exists in maquina_components.
 | Separator | simple | done | Horizontal/vertical, decorative |
 | Empty State | simple | done | 5 sub-parts: header, media, title, description, content |
 | Stats | simple | done | Stats card + stats grid for dashboards |
-| Table | simple | | 7 sub-parts: header, body, footer, row, head, cell, caption |
+| Table | simple | done | 7 sub-parts: header, body, footer, row, head, cell, caption |
 
 **Batch 2 — Form inputs (CSS-only via data attributes in maquina):**
 

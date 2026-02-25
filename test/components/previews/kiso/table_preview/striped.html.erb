@@ -1,0 +1,24 @@
+<%= kiso(:table) do %>
+  <%= kiso(:table, :header) do %>
+    <%= kiso(:table, :row) do %>
+      <%= kiso(:table, :head) { "Name" } %>
+      <%= kiso(:table, :head) { "Email" } %>
+      <%= kiso(:table, :head) { "Role" } %>
+    <% end %>
+  <% end %>
+  <%= kiso(:table, :body) do %>
+    <% [
+      { name: "Alice Johnson", email: "alice@example.com", role: "Admin" },
+      { name: "Bob Smith", email: "bob@example.com", role: "Editor" },
+      { name: "Carol White", email: "carol@example.com", role: "Viewer" },
+      { name: "Dave Brown", email: "dave@example.com", role: "Editor" },
+      { name: "Eve Davis", email: "eve@example.com", role: "Admin" },
+    ].each_with_index do |row, i| %>
+      <%= kiso(:table, :row, css_classes: i.even? ? "bg-muted/25" : "") do %>
+        <%= kiso(:table, :cell, css_classes: "font-medium") { row[:name] } %>
+        <%= kiso(:table, :cell) { row[:email] } %>
+        <%= kiso(:table, :cell) { row[:role] } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

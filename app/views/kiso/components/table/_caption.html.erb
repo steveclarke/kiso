@@ -1,0 +1,7 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :caption,
+    class: Kiso::Themes::TableCaption.render(class: css_classes),
+    data: { component: :table, table_part: :caption },
+    **component_options do %>
+  <%= yield %>
+<% end %>

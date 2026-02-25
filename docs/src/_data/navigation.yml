@@ -20,3 +20,5 @@ docs:
         href: /components/separator
       - title: Stats Card
         href: /components/stats_card
+      - title: Table
+        href: /components/table
