@@ -1,18 +1,147 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+################################################################################
+# bin/dev — Development process manager
+################################################################################
+#
+# OVERVIEW
+# --------
+# Starts, stops, and manages development services via Overmind.
+# Wraps overmind with sensible defaults and a friendlier interface.
+#
+# USAGE
+# -----
+#   bin/dev                 Start all services (foreground)
+#   bin/dev -d              Start all services (daemonized)
+#   bin/dev stop            Stop a running instance
+#   bin/dev restart web     Restart a specific service
+#   bin/dev status          Show process statuses
+#   bin/dev logs            Tail logs from all services
+#   bin/dev -- -l web,css   Pass flags directly to overmind
+#
+# CONFIGURATION
+# -------------
+# Services are defined in Procfile.dev. The overmind socket is stored
+# in tmp/overmind.sock (also configurable via .overmind.env).
+#
+################################################################################
+
+# Configuration
 PROCFILE="Procfile.dev"
+SOCKET="tmp/overmind.sock"
 
-if ! command -v overmind > /dev/null 2>&1; then
-  echo "Error: overmind is not installed. Run bin/setup to install."
-  exit 1
-fi
+################################################################################
+# Main Orchestration
+################################################################################
 
-case "${1:-start}" in
-  stop)
-    exec overmind quit -f "$PROCFILE"
-    ;;
-  *)
-    exec overmind start -f "$PROCFILE" "$@"
-    ;;
-esac
+main() {
+  require_overmind
+  mkdir -p tmp
+
+  case "${1:-start}" in
+    start)   shift 2>/dev/null || true; cmd_start "$@" ;;
+    stop)    cmd_stop ;;
+    restart) shift; cmd_restart "$@" ;;
+    status)  cmd_status ;;
+    logs)    cmd_logs ;;
+    help|-h|--help) usage ;;
+    -d)      cmd_start "$@" ;;
+    --)      shift; cmd_start -- "$@" ;;
+    *)       usage; exit 1 ;;
+  esac
+}
+
+################################################################################
+# Helper Functions
+################################################################################
+
+red='\033[0;31m'
+nc='\033[0m'
+
+error() { echo -e "${red}Error:${nc} ${1}" >&2; exit 1; }
+
+require_overmind() {
+  command -v overmind > /dev/null 2>&1 \
+    || error "overmind is not installed. Run bin/setup to install."
+}
+
+require_running() {
+  [ -e "$SOCKET" ] || error "Overmind is not running."
+}
+
+usage() {
+  cat <<EOF
+Usage: bin/dev [command] [options]
+
+Commands:
+  start       Start all services in the foreground (default)
+  stop        Stop a running instance
+  restart     Restart a specific service (e.g. bin/dev restart web)
+  status      Show process statuses
+  logs        Tail logs from all services
+  help        Show this help message
+
+Options:
+  -d          Daemonize (run in background)
+  --          Pass remaining args directly to overmind
+
+Examples:
+  bin/dev                 Start in foreground
+  bin/dev -d              Start daemonized
+  bin/dev stop            Stop daemonized instance
+  bin/dev restart web     Restart the web process
+  bin/dev status          Show running processes
+  bin/dev logs            Tail all logs
+  bin/dev -- -l web,css   Pass flags directly to overmind
+EOF
+}
+
+################################################################################
+# Commands
+################################################################################
+
+cmd_start() {
+  local daemonize=false
+  local passthrough=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -d) daemonize=true; shift ;;
+      --)  shift; passthrough+=("$@"); break ;;
+      *)   passthrough+=("$1"); shift ;;
+    esac
+  done
+
+  if $daemonize; then
+    exec overmind start -f "$PROCFILE" -D "${passthrough[@]+"${passthrough[@]}"}"
+  else
+    exec overmind start -f "$PROCFILE" "${passthrough[@]+"${passthrough[@]}"}"
+  fi
+}
+
+cmd_stop() {
+  require_running
+  overmind quit 2>/dev/null || rm -f "$SOCKET"
+}
+
+cmd_restart() {
+  require_running
+  overmind restart "$@"
+}
+
+cmd_status() {
+  require_running
+  overmind status
+}
+
+cmd_logs() {
+  require_running
+  exec overmind echo
+}
+
+################################################################################
+# Script Execution
+################################################################################
+
+main "$@"

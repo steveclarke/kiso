@@ -2,11 +2,11 @@
 /doc/
 /log/*.log
 /pkg/
-/tmp/
+/tmp/*
+!/tmp/.keep
 /app/assets/builds/*
 !/app/assets/builds/.keep
 /test/dummy/app/assets/builds/*
 !/test/dummy/app/assets/builds/.keep
 /test/dummy/log/
 /test/dummy/tmp/
-.overmind.sock
