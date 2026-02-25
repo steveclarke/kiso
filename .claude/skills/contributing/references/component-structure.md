@@ -38,8 +38,8 @@ For composed components (Card = Header + Title + Content + Footer):
 <%# app/views/kiso/components/card/_header.html.erb %>
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :div,
-    class: Kiso::Themes::Card.render(:header, class: css_classes),
-    data: { component: :card, slot: :header },
+    class: Kiso::Themes::CardHeader.render(class: css_classes),
+    data: { component: :card, card_part: :header },
     **component_options do %>
   <%= yield %>
 <% end %>
@@ -50,7 +50,8 @@ Rendered via the `kiso()` helper with a part argument:
 ```erb
 <%= kiso(:card) do %>
   <%= kiso(:card, :header) do %>
-    <%= kiso(:card, :title, text: "Members") %>
+    <%= kiso(:card, :title) { "Members" } %>
+    <%= kiso(:card, :description) { "Manage your team members." } %>
   <% end %>
   <%= kiso(:card, :content) do %>
     ...
