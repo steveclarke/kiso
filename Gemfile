@@ -9,3 +9,6 @@ gem "propshaft"
 # Component preview browser
 gem "lookbook", ">= 2.3"
 gem "listen"
+
+# Linting
+gem "standard"
