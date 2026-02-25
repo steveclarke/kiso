@@ -7,15 +7,75 @@ description: Guide for contributing to Kiso. Provides component structure patter
 
 Guidelines for contributing to the Kiso component library.
 
-## Project Structure
+## Philosophy
+
+Kiso is a UI framework built for the **era of agentic coding**. Every design
+decision serves one goal: **agents produce consistent, high-quality output
+without drift.**
+
+### Design principles
+
+1. **Props over composition for common patterns.** If 90% of usages look the
+   same (icon + title + description), the component should accept props and
+   handle the layout internally. Yield blocks remain for full override. Props
+   are the guardrails that keep agent output consistent.
+
+2. **Identical compound variant formulas across all colored components.** Badge,
+   Alert, Button — same 28 compound variants. Only base/layout classes change.
+   Copy from an existing component, never invent new formulas. See
+   `docs/DESIGN_SYSTEM.md`.
+
+3. **shadcn aesthetic, Nuxt UI theming.** shadcn/ui is the visual reference
+   (clean, minimal layout and spacing). Nuxt UI is the theming source of truth
+   (two-axis color × variant, semantic tokens, compound variant system). When
+   in doubt about styling, check the Nuxt UI theme file at
+   `/Users/steve/src/vendor/nuxt-ui/src/theme/`. When in doubt about look and
+   feel, check shadcn at `/Users/steve/src/vendor/shadcn-ui/`.
+
+4. **Deterministic output.** Components should produce the same HTML structure
+   regardless of who (or what) writes the template. This means: standardized
+   prop names, consistent defaults, well-defined layout behavior. An agent
+   passing `title:` and `description:` should get the exact same result every
+   time.
+
+5. **Progressive enhancement.** Start with props-driven ERB (Phase 1). Add
+   Stimulus controllers only when native HTML5 can't handle it (Phase 2).
+   Never require JS for basic rendering.
+
+### What we take from each reference
+
+**From shadcn/ui — aesthetic + simplicity:**
+- Clean, minimal spacing and layout
+- Simple sub-parts (Title, Description, Action) as separate partials
+- Single `css_classes:` override — no multi-layer config system
+- ~30 semantic tokens is the right scope
+
+**From Nuxt UI — theming discipline + encapsulation:**
+- Two-axis `color:` × `variant:` compound variants
+- Pure CSS custom properties, zero `dark:` prefixes
+- Props-driven API that encapsulates common patterns (icon, title, description,
+  actions, close) — agents pass data, component handles layout
+- `opacity-90` for description text (relative to parent, not absolute)
+- Foreground pairing convention (every color has `-foreground`)
+- Nuxt UI token mapping (see `docs/DESIGN_SYSTEM.md`)
+
+## Mandatory reading before building any component
+
+1. `docs/DESIGN_SYSTEM.md` — compound variant formulas, token table, rules
+2. `docs/components/COMPONENT.md` — vision doc for the specific component
+   (if it exists)
+3. An existing component (Badge or Alert) — copy the exact compound variant
+   block, only change the base classes
+
+## Project structure
 
 ```
 lib/kiso/
-├── themes/              # ClassVariants theme modules (badge.rb, button.rb)
+├── themes/              # ClassVariants theme modules (badge.rb, alert.rb)
 ├── engine.rb            # Rails engine config
 └── version.rb
 app/
-├── views/kiso/components/  # ERB partials (_badge.html.erb)
+├── views/kiso/components/  # ERB partials (_badge.html.erb, alert/_title.html.erb)
 ├── assets/
 │   ├── stylesheets/kiso/   # Component CSS (transitions/pseudo-states only)
 │   └── tailwind/kiso/      # Engine CSS bridge (engine.css)
@@ -25,56 +85,179 @@ test/
 ├── components/previews/kiso/  # Lookbook previews + templates
 └── dummy/                     # Development Rails app
 skills/kiso/                   # AI skill (update when adding components)
-docs/                          # COMPONENT_STRATEGY.md
+docs/
+├── DESIGN_SYSTEM.md           # Strict compound variant rules + token map
+├── COMPONENT_STRATEGY.md      # Architecture, recipes, patterns
+└── components/                # Per-component vision docs
 ```
 
-## Component Creation Workflow
+## Component creation workflow
 
-Copy this checklist when creating a new component:
+### Before writing code
+
+1. Check if a vision doc exists at `docs/components/COMPONENT.md`. If not,
+   create one following the Badge/Alert pattern (Current API → Target API →
+   Dependencies → Migration).
+2. Read `docs/DESIGN_SYSTEM.md` for the compound variant formulas.
+3. Read the Nuxt UI theme file for this component at
+   `/Users/steve/src/vendor/nuxt-ui/src/theme/{name}.ts` for slot structure
+   and variant patterns.
+4. Read the shadcn component for aesthetic reference at
+   `/Users/steve/src/vendor/shadcn-ui/apps/v4/registry/`.
+
+### Creation checklist
 
 ```
 Component: [name]
 Progress:
-- [ ] 1. Create theme module in lib/kiso/themes/
-- [ ] 2. Require theme in lib/kiso.rb
-- [ ] 3. Create ERB partial in app/views/kiso/components/
-- [ ] 4. Create Lookbook preview + templates in test/components/previews/kiso/
-- [ ] 5. Add CSS file if needed (transitions/animations only)
-- [ ] 6. Update skills/kiso/references/components.md
-- [ ] 7. Rebuild Tailwind: cd test/dummy && bin/rails tailwindcss:build
-- [ ] 8. Verify in Lookbook: http://localhost:4000/lookbook
+- [ ] 1. Read docs/DESIGN_SYSTEM.md and docs/components/[NAME].md
+- [ ] 2. Read Nuxt UI theme file for this component
+- [ ] 3. Create theme module in lib/kiso/themes/
+         - Copy compound variants from Badge (same formulas, different base)
+- [ ] 4. Require theme in lib/kiso.rb
+- [ ] 5. Create ERB partial in app/views/kiso/components/
+         - Props-driven for common patterns, yield for override
+- [ ] 6. Create sub-part partials if needed (title, description, etc.)
+- [ ] 7. Create Lookbook preview + templates in test/components/previews/kiso/
+- [ ] 8. Add CSS file if needed (transitions/animations only)
+- [ ] 9. Update skills/kiso/references/components.md
+- [ ] 10. Write/update docs/components/[NAME].md vision doc
+- [ ] 11. Run: bundle exec standardrb --fix
+- [ ] 12. Rebuild Tailwind: cd test/dummy && bin/rails tailwindcss:build
+- [ ] 13. Verify in Lookbook: http://localhost:4000/lookbook
 ```
 
-## Available Guidance
+## Colored component template
 
-| File | Topics |
-|------|--------|
-| **[references/theme-structure.md](references/theme-structure.md)** | ClassVariants patterns, compound variants, semantic colors |
-| **[references/component-structure.md](references/component-structure.md)** | ERB partial patterns, strict locals, data attributes |
+**Every colored component uses this exact compound variant block.** Copy it
+verbatim. Only change the `base:` string and any additional variant axes
+(like `size:` for Badge).
 
-**Load reference files based on your task. DO NOT load all files at once.**
+```ruby
+module Kiso
+  module Themes
+    MyComponent = ClassVariants.build(
+      base: "...",  # ONLY THIS LINE CHANGES PER COMPONENT
+      variants: {
+        variant: {
+          solid: "",
+          outline: "ring ring-inset",
+          soft: "",
+          subtle: "ring ring-inset"
+        },
+        color: COLORS.index_with { "" }
+      },
+      compound_variants: [
+        # -- solid --
+        {color: :primary, variant: :solid, class: "bg-primary text-primary-foreground"},
+        {color: :secondary, variant: :solid, class: "bg-secondary text-secondary-foreground"},
+        {color: :success, variant: :solid, class: "bg-success text-success-foreground"},
+        {color: :info, variant: :solid, class: "bg-info text-info-foreground"},
+        {color: :warning, variant: :solid, class: "bg-warning text-warning-foreground"},
+        {color: :error, variant: :solid, class: "bg-error text-error-foreground"},
+        {color: :neutral, variant: :solid, class: "bg-inverted text-inverted-foreground"},
 
-Also read before building any component:
-- `docs/COMPONENT_STRATEGY.md` — full theming architecture, recipes, prior art
+        # -- outline --
+        {color: :primary, variant: :outline, class: "text-primary ring-primary/50"},
+        {color: :secondary, variant: :outline, class: "text-secondary ring-secondary/50"},
+        {color: :success, variant: :outline, class: "text-success ring-success/50"},
+        {color: :info, variant: :outline, class: "text-info ring-info/50"},
+        {color: :warning, variant: :outline, class: "text-warning ring-warning/50"},
+        {color: :error, variant: :outline, class: "text-error ring-error/50"},
+        {color: :neutral, variant: :outline, class: "text-foreground bg-background ring-accented"},
 
-## Code Conventions
+        # -- soft --
+        {color: :primary, variant: :soft, class: "bg-primary/10 text-primary"},
+        {color: :secondary, variant: :soft, class: "bg-secondary/10 text-secondary"},
+        {color: :success, variant: :soft, class: "bg-success/10 text-success"},
+        {color: :info, variant: :soft, class: "bg-info/10 text-info"},
+        {color: :warning, variant: :soft, class: "bg-warning/10 text-warning"},
+        {color: :error, variant: :soft, class: "bg-error/10 text-error"},
+        {color: :neutral, variant: :soft, class: "text-foreground bg-elevated"},
 
-| Convention | Description |
-|------------|-------------|
+        # -- subtle --
+        {color: :primary, variant: :subtle, class: "bg-primary/10 text-primary ring-primary/25"},
+        {color: :secondary, variant: :subtle, class: "bg-secondary/10 text-secondary ring-secondary/25"},
+        {color: :success, variant: :subtle, class: "bg-success/10 text-success ring-success/25"},
+        {color: :info, variant: :subtle, class: "bg-info/10 text-info ring-info/25"},
+        {color: :warning, variant: :subtle, class: "bg-warning/10 text-warning ring-warning/25"},
+        {color: :error, variant: :subtle, class: "bg-error/10 text-error ring-error/25"},
+        {color: :neutral, variant: :subtle, class: "text-foreground bg-elevated ring-accented"}
+      ],
+      defaults: {color: :primary, variant: :soft}
+    )
+  end
+end
+```
+
+## Partial patterns
+
+### Props-driven with yield fallback
+
+The target pattern for all components with internal structure:
+
+```erb
+<%# locals: (title: nil, description: nil, icon: nil, color: :primary,
+             variant: :soft, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::Alert.render(color: color, variant: variant, class: css_classes),
+    data: { component: :alert },
+    **component_options do %>
+  <% if block_given? %>
+    <%# Full override — user controls everything %>
+    <%= yield %>
+  <% else %>
+    <%# Props-driven layout — component handles structure %>
+    <%# icon, title, description rendered here %>
+  <% end %>
+<% end %>
+```
+
+### Sub-part partials
+
+For composed usage via `kiso(:component, :part)`:
+
+```erb
+<%# app/views/kiso/components/alert/_title.html.erb %>
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::AlertTitle.render(class: css_classes),
+    data: { component: :alert, alert_part: :title },
+    **component_options do %>
+  <%= yield %>
+<% end %>
+```
+
+## Code conventions
+
+| Convention | Rule |
+|------------|------|
+| Compound variants | **Identical across all colored components.** Copy from Badge. |
+| Description text | `opacity-90` inside colored components. Never `text-muted-foreground`. |
+| Ring vs border | `ring ring-inset` for outline/subtle variants. Never `border`. |
+| Semantic tokens | `bg-primary`, `text-foreground` — never raw palette shades. |
+| No `dark:` prefixes | Tokens flip automatically via CSS variables. |
+| Foreground pairing | Every color has `-foreground`. Including `inverted-foreground`. |
 | Strict locals | Every partial: `<%# locals: (color: :primary, ...) %>` |
-| Semantic colors | `bg-primary`, `text-foreground`, `bg-muted` — never raw palette shades |
-| No `dark:` prefixes | Semantic tokens flip automatically via CSS variables |
-| Foreground pairing | Every color has `-foreground`: `bg-primary text-primary-foreground` |
-| Data attributes | `data-component="badge"` for identity — NOT for CSS selectors |
-| Two-axis variants | `color:` + `variant:` with compound_variants for colored components |
-| `css_classes:` override | Single override point, merged via tailwind_merge |
-| Theme in Ruby | Styles live in `lib/kiso/themes/`, not CSS files |
-| Lookbook previews | Playground (interactive params) first, then galleries |
-| Update the skill | Add component to `skills/kiso/references/components.md` |
+| Data attributes | `data-component="alert"` for identity — NOT for CSS selectors. |
+| `css_classes:` override | Single override point, merged via tailwind_merge. |
+| Lookbook previews | Playground first, then Colors, Variants, feature galleries. |
+| Update docs | `skills/kiso/references/components.md` + vision doc. |
+| Lint before commit | `bundle exec standardrb --fix` |
 
 ## Commands
 
 ```bash
-cd test/dummy && bin/dev   # Dev server + Tailwind watcher (port 4000)
-bundle exec rake test      # Run tests
+cd test/dummy && bin/dev        # Dev server + Tailwind watcher (port 4000)
+bundle exec rake test           # Run tests
+bundle exec standardrb --fix    # Lint & auto-format Ruby
 ```
+
+## Available references
+
+| File | Topics |
+|------|--------|
+| [references/theme-structure.md](references/theme-structure.md) | ClassVariants patterns, compound variants, semantic colors |
+| [references/component-structure.md](references/component-structure.md) | ERB partial patterns, strict locals, data attributes |
+
+**Load reference files based on your task. DO NOT load all files at once.**

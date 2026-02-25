@@ -57,6 +57,12 @@ Two layers (CSS files only for transitions/pseudo-states):
   for testing, Stimulus, debugging. NOT for CSS selectors.
 - **Native HTML5 first** — `<dialog>`, `[popover]`, `<details>`, `<progress>`
   before reaching for Stimulus.
+- **Props for common patterns, yield for override** — if 90% of usages look
+  the same, accept props (`title:`, `description:`, `icon:`) and handle
+  layout internally. Yield block replaces all internal structure for full
+  control. Props are guardrails for agent-written code.
+- **Component vision docs** — `docs/components/COMPONENT.md` defines the
+  target API for each component. Read before building or extending.
 - **Composition over configuration** — Card = Header + Title + Content + Footer.
   Small partials, flexibly combined.
 - **Strict locals on every partial** — `<%# locals: (color: :primary) %>`
