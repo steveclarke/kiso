@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/steveclarke/kiso-icons.git
-  revision: 7f7818614e2edb383f0f20caa7cb60aca49f360a
+  revision: 7fca8b80c0fed36893616361817d8783bf71bd11
   branch: main
   specs:
     kiso-icons (0.1.0)
@@ -112,6 +112,7 @@ GEM
     erb (6.0.2)
     erubi (1.13.1)
     ffi (1.17.3-arm64-darwin)
+    ffi (1.17.3-x86_64-linux-gnu)
     globalid (1.3.0)
       activesupport (>= 6.1)
     htmlbeautifier (1.4.3)
@@ -169,6 +170,8 @@ GEM
       net-protocol
     nio4r (2.7.5)
     nokogiri (1.19.1-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.19.1-x86_64-linux-gnu)
       racc (~> 1.4)
     parallel (1.27.0)
     parser (3.3.10.2)
@@ -281,6 +284,7 @@ GEM
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
     tailwindcss-ruby (4.2.0-arm64-darwin)
+    tailwindcss-ruby (4.2.0-x86_64-linux-gnu)
     thor (1.5.0)
     timeout (0.6.0)
     tsort (0.2.0)
@@ -304,6 +308,7 @@ GEM
 
 PLATFORMS
   arm64-darwin
+  x86_64-linux
 
 DEPENDENCIES
   kiso!
@@ -342,6 +347,7 @@ CHECKSUMS
   erb (6.0.2) sha256=9fe6264d44f79422c87490a1558479bd0e7dad4dd0e317656e67ea3077b5242b
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   ffi (1.17.3-arm64-darwin) sha256=0c690555d4cee17a7f07c04d59df39b2fba74ec440b19da1f685c6579bb0717f
+  ffi (1.17.3-x86_64-linux-gnu) sha256=3746b01f677aae7b16dc1acb7cb3cc17b3e35bdae7676a3f568153fb0e2c887f
   globalid (1.3.0) sha256=05c639ad6eb4594522a0b07983022f04aa7254626ab69445a0e493aa3786ff11
   htmlbeautifier (1.4.3) sha256=b43d08f7e2aa6ae1b5a6f0607b4ed8954c8d4a8e85fd2336f975dda1e4db385b
   htmlentities (4.3.4) sha256=125a73c6c9f2d1b62100b7c3c401e3624441b663762afa7fe428476435a673da
@@ -367,6 +373,7 @@ CHECKSUMS
   net-smtp (0.5.1) sha256=ed96a0af63c524fceb4b29b0d352195c30d82dd916a42f03c62a3a70e5b70736
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
   nokogiri (1.19.1-arm64-darwin) sha256=dfe2d337e6700eac47290407c289d56bcf85805d128c1b5a6434ddb79731cb9e
+  nokogiri (1.19.1-x86_64-linux-gnu) sha256=1a4902842a186b4f901078e692d12257678e6133858d0566152fe29cdb98456a
   parallel (1.27.0) sha256=4ac151e1806b755fb4e2dc2332cbf0e54f2e24ba821ff2d3dcf86bf6dc4ae130
   parser (3.3.10.2) sha256=6f60c84aa4bdcedb6d1a2434b738fe8a8136807b6adc8f7f53b97da9bc4e9357
   pp (0.6.3) sha256=2951d514450b93ccfeb1df7d021cae0da16e0a7f95ee1e2273719669d0ab9df6
@@ -407,6 +414,7 @@ CHECKSUMS
   tailwind_merge (1.4.0) sha256=58009e3f4410dcb7ea6156e15b875e405f0e428f961cda5ee19359fe037933da
   tailwindcss-rails (4.4.0) sha256=efa2961351a52acebe616e645a81a30bb4f27fde46cc06ce7688d1cd1131e916
   tailwindcss-ruby (4.2.0-arm64-darwin) sha256=809776c7b784327dc526e041e52341adb46b6416d59ba3d86886adc9a6baaad0
+  tailwindcss-ruby (4.2.0-x86_64-linux-gnu) sha256=5d5822135ba81bbd81cb9a81c479bea9e5954e39d4a31f5f4dafbef952993baf
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
   timeout (0.6.0) sha256=6d722ad619f96ee383a0c557ec6eb8c4ecb08af3af62098a0be5057bf00de1af
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f
