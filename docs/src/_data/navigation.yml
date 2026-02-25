@@ -18,3 +18,5 @@ docs:
         href: /components/empty_state
       - title: Separator
         href: /components/separator
+      - title: Stats Card
+        href: /components/stats_card
