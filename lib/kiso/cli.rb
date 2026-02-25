@@ -9,5 +9,6 @@ module Kiso
 end
 
 require_relative "cli/base"
+require_relative "cli/icons"
 require_relative "cli/make"
 require_relative "cli/main"
