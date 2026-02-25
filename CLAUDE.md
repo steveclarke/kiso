@@ -8,8 +8,11 @@ Stimulus.
 
 ## Key References
 
+- `PLAN.md` — **read first**. Current status, what's done, what to build next,
+  priority-ordered component list with batches.
 - `docs/COMPONENT_STRATEGY.md` — **read before building any component**. Covers
   class_variants patterns, compound variants, theming, override system, dark mode.
+- `.claude/skills/contributing/SKILL.md` — component creation workflow and checklist
 - `skills/kiso/` — AI skill with component reference (update when adding components)
 - `VISION.md` — full roadmap, component catalog, phased rollout
 
