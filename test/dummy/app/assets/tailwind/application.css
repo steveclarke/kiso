@@ -42,6 +42,10 @@
   --color-accent: var(--color-zinc-100);
   --color-accent-foreground: var(--color-zinc-900);
 
+  --color-inverted: var(--color-zinc-900);
+  --color-elevated: var(--color-zinc-100);
+  --color-accented: var(--color-zinc-300);
+
   --color-border: var(--color-zinc-200);
   --color-border-accented: var(--color-zinc-300);
 
@@ -78,6 +82,10 @@
 
   --color-accent: var(--color-zinc-800);
   --color-accent-foreground: var(--color-zinc-50);
+
+  --color-inverted: white;
+  --color-elevated: var(--color-zinc-800);
+  --color-accented: var(--color-zinc-700);
 
   --color-border: var(--color-zinc-800);
   --color-border-accented: var(--color-zinc-700);

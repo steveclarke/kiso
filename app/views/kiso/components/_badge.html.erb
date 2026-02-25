@@ -1,6 +1,6 @@
-<%# locals: (variant: :default, size: :md, css_classes: "", **component_options) %>
+<%# locals: (color: :primary, variant: :soft, size: :md, css_classes: "", **component_options) %>
 <%= content_tag :span,
-    class: Kiso::Themes::Badge.render(variant: variant, size: size, class: css_classes),
+    class: Kiso::Themes::Badge.render(color: color, variant: variant, size: size, class: css_classes),
     data: { component: :badge },
     **component_options do %>
   <%= yield %>
