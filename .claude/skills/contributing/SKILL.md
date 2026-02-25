@@ -13,6 +13,17 @@ Kiso is a UI framework built for the **era of agentic coding**. Every design
 decision serves one goal: **agents produce consistent, high-quality output
 without drift.**
 
+### Framework mindset — no one-offs
+
+This is a UI framework, not an application. In a normal project you might add
+a one-off Tailwind class or make a local exception. Here, every decision is a
+pattern. Before changing a class, a token, a prop name, or a structural pattern
+in one component, consider its impact on every other component in the system.
+If the change doesn't apply consistently, either make it consistent across all
+components or don't make it at all. When unsure, ask before introducing
+something that only applies to one place. Consistency is more important than
+any individual improvement.
+
 ### Design principles
 
 1. **Props over composition for common patterns.** If 90% of usages look the

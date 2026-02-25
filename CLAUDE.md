@@ -27,6 +27,16 @@ Two layers (CSS files only for transitions/pseudo-states):
 2. **ERB Partials** (`app/views/kiso/components/`) — strict locals, computed
    class strings from theme modules, composition via `yield` and sub-parts.
 
+## Framework Mindset
+
+Kiso is a UI framework, not an app. Every decision becomes a precedent that
+all components must follow. **No one-off exceptions.** Before adding a Tailwind
+class, a token, a prop name, or a structural pattern to any component, ask:
+"Does every other component handle this the same way?" If not, fix the
+inconsistency across all components — don't make a local exception. When in
+doubt, consult before making a change that only applies to one component.
+Consistency is more important than any individual improvement.
+
 ## Key Conventions
 
 - **Computed Tailwind classes in ERB** — theme modules define variant class
