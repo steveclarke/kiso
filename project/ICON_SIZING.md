@@ -110,20 +110,20 @@ size: {
 }
 ```
 
-## The `icon()` Helper
+## The `kiso_icon()` Helper
 
-The `icon()` helper defaults to **no size class** so parent components
+The `kiso_icon()` helper defaults to **no size class** so parent components
 can control sizing:
 
 ```erb
 <%# Inside a component — parent CSS handles sizing %>
 <%= kiso(:button) do %>
-  <%= icon("plus") %>
+  <%= kiso_icon("plus") %>
   Add Item
 <% end %>
 
 <%# Standalone — pass explicit size %>
-<%= icon("check", size: :md) %>
+<%= kiso_icon("check", size: :md) %>
 ```
 
 **Output without size:**
@@ -159,7 +159,7 @@ Instead, icons are regular content inside a `yield` block:
 
 ```erb
 <%= kiso(:button) do %>
-  <%= icon("plus") %>
+  <%= kiso_icon("plus") %>
   Add Item
 <% end %>
 ```

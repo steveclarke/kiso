@@ -1,24 +1,24 @@
 <div class="max-w-lg space-y-3">
   <%= kiso(:alert, color: :info) do %>
-    <%= icon("info") %>
+    <%= kiso_icon("info") %>
     <%= kiso(:alert, :title) { "Did you know?" } %>
     <%= kiso(:alert, :description) { "You can add components to your app using the CLI." } %>
   <% end %>
 
   <%= kiso(:alert, color: :success) do %>
-    <%= icon("circle-check") %>
+    <%= kiso_icon("circle-check") %>
     <%= kiso(:alert, :title) { "Success!" } %>
     <%= kiso(:alert, :description) { "Your changes have been saved." } %>
   <% end %>
 
   <%= kiso(:alert, color: :warning, variant: :subtle) do %>
-    <%= icon("triangle-alert") %>
+    <%= kiso_icon("triangle-alert") %>
     <%= kiso(:alert, :title) { "Warning" } %>
     <%= kiso(:alert, :description) { "Your session is about to expire." } %>
   <% end %>
 
   <%= kiso(:alert, color: :error, variant: :solid) do %>
-    <%= icon("circle-x") %>
+    <%= kiso_icon("circle-x") %>
     <%= kiso(:alert, :title) { "Error" } %>
     <%= kiso(:alert, :description) { "Something went wrong. Please try again." } %>
   <% end %>

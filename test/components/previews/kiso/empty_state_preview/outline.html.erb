@@ -1,7 +1,7 @@
 <%= kiso(:empty_state, css_classes: "border border-dashed") do %>
   <%= kiso(:empty_state, :header) do %>
     <%= kiso(:empty_state, :media, variant: :icon) do %>
-      <%= icon("upload") %>
+      <%= kiso_icon("upload") %>
     <% end %>
     <%= kiso(:empty_state, :title) { "Upload Files" } %>
     <%= kiso(:empty_state, :description) { "Drag and drop files here, or click to browse." } %>

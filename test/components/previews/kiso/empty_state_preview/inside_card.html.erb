@@ -8,7 +8,7 @@
       <%= kiso(:empty_state, css_classes: "flex-none") do %>
         <%= kiso(:empty_state, :header) do %>
           <%= kiso(:empty_state, :media, variant: :icon) do %>
-            <%= icon("activity") %>
+            <%= kiso_icon("activity") %>
           <% end %>
           <%= kiso(:empty_state, :title) { "No Activity" } %>
           <%= kiso(:empty_state, :description) { "When you start working on projects, your activity will show up here." } %>
