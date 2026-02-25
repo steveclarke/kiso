@@ -29,6 +29,7 @@ Reference: `vendor/maquina_components/` (local checkout)
 - [x] Button component (6 variants, smart tag, 5 sizes, has-[>svg] padding)
 - [x] Card component (3 variants, 6 sub-parts, shadcn gap-6/py-6 spacing)
 - [x] Separator component (horizontal/vertical, decorative prop)
+- [x] Empty State component (5 sub-parts, media variant, shadcn structure)
 - [x] All components aligned div-for-div with shadcn structure
 - [x] bin/kiso CLI (`make component NAME` scaffolds all files)
 - [x] AI skills (usage + contributing)
@@ -48,7 +49,7 @@ Reference: `vendor/maquina_components/` (local checkout)
 
 ### What's Next
 
-**Batch 1 remaining:** Empty State, Header, Stats, Table, Pagination.
+**Batch 1 remaining:** Header, Stats, Table, Pagination.
 Then Batch 2 (form inputs).
 
 ## Phase 1: Maquina Parity
@@ -81,7 +82,7 @@ below exists in maquina_components.
 | Button | colored | done | 6 variants, smart tag, has-[>svg] padding |
 | Card | simple | done | 3 variants, 6 sub-parts (+ action sub-part) |
 | Separator | simple | done | Horizontal/vertical, decorative |
-| Empty State | simple | **next** | 5 sub-parts: header, media, title, description, content |
+| Empty State | simple | done | 5 sub-parts: header, media, title, description, content |
 | Header | simple | | Top nav bar wrapper |
 | Stats | simple | | Stats card + stats grid for dashboards |
 | Table | simple | | 7 sub-parts: header, body, footer, row, head, cell, caption |

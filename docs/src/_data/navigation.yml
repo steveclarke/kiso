@@ -14,5 +14,7 @@ docs:
         href: /components/button
       - title: Card
         href: /components/card
+      - title: Empty State
+        href: /components/empty_state
       - title: Separator
         href: /components/separator

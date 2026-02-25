@@ -1,0 +1,7 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::EmptyStateContent.render(class: css_classes),
+    data: { component: :empty_state, empty_state_part: :content },
+    **component_options do %>
+  <%= yield %>
+<% end %>

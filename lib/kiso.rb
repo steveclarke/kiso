@@ -8,6 +8,7 @@ require "kiso/themes/alert"
 require "kiso/themes/button"
 require "kiso/themes/card"
 require "kiso/themes/separator"
+require "kiso/themes/empty_state"
 
 module Kiso
 end
