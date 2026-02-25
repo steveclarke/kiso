@@ -2,3 +2,31 @@
    Component CSS files go here for transitions, animations, and pseudo-states
    that are awkward to express in ERB. Most styling lives in Ruby theme modules
    (lib/kiso/themes/) as computed Tailwind classes. */
+
+/* === Geist Font (by Vercel) ===
+   Self-hosted variable fonts — no CDN dependency.
+   Licensed under the SIL Open Font License (see OFL.txt).
+   Host apps can override --font-sans / --font-mono in their own @theme block. */
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/kiso/GeistVF.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/kiso/GeistMonoVF.woff2") format("woff2");
+}
+
+/* Set Geist as the default sans and mono fonts.
+   Host apps can override by redefining --font-sans / --font-mono. */
+@theme inline {
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
