@@ -1,20 +1,6 @@
 module Kiso
+  # @label Badge
   class BadgePreview < Lookbook::Preview
-    # @label Default
-    def default
-      render_with_template
-    end
-
-    # @label Variants
-    def variants
-      render_with_template
-    end
-
-    # @label Sizes
-    def sizes
-      render_with_template
-    end
-
     # @label Playground
     # @param variant select { choices: [default, primary, secondary, success, info, warning, error, outline] }
     # @param size select { choices: [sm, md, lg] }
@@ -25,6 +11,16 @@ module Kiso
         size: size.to_sym,
         text: text
       })
+    end
+
+    # @label Variants
+    def variants
+      render_with_template
+    end
+
+    # @label Sizes
+    def sizes
+      render_with_template
     end
   end
 end

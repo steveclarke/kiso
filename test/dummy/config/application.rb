@@ -15,5 +15,7 @@ module Dummy
     config.load_defaults 8.0
     config.eager_load = false
     config.secret_key_base = "test-secret-key-base-for-dummy-app"
+
+    config.lookbook.project_name = "Kiso"
   end
 end
