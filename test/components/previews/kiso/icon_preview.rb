@@ -3,12 +3,13 @@ module Kiso
   class IconPreview < Lookbook::Preview
     # @label Playground
     # @param name text "lucide:check"
-    # @param size select { choices: [xs, sm, md, lg, xl] }
+    # @param size select :md { choices: [xs, sm, md, lg, xl] }
     # @param css_class text ""
     def playground(name: "lucide:check", size: :md, css_class: "")
+      size_sym = size.to_s.strip.empty? ? :md : size.to_sym
       render_with_template(locals: {
         name: name,
-        size: size.to_sym,
+        size: size_sym,
         css_class: css_class
       })
     end

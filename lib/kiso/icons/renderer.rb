@@ -1,36 +1,24 @@
 # frozen_string_literal: true
 
-require "tailwind_merge"
-
 module Kiso
   module Icons
     class Renderer
-      SIZE_PRESETS = {
-        xs: "size-3",
-        sm: "size-4",
-        md: "size-5",
-        lg: "size-6",
-        xl: "size-8"
-      }.freeze
-
-      BASE_CLASSES = "shrink-0"
-
       class << self
-        def render(icon_data, size: nil, css_classes: "", **options)
+        def render(icon_data, css_class: nil, **options)
           body = icon_data[:body]
           width = icon_data[:width]
           height = icon_data[:height]
 
-          size_class = size ? SIZE_PRESETS.fetch(size, nil) : nil
-          merged_classes = merge_classes(BASE_CLASSES, size_class, css_classes)
-
           attrs = {
             "xmlns" => "http://www.w3.org/2000/svg",
             "viewBox" => "0 0 #{width} #{height}",
-            "class" => merged_classes,
+            "width" => "1em",
+            "height" => "1em",
             "aria-hidden" => "true",
             "fill" => "none"
           }
+
+          attrs["class"] = css_class if css_class && !css_class.empty?
 
           options.each do |key, value|
             if key == :data && value.is_a?(Hash)
@@ -58,19 +46,6 @@ module Kiso
         end
 
         private
-
-        def merge_classes(*parts)
-          combined = parts.reject { |p| p.nil? || p.empty? }.join(" ")
-          if defined?(TailwindMerge::Merger)
-            merger.merge(combined)
-          else
-            combined
-          end
-        end
-
-        def merger
-          @merger ||= TailwindMerge::Merger.new
-        end
 
         def escape_attr(value)
           value.to_s

@@ -6,6 +6,8 @@
 @source "../../../../components/previews";
 /* Scan Ruby theme files for computed class strings */
 @source "../../../../../lib/kiso/themes";
+/* Scan icon helper for Tailwind size preset classes */
+@source "../../../../../app/helpers";
 
 /* === Semantic Color Tokens ===
    Follows shadcn/Nuxt UI pattern: purpose-named tokens that flip in dark mode.
