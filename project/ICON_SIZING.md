@@ -51,6 +51,17 @@ slots: {
 }
 ```
 
+**Critically, Nuxt UI's Icon component outputs a plain SVG with no
+Tailwind classes at all:**
+
+```vue
+<!-- vendor/nuxt-ui/src/runtime/vue/components/Icon.vue -->
+<IconifyIcon v-if="typeof name === 'string'" :icon="name" />
+```
+
+The underlying `@iconify/vue` library renders the SVG with
+`width="1em" height="1em"` attributes — no CSS framework coupling.
+
 ### shadcn/ui (React — CSS child selectors)
 
 shadcn can't use slots (React doesn't have them), so it uses **Tailwind
@@ -110,6 +121,72 @@ size: {
 }
 ```
 
+## Two-Layer Architecture: Renderer vs Helper
+
+A key design decision: **the icon renderer and the Tailwind helper are
+separate layers.** This matters for gem extraction (see issue #20).
+
+### Layer 1: Renderer (framework-agnostic)
+
+`Kiso::Icons::Renderer` outputs a **raw SVG** with no CSS framework
+opinion, following the same approach as `@iconify/vue`:
+
+```ruby
+# lib/kiso/icons/renderer.rb
+attrs = {
+  "xmlns"       => "http://www.w3.org/2000/svg",
+  "viewBox"     => "0 0 #{width} #{height}",
+  "width"       => "1em",
+  "height"      => "1em",
+  "aria-hidden" => "true",
+  "fill"        => "none"
+}
+```
+
+Output:
+```html
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+     width="1em" height="1em" aria-hidden="true" fill="none">
+  <path d="..." stroke="currentColor" stroke-width="2"/>
+</svg>
+```
+
+The renderer accepts an optional `css_class:` passthrough but adds
+nothing itself. This keeps it usable in any Ruby project — Tailwind,
+Bootstrap, plain CSS, or no CSS at all.
+
+### Layer 2: `kiso_icon()` Helper (Tailwind-aware)
+
+`Kiso::IconHelper` is the Tailwind wrapper that lives in Kiso. It adds
+`shrink-0`, maps size presets to Tailwind classes, and uses TailwindMerge
+for class deduplication:
+
+```ruby
+# app/helpers/kiso/icon_helper.rb
+SIZE_PRESETS = {
+  xs: "size-3", sm: "size-4", md: "size-5",
+  lg: "size-6", xl: "size-8"
+}.freeze
+
+BASE_CLASSES = "shrink-0"
+```
+
+This separation means:
+- **Gem extraction**: the renderer moves to the standalone gem with zero
+  Tailwind dependency. No `@source` configuration needed in host apps.
+- **Kiso helper stays**: `kiso_icon()` wraps the gem's renderer and adds
+  the Tailwind layer, just like it does today.
+- **Non-Tailwind use**: anyone using the gem directly gets a plain SVG
+  and handles sizing however they want.
+
+### Why this matters for Tailwind content scanning
+
+Tailwind v4 uses `@source` directives to find class strings. If the
+renderer contained Tailwind classes (like `size-5`), host apps would need
+to add `@source` pointing into the gem's installed path — fragile and
+ugly. By keeping Tailwind classes in the helper (which lives in
+`app/helpers/`), they're in a standard location that apps already scan.
+
 ## The `kiso_icon()` Helper
 
 The `kiso_icon()` helper defaults to **no size class** so parent components
@@ -126,14 +203,14 @@ can control sizing:
 <%= kiso_icon("check", size: :md) %>
 ```
 
-**Output without size:**
+**Output without size (inside a component):**
 ```html
-<svg class="shrink-0" viewBox="0 0 24 24" ...>...</svg>
+<svg class="shrink-0" width="1em" height="1em" viewBox="0 0 24 24" ...>...</svg>
 ```
 
-**Output with size:**
+**Output with size (standalone):**
 ```html
-<svg class="shrink-0 size-5" viewBox="0 0 24 24" ...>...</svg>
+<svg class="shrink-0 size-5" width="1em" height="1em" viewBox="0 0 24 24" ...>...</svg>
 ```
 
 ### Size presets
@@ -184,3 +261,9 @@ to the icon's presence without any Ruby-level awareness. This gives us:
 | Kiso      | ERB yield      | CSS child selectors (same as shadcn) |
 
 All three: **parent owns icon sizing. Icon has no default size.**
+
+| Layer | What it does | Tailwind dependency |
+|-------|-------------|---------------------|
+| Renderer (`Kiso::Icons::Renderer`) | Raw SVG with `width="1em" height="1em"` | None |
+| Helper (`kiso_icon()`) | Adds `shrink-0`, size presets, TailwindMerge | Yes |
+| Parent theme (Button, Alert, etc.) | CSS child selectors for sizing | Yes |
