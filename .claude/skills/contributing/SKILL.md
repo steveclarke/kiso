@@ -29,8 +29,8 @@ without drift.**
    (clean, minimal layout and spacing). Nuxt UI is the theming source of truth
    (two-axis color × variant, semantic tokens, compound variant system). When
    in doubt about styling, check the Nuxt UI theme file at
-   `/Users/steve/src/vendor/nuxt-ui/src/theme/`. When in doubt about look and
-   feel, check shadcn at `/Users/steve/src/vendor/shadcn-ui/`.
+   `vendor/nuxt-ui/src/theme/`. When in doubt about look and
+   feel, check shadcn at `vendor/shadcn-ui/`.
 
 4. **Deterministic output.** Components should produce the same HTML structure
    regardless of who (or what) writes the template. This means: standardized
@@ -100,10 +100,10 @@ docs/
    Dependencies → Migration).
 2. Read `docs/DESIGN_SYSTEM.md` for the compound variant formulas.
 3. Read the Nuxt UI theme file for this component at
-   `/Users/steve/src/vendor/nuxt-ui/src/theme/{name}.ts` for slot structure
+   `vendor/nuxt-ui/src/theme/{name}.ts` for slot structure
    and variant patterns.
 4. Read the shadcn component for aesthetic reference at
-   `/Users/steve/src/vendor/shadcn-ui/apps/v4/registry/`.
+   `vendor/shadcn-ui/apps/v4/registry/`.
 
 ### Creation checklist
 

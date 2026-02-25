@@ -48,7 +48,7 @@ Two layers (CSS files only for transitions/pseudo-states):
   `text-muted-foreground` inside colored components (it's absolute zinc-500,
   unreadable on colored backgrounds).
 - **Nuxt UI is the theming source of truth** — when building a component,
-  check the Nuxt UI theme file (`/Users/steve/src/vendor/nuxt-ui/src/theme/`)
+  check the Nuxt UI theme file (`vendor/nuxt-ui/src/theme/`)
   for the canonical variant formulas and token usage. shadcn/ui is the
   aesthetic reference (layout, spacing, feel).
 - **`css_classes:` override** — single override point, merged via

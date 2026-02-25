@@ -143,7 +143,7 @@ New components not in maquina:
 
 ## Reference
 
-- shadcn source: `/Users/steve/src/vendor/shadcn-ui`
-- Nuxt UI source: `/Users/steve/src/vendor/nuxt-ui`
-- Lookbook source: `/Users/steve/src/vendor/lookbook`
+- shadcn source: `vendor/shadcn-ui` (git submodule)
+- Nuxt UI source: `vendor/nuxt-ui` (git submodule)
+- Lookbook source: https://github.com/ViewComponent/lookbook
 - Maquina components: check Ninjanizr's Gemfile for the repo location

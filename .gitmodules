@@ -1,0 +1,6 @@
+[submodule "vendor/shadcn-ui"]
+	path = vendor/shadcn-ui
+	url = git@github.com:shadcn-ui/ui.git
+[submodule "vendor/nuxt-ui"]
+	path = vendor/nuxt-ui
+	url = git@github.com:nuxt/ui.git
