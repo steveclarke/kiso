@@ -30,14 +30,15 @@ end
 
 ## Colored Component (Compound Variants)
 
-For components with `color:` + `variant:` axes:
+For components with `color:` + `variant:` axes. **All colored components use
+the same compound variant formulas.** See `docs/DESIGN_SYSTEM.md` for the
+authoritative reference.
 
 ```ruby
-# lib/kiso/themes/badge.rb
 module Kiso
   module Themes
-    Badge = ClassVariants.build(
-      base: "inline-flex items-center font-medium transition-colors",
+    MyComponent = ClassVariants.build(
+      base: "...",  # Only base/layout classes change per component
       variants: {
         variant: {
           solid: "",
@@ -45,26 +46,23 @@ module Kiso
           soft: "",
           subtle: "ring ring-inset"
         },
-        size: {
-          sm: "px-1.5 py-0.5 text-[10px]/3 rounded-sm gap-0.5",
-          md: "px-2 py-0.5 text-xs rounded-md gap-1",
-          lg: "px-2.5 py-1 text-sm rounded-md gap-1"
-        },
-        color: Kiso::Themes::COLORS.index_with { "" }
+        color: COLORS.index_with { "" }
       },
       compound_variants: [
+        # Colored: same formula for every component
         { color: :primary, variant: :solid, class: "bg-primary text-primary-foreground" },
         { color: :primary, variant: :outline, class: "text-primary ring-primary/50" },
         { color: :primary, variant: :soft, class: "bg-primary/10 text-primary" },
         { color: :primary, variant: :subtle, class: "bg-primary/10 text-primary ring-primary/25" },
-        # ... repeat for each color
-        # Neutral has special values:
-        { color: :neutral, variant: :solid, class: "bg-inverted text-inverted" },
-        { color: :neutral, variant: :outline, class: "ring-accented text-foreground bg-background" },
-        { color: :neutral, variant: :soft, class: "text-foreground bg-muted" },
-        { color: :neutral, variant: :subtle, class: "ring-accented text-foreground bg-muted" },
+        # ... repeat for secondary, success, info, warning, error
+
+        # Neutral: special tokens
+        { color: :neutral, variant: :solid, class: "bg-inverted text-inverted-foreground" },
+        { color: :neutral, variant: :outline, class: "text-foreground bg-background ring-accented" },
+        { color: :neutral, variant: :soft, class: "text-foreground bg-elevated" },
+        { color: :neutral, variant: :subtle, class: "text-foreground bg-elevated ring-accented" },
       ],
-      defaults: { color: :primary, variant: :soft, size: :md }
+      defaults: { color: :primary, variant: :soft }
     )
   end
 end
@@ -80,39 +78,44 @@ Kiso::Themes::COLORS = %i[primary secondary success info warning error neutral].
 
 ## Compound Variant Patterns
 
-For each color, the four variant styles follow this pattern:
+These are **identical across all colored components**. No per-component deviations.
 
 | Variant | Colored | Neutral |
 |---|---|---|
-| solid | `bg-{color} text-{color}-foreground` | `bg-inverted text-inverted` |
-| outline | `text-{color} ring-{color}/50` | `ring-accented text-foreground bg-background` |
-| soft | `bg-{color}/10 text-{color}` | `text-foreground bg-muted` |
-| subtle | `bg-{color}/10 text-{color} ring-{color}/25` | `ring-accented text-foreground bg-muted` |
+| solid | `bg-{color} text-{color}-foreground` | `bg-inverted text-inverted-foreground` |
+| outline | `text-{color} ring-{color}/50` | `text-foreground bg-background ring-accented` |
+| soft | `bg-{color}/10 text-{color}` | `text-foreground bg-elevated` |
+| subtle | `bg-{color}/10 text-{color} ring-{color}/25` | `text-foreground bg-elevated ring-accented` |
+
+`ring ring-inset` is on the variant axis (outline, subtle) — not repeated in compounds.
 
 ## Semantic Colors
 
 Always use semantic tokens, never Tailwind palette colors:
 
 ### Text
-- `text-foreground` — body text
-- `text-muted-foreground` — secondary text
-- `text-inverted` — text on inverted backgrounds
+- `text-foreground` — primary text
+- `text-muted-foreground` — secondary text (outside colored components)
+- `text-inverted-foreground` — text on inverted backgrounds
 - `text-{color}` — colored text (primary, success, etc.)
 - `text-{color}-foreground` — text on colored backgrounds
 
 ### Background
 - `bg-background` — page background
-- `bg-muted` — subtle sections
-- `bg-elevated` — cards, modals
-- `bg-inverted` — inverted sections
-- `bg-{color}` — colored backgrounds
-- `bg-{color}/10` — light tinted backgrounds
+- `bg-elevated` — cards, raised surfaces, neutral soft/subtle
+- `bg-inverted` — dark surfaces (neutral solid)
+- `bg-{color}` — colored backgrounds (solid variant)
+- `bg-{color}/10` — tinted backgrounds (soft/subtle variants)
 
 ### Border / Ring
-- `border-border` — default borders
-- `ring-accented` — accented rings
-- `ring-{color}/50` — colored rings with opacity
-- `ring-{color}/25` — subtle colored rings
+- `ring-accented` — neutral outline/subtle ring color
+- `ring-{color}/50` — colored outline ring (50% opacity)
+- `ring-{color}/25` — colored subtle ring (25% opacity)
+- `border-border` — default borders (tables, separators)
+
+### Description text
+- Use `opacity-90` for secondary text inside colored components (inherits parent color)
+- Use `text-muted-foreground` only outside colored components (absolute zinc-500)
 
 ## Using the Theme in ERB
 

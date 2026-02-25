@@ -43,6 +43,7 @@
   --color-accent-foreground: var(--color-zinc-900);
 
   --color-inverted: var(--color-zinc-900);
+  --color-inverted-foreground: white;
   --color-elevated: var(--color-zinc-100);
   --color-accented: var(--color-zinc-300);
 
@@ -84,6 +85,7 @@
   --color-accent-foreground: var(--color-zinc-50);
 
   --color-inverted: white;
+  --color-inverted-foreground: var(--color-zinc-950);
   --color-elevated: var(--color-zinc-800);
   --color-accented: var(--color-zinc-700);
 

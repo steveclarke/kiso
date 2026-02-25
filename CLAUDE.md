@@ -10,8 +10,11 @@ Stimulus.
 
 - `PLAN.md` — **read first**. Current status, what's done, what to build next,
   priority-ordered component list with batches.
-- `docs/COMPONENT_STRATEGY.md` — **read before building any component**. Covers
-  class_variants patterns, compound variants, theming, override system, dark mode.
+- `docs/DESIGN_SYSTEM.md` — **read before building any component**. Strict
+  compound variant formulas, semantic token table, Nuxt UI token mapping.
+  Every colored component uses identical formulas — no exceptions.
+- `docs/COMPONENT_STRATEGY.md` — class_variants patterns, compound variants,
+  theming, override system, dark mode.
 - `.claude/skills/contributing/SKILL.md` — component creation workflow and checklist
 - `skills/kiso/` — AI skill with component reference (update when adding components)
 - `VISION.md` — full roadmap, component catalog, phased rollout

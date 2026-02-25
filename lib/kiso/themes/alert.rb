@@ -1,22 +1,13 @@
 module Kiso
   module Themes
-    COLORS = %i[primary secondary success info warning error neutral].freeze
-
-    Badge = ClassVariants.build(
-      base: "inline-flex items-center font-medium transition-colors",
+    Alert = ClassVariants.build(
+      base: "relative w-full rounded-lg p-4 flex gap-2.5 text-sm",
       variants: {
         variant: {
           solid: "",
           outline: "ring ring-inset",
           soft: "",
           subtle: "ring ring-inset"
-        },
-        size: {
-          xs: "px-1 py-0.5 text-[8px]/3 rounded-sm gap-0.5",
-          sm: "px-1.5 py-0.5 text-[10px]/3 rounded-sm gap-0.5",
-          md: "px-2 py-0.5 text-xs rounded-md gap-1",
-          lg: "px-2.5 py-1 text-sm rounded-md gap-1",
-          xl: "px-2.5 py-1 text-base rounded-md gap-1.5"
         },
         color: COLORS.index_with { "" }
       },
@@ -57,7 +48,15 @@ module Kiso
         { color: :error, variant: :subtle, class: "bg-error/10 text-error ring-error/25" },
         { color: :neutral, variant: :subtle, class: "text-foreground bg-elevated ring-accented" }
       ],
-      defaults: { color: :primary, variant: :soft, size: :md }
+      defaults: { color: :primary, variant: :soft }
+    )
+
+    AlertTitle = ClassVariants.build(
+      base: "font-medium leading-snug"
+    )
+
+    AlertDescription = ClassVariants.build(
+      base: "opacity-90 [&_p]:leading-relaxed"
     )
   end
 end

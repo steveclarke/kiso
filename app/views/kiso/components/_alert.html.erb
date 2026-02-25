@@ -1,0 +1,8 @@
+<%# locals: (color: :primary, variant: :soft, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    role: :alert,
+    class: Kiso::Themes::Alert.render(color: color, variant: variant, class: css_classes),
+    data: { component: :alert },
+    **component_options do %>
+  <%= yield %>
+<% end %>
