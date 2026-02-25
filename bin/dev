@@ -1,10 +1,18 @@
-#!/usr/bin/env sh
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROCFILE="Procfile.dev"
 
 if ! command -v overmind > /dev/null 2>&1; then
-  echo "Error: overmind is not installed."
-  echo "Install with: brew install overmind"
+  echo "Error: overmind is not installed. Run bin/setup to install."
   exit 1
 fi
 
-exec overmind start -f Procfile.dev -D "$@"
+case "${1:-start}" in
+  stop)
+    exec overmind quit -f "$PROCFILE"
+    ;;
+  *)
+    exec overmind start -f "$PROCFILE" "$@"
+    ;;
+esac
