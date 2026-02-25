@@ -60,7 +60,7 @@ The repo includes a minimal Rails dummy app for running components in the
 browser via [Lookbook](https://lookbook.build).
 
 ```bash
-git clone https://github.com/steveclarke/kiso.git
+git clone --recurse-submodules https://github.com/steveclarke/kiso.git
 cd kiso
 bundle install
 cd test/dummy
@@ -70,6 +70,26 @@ bin/dev
 This starts the Rails server on **port 4000** and a Tailwind CSS watcher.
 Open [http://localhost:4000/lookbook](http://localhost:4000/lookbook) to browse
 component previews.
+
+If you already cloned without `--recurse-submodules`, run `bin/vendor init` to
+fetch the reference repos. Use `bin/vendor update` to pull latest upstream.
+
+### Vendor Submodules
+
+The `vendor/` directory contains git submodules for the two reference libraries
+that Kiso draws from:
+
+- **`vendor/shadcn-ui`** — aesthetic reference (layout, spacing, feel)
+- **`vendor/nuxt-ui`** — theming source of truth (compound variants, semantic tokens)
+
+Manage them with `bin/vendor`:
+
+```bash
+bin/vendor init      # fetch submodules after clone
+bin/vendor update    # pull latest from upstream
+bin/vendor status    # show current commits
+bin/vendor reset     # discard local changes
+```
 
 ### Key Paths
 

@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+usage() {
+  cat <<HELP
+Usage: bin/vendor <command>
+
+Manage vendor submodules (shadcn-ui, nuxt-ui).
+
+Commands:
+  init      Clone submodules (first time after git clone)
+  update    Pull latest from upstream for all submodules
+  status    Show current submodule commits and dirty state
+  reset     Discard local submodule changes and re-checkout
+  remove    Deinit and remove all vendor submodules
+
+Examples:
+  bin/vendor init          # after: git clone kiso (without --recurse-submodules)
+  bin/vendor update        # pull latest shadcn-ui and nuxt-ui
+  bin/vendor status        # check what commit each submodule is on
+HELP
+}
+
+cmd_init() {
+  echo "Initializing vendor submodules..."
+  git submodule update --init --recursive
+  echo "Done. Submodules ready at vendor/"
+}
+
+cmd_update() {
+  echo "Updating vendor submodules to latest upstream..."
+  git submodule update --remote --merge
+  git submodule status
+  echo ""
+  echo "Submodules updated. Review with: git diff --submodule"
+}
+
+cmd_status() {
+  git submodule status
+}
+
+cmd_reset() {
+  echo "Resetting vendor submodules to committed state..."
+  git submodule deinit --force vendor/shadcn-ui vendor/nuxt-ui
+  git submodule update --init
+  echo "Done."
+}
+
+cmd_remove() {
+  echo "Removing all vendor submodules..."
+  git submodule deinit --force vendor/shadcn-ui vendor/nuxt-ui
+  git rm -f vendor/shadcn-ui vendor/nuxt-ui
+  rm -rf .git/modules/vendor
+  echo "Done. Commit the changes to finalize removal."
+}
+
+case "${1:-}" in
+  init)   cmd_init ;;
+  update) cmd_update ;;
+  status) cmd_status ;;
+  reset)  cmd_reset ;;
+  remove) cmd_remove ;;
+  -h|--help|help|"") usage ;;
+  *)
+    echo "Unknown command: $1" >&2
+    usage >&2
+    exit 1
+    ;;
+esac
