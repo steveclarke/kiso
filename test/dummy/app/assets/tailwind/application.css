@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+/* Scan engine component partials for Tailwind class usage */
+@source "../../../../../app/views";
+/* Scan Lookbook preview templates */
+@source "../../../../components/previews";
+/* Scan Ruby theme files for computed class strings */
+@source "../../../../../lib/kiso/themes";
+
+/* === Semantic Color Tokens ===
+   Follows shadcn/Nuxt UI pattern: purpose-named tokens that flip in dark mode.
+   Components use bg-primary, text-foreground, etc. — never raw palette shades.
+   Change brand color: swap blue → orange on the primary lines. */
+
+@theme inline {
+  /* Brand / action colors — single shade per purpose */
+  --color-primary: var(--color-blue-600);
+  --color-primary-foreground: white;
+
+  --color-secondary: var(--color-teal-600);
+  --color-secondary-foreground: white;
+
+  --color-success: var(--color-green-600);
+  --color-success-foreground: white;
+
+  --color-info: var(--color-sky-600);
+  --color-info-foreground: white;
+
+  --color-warning: var(--color-amber-500);
+  --color-warning-foreground: var(--color-amber-950);
+
+  --color-error: var(--color-red-600);
+  --color-error-foreground: white;
+
+  /* Surface tokens */
+  --color-background: white;
+  --color-foreground: var(--color-zinc-950);
+
+  --color-muted: var(--color-zinc-100);
+  --color-muted-foreground: var(--color-zinc-500);
+
+  --color-accent: var(--color-zinc-100);
+  --color-accent-foreground: var(--color-zinc-900);
+
+  --color-inverted: var(--color-zinc-900);
+  --color-elevated: var(--color-zinc-100);
+  --color-accented: var(--color-zinc-300);
+
+  --color-border: var(--color-zinc-200);
+  --color-border-accented: var(--color-zinc-300);
+
+  --color-ring: var(--color-blue-600);
+}
+
+/* === Dark Mode ===
+   Redefine tokens — components never use dark: prefixes */
+
+.dark {
+  --color-primary: var(--color-blue-400);
+  --color-primary-foreground: var(--color-zinc-950);
+
+  --color-secondary: var(--color-teal-400);
+  --color-secondary-foreground: var(--color-zinc-950);
+
+  --color-success: var(--color-green-400);
+  --color-success-foreground: var(--color-zinc-950);
+
+  --color-info: var(--color-sky-400);
+  --color-info-foreground: var(--color-zinc-950);
+
+  --color-warning: var(--color-amber-400);
+  --color-warning-foreground: var(--color-zinc-950);
+
+  --color-error: var(--color-red-400);
+  --color-error-foreground: var(--color-zinc-950);
+
+  --color-background: var(--color-zinc-950);
+  --color-foreground: var(--color-zinc-50);
+
+  --color-muted: var(--color-zinc-800);
+  --color-muted-foreground: var(--color-zinc-400);
+
+  --color-accent: var(--color-zinc-800);
+  --color-accent-foreground: var(--color-zinc-50);
+
+  --color-inverted: white;
+  --color-elevated: var(--color-zinc-800);
+  --color-accented: var(--color-zinc-700);
+
+  --color-border: var(--color-zinc-800);
+  --color-border-accented: var(--color-zinc-700);
+
+  --color-ring: var(--color-blue-400);
+}

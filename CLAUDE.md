@@ -3,63 +3,96 @@
 ## Project Overview
 
 **Kiso** (Japanese: foundation) — a Rails engine gem providing UI components
-inspired by shadcn/ui. ERB partials, Tailwind CSS, progressive Stimulus.
+inspired by shadcn/ui and Nuxt UI. ERB partials, Tailwind CSS, progressive
+Stimulus.
+
+## Key References
+
+- `PLAN.md` — **read first**. Current status, what's done, what to build next,
+  priority-ordered component list with batches.
+- `docs/COMPONENT_STRATEGY.md` — **read before building any component**. Covers
+  class_variants patterns, compound variants, theming, override system, dark mode.
+- `.claude/skills/contributing/SKILL.md` — component creation workflow and checklist
+- `skills/kiso/` — AI skill with component reference (update when adding components)
+- `VISION.md` — full roadmap, component catalog, phased rollout
 
 ## Architecture
 
-Three layers:
-1. **ERB Partials** — strict locals, composition via `yield` and sub-parts
-2. **CSS** — `data-component` / `data-variant` attribute selectors, thin files
-3. **Stimulus Controllers** — only where native HTML5 falls short
+Two layers (CSS files only for transitions/pseudo-states):
+1. **Ruby Theme Modules** (`lib/kiso/themes/`) — variant definitions using
+   `class_variants` + `tailwind_merge`. This is where component styles live.
+2. **ERB Partials** (`app/views/kiso/components/`) — strict locals, computed
+   class strings from theme modules, composition via `yield` and sub-parts.
 
 ## Key Conventions
 
-- **Tailwind classes in ERB**, not `@apply` in CSS. Only use `@apply` for
-  variant selectors, pseudo-states, or things you can't express in markup.
-- **Theme uses semantic tokens (Nuxt UI style)** — palette aliases
-  (`primary` → `blue`) for brand colors, surface tokens (`bg-elevated`,
-  `text-muted`, `border-accented`) that flip in dark mode automatically.
-  Components never use `dark:` for surface colors, text, or borders.
-- **Data attributes are the API** — `data-component="button"`,
-  `data-variant="primary"`, `data-size="sm"`, `data-*-part="header"`.
+- **Computed Tailwind classes in ERB** — theme modules define variant class
+  strings, partials render them. No `@apply` in CSS. CSS files only for
+  transitions, animations, pseudo-states that ERB can't express.
+- **Two-axis variants (Nuxt UI pattern)** — components with colors use
+  `color:` + `variant:` axes with compound variants. Colors: primary,
+  secondary, success, info, warning, error, neutral. Variants: solid,
+  outline, soft, subtle.
+- **Semantic tokens** — `bg-primary`, `text-foreground`, `bg-muted`, etc.
+  Components never use raw palette shades or `dark:` prefixes.
+- **Foreground pairing** — every color has a `-foreground` companion.
+  `bg-primary text-primary-foreground` is always accessible.
+- **`css_classes:` override** — single override point, merged via
+  tailwind_merge. Conflicting classes are resolved automatically.
+- **Data attributes for identity, not styling** — `data-component="badge"`
+  for testing, Stimulus, debugging. NOT for CSS selectors.
 - **Native HTML5 first** — `<dialog>`, `[popover]`, `<details>`, `<progress>`
   before reaching for Stimulus.
 - **Composition over configuration** — Card = Header + Title + Content + Footer.
   Small partials, flexibly combined.
-- **Strict locals on every partial** — `<%# locals: (variant: :default) %>`
+- **Strict locals on every partial** — `<%# locals: (color: :primary) %>`
 
 ## Component Pattern
 
+```ruby
+# lib/kiso/themes/badge.rb — variant definitions
+Kiso::Themes::Badge = ClassVariants.build(
+  base: "inline-flex items-center rounded-md font-medium",
+  variants: { ... },
+  compound_variants: [ ... ],
+  defaults: { color: :primary, variant: :soft, size: :md }
+)
+```
+
 ```erb
-<%# locals: (variant: :default, size: :md, css_classes: "", **component_options) %>
-<%= component_tag :span, :badge, variant:, size:, class: css_classes,
+<%# app/views/kiso/components/_badge.html.erb %>
+<%# locals: (color: :primary, variant: :soft, size: :md, css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::Badge.render(color: color, variant: variant, size: size, class: css_classes),
+    data: { component: :badge },
     **component_options do %>
   <%= yield %>
 <% end %>
 ```
 
-`component_tag` (in `Kiso::ComponentHelper`) wraps `content_tag` — it sets
-`data-component`, `data-variant`, `data-size`, merges caller `data:`, and
-compacts nils. Sub-parts use `part:` → `data-card-part="header"`.
-
 ## File Structure
 
 ```
-app/views/kiso/components/  ERB partials (namespaced, rendered via kiso() helper)
-app/assets/stylesheets/   Component CSS (thin, variant selectors only)
-app/javascript/controllers/kiso/  Stimulus controllers (namespaced)
-app/helpers/kiso/         Builder helpers
-lib/kiso/                 Engine, version
+lib/kiso/themes/           Ruby theme modules (ClassVariants definitions)
+app/views/kiso/components/ ERB partials (rendered via kiso() helper)
+app/assets/stylesheets/    Component CSS (thin — transitions/pseudo-states only)
+app/helpers/kiso/          component_tag, kiso() helpers
+test/components/previews/  Lookbook preview classes + templates
+test/dummy/                Development Rails app (bin/dev → port 4000)
+skills/kiso/               AI skill (component reference, theming guide)
+docs/                      Architecture docs (COMPONENT_STRATEGY.md)
 ```
 
 ## Dependencies
 
 - Rails >= 8.0
 - tailwindcss-rails (host app owns the Tailwind build)
-- importmap-rails (for Stimulus controllers)
+- class_variants ~> 1.1 (variant definitions, Ruby cva equivalent)
+- tailwind_merge ~> 1.0 (class deduplication)
 
 ## Commands
 
 ```bash
-bundle exec rake test    # Run tests (when we have them)
+cd test/dummy && bin/dev   # Start dev server + Tailwind watcher (port 4000)
+bundle exec rake test      # Run tests
 ```

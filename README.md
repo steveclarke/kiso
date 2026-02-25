@@ -12,9 +12,9 @@ Stimulus controllers only where native HTML falls short.
 ## Architecture
 
 ```
-1. ERB Partials          <%= render "components/card" %>
+1. ERB Partials          <%= kiso(:card) { ... } %>
 2. CSS (data-attributes)  [data-component="card"] { ... }
-3. Stimulus Controllers   data-controller="combobox" (only when needed)
+3. Stimulus Controllers   data-controller="kiso--combobox" (only when needed)
 ```
 
 - **ERB partials** with strict locals. Compose through `yield` and sub-part
@@ -36,7 +36,7 @@ bundle install
 bin/rails generate kiso:install
 ```
 
-### Local Development
+### Local Development (Host App)
 
 If you're working on Kiso alongside a host app, point the Gemfile at the git
 repo and use Bundler's local override to resolve from disk:
@@ -54,6 +54,57 @@ bundle config set local.kiso ~/src/kiso
 Bundler resolves from your local checkout. Edit kiso on disk, changes are
 picked up immediately. Deploy works because it fetches from GitHub.
 
+## Developing Kiso
+
+The repo includes a minimal Rails dummy app for running components in the
+browser via [Lookbook](https://lookbook.build).
+
+```bash
+git clone https://github.com/steveclarke/kiso.git
+cd kiso
+bundle install
+cd test/dummy
+bin/dev
+```
+
+This starts the Rails server on **port 4000** and a Tailwind CSS watcher.
+Open [http://localhost:4000/lookbook](http://localhost:4000/lookbook) to browse
+component previews.
+
+### Key Paths
+
+| Path | Purpose |
+|------|---------|
+| `app/views/kiso/components/` | ERB partials |
+| `app/assets/stylesheets/kiso/` | Component CSS (data-attribute selectors) |
+| `app/helpers/kiso/` | `component_tag`, `kiso()` helpers |
+| `app/assets/tailwind/kiso/engine.css` | Master CSS import for host apps |
+| `test/components/previews/` | Lookbook preview classes + templates |
+| `test/dummy/app/assets/tailwind/application.css` | Theme tokens (palettes + surface colors) |
+
+## Usage
+
+Render components with the `kiso()` helper:
+
+```erb
+<%= kiso(:badge, variant: :primary) { "Active" } %>
+
+<%= kiso(:card) do %>
+  <%= kiso(:card, :header) do %>
+    <%= kiso(:card, :title, text: "Members") %>
+  <% end %>
+  <%= kiso(:card, :content) do %>
+    ...
+  <% end %>
+<% end %>
+```
+
+CSS-only components work with data attributes directly:
+
+```erb
+<%= f.submit "Save", data: { component: "button", variant: "primary" } %>
+```
+
 ## Design Principles
 
 1. **Native first.** `<dialog>`, `[popover]`, `<details>`, `<progress>` before JavaScript.
@@ -62,7 +113,7 @@ picked up immediately. Deploy works because it fetches from GitHub.
 4. **ERB is enough.** Strict locals, `yield` for slots, `content_tag` for merging.
 5. **Tailwind classes first.** Utilities in ERB markup. `@apply` only where you can't — variant selectors, pseudo-states.
 6. **One CSS file per component.** Thin files for what ERB can't express. Most styling is in the partials.
-7. **Theme via Tailwind palettes.** Semantic tokens point to Tailwind colors. Change your brand by swapping one palette name.
+7. **Theme via semantic tokens.** Palette aliases (primary → blue) + surface tokens (bg-elevated, text-muted) that flip automatically in dark mode.
 8. **Turbo-compatible by default.** Works inside Turbo Frames and Streams.
 9. **Stimulus as enhancement.** Remove the controller; the component still renders.
 
