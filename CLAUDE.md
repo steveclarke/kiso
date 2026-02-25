@@ -35,11 +35,22 @@ Two layers (CSS files only for transitions/pseudo-states):
 - **Two-axis variants (Nuxt UI pattern)** — components with colors use
   `color:` + `variant:` axes with compound variants. Colors: primary,
   secondary, success, info, warning, error, neutral. Variants: solid,
-  outline, soft, subtle.
+  outline, soft, subtle. **Compound variant formulas are identical across
+  all colored components** — copy from an existing component (Badge), never
+  invent new formulas. See `docs/DESIGN_SYSTEM.md`.
 - **Semantic tokens** — `bg-primary`, `text-foreground`, `bg-muted`, etc.
   Components never use raw palette shades or `dark:` prefixes.
 - **Foreground pairing** — every color has a `-foreground` companion.
-  `bg-primary text-primary-foreground` is always accessible.
+  `bg-primary text-primary-foreground` is always accessible. This includes
+  `inverted` → `inverted-foreground`.
+- **`opacity-90` for secondary text inside colored components** — description
+  text inherits the parent color at 90% opacity. Never use
+  `text-muted-foreground` inside colored components (it's absolute zinc-500,
+  unreadable on colored backgrounds).
+- **Nuxt UI is the theming source of truth** — when building a component,
+  check the Nuxt UI theme file (`/Users/steve/src/vendor/nuxt-ui/src/theme/`)
+  for the canonical variant formulas and token usage. shadcn/ui is the
+  aesthetic reference (layout, spacing, feel).
 - **`css_classes:` override** — single override point, merged via
   tailwind_merge. Conflicting classes are resolved automatically.
 - **Data attributes for identity, not styling** — `data-component="badge"`
@@ -101,9 +112,14 @@ docs/                      Architecture docs (COMPONENT_STRATEGY.md)
 - **Do not stop/restart the user's dev server.** If changes need a restart,
   tell the user.
 
+## Linting
+
+- **standardrb** — run `bundle exec standardrb --fix` before committing.
+
 ## Commands
 
 ```bash
 cd test/dummy && bin/dev   # Start dev server + Tailwind watcher (port 4000)
 bundle exec rake test      # Run tests
+bundle exec standardrb --fix  # Lint & auto-format Ruby
 ```

@@ -358,11 +358,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
 
   def sizes_template
     sizes = %w[sm md lg]
-    if @colored
-      lines = sizes.map { |s| "  <%%= kiso(:#{@name}, size: :#{s}) { \"#{s.capitalize}\" } %>" }
-    else
-      lines = sizes.map { |s| "  <%%= kiso(:#{@name}, size: :#{s}) { \"#{s.capitalize}\" } %>" }
-    end
+    lines = sizes.map { |s| "  <%%= kiso(:#{@name}, size: :#{s}) { \"#{s.capitalize}\" } %>" }
 
     <<~ERB
       <div class="flex gap-4 items-center p-8">
