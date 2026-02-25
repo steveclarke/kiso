@@ -14,11 +14,12 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = spec.homepage
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,data,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
   spec.add_dependency "rails", ">= 8.0"
   spec.add_dependency "tailwindcss-rails"
   spec.add_dependency "class_variants", "~> 1.1"
   spec.add_dependency "tailwind_merge", "~> 1.0"
+  spec.add_dependency "kiso-icons"
 end

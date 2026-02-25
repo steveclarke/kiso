@@ -14,7 +14,7 @@ module Kiso
 
     BASE_CLASSES = "shrink-0"
 
-    # Renders an inline SVG icon from Iconify icon sets.
+    # Renders an inline SVG icon with Tailwind classes.
     #
     #   kiso_icon("lucide:check")
     #   kiso_icon("check")                          # uses default set (lucide)
@@ -28,20 +28,10 @@ module Kiso
     #
     def kiso_icon(name, size: nil, **options)
       css_classes = options.delete(:class) || ""
-
-      icon_data = Kiso::Icons.resolve(name.to_s)
-
-      unless icon_data
-        if defined?(Rails) && Rails.env.development?
-          return "<!-- Kiso::Icons: '#{ERB::Util.html_escape(name)}' not found -->".html_safe
-        end
-        return "".html_safe
-      end
-
       size_class = size ? SIZE_PRESETS.fetch(size, nil) : nil
       merged = merge_icon_classes(BASE_CLASSES, size_class, css_classes)
 
-      Kiso::Icons::Renderer.render(icon_data, css_class: merged, **options)
+      kiso_icon_tag(name, class: merged, **options)
     end
 
     private

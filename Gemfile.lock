@@ -1,8 +1,17 @@
 PATH
+  remote: ../kiso-icons
+  specs:
+    kiso-icons (0.1.0)
+      actionpack (>= 8.0)
+      activesupport (>= 8.0)
+      railties (>= 8.0)
+
+PATH
   remote: .
   specs:
     kiso (0.1.0)
       class_variants (~> 1.1)
+      kiso-icons
       rails (>= 8.0)
       tailwind_merge (~> 1.0)
       tailwindcss-rails
@@ -296,6 +305,7 @@ PLATFORMS
 
 DEPENDENCIES
   kiso!
+  kiso-icons!
   listen
   lookbook (>= 2.3)
   propshaft
@@ -338,6 +348,7 @@ CHECKSUMS
   irb (1.17.0) sha256=168c4ddb93d8a361a045c41d92b2952c7a118fa73f23fe14e55609eb7a863aae
   json (2.18.1) sha256=fe112755501b8d0466b5ada6cf50c8c3f41e897fa128ac5d263ec09eedc9f986
   kiso (0.1.0)
+  kiso-icons (0.1.0)
   language_server-protocol (3.17.0.5) sha256=fd1e39a51a28bf3eec959379985a72e296e9f9acfce46f6a79d31ca8760803cc
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   listen (3.10.0) sha256=c6e182db62143aeccc2e1960033bebe7445309c7272061979bb098d03760c9d2
