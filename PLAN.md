@@ -48,8 +48,8 @@ Reference: `vendor/maquina_components/` (local checkout)
 
 ### What's Next
 
-**Batch 1 remaining:** Label, Empty State, Header, Stats. Then Batch 2
-(form inputs).
+**Batch 1 remaining:** Empty State, Header, Stats, Table, Pagination.
+Then Batch 2 (form inputs).
 
 ## Phase 1: Maquina Parity
 
@@ -81,8 +81,7 @@ below exists in maquina_components.
 | Button | colored | done | 6 variants, smart tag, has-[>svg] padding |
 | Card | simple | done | 3 variants, 6 sub-parts (+ action sub-part) |
 | Separator | simple | done | Horizontal/vertical, decorative |
-| Label | simple | **next** | Form field label, required indicator |
-| Empty State | simple | | 5 sub-parts: header, media, title, description, content |
+| Empty State | simple | **next** | 5 sub-parts: header, media, title, description, content |
 | Header | simple | | Top nav bar wrapper |
 | Stats | simple | | Stats card + stats grid for dashboards |
 | Table | simple | | 7 sub-parts: header, body, footer, row, head, cell, caption |
@@ -94,6 +93,7 @@ Kiso will use `kiso(:input)` partials with class_variants themes.
 
 | Component | Type | Maquina Notes |
 |-----------|------|---------------|
+| Label | simple | Form field label, required indicator |
 | Input | simple | Text input styling |
 | Textarea | simple | Text area styling |
 | Select | simple | Native select styling |
