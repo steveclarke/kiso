@@ -23,7 +23,7 @@ without drift.**
 2. **Identical compound variant formulas across all colored components.** Badge,
    Alert, Button — same 28 compound variants. Only base/layout classes change.
    Copy from an existing component, never invent new formulas. See
-   `docs/DESIGN_SYSTEM.md`.
+   `project/DESIGN_SYSTEM.md`.
 
 3. **shadcn aesthetic, Nuxt UI theming.** shadcn/ui is the visual reference
    (clean, minimal layout and spacing). Nuxt UI is the theming source of truth
@@ -57,12 +57,12 @@ without drift.**
   actions, close) — agents pass data, component handles layout
 - `opacity-90` for description text (relative to parent, not absolute)
 - Foreground pairing convention (every color has `-foreground`)
-- Nuxt UI token mapping (see `docs/DESIGN_SYSTEM.md`)
+- Nuxt UI token mapping (see `project/DESIGN_SYSTEM.md`)
 
 ## Mandatory reading before building any component
 
-1. `docs/DESIGN_SYSTEM.md` — compound variant formulas, token table, rules
-2. `docs/components/COMPONENT.md` — vision doc for the specific component
+1. `project/DESIGN_SYSTEM.md` — compound variant formulas, token table, rules
+2. `project/components/COMPONENT.md` — vision doc for the specific component
    (if it exists)
 3. An existing component (Badge or Alert) — copy the exact compound variant
    block, only change the base classes
@@ -85,20 +85,21 @@ test/
 ├── components/previews/kiso/  # Lookbook previews + templates
 └── dummy/                     # Development Rails app
 skills/kiso/                   # AI skill (update when adding components)
-docs/
+project/
 ├── DESIGN_SYSTEM.md           # Strict compound variant rules + token map
 ├── COMPONENT_STRATEGY.md      # Architecture, recipes, patterns
 └── components/                # Per-component vision docs
+docs/                          # Bridgetown docs site (published documentation)
 ```
 
 ## Component creation workflow
 
 ### Before writing code
 
-1. Check if a vision doc exists at `docs/components/COMPONENT.md`. If not,
+1. Check if a vision doc exists at `project/components/COMPONENT.md`. If not,
    create one following the Badge/Alert pattern (Current API → Target API →
    Dependencies → Migration).
-2. Read `docs/DESIGN_SYSTEM.md` for the compound variant formulas.
+2. Read `project/DESIGN_SYSTEM.md` for the compound variant formulas.
 3. Read the Nuxt UI theme file for this component at
    `vendor/nuxt-ui/src/theme/{name}.ts` for slot structure
    and variant patterns.
@@ -110,7 +111,7 @@ docs/
 ```
 Component: [name]
 Progress:
-- [ ] 1. Read docs/DESIGN_SYSTEM.md and docs/components/[NAME].md
+- [ ] 1. Read project/DESIGN_SYSTEM.md and project/components/[NAME].md
 - [ ] 2. Read Nuxt UI theme file for this component
 - [ ] 3. Create theme module in lib/kiso/themes/
          - Copy compound variants from Badge (same formulas, different base)
@@ -121,10 +122,49 @@ Progress:
 - [ ] 7. Create Lookbook preview + templates in test/components/previews/kiso/
 - [ ] 8. Add CSS file if needed (transitions/animations only)
 - [ ] 9. Update skills/kiso/references/components.md
-- [ ] 10. Write/update docs/components/[NAME].md vision doc
-- [ ] 11. Run: bundle exec standardrb --fix
-- [ ] 12. Rebuild Tailwind: cd test/dummy && bin/rails tailwindcss:build
-- [ ] 13. Verify in Lookbook: http://localhost:4000/lookbook
+- [ ] 10. Write/update project/components/[NAME].md vision doc
+- [ ] 11. Create docs page (see "Documentation page" below)
+- [ ] 12. Run: bundle exec standardrb --fix
+- [ ] 13. Rebuild Tailwind: cd test/dummy && bin/rails tailwindcss:build
+- [ ] 14. Verify in Lookbook: http://localhost:4001/lookbook
+```
+
+### Documentation page
+
+Every component needs a docs page in the Bridgetown site. Follow the template
+at `project/COMPONENT_DOC_TEMPLATE.md` for content structure and guidelines.
+
+**Create the page** at `docs/src/components/{component_name}.md` with this
+frontmatter:
+
+```yaml
+---
+title: ComponentName
+layout: docs
+description: One sentence describing what the component does.
+category: Element | Form | Layout | Data | Navigation | Overlay
+source: lib/kiso/themes/component_name.rb
+---
+```
+
+The `docs` layout renders the `title` and `description` from frontmatter
+automatically. Do NOT repeat an `# Title` heading or description paragraph in
+the markdown body — start with `## Quick Start`.
+
+**Update navigation** — add the component to the "Components" section in
+`docs/src/_data/navigation.yml` (alphabetical order):
+
+```yaml
+- title: ComponentName
+  href: /components/component_name
+```
+
+**Escape ERB in code examples** — Bridgetown processes ERB, so fenced code
+blocks containing `<%=` will be executed. Escape the tag as `<%%=` so it
+renders as literal code:
+
+```
+<%%= kiso(:badge) { "Example" } %>
 ```
 
 ## Colored component template
@@ -248,7 +288,7 @@ For composed usage via `kiso(:component, :part)`:
 ## Commands
 
 ```bash
-cd test/dummy && bin/dev        # Dev server + Tailwind watcher (port 4000)
+cd test/dummy && bin/dev        # Dev server + Tailwind watcher (port 4001)
 bundle exec rake test           # Run tests
 bundle exec standardrb --fix    # Lint & auto-format Ruby
 ```

@@ -1,0 +1,65 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@source "../../src";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* --- Docs site semantic tokens --- */
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #09090b;
+  --color-muted: #f4f4f5;
+  --color-muted-foreground: #71717a;
+  --color-border: #e4e4e7;
+  --color-accent: #f4f4f5;
+  --color-accent-foreground: #18181b;
+  --color-primary: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --color-sidebar: #fafafa;
+  --color-sidebar-foreground: #09090b;
+  --color-sidebar-border: #e4e4e7;
+  --color-code-bg: #f4f4f5;
+}
+
+html.dark {
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+  --color-muted: #27272a;
+  --color-muted-foreground: #a1a1aa;
+  --color-border: #27272a;
+  --color-accent: #27272a;
+  --color-accent-foreground: #fafafa;
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  --color-sidebar: #0a0a0b;
+  --color-sidebar-foreground: #fafafa;
+  --color-sidebar-border: #27272a;
+  --color-code-bg: #18181b;
+}
+
+/* --- Prose overrides for component docs --- */
+.prose {
+  --tw-prose-body: var(--color-foreground);
+  --tw-prose-headings: var(--color-foreground);
+  --tw-prose-links: var(--color-primary);
+  --tw-prose-code: var(--color-foreground);
+  --tw-prose-pre-bg: var(--color-code-bg);
+  --tw-prose-pre-code: var(--color-foreground);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-border);
+
+  /* Tighter heading spacing for docs */
+  & h2 { @apply scroll-mt-20 border-b border-border pb-2; }
+  & h3 { @apply scroll-mt-20; }
+
+  /* Code blocks */
+  & pre { @apply rounded-lg border border-border; }
+  & :not(pre) > code {
+    @apply rounded bg-code-bg px-1.5 py-0.5 text-sm font-medium;
+    &::before, &::after { content: none; }
+  }
+
+  /* Tables */
+  & table { @apply text-sm; }
+  & th { @apply bg-muted font-semibold; }
+}

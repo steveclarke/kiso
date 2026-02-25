@@ -67,8 +67,8 @@ cd test/dummy
 bin/dev
 ```
 
-This starts the Rails server on **port 4000** and a Tailwind CSS watcher.
-Open [http://localhost:4000/lookbook](http://localhost:4000/lookbook) to browse
+This starts the Rails server on **port 4001** and a Tailwind CSS watcher.
+Open [http://localhost:4001/lookbook](http://localhost:4001/lookbook) to browse
 component previews.
 
 If you already cloned without `--recurse-submodules`, run `bin/vendor init` to

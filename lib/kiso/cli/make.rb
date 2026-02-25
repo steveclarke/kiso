@@ -34,7 +34,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
     say "  1. Edit lib/kiso/themes/#{@name}.rb — define variants"
     say "  2. Edit app/views/kiso/components/_#{@name}.html.erb — build the markup"
     say "  3. cd test/dummy && bin/rails tailwindcss:build"
-    say "  4. Open http://localhost:4000/lookbook"
+    say "  4. Open http://localhost:4001/lookbook"
   end
 
   private

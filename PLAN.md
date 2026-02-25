@@ -7,7 +7,7 @@ new session.
 
 Read these files in order:
 1. `CLAUDE.md` — conventions, architecture, component pattern
-2. `docs/COMPONENT_STRATEGY.md` — theming recipes, class_variants patterns
+2. `project/COMPONENT_STRATEGY.md` — theming recipes, class_variants patterns
 3. `.claude/skills/contributing/SKILL.md` — component creation workflow
 
 ## Current Status
@@ -17,7 +17,7 @@ Read these files in order:
 ### What's Done
 
 - [x] Gem skeleton (Rails engine, isolate_namespace, engine_name)
-- [x] test/dummy/ app (Lookbook, Tailwind v4, Propshaft, port 4000)
+- [x] test/dummy/ app (Lookbook, Tailwind v4, Propshaft, port 4001)
 - [x] Core helpers: `component_tag()`, `kiso()` in ComponentHelper
 - [x] class_variants + tailwind_merge integration
 - [x] Theme CSS: 7 semantic palettes + surface tokens + dark mode

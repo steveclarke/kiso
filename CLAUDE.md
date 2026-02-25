@@ -10,10 +10,10 @@ Stimulus.
 
 - `PLAN.md` — **read first**. Current status, what's done, what to build next,
   priority-ordered component list with batches.
-- `docs/DESIGN_SYSTEM.md` — **read before building any component**. Strict
+- `project/DESIGN_SYSTEM.md` — **read before building any component**. Strict
   compound variant formulas, semantic token table, Nuxt UI token mapping.
   Every colored component uses identical formulas — no exceptions.
-- `docs/COMPONENT_STRATEGY.md` — class_variants patterns, compound variants,
+- `project/COMPONENT_STRATEGY.md` — class_variants patterns, compound variants,
   theming, override system, dark mode.
 - `.claude/skills/contributing/SKILL.md` — component creation workflow and checklist
 - `skills/kiso/` — AI skill with component reference (update when adding components)
@@ -37,7 +37,7 @@ Two layers (CSS files only for transitions/pseudo-states):
   secondary, success, info, warning, error, neutral. Variants: solid,
   outline, soft, subtle. **Compound variant formulas are identical across
   all colored components** — copy from an existing component (Badge), never
-  invent new formulas. See `docs/DESIGN_SYSTEM.md`.
+  invent new formulas. See `project/DESIGN_SYSTEM.md`.
 - **Semantic tokens** — `bg-primary`, `text-foreground`, `bg-muted`, etc.
   Components never use raw palette shades or `dark:` prefixes.
 - **Foreground pairing** — every color has a `-foreground` companion.
@@ -61,7 +61,7 @@ Two layers (CSS files only for transitions/pseudo-states):
   the same, accept props (`title:`, `description:`, `icon:`) and handle
   layout internally. Yield block replaces all internal structure for full
   control. Props are guardrails for agent-written code.
-- **Component vision docs** — `docs/components/COMPONENT.md` defines the
+- **Component vision docs** — `project/components/COMPONENT.md` defines the
   target API for each component. Read before building or extending.
 - **Composition over configuration** — Card = Header + Title + Content + Footer.
   Small partials, flexibly combined.
@@ -98,9 +98,10 @@ app/views/kiso/components/ ERB partials (rendered via kiso() helper)
 app/assets/stylesheets/    Component CSS (thin — transitions/pseudo-states only)
 app/helpers/kiso/          component_tag, kiso() helpers
 test/components/previews/  Lookbook preview classes + templates
-test/dummy/                Development Rails app (bin/dev → port 4000)
+test/dummy/                Development Rails app (bin/dev → port 4001)
 skills/kiso/               AI skill (component reference, theming guide)
-docs/                      Architecture docs (COMPONENT_STRATEGY.md)
+project/                   Architecture docs, design system, component vision docs
+docs/                      Bridgetown docs site (published documentation)
 ```
 
 ## Dependencies
@@ -125,7 +126,7 @@ docs/                      Architecture docs (COMPONENT_STRATEGY.md)
 ## Commands
 
 ```bash
-cd test/dummy && bin/dev   # Start dev server + Tailwind watcher (port 4000)
+cd test/dummy && bin/dev   # Start dev server + Tailwind watcher (port 4001)
 bundle exec rake test      # Run tests
 bundle exec standardrb --fix  # Lint & auto-format Ruby
 ```

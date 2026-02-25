@@ -1,0 +1,8 @@
+title: Kiso
+tagline: UI components for Rails
+email: ""
+description: >-
+  Kiso — a Rails engine gem providing UI components inspired by shadcn/ui and Nuxt UI.
+  ERB partials, Tailwind CSS, progressive Stimulus.
+github_url: https://github.com/steveclarke/kiso
+lookbook_url: http://localhost:4001/lookbook

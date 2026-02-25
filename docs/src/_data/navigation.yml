@@ -1,0 +1,14 @@
+docs:
+  - heading: Getting Started
+    items:
+      - title: Introduction
+        href: /
+
+  - heading: Components
+    items:
+      - title: Alert
+        href: /components/alert
+      - title: Badge
+        href: /components/badge
+      - title: Button
+        href: /components/button

@@ -2,7 +2,7 @@
 
 Rails ERB components powered by Tailwind CSS and class_variants. Each component is a partial rendered via the `kiso()` helper. Theme definitions live in `lib/kiso/themes/`.
 
-All colored components use **identical compound variant formulas** — see `docs/DESIGN_SYSTEM.md`.
+All colored components use **identical compound variant formulas** — see `project/DESIGN_SYSTEM.md`.
 
 ## Element
 
@@ -98,7 +98,7 @@ Interactive button with smart tag selection. Renders `<button>` by default,
 
 ## Compound Variant Reference
 
-All colored components share these exact formulas (see `docs/DESIGN_SYSTEM.md`):
+All colored components share these exact formulas (see `project/DESIGN_SYSTEM.md`):
 
 | Variant | Colored | Neutral |
 |---|---|---|
