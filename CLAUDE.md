@@ -90,6 +90,14 @@ docs/                      Architecture docs (COMPONENT_STRATEGY.md)
 - class_variants ~> 1.1 (variant definitions, Ruby cva equivalent)
 - tailwind_merge ~> 1.0 (class deduplication)
 
+## Git & PRs
+
+- **Always squash merge PRs** (`gh pr merge --squash`). Repo is configured
+  to only allow squash merges.
+- **Do not commit without explicit permission** from the user.
+- **Do not stop/restart the user's dev server.** If changes need a restart,
+  tell the user.
+
 ## Commands
 
 ```bash
