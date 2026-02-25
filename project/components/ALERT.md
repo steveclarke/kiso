@@ -2,21 +2,20 @@
 
 ## Current API
 
-Composition-only. Users build the internal structure via yield + sub-parts.
+Composition-only via yield + sub-parts. Uses CSS Grid layout — when an SVG
+icon is a direct child, the grid automatically creates a two-column layout.
+No wrapper divs or manual icon sizing needed.
 
 ```erb
 <%= kiso(:alert, color: :info) do %>
-  <svg class="size-5 shrink-0 mt-0.5">...</svg>
-  <div class="flex-1">
-    <%= kiso(:alert, :title) { "Heads up!" } %>
-    <%= kiso(:alert, :description) { "You can add components." } %>
-  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">...</svg>
+  <%= kiso(:alert, :title) { "Heads up!" } %>
+  <%= kiso(:alert, :description) { "You can add components." } %>
 <% end %>
 ```
 
-**Problem:** Every usage requires the same boilerplate — icon sizing, `shrink-0`,
-wrapper div with `flex-1`, spacing nudges. Agents will make inconsistent choices
-here. The component should handle this layout.
+**Remaining problem:** Every usage still requires manually placing an SVG.
+The props-driven API (below) will accept an icon name and handle rendering.
 
 ## Target API
 
@@ -85,8 +84,9 @@ Props-driven for the common case. Yield for full override.
 ### Theme additions needed
 
 ```ruby
-AlertIcon = ClassVariants.build(base: "shrink-0 size-5")
-AlertActions = ClassVariants.build(base: "flex flex-wrap gap-1.5 mt-2.5")
+# Icon sizing is handled by the Alert grid: [&>svg]:size-4
+# No separate AlertIcon theme needed for the basic case.
+AlertActions = ClassVariants.build(base: "col-start-2 flex flex-wrap gap-1.5 mt-2.5")
 AlertClose = ClassVariants.build(base: "absolute top-2.5 right-2.5")
 ```
 

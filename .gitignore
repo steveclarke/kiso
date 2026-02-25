@@ -9,3 +9,4 @@
 !/test/dummy/app/assets/builds/.keep
 /test/dummy/log/
 /test/dummy/tmp/
+.overmind.sock

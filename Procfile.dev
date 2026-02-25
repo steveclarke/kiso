@@ -1,0 +1,3 @@
+web: cd test/dummy && bin/rails server -p 4001
+css: cd test/dummy && bin/rails tailwindcss:watch
+docs: cd docs && bin/bridgetown start

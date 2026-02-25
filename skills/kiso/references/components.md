@@ -47,27 +47,21 @@ Contextual feedback message with optional icon, title, and description. Composit
 ```erb
 <%# Default: primary soft %>
 <%= kiso(:alert) do %>
-  <div class="flex-1">
-    <%= kiso(:alert, :title) { "Heads up!" } %>
-    <%= kiso(:alert, :description) { "You can add components using the CLI." } %>
-  </div>
+  <%= kiso(:alert, :title) { "Heads up!" } %>
+  <%= kiso(:alert, :description) { "You can add components using the CLI." } %>
 <% end %>
 
-<%# With icon %>
+<%# With icon — SVG is sized/aligned automatically by the grid %>
 <%= kiso(:alert, color: :error, variant: :solid) do %>
-  <svg class="size-5 shrink-0 mt-0.5" ...>...</svg>
-  <div class="flex-1">
-    <%= kiso(:alert, :title) { "Error" } %>
-    <%= kiso(:alert, :description) { "Something went wrong." } %>
-  </div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">...</svg>
+  <%= kiso(:alert, :title) { "Error" } %>
+  <%= kiso(:alert, :description) { "Something went wrong." } %>
 <% end %>
 
 <%# Neutral outline %>
 <%= kiso(:alert, color: :neutral, variant: :outline) do %>
-  <div class="flex-1">
-    <%= kiso(:alert, :title) { "New feature available" } %>
-    <%= kiso(:alert, :description) { "Dark mode is now supported." } %>
-  </div>
+  <%= kiso(:alert, :title) { "New feature available" } %>
+  <%= kiso(:alert, :description) { "Dark mode is now supported." } %>
 <% end %>
 ```
 

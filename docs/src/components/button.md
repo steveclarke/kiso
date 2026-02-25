@@ -148,9 +148,9 @@ size via `[&_svg:not([class*='size-'])]:size-4`.
 # lib/kiso/themes/button.rb
 Kiso::Themes::Button = ClassVariants.build(
   base: "inline-flex items-center justify-center gap-2 font-medium
-         whitespace-nowrap transition-colors cursor-pointer
+         whitespace-nowrap shrink-0 transition-all
          focus-visible:outline-2 focus-visible:outline-offset-2
-         disabled:cursor-not-allowed disabled:opacity-50
+         disabled:pointer-events-none disabled:opacity-50
          aria-disabled:cursor-not-allowed aria-disabled:opacity-50
          [&_svg:not([class*='size-'])]:size-4
          [&_svg]:pointer-events-none [&_svg]:shrink-0",
@@ -160,11 +160,11 @@ Kiso::Themes::Button = ClassVariants.build(
       ghost: "", link: "underline-offset-4"
     },
     size: {
-      xs: "h-7 px-2 py-1 text-xs rounded-md gap-1",
-      sm: "h-8 px-3 py-1.5 text-xs rounded-md gap-1.5",
-      md: "h-9 px-4 py-2 text-sm rounded-md gap-2",
-      lg: "h-10 px-5 py-2.5 text-sm rounded-md gap-2",
-      xl: "h-11 px-6 py-3 text-base rounded-lg gap-2.5"
+      xs: "h-7 px-2 py-1 text-xs rounded-md gap-1 has-[>svg]:px-1.5",
+      sm: "h-8 px-3 py-1.5 text-xs rounded-md gap-1.5 has-[>svg]:px-2.5",
+      md: "h-9 px-4 py-2 text-sm rounded-md gap-2 has-[>svg]:px-3",
+      lg: "h-10 px-5 py-2.5 text-sm rounded-md gap-2 has-[>svg]:px-4",
+      xl: "h-11 px-6 py-3 text-base rounded-lg gap-2.5 has-[>svg]:px-5"
     },
     color: COLORS.index_with { "" },
     block: { true => "w-full", false => "" }

@@ -3,7 +3,10 @@ module Kiso
     COLORS = %i[primary secondary success info warning error neutral].freeze
 
     Badge = ClassVariants.build(
-      base: "inline-flex items-center font-medium transition-colors",
+      base: "inline-flex items-center justify-center font-medium whitespace-nowrap shrink-0 overflow-hidden " \
+            "transition-[color,box-shadow] " \
+            "[&>svg]:pointer-events-none [&>svg]:shrink-0 " \
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
       variants: {
         variant: {
           solid: "",
@@ -12,11 +15,11 @@ module Kiso
           subtle: "ring ring-inset"
         },
         size: {
-          xs: "px-1 py-0.5 text-[8px]/3 rounded-sm gap-0.5",
-          sm: "px-1.5 py-0.5 text-[10px]/3 rounded-sm gap-0.5",
-          md: "px-2 py-0.5 text-xs rounded-md gap-1",
-          lg: "px-2.5 py-1 text-sm rounded-md gap-1",
-          xl: "px-2.5 py-1 text-base rounded-md gap-1.5"
+          xs: "px-1 py-0.5 text-[8px]/3 rounded-full gap-0.5 [&>svg]:size-2.5",
+          sm: "px-1.5 py-0.5 text-[10px]/3 rounded-full gap-0.5 [&>svg]:size-3",
+          md: "px-2 py-0.5 text-xs rounded-full gap-1 [&>svg]:size-3",
+          lg: "px-2.5 py-1 text-sm rounded-full gap-1 [&>svg]:size-3.5",
+          xl: "px-2.5 py-1 text-base rounded-full gap-1.5 [&>svg]:size-4"
         },
         color: COLORS.index_with { "" }
       },

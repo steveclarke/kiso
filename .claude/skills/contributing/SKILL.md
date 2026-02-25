@@ -300,7 +300,10 @@ For composed usage via `kiso(:component, :part)`:
 ## Commands
 
 ```bash
-cd test/dummy && bin/dev        # Dev server + Tailwind watcher (port 4001)
+bin/dev                         # All services via Overmind (Lookbook :4001 + docs :4000)
+overmind restart web            # Restart Lookbook server
+overmind connect docs           # Attach to docs server logs
+cd test/dummy && bin/dev        # Lookbook only (Foreman, legacy)
 bundle exec rake test           # Run tests
 bundle exec standardrb --fix    # Lint & auto-format Ruby
 ```

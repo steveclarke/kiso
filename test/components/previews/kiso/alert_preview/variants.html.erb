@@ -5,10 +5,8 @@
       <div class="space-y-3">
         <% %i[primary secondary success info warning error neutral].each do |color| %>
           <%= kiso(:alert, color: color, variant: variant) do %>
-            <div class="flex-1">
-              <%= kiso(:alert, :title) { color.to_s.capitalize } %>
-              <%= kiso(:alert, :description) { "This is a #{color} #{variant} alert." } %>
-            </div>
+            <%= kiso(:alert, :title) { color.to_s.capitalize } %>
+            <%= kiso(:alert, :description) { "This is a #{color} #{variant} alert." } %>
           <% end %>
         <% end %>
       </div>
