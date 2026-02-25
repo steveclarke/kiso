@@ -1,7 +1,7 @@
 <%= kiso(:empty_state) do %>
   <%= kiso(:empty_state, :header) do %>
     <%= kiso(:empty_state, :media, variant: :icon) do %>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <%= icon("search") %>
     <% end %>
     <%= kiso(:empty_state, :title) { "No Results Found" } %>
     <%= kiso(:empty_state, :description) { "Try adjusting your search or filter to find what you're looking for." } %>
