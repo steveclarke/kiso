@@ -1,5 +1,7 @@
-PATH
-  remote: ../kiso-icons
+GIT
+  remote: https://github.com/steveclarke/kiso-icons.git
+  revision: 7f7818614e2edb383f0f20caa7cb60aca49f360a
+  branch: main
   specs:
     kiso-icons (0.1.0)
       actionpack (>= 8.0)

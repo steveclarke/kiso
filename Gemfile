@@ -3,8 +3,8 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in kiso.gemspec.
 gemspec
 
-# Local gem development
-gem "kiso-icons", path: "../kiso-icons"
+# Use `bundle config local.kiso-icons ../kiso-icons` for local development
+gem "kiso-icons", github: "steveclarke/kiso-icons", branch: "main"
 
 gem "puma"
 gem "propshaft"
