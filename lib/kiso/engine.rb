@@ -13,6 +13,7 @@ module Kiso
     initializer "kiso.helpers" do
       ActiveSupport.on_load(:action_view) do
         include Kiso::ComponentHelper
+        include Kiso::IconHelper
       end
     end
 

@@ -122,8 +122,8 @@ docs/                      Bridgetown docs site (published documentation)
 - **Always squash merge PRs** (`gh pr merge --squash`). Repo is configured
   to only allow squash merges.
 - **Do not commit without explicit permission** from the user.
-- **Do not stop/restart the user's dev server.** If changes need a restart,
-  tell the user.
+- **Dev server**: `bin/dev` runs Overmind daemonized. Start it if not
+  running, restart services as needed (`overmind restart web`).
 
 ## Linting
 
@@ -132,10 +132,12 @@ docs/                      Bridgetown docs site (published documentation)
 ## Commands
 
 ```bash
-bin/dev                       # All services via Overmind (Lookbook + docs)
-overmind restart web          # Restart Lookbook server
-overmind connect docs         # Attach to docs server logs
-cd test/dummy && bin/dev      # Lookbook only (Foreman, legacy)
+bin/dev                       # Start all services daemonized (Lookbook :4001 + docs :4000)
+bin/dev restart web           # Restart Lookbook server
+bin/dev restart docs          # Restart docs server
+bin/dev status                # Show running processes
+bin/dev stop                  # Stop all services
+bin/dev -f                    # Start in foreground (for debugging)
 bundle exec rake test         # Run tests
 bundle exec standardrb --fix  # Lint & auto-format Ruby
 ```

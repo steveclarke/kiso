@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+require "fileutils"
+
+APP_ROOT = File.expand_path("..", __dir__)
+
+def system!(*args)
+  system(*args, exception: true)
+end
+
+FileUtils.chdir APP_ROOT do
+  puts "== Installing dependencies =="
+  system("bundle check") || system!("bundle install")
+
+  puts "\n== Installing docs site dependencies =="
+  system("bundle check --gemfile docs/Gemfile") || system!("bundle install --gemfile docs/Gemfile")
+  system!("npm install --prefix docs")
+
+  puts "\n== Installing overmind =="
+  if system("command -v overmind > /dev/null 2>&1")
+    puts "overmind already installed."
+  else
+    if /darwin/i.match?(RUBY_PLATFORM)
+      system! "brew install overmind"
+    elsif /linux/i.match?(RUBY_PLATFORM)
+      puts "Install overmind: https://github.com/DarthSim/overmind#installation"
+      puts "  Ubuntu/Debian: sudo snap install overmind"
+      puts "  Or download from GitHub releases."
+      exit 1
+    else
+      puts "Please install overmind manually: https://github.com/DarthSim/overmind#installation"
+      exit 1
+    end
+  end
+
+  puts "\n== Done! Run bin/dev to start. =="
+end

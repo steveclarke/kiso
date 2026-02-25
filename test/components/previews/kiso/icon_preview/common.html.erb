@@ -1,0 +1,18 @@
+<div class="grid grid-cols-6 gap-6 p-8">
+  <%
+    icons = %w[
+      check x plus minus
+      search home settings user
+      heart star bell mail
+      arrow-up arrow-down arrow-left arrow-right
+      circle-check circle-x triangle-alert info
+      loader-circle eye eye-off trash-2
+    ]
+  %>
+  <% icons.each do |name| %>
+    <div class="flex flex-col items-center gap-2">
+      <%= kiso_icon(name, size: :lg) %>
+      <span class="text-xs text-muted-foreground"><%= name %></span>
+    </div>
+  <% end %>
+</div>
