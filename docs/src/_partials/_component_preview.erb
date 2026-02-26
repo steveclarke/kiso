@@ -5,7 +5,7 @@
 %>
 <div class="not-prose my-6">
   <iframe
-    src="<%= site.metadata.lookbook_url %>/<%= endpoint %>/<%= locals[:component] %>/<%= scenario %><%= embed_param %>"
+    src="<%= site.config.lookbook_url %>/<%= endpoint %>/<%= locals[:component] %>/<%= scenario %><%= embed_param %>"
     title="<%= locals[:component].to_s.split('/').last.tr('_', ' ').capitalize %> preview"
     class="w-full border-0"
     style="height: <%= locals[:height] || "200px" %>;"

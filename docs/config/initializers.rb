@@ -21,6 +21,13 @@ Bridgetown.configure do |config|
   # Available options are `erb` (default), `serbea`, or `liquid`
   template_engine "erb"
 
+  # Lookbook URL — local in development, production for deployed docs
+  if Bridgetown.env.development?
+    lookbook_url "http://localhost:4001/lookbook"
+  else
+    lookbook_url "https://lookbook.kisoui.com"
+  end
+
   # Other options you might want to investigate:
 
   # See list of timezone values here:
