@@ -4,7 +4,6 @@ source "https://rubygems.org"
 gemspec
 
 # Use `bundle config local.kiso-icons ../kiso-icons` for local development
-gem "kiso-icons", github: "steveclarke/kiso-icons", branch: "main"
 
 gem "puma"
 gem "propshaft"
