@@ -8,6 +8,9 @@ No React. No extra build step. Just ERB with [class_variants](https://github.com
 
 Icons come from the [kiso-icons](https://github.com/steveclarke/kiso-icons) gem, which is bundled in.
 
+> [!WARNING]
+> Kiso is in early development and **not ready for production use**. The gem is published to reserve the name on RubyGems. APIs, component names, and theme tokens will change without notice. Watch the repo or check back in a few weeks.
+
 ## Installation
 
 ```ruby
