@@ -15,7 +15,7 @@ source: lib/kiso/themes/alert.rb
 <%% end %>
 ```
 
-[Lookbook playground →](/lookbook/inspect/kiso/alert/playground)
+<%= render "component_preview", component: "kiso/alert", scenario: "playground", height: "300px" %>
 
 ## Locals
 

@@ -12,7 +12,7 @@ source: lib/kiso/themes/separator.rb
 <%%= kiso(:separator) %>
 ```
 
-[Lookbook playground →](/lookbook/inspect/kiso/separator/playground)
+<%= render "component_preview", component: "kiso/separator", scenario: "playground", height: "250px" %>
 
 ## Locals
 

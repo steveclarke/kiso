@@ -343,36 +343,10 @@ These internal spacing patterns are consistent across all container components.
 
 ### Card
 
-<div class="not-prose my-6">
-  <div class="rounded-xl border border-border shadow-sm py-6 flex flex-col gap-6 bg-background">
-    <div class="px-6 flex flex-col gap-2">
-      <div class="flex items-center gap-2">
-        <span class="text-sm font-semibold text-foreground">CardTitle</span>
-        <code class="text-xs text-muted-foreground">font-semibold leading-none</code>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="text-sm text-muted-foreground">CardDescription</span>
-        <code class="text-xs text-muted-foreground">text-sm text-muted-foreground</code>
-      </div>
-    </div>
-    <div class="px-6">
-      <div class="h-20 rounded-lg border-2 border-dashed border-border flex items-center justify-center">
-        <span class="text-xs text-muted-foreground">CardContent — px-6</span>
-      </div>
-    </div>
-    <div class="px-6 flex items-center">
-      <div class="h-9 flex-1 rounded-lg border-2 border-dashed border-border flex items-center justify-center">
-        <span class="text-xs text-muted-foreground">CardFooter — px-6, flex, items-center</span>
-      </div>
-    </div>
-  </div>
-  <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-    <span>Card: <code>py-6, gap-6, rounded-xl, border, shadow-sm</code></span>
-    <span>Header: <code>px-6, gap-2</code></span>
-    <span>Content: <code>px-6</code></span>
-    <span>Footer: <code>px-6</code></span>
-  </div>
-</div>
+<%= render "component_preview", component: "kiso/card", scenario: "with_footer", chromeless: true, height: "350px" %>
+
+`rounded-xl border shadow-sm` — `py-6 gap-6` between sections, `px-6` for
+each section. Header uses `gap-2` between title and description.
 
 ### Dialog
 
@@ -439,6 +413,13 @@ These internal spacing patterns are consistent across all container components.
   </div>
 </div>
 
+### Alert
+
+<%= render "component_preview", component: "kiso/alert", scenario: "with_icon", chromeless: true, height: "350px" %>
+
+`rounded-lg` — title uses `font-medium tracking-tight`, description uses
+`text-sm` with `opacity-90` inside colored variants.
+
 ---
 
 ## Compound Variants
@@ -448,28 +429,18 @@ classes change per component.
 
 ### The Four Variant Axes
 
-<div class="not-prose grid grid-cols-2 sm:grid-cols-4 gap-3 my-6">
-  <div class="space-y-2 text-center">
-    <div class="h-9 rounded-md flex items-center justify-center text-sm font-medium text-white" style="background: #2563eb;">Solid</div>
-    <code class="text-xs text-muted-foreground block">bg-{color}</code>
-    <code class="text-xs text-muted-foreground block">text-{color}-foreground</code>
-  </div>
-  <div class="space-y-2 text-center">
-    <div class="h-9 rounded-md flex items-center justify-center text-sm font-medium ring ring-inset" style="color: #2563eb; --tw-ring-color: rgb(37 99 235 / 0.5);">Outline</div>
-    <code class="text-xs text-muted-foreground block">text-{color}</code>
-    <code class="text-xs text-muted-foreground block">ring-{color}/50</code>
-  </div>
-  <div class="space-y-2 text-center">
-    <div class="h-9 rounded-md flex items-center justify-center text-sm font-medium" style="background: rgb(37 99 235 / 0.1); color: #2563eb;">Soft</div>
-    <code class="text-xs text-muted-foreground block">bg-{color}/10</code>
-    <code class="text-xs text-muted-foreground block">text-{color}</code>
-  </div>
-  <div class="space-y-2 text-center">
-    <div class="h-9 rounded-md flex items-center justify-center text-sm font-medium ring ring-inset" style="background: rgb(37 99 235 / 0.1); color: #2563eb; --tw-ring-color: rgb(37 99 235 / 0.25);">Subtle</div>
-    <code class="text-xs text-muted-foreground block">bg-{color}/10</code>
-    <code class="text-xs text-muted-foreground block">ring-{color}/25</code>
-  </div>
-</div>
+<%= render "component_preview", component: "kiso/badge", scenario: "variants", chromeless: true, height: "350px" %>
+
+| Variant | Colored | Neutral |
+|---------|---------|---------|
+| solid | `bg-{color} text-{color}-foreground` | `bg-inverted text-inverted-foreground` |
+| outline | `text-{color} ring-{color}/50` | `text-foreground bg-background ring-accented` |
+| soft | `bg-{color}/10 text-{color}` | `text-foreground bg-elevated` |
+| subtle | `bg-{color}/10 text-{color} ring-{color}/25` | `text-foreground bg-elevated ring-accented` |
+
+### All Colors
+
+<%= render "component_preview", component: "kiso/badge", scenario: "colors", chromeless: true, height: "100px" %>
 
 ### Opacity Conventions
 
@@ -485,7 +456,17 @@ classes change per component.
 ## Size Variant Reference
 
 When Kiso adds size variants that shadcn doesn't have, use values from the
-established scales. This table is the reference for xs through xl:
+established scales.
+
+### Badge Sizes
+
+<%= render "component_preview", component: "kiso/badge", scenario: "sizes", chromeless: true, height: "100px" %>
+
+### Button Sizes
+
+<%= render "component_preview", component: "kiso/button", scenario: "sizes", chromeless: true, height: "100px" %>
+
+### Reference Table
 
 | Size | Padding | Font | Icon | Gap | Radius |
 |------|---------|------|------|-----|--------|

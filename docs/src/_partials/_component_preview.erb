@@ -1,0 +1,14 @@
+<%
+  endpoint = locals[:chromeless] ? "preview" : "embed"
+  embed_param = locals[:chromeless] ? "?lookbook_embed=true" : ""
+  scenario = locals[:scenario] || "playground"
+%>
+<div class="not-prose my-6">
+  <iframe
+    src="<%= site.metadata.lookbook_url %>/<%= endpoint %>/<%= locals[:component] %>/<%= scenario %><%= embed_param %>"
+    title="<%= locals[:component].to_s.split('/').last.tr('_', ' ').capitalize %> preview"
+    class="w-full border-0"
+    style="height: <%= locals[:height] || "200px" %>;"
+    loading="lazy">
+  </iframe>
+</div>

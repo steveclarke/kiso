@@ -11,3 +11,9 @@ Gemfile.lock
 !/test/dummy/app/assets/builds/.keep
 /test/dummy/log/
 /test/dummy/tmp/
+/lookbook/app/assets/builds/*
+!/lookbook/app/assets/builds/.keep
+/lookbook/config/master.key
+/lookbook/log/
+/lookbook/tmp/
+.playwright-mcp/

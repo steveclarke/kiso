@@ -27,7 +27,7 @@ source: lib/kiso/themes/table.rb
 <%% end %>
 ```
 
-[Lookbook playground →](/lookbook/inspect/kiso/table/playground)
+<%= render "component_preview", component: "kiso/table", scenario: "playground", height: "450px" %>
 
 ## Locals
 

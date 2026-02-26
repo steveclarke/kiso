@@ -12,7 +12,7 @@ source: lib/kiso/themes/badge.rb
 <%%= kiso(:badge) { "New" } %>
 ```
 
-[Lookbook playground →](/lookbook/inspect/kiso/badge/playground)
+<%= render "component_preview", component: "kiso/badge", scenario: "playground", height: "300px" %>
 
 ## Locals
 

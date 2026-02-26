@@ -12,7 +12,7 @@ source: lib/kiso/themes/button.rb
 <%%= kiso(:button) { "Click me" } %>
 ```
 
-[Lookbook playground →](/lookbook/inspect/kiso/button/playground)
+<%= render "component_preview", component: "kiso/button", scenario: "playground", height: "300px" %>
 
 ## Locals
 

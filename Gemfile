@@ -14,3 +14,6 @@ gem "listen"
 
 # Linting
 gem "standard"
+
+# Deploy with Kamal
+gem "kamal", require: false

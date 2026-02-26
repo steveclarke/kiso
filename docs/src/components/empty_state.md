@@ -20,7 +20,7 @@ source: lib/kiso/themes/empty_state.rb
 <%% end %>
 ```
 
-[Lookbook playground →](/lookbook/inspect/kiso/empty_state/playground)
+<%= render "component_preview", component: "kiso/empty_state", scenario: "playground", height: "450px" %>
 
 ## Locals
 

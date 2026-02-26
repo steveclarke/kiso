@@ -16,7 +16,7 @@ source: lib/kiso/themes/stats_card.rb
 <%% end %>
 ```
 
-[Lookbook playground →](/lookbook/inspect/kiso/stats_card/playground)
+<%= render "component_preview", component: "kiso/stats_card", scenario: "playground", height: "350px" %>
 
 ## Locals
 

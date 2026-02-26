@@ -1,0 +1,49 @@
+# Git
+/.git/
+/.gitignore
+/.gitmodules
+
+# Vendor submodules (181MB, development reference only)
+/vendor/
+
+# Documentation and project files
+/docs/
+/project/
+/skills/
+/.claude/
+/.github/
+/.playwright-mcp/
+/.ruby-lsp/
+CLAUDE.md
+CONTRIBUTING.md
+PLAN.md
+VISION.md
+README.md
+CHANGELOG.md
+
+# Dev tools
+/.bundle
+/.overmind.env
+/.standard.yml
+/.tool-versions
+Procfile.dev
+
+# Test dummy app (not needed — lookbook/ is the deployed app)
+/test/dummy/
+
+# Environment and secrets
+/.env
+/.env.*
+/.kamal
+/config/deploy*.yml
+
+# Logs and temp files
+/lookbook/log/
+/lookbook/tmp/
+*.log
+*.pid
+.DS_Store
+
+# Docker files
+/.dockerignore
+/Dockerfile*

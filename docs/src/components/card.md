@@ -20,7 +20,7 @@ source: lib/kiso/themes/card.rb
 <%% end %>
 ```
 
-[Lookbook playground →](/lookbook/inspect/kiso/card/playground)
+<%= render "component_preview", component: "kiso/card", scenario: "playground", height: "400px" %>
 
 ## Locals
 
