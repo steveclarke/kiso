@@ -1,0 +1,150 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+CYAN='\033[0;36m'
+RESET='\033[0m'
+
+DRY_RUN=false
+
+usage() {
+  cat <<HELP
+Usage: bin/release [OPTIONS] [VERSION]
+
+Prepare and tag a new release of kiso.
+
+Arguments:
+  VERSION           Version to release (e.g. 0.1.0, 1.0.0)
+                    If omitted, you'll be prompted interactively.
+
+Options:
+  -h, --help        Show this help message
+  -n, --dry-run     Run preflight checks and tests without committing or tagging
+
+Steps performed:
+  1. Preflight checks (clean tree, on master, synced with origin)
+  2. Run full test suite and linter
+  3. Bump version in lib/kiso/version.rb
+  4. Verify gem builds
+  5. Commit version bump and create annotated tag
+  6. Print the git push command to trigger the release workflow
+
+Examples:
+  bin/release 0.1.0       # release version 0.1.0
+  bin/release --dry-run   # run checks without committing
+  bin/release             # interactive prompt for version
+HELP
+  exit 0
+}
+
+step() { echo -e "\n${CYAN}==> $1${RESET}"; }
+ok()   { echo -e "${GREEN}  ✓ $1${RESET}"; }
+warn() { echo -e "${YELLOW}  ! $1${RESET}"; }
+die()  { echo -e "${RED}  ✗ $1${RESET}"; exit 1; }
+
+# --- Parse arguments ---
+NEW_VERSION=""
+for arg in "$@"; do
+  case "$arg" in
+    -h|--help) usage ;;
+    -n|--dry-run) DRY_RUN=true ;;
+    -*) die "Unknown option: $arg (see --help)" ;;
+    *) NEW_VERSION="$arg" ;;
+  esac
+done
+
+# --- Read current version ---
+CURRENT_VERSION=$(ruby -r ./lib/kiso/version -e 'puts Kiso::VERSION')
+
+# --- Determine new version ---
+if [ -z "$NEW_VERSION" ]; then
+  echo "Current version: ${CURRENT_VERSION}"
+  echo ""
+  echo "Enter new version (e.g. 0.1.0, 0.2.0, 1.0.0):"
+  read -r NEW_VERSION
+fi
+
+if [ -z "$NEW_VERSION" ]; then
+  die "Version cannot be empty"
+fi
+
+TAG="v${NEW_VERSION}"
+
+step "Preflight checks"
+
+# Clean working tree?
+if [ -n "$(git status --porcelain)" ]; then
+  die "Working tree is not clean. Commit or stash changes first."
+fi
+ok "Working tree clean"
+
+# On master branch?
+BRANCH=$(git branch --show-current)
+if [ "$BRANCH" != "master" ]; then
+  die "Not on master branch (on ${BRANCH}). Switch to master first."
+fi
+ok "On master branch"
+
+# Up to date with remote?
+git fetch origin --quiet
+LOCAL=$(git rev-parse HEAD)
+REMOTE=$(git rev-parse origin/master)
+if [ "$LOCAL" != "$REMOTE" ]; then
+  die "Local master is not up to date with origin. Pull first."
+fi
+ok "Up to date with origin/master"
+
+# Tag doesn't already exist?
+if git rev-parse "$TAG" >/dev/null 2>&1; then
+  die "Tag ${TAG} already exists"
+fi
+ok "Tag ${TAG} is available"
+
+step "Running tests"
+bundle exec rake test
+ok "All tests pass"
+
+step "Running linter"
+bundle exec standardrb
+ok "StandardRB clean"
+
+if [ "$DRY_RUN" = true ]; then
+  step "Dry run complete"
+  echo ""
+  echo "  Current version: ${CURRENT_VERSION}"
+  echo "  New version:     ${NEW_VERSION}"
+  echo "  Tag:             ${TAG}"
+  echo ""
+  echo "  All checks passed. Run without --dry-run to commit and tag."
+  exit 0
+fi
+
+step "Bumping version to ${NEW_VERSION}"
+sed -i '' "s/VERSION = \".*\"/VERSION = \"${NEW_VERSION}\"/" lib/kiso/version.rb
+ok "Updated lib/kiso/version.rb"
+
+step "Verifying gem builds"
+gem build kiso.gemspec --silent
+rm -f kiso-*.gem
+ok "Gem builds successfully"
+
+step "Committing version bump"
+git add lib/kiso/version.rb
+git commit -m "Release v${NEW_VERSION}"
+
+step "Tagging ${TAG}"
+git tag -a "$TAG" -m "Release ${NEW_VERSION}"
+
+step "Ready to publish"
+echo ""
+echo "  Version: ${NEW_VERSION}"
+echo "  Tag:     ${TAG}"
+echo "  Commit:  $(git rev-parse --short HEAD)"
+echo ""
+echo -e "${YELLOW}Push to origin to trigger the release workflow:${RESET}"
+echo ""
+echo "  git push origin master ${TAG}"
+echo ""
+echo "This will push the gem to RubyGems via GitHub Actions."

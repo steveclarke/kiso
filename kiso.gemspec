@@ -10,11 +10,17 @@ Gem::Specification.new do |spec|
   spec.description = "Accessible, themeable UI components for Rails + Hotwire. ERB partials, data-attribute CSS, progressive Stimulus."
   spec.license = "MIT"
 
+  spec.required_ruby_version = ">= 3.3"
+
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/master/CHANGELOG.md"
+  spec.metadata["bug_tracker_uri"] = "#{spec.homepage}/issues"
+  spec.metadata["rubygems_mfa_required"] = "true"
+  spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+    Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md", "CHANGELOG.md"]
   end
 
   spec.add_dependency "rails", ">= 8.0"

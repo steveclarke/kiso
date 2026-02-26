@@ -3,6 +3,7 @@
 /log/*.log
 /pkg/
 /tmp/*
+Gemfile.lock
 !/tmp/.keep
 /app/assets/builds/*
 !/app/assets/builds/.keep

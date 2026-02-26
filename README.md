@@ -1,28 +1,19 @@
 # Kiso 基礎
 
-**Kiso** (基礎 — Japanese: foundation) is a UI component library for Rails, distributed
-as a gem. It follows the design language and component catalog of
-[shadcn/ui](https://ui.shadcn.com), adapted for the Rails + Hotwire stack.
+UI components for Rails + Hotwire. Follows the design language of [shadcn/ui](https://ui.shadcn.com), adapted for ERB and Tailwind CSS.
 
-One gem, installed in any Rails 8 project, that gives you a complete set of
-accessible, themeable UI components. No React, no build step beyond Tailwind.
-ERB partials with strict locals, CSS powered by data-attribute selectors, and
-Stimulus controllers only where native HTML falls short.
+One gem gives you accessible, themeable components. No React, no build step beyond Tailwind. ERB partials with strict locals, variant-driven styling via [class_variants](https://github.com/MooseSaeed/class_variants), and Stimulus controllers only where native HTML falls short.
 
-## Architecture
+Icons are handled by the companion [kiso-icons](https://github.com/steveclarke/kiso-icons) gem (included as a dependency).
 
-```
-1. ERB Partials          <%= kiso(:card) { ... } %>
-2. CSS (data-attributes)  [data-component="card"] { ... }
-3. Stimulus Controllers   data-controller="kiso--combobox" (only when needed)
-```
+## How it works
 
-- **ERB partials** with strict locals. Compose through `yield` and sub-part
-  partials (Card > Header > Title). No Ruby class overhead.
-- **CSS** targets `data-component` and `data-variant` attributes. One file per
-  component. Semantic tokens alias Tailwind's built-in color palettes.
-- **Stimulus controllers** added progressively. Native HTML5 first (`<dialog>`,
-  Popover API, `<details>`). Stimulus fills the gaps.
+Components have two layers:
+
+1. **Ruby theme modules** (`lib/kiso/themes/`) — variant definitions using `class_variants` + `tailwind_merge`
+2. **ERB partials** (`app/views/kiso/components/`) — strict locals, computed class strings from theme modules, composition via `yield` and sub-parts
+
+Styling uses semantic tokens (`bg-primary`, `text-foreground`, `bg-muted`) that flip automatically in dark mode. No `dark:` prefixes in component code.
 
 ## Installation
 
@@ -54,53 +45,41 @@ bundle config set local.kiso ~/src/kiso
 Bundler resolves from your local checkout. Edit kiso on disk, changes are
 picked up immediately. Deploy works because it fetches from GitHub.
 
-## Developing Kiso
-
-The repo includes a minimal Rails dummy app for running components in the
-browser via [Lookbook](https://lookbook.build).
+## Development
 
 ```bash
 git clone --recurse-submodules https://github.com/steveclarke/kiso.git
 cd kiso
 bundle install
-cd test/dummy
 bin/dev
 ```
 
-This starts the Rails server on **port 4001** and a Tailwind CSS watcher.
-Open [http://localhost:4001/lookbook](http://localhost:4001/lookbook) to browse
-component previews.
+This starts [Lookbook](https://lookbook.build) on port 4001 and a Tailwind CSS watcher. Open [http://localhost:4001/lookbook](http://localhost:4001/lookbook) to browse component previews.
 
-If you already cloned without `--recurse-submodules`, run `bin/vendor init` to
-fetch the reference repos. Use `bin/vendor update` to pull latest upstream.
+If you cloned without `--recurse-submodules`, run `bin/vendor init` to fetch the reference repos.
 
-### Vendor Submodules
-
-The `vendor/` directory contains git submodules for the two reference libraries
-that Kiso draws from:
-
-- **`vendor/shadcn-ui`** — aesthetic reference (layout, spacing, feel)
-- **`vendor/nuxt-ui`** — theming source of truth (compound variants, semantic tokens)
-
-Manage them with `bin/vendor`:
+Run tests:
 
 ```bash
-bin/vendor init      # fetch submodules after clone
-bin/vendor update    # pull latest from upstream
-bin/vendor status    # show current commits
-bin/vendor reset     # discard local changes
+bundle exec rake test             # all tests
+bundle exec standardrb            # lint
 ```
 
-### Key Paths
+See [CONTRIBUTING.md](CONTRIBUTING.md) to help out.
 
-| Path | Purpose |
-|------|---------|
-| `app/views/kiso/components/` | ERB partials |
-| `app/assets/stylesheets/kiso/` | Component CSS (data-attribute selectors) |
-| `app/helpers/kiso/` | `component_tag`, `kiso()` helpers |
-| `app/assets/tailwind/kiso/engine.css` | Master CSS import for host apps |
-| `test/components/previews/` | Lookbook preview classes + templates |
-| `test/dummy/app/assets/tailwind/application.css` | Theme tokens (palettes + surface colors) |
+### Project layout
+
+```
+app/views/kiso/components/   ERB partials
+lib/kiso/themes/             Ruby theme modules (ClassVariants definitions)
+app/helpers/kiso/            component_tag, kiso() helpers
+app/assets/stylesheets/kiso/ Component CSS (transitions, pseudo-states only)
+test/components/previews/    Lookbook preview classes + templates
+test/dummy/                  Development Rails app
+vendor/shadcn-ui/            Structural reference (git submodule)
+vendor/nuxt-ui/              Theming reference (git submodule)
+docs/                        Bridgetown documentation site
+```
 
 ## Usage
 
@@ -137,12 +116,16 @@ CSS-only components work with data attributes directly:
 8. **Turbo-compatible by default.** Works inside Turbo Frames and Streams.
 9. **Stimulus as enhancement.** Remove the controller; the component still renders.
 
+## Requirements
+
+- Ruby >= 3.3
+- Rails >= 8.0
+- [tailwindcss-rails](https://github.com/rails/tailwindcss-rails)
+
 ## Status
 
-Early development. See [VISION.md](VISION.md) for the full roadmap and
-component catalog.
+Early development. See [VISION.md](VISION.md) for the full roadmap and component catalog.
 
 ## License
 
-The gem is available as open source under the terms of the
-[MIT License](https://opensource.org/licenses/MIT).
+MIT License. See [MIT-LICENSE](MIT-LICENSE).
