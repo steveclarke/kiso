@@ -3,6 +3,8 @@ docs:
     items:
       - title: Introduction
         href: /
+      - title: Design System
+        href: /design-system
 
   - heading: Components
     items:
