@@ -1,150 +1,276 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-RESET='\033[0m'
+cd "$(dirname "$0")/.."
+
+# Catppuccin color palette (Latte variant)
+ROSEWATER="220"
+FLAMINGO="211"
+PINK="217"
+MAUVE="183"
+LAVENDER="147"
+BLUE="117"
+GREEN="151"
+YELLOW="222"
+PEACH="216"
+RED="210"
+BORDER="147"
 
 DRY_RUN=false
+SKIP_CONFIRMATION=false
 
-usage() {
-  cat <<HELP
-Usage: bin/release [OPTIONS] [VERSION]
+# ---------------------------------------------------------------------------
+# Gum
+# ---------------------------------------------------------------------------
 
-Prepare and tag a new release of kiso.
+ensure_gum_installed() {
+  if ! command -v gum &>/dev/null; then
+    echo "Charm's Gum is not installed. Would you like to install it now? (y/n)"
+    read -r install_gum
+    if [[ "$install_gum" =~ ^[Yy]$ ]]; then
+      echo "Installing Charm's Gum..."
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install gum
+      elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        if command -v apt-get &>/dev/null; then
+          sudo mkdir -p /etc/apt/keyrings
+          curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+          echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
+          sudo apt update && sudo apt install gum
+        elif command -v brew &>/dev/null; then
+          brew install gum
+        else
+          echo "Unsupported Linux distribution. Please install Gum manually: https://github.com/charmbracelet/gum#installation"
+          exit 1
+        fi
+      else
+        echo "Unsupported operating system. Please install Gum manually: https://github.com/charmbracelet/gum#installation"
+        exit 1
+      fi
 
-Arguments:
-  VERSION           Version to release (e.g. 0.1.0, 1.0.0)
-                    If omitted, you'll be prompted interactively.
+      if ! command -v gum &>/dev/null; then
+        echo "Failed to install Gum. Please install it manually: https://github.com/charmbracelet/gum#installation"
+        exit 1
+      fi
 
-Options:
-  -h, --help        Show this help message
-  -n, --dry-run     Run preflight checks and tests without committing or tagging
-
-Steps performed:
-  1. Preflight checks (clean tree, on master, synced with origin)
-  2. Run full test suite and linter
-  3. Bump version in lib/kiso/version.rb
-  4. Verify gem builds
-  5. Commit version bump and create annotated tag
-  6. Print the git push command to trigger the release workflow
-
-Examples:
-  bin/release 0.1.0       # release version 0.1.0
-  bin/release --dry-run   # run checks without committing
-  bin/release             # interactive prompt for version
-HELP
-  exit 0
+      echo "Gum installed successfully!"
+    else
+      echo "Gum is required for this script. Exiting."
+      exit 1
+    fi
+  fi
 }
 
-step() { echo -e "\n${CYAN}==> $1${RESET}"; }
-ok()   { echo -e "${GREEN}  ✓ $1${RESET}"; }
-warn() { echo -e "${YELLOW}  ! $1${RESET}"; }
-die()  { echo -e "${RED}  ✗ $1${RESET}"; exit 1; }
+ensure_gum_installed
 
-# --- Parse arguments ---
+# ---------------------------------------------------------------------------
+# Usage
+# ---------------------------------------------------------------------------
+
+usage() {
+  local exit_code=${1:-0}
+  gum style --border normal --padding "1 2" --border-foreground "$BORDER" "
+  $(gum style --foreground "$ROSEWATER" 'Kiso Release')
+
+  $(gum style --bold 'Usage:') bin/release [OPTIONS] [VERSION]
+  Prepare and tag a new release of kiso.
+
+  $(gum style --foreground "$MAUVE" --bold 'Arguments:')
+    VERSION           Version to release (e.g. 0.1.0, 1.0.0)
+                      If omitted, you'll be prompted interactively.
+
+  $(gum style --foreground "$MAUVE" --bold 'Options:')
+    -h, --help        Show this help message
+    -n, --dry-run     Run preflight checks and tests without committing or tagging
+    -y, --yes         Skip confirmation prompt
+
+  $(gum style --foreground "$MAUVE" --bold 'Steps performed:')
+    1. Preflight checks (clean tree, on master, synced with origin)
+    2. Run full test suite and linter
+    3. Bump version in lib/kiso/version.rb
+    4. Verify gem builds
+    5. Commit version bump and create annotated tag
+    6. Print the git push command to trigger the release workflow
+
+  $(gum style --foreground "$FLAMINGO" --bold 'Examples:')
+    bin/release 0.1.0       # release version 0.1.0
+    bin/release --dry-run   # run checks without committing
+    bin/release             # interactive prompt for version
+  "
+  exit "$exit_code"
+}
+
+# ---------------------------------------------------------------------------
+# Parse arguments
+# ---------------------------------------------------------------------------
+
 NEW_VERSION=""
 for arg in "$@"; do
   case "$arg" in
-    -h|--help) usage ;;
+    -h|--help) usage 0 ;;
     -n|--dry-run) DRY_RUN=true ;;
-    -*) die "Unknown option: $arg (see --help)" ;;
+    -y|--yes) SKIP_CONFIRMATION=true ;;
+    -*)
+      gum style --foreground "$RED" "✗ Unknown option: $arg (see --help)"
+      exit 1
+      ;;
     *) NEW_VERSION="$arg" ;;
   esac
 done
 
-# --- Read current version ---
+# ---------------------------------------------------------------------------
+# Read current version
+# ---------------------------------------------------------------------------
+
 CURRENT_VERSION=$(ruby -r ./lib/kiso/version -e 'puts Kiso::VERSION')
 
-# --- Determine new version ---
+# ---------------------------------------------------------------------------
+# Determine new version
+# ---------------------------------------------------------------------------
+
 if [ -z "$NEW_VERSION" ]; then
-  echo "Current version: ${CURRENT_VERSION}"
+  if [[ "$SKIP_CONFIRMATION" == "true" ]]; then
+    gum style --foreground "$RED" "✗ Version required when using -y (e.g. bin/release -y 0.2.0)"
+    exit 1
+  fi
+  gum style --foreground "$BLUE" "Current version: $(gum style --bold "$CURRENT_VERSION")"
   echo ""
-  echo "Enter new version (e.g. 0.1.0, 0.2.0, 1.0.0):"
-  read -r NEW_VERSION
+  NEW_VERSION=$(gum input --placeholder "0.x.0" --prompt "$(gum style --foreground "$MAUVE" "New version: ")" --value "$CURRENT_VERSION")
 fi
 
 if [ -z "$NEW_VERSION" ]; then
-  die "Version cannot be empty"
+  gum style --foreground "$RED" "✗ Version cannot be empty"
+  exit 1
 fi
 
 TAG="v${NEW_VERSION}"
 
-step "Preflight checks"
+# ---------------------------------------------------------------------------
+# Preflight checks
+# ---------------------------------------------------------------------------
+
+gum style --foreground "$LAVENDER" --bold "\nPreflight checks"
 
 # Clean working tree?
 if [ -n "$(git status --porcelain)" ]; then
-  die "Working tree is not clean. Commit or stash changes first."
+  gum style --foreground "$RED" "✗ Working tree is not clean. Commit or stash changes first."
+  exit 1
 fi
-ok "Working tree clean"
+gum style --foreground "$GREEN" "✓ Working tree clean"
 
 # On master branch?
 BRANCH=$(git branch --show-current)
 if [ "$BRANCH" != "master" ]; then
-  die "Not on master branch (on ${BRANCH}). Switch to master first."
+  gum style --foreground "$RED" "✗ Not on master branch (on ${BRANCH}). Switch to master first."
+  exit 1
 fi
-ok "On master branch"
+gum style --foreground "$GREEN" "✓ On master branch"
 
 # Up to date with remote?
-git fetch origin --quiet
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Fetching from origin...")" -- \
+  git fetch origin --quiet
 LOCAL=$(git rev-parse HEAD)
 REMOTE=$(git rev-parse origin/master)
 if [ "$LOCAL" != "$REMOTE" ]; then
-  die "Local master is not up to date with origin. Pull first."
+  gum style --foreground "$RED" "✗ Local master is not up to date with origin. Pull first."
+  exit 1
 fi
-ok "Up to date with origin/master"
+gum style --foreground "$GREEN" "✓ Up to date with origin/master"
 
 # Tag doesn't already exist?
 if git rev-parse "$TAG" >/dev/null 2>&1; then
-  die "Tag ${TAG} already exists"
+  gum style --foreground "$RED" "✗ Tag ${TAG} already exists"
+  exit 1
 fi
-ok "Tag ${TAG} is available"
+gum style --foreground "$GREEN" "✓ Tag ${TAG} is available"
 
-step "Running tests"
-bundle exec rake test
-ok "All tests pass"
+# ---------------------------------------------------------------------------
+# Tests and linter
+# ---------------------------------------------------------------------------
 
-step "Running linter"
-bundle exec standardrb
-ok "StandardRB clean"
+gum style --foreground "$LAVENDER" --bold "\nRunning tests and linter"
+
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Running test suite...")" -- \
+  bundle exec rake test
+gum style --foreground "$GREEN" "✓ All tests pass"
+
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Running StandardRB...")" -- \
+  bundle exec standardrb
+gum style --foreground "$GREEN" "✓ StandardRB clean"
+
+# ---------------------------------------------------------------------------
+# Dry run exit
+# ---------------------------------------------------------------------------
 
 if [ "$DRY_RUN" = true ]; then
-  step "Dry run complete"
-  echo ""
-  echo "  Current version: ${CURRENT_VERSION}"
-  echo "  New version:     ${NEW_VERSION}"
-  echo "  Tag:             ${TAG}"
-  echo ""
-  echo "  All checks passed. Run without --dry-run to commit and tag."
+  gum style --border double --padding "1 2" --border-foreground "$YELLOW" "
+$(gum style --foreground "$YELLOW" --bold "Dry run complete — no changes made.")
+$(gum style --foreground "$BLUE" "Current version: $(gum style --bold "$CURRENT_VERSION")")
+$(gum style --foreground "$BLUE" "New version:     $(gum style --bold "$NEW_VERSION")")
+$(gum style --foreground "$BLUE" "Tag:             $(gum style --bold "$TAG")")
+
+All checks passed. Run without --dry-run to commit and tag.
+"
   exit 0
 fi
 
-step "Bumping version to ${NEW_VERSION}"
-sed -i '' "s/VERSION = \".*\"/VERSION = \"${NEW_VERSION}\"/" lib/kiso/version.rb
-ok "Updated lib/kiso/version.rb"
+# ---------------------------------------------------------------------------
+# Confirm before making changes
+# ---------------------------------------------------------------------------
 
-step "Verifying gem builds"
-gem build kiso.gemspec --silent
-rm -f kiso-*.gem
-ok "Gem builds successfully"
+gum style --foreground "$LAVENDER" "Version will be: $(gum style --bold --foreground "$GREEN" "$NEW_VERSION")"
+if [[ "$SKIP_CONFIRMATION" != "true" ]]; then
+  if ! gum confirm --prompt.foreground "$MAUVE" "Bump to $TAG, commit, and tag?"; then
+    gum style --foreground "$YELLOW" "Aborting release."
+    exit 0
+  fi
+fi
 
-step "Committing version bump"
-git add lib/kiso/version.rb
-git commit -m "Release v${NEW_VERSION}"
+# ---------------------------------------------------------------------------
+# Bump version
+# ---------------------------------------------------------------------------
 
-step "Tagging ${TAG}"
-git tag -a "$TAG" -m "Release ${NEW_VERSION}"
+gum style --foreground "$LAVENDER" --bold "\nBumping version to ${NEW_VERSION}"
 
-step "Ready to publish"
-echo ""
-echo "  Version: ${NEW_VERSION}"
-echo "  Tag:     ${TAG}"
-echo "  Commit:  $(git rev-parse --short HEAD)"
-echo ""
-echo -e "${YELLOW}Push to origin to trigger the release workflow:${RESET}"
-echo ""
-echo "  git push origin master ${TAG}"
-echo ""
-echo "This will push the gem to RubyGems via GitHub Actions."
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Updating lib/kiso/version.rb...")" -- \
+  bash -c "sed -i '' \"s/VERSION = \\\".*\\\"/VERSION = \\\"${NEW_VERSION}\\\"/\" lib/kiso/version.rb"
+gum style --foreground "$GREEN" "✓ Updated lib/kiso/version.rb"
+
+# ---------------------------------------------------------------------------
+# Verify gem builds
+# ---------------------------------------------------------------------------
+
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Verifying gem builds...")" -- \
+  bash -c "gem build kiso.gemspec --silent && rm -f kiso-*.gem"
+gum style --foreground "$GREEN" "✓ Gem builds successfully"
+
+# ---------------------------------------------------------------------------
+# Commit and tag
+# ---------------------------------------------------------------------------
+
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Committing version bump...")" -- \
+  bash -c "git add lib/kiso/version.rb && git commit -m 'Release v${NEW_VERSION}'"
+gum style --foreground "$GREEN" "✓ Committed version bump"
+
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Tagging ${TAG}...")" -- \
+  git tag -a "$TAG" -m "Release ${NEW_VERSION}"
+gum style --foreground "$GREEN" "✓ Tagged ${TAG}"
+
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
+
+SHORT_SHA=$(git rev-parse --short HEAD)
+
+gum style --border double --padding "1 2" --border-foreground "$GREEN" "
+$(gum style --foreground "$GREEN" --bold "Ready to publish!")
+$(gum style --foreground "$BLUE" "Version: $(gum style --bold "$NEW_VERSION")")
+$(gum style --foreground "$BLUE" "Tag:     $(gum style --bold "$TAG")")
+$(gum style --foreground "$BLUE" "Commit:  $(gum style --bold "$SHORT_SHA")")
+
+$(gum style --foreground "$YELLOW" "Push to origin to trigger the release workflow:")
+
+  git push origin master $TAG
+
+This will push the gem to RubyGems via GitHub Actions.
+"

@@ -1,0 +1,206 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Deploy Kiso services via Kamal.
+# Deploys both Lookbook (lookbook.kisoui.com) and docs (kisoui.com) by default.
+# The docs site embeds live Lookbook previews, so both services are kept in sync.
+#
+# Usage:
+#   bin/deploy
+#   bin/deploy --only lookbook
+#   bin/deploy --only docs
+#   bin/deploy --dry-run
+
+cd "$(dirname "$0")/.."
+
+# Catppuccin color palette (Latte variant)
+ROSEWATER="220"
+FLAMINGO="211"
+PINK="217"
+MAUVE="183"
+LAVENDER="147"
+BLUE="117"
+GREEN="151"
+YELLOW="222"
+PEACH="216"
+RED="210"
+BORDER="147"
+
+DRY_RUN=false
+ONLY=""
+SKIP_CONFIRMATION=false
+
+# ---------------------------------------------------------------------------
+# Gum
+# ---------------------------------------------------------------------------
+
+ensure_gum_installed() {
+  if ! command -v gum &>/dev/null; then
+    echo "Charm's Gum is not installed. Would you like to install it now? (y/n)"
+    read -r install_gum
+    if [[ "$install_gum" =~ ^[Yy]$ ]]; then
+      echo "Installing Charm's Gum..."
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install gum
+      elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        if command -v apt-get &>/dev/null; then
+          sudo mkdir -p /etc/apt/keyrings
+          curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+          echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
+          sudo apt update && sudo apt install gum
+        elif command -v brew &>/dev/null; then
+          brew install gum
+        else
+          echo "Unsupported Linux distribution. Please install Gum manually: https://github.com/charmbracelet/gum#installation"
+          exit 1
+        fi
+      else
+        echo "Unsupported operating system. Please install Gum manually: https://github.com/charmbracelet/gum#installation"
+        exit 1
+      fi
+
+      if ! command -v gum &>/dev/null; then
+        echo "Failed to install Gum. Please install it manually: https://github.com/charmbracelet/gum#installation"
+        exit 1
+      fi
+
+      echo "Gum installed successfully!"
+    else
+      echo "Gum is required for this script. Exiting."
+      exit 1
+    fi
+  fi
+}
+
+ensure_gum_installed
+
+# ---------------------------------------------------------------------------
+# Usage
+# ---------------------------------------------------------------------------
+
+usage() {
+  local exit_code=${1:-0}
+  gum style --border normal --padding "1 2" --border-foreground "$BORDER" "
+  $(gum style --foreground "$ROSEWATER" 'Kiso Deploy')
+
+  $(gum style --bold 'Usage:') bin/deploy [OPTIONS]
+  Deploy Kiso services via Kamal.
+  Deploys both Lookbook and docs together by default — the docs site
+  embeds live Lookbook previews hosted at lookbook.kisoui.com.
+
+  $(gum style --foreground "$MAUVE" --bold 'Options:')
+    --only SERVICE    Deploy one service: lookbook or docs
+    -y, --yes         Skip confirmation prompt
+    -n, --dry-run     Print commands without running them
+    -h, --help        Show this help message
+
+  $(gum style --foreground "$FLAMINGO" --bold 'Examples:')
+    bin/deploy                  # deploy both services
+    bin/deploy --only lookbook  # deploy Lookbook only
+    bin/deploy --only docs      # deploy docs only
+    bin/deploy --dry-run        # print commands without deploying
+  "
+  exit "$exit_code"
+}
+
+# ---------------------------------------------------------------------------
+# Parse arguments
+# ---------------------------------------------------------------------------
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --only)
+      ONLY="$2"
+      if [[ ! "$ONLY" =~ ^(lookbook|docs)$ ]]; then
+        gum style --foreground "$RED" "✗ Invalid service '$ONLY'. Must be 'lookbook' or 'docs'."
+        exit 1
+      fi
+      shift 2
+      ;;
+    -y|--yes) SKIP_CONFIRMATION=true; shift ;;
+    -n|--dry-run) DRY_RUN=true; shift ;;
+    -h|--help) usage 0 ;;
+    *)
+      gum style --foreground "$RED" "✗ Unknown option: $1 (see --help)"
+      exit 1
+      ;;
+  esac
+done
+
+# ---------------------------------------------------------------------------
+# Preflight checks
+# ---------------------------------------------------------------------------
+
+gum style --foreground "$LAVENDER" --bold "\nPreflight checks"
+
+if [ -n "$(git status --porcelain)" ]; then
+  gum style --foreground "$RED" "✗ Working tree is not clean. Commit or stash changes first."
+  exit 1
+fi
+gum style --foreground "$GREEN" "✓ Working tree clean"
+
+# ---------------------------------------------------------------------------
+# Confirm
+# ---------------------------------------------------------------------------
+
+if [[ "$DRY_RUN" != "true" && "$SKIP_CONFIRMATION" != "true" ]]; then
+  TARGET="${ONLY:-lookbook + docs}"
+  if ! gum confirm --prompt.foreground "$MAUVE" "Deploy $TARGET to production?"; then
+    gum style --foreground "$YELLOW" "Aborting deploy."
+    exit 0
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Deploy functions
+# ---------------------------------------------------------------------------
+
+deploy_lookbook() {
+  if [[ "$DRY_RUN" == "true" ]]; then
+    gum style --foreground "$BLUE" "  \$ kamal deploy"
+  else
+    gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Deploying Lookbook → lookbook.kisoui.com...")" -- \
+      kamal deploy
+    gum style --foreground "$GREEN" "✓ Lookbook deployed"
+  fi
+}
+
+deploy_docs() {
+  if [[ "$DRY_RUN" == "true" ]]; then
+    gum style --foreground "$BLUE" "  \$ kamal deploy -c config/deploy.docs.yml"
+  else
+    gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Deploying docs → kisoui.com...")" -- \
+      kamal deploy -c config/deploy.docs.yml
+    gum style --foreground "$GREEN" "✓ Docs deployed"
+  fi
+}
+
+# ---------------------------------------------------------------------------
+# Run
+# ---------------------------------------------------------------------------
+
+case "$ONLY" in
+  lookbook) deploy_lookbook ;;
+  docs)     deploy_docs ;;
+  *)        deploy_lookbook; deploy_docs ;;
+esac
+
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
+
+if [[ "$DRY_RUN" == "true" ]]; then
+  gum style --border double --padding "1 2" --border-foreground "$YELLOW" "
+$(gum style --foreground "$YELLOW" --bold "Dry run complete — no services were deployed.")
+"
+else
+  URLS=""
+  [[ "$ONLY" != "docs" ]]     && URLS+="$(gum style --foreground "$BLUE" "  https://lookbook.kisoui.com")\n"
+  [[ "$ONLY" != "lookbook" ]] && URLS+="$(gum style --foreground "$BLUE" "  https://kisoui.com")"
+
+  gum style --border double --padding "1 2" --border-foreground "$GREEN" "
+$(gum style --foreground "$GREEN" --bold "All services deployed successfully!")
+
+$URLS
+"
+fi
