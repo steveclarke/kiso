@@ -4,7 +4,7 @@ image: steveclarke/kiso-lookbook
 servers:
   web:
     hosts:
-      - prime.clevertakes.com
+      - <%= ENV["DEPLOY_HOST"] %>
 
 proxy:
   ssl: true

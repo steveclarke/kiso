@@ -1,0 +1,8 @@
+.git
+node_modules
+output
+tmp
+.bridgetown-cache
+.DS_Store
+Dockerfile
+.dockerignore

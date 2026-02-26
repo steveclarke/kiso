@@ -1,0 +1,31 @@
+service: kiso-docs
+image: steveclarke/kiso-docs
+
+servers:
+  web:
+    hosts:
+      - <%= ENV["DEPLOY_HOST"] %>
+
+proxy:
+  ssl: true
+  host: kisoui.com
+  app_port: 80
+
+registry:
+  server: localhost:5555
+
+env:
+  clear: {}
+  secret: []
+
+builder:
+  arch: amd64
+  context: docs
+  dockerfile: docs/Dockerfile
+
+ssh:
+  user: deploy
+
+aliases:
+  shell: app exec --interactive --reuse "sh"
+  logs: app logs -f
