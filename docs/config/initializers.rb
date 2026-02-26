@@ -16,7 +16,7 @@
 
 Bridgetown.configure do |config|
   # The base hostname & protocol for your site, e.g. https://example.com
-  url ""
+  url "https://kisoui.com"
 
   # Available options are `erb` (default), `serbea`, or `liquid`
   template_engine "erb"
