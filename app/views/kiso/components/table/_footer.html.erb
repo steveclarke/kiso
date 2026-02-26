@@ -1,7 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :tfoot,
     class: Kiso::Themes::TableFooter.render(class: css_classes),
-    data: { component: :table, table_part: :footer },
+    data: kiso_prepare_options(component_options, component: :table, table_part: :footer),
     **component_options do %>
   <%= yield %>
 <% end %>

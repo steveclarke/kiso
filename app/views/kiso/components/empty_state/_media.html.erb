@@ -1,7 +1,7 @@
 <%# locals: (variant: :default, css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::EmptyStateMedia.render(variant: variant, class: css_classes),
-    data: { component: :empty_state, empty_state_part: :media },
+    data: kiso_prepare_options(component_options, component: :empty_state, empty_state_part: :media),
     **component_options do %>
   <%= yield %>
 <% end %>

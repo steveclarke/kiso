@@ -13,7 +13,7 @@
     class: Kiso::Themes::Button.render(
       color: color, variant: variant, size: size, block: block,
       class: css_classes),
-    data: { component: :button },
+    data: kiso_prepare_options(component_options, component: :button),
     **component_options do %>
   <%= yield %>
 <% end %>

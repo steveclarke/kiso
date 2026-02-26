@@ -28,7 +28,7 @@ module Kiso
     #
     def kiso_icon(name, size: nil, **options)
       css_classes = options.delete(:class) || ""
-      size_class = size ? SIZE_PRESETS.fetch(size, nil) : nil
+      size_class = size ? SIZE_PRESETS.fetch(size) : nil
       merged = merge_icon_classes(BASE_CLASSES, size_class, css_classes)
 
       kiso_icon_tag(name, class: merged, **options)

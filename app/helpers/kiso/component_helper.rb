@@ -38,10 +38,24 @@ module Kiso
       end
 
       if collection
-        render partial: path, collection: collection, **kwargs, &block
+        render partial: path, collection: collection, locals: kwargs, &block
       else
         render path, **kwargs, &block
       end
+    end
+
+    # Prepares component_options for use with content_tag.
+    # Guards against accidental class: usage and merges data attributes.
+    #
+    #   data: kiso_prepare_options(component_options, component: :badge)
+    #   data: kiso_prepare_options(component_options, component: :card, card_part: :header)
+    #
+    def kiso_prepare_options(component_options, **data_attrs)
+      if component_options.key?(:class)
+        raise ArgumentError, "Use css_classes: instead of class: for Kiso components"
+      end
+
+      (component_options.delete(:data) || {}).merge(data_attrs)
     end
   end
 end

@@ -1,7 +1,7 @@
 <%# locals: (columns: 4, css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::StatsGrid.render(columns: columns, class: css_classes),
-    data: { component: :stats_grid },
+    data: kiso_prepare_options(component_options, component: :stats_grid),
     **component_options do %>
   <%= yield %>
 <% end %>

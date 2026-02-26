@@ -1,7 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::CardContent.render(class: css_classes),
-    data: { component: :card, card_part: :content },
+    data: kiso_prepare_options(component_options, component: :card, card_part: :content),
     **component_options do %>
   <%= yield %>
 <% end %>

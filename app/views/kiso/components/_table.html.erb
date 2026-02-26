@@ -1,7 +1,8 @@
 <%# locals: (css_classes: "", **component_options) %>
-<div class="relative w-full overflow-x-auto" data-component="table" data-table-part="container">
+<div class="relative w-full overflow-x-auto">
   <%= content_tag :table,
       class: Kiso::Themes::Table.render(class: css_classes),
+      data: kiso_prepare_options(component_options, component: :table),
       **component_options do %>
     <%= yield %>
   <% end %>

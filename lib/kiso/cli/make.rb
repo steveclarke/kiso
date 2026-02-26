@@ -155,7 +155,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
               { color: :info, variant: :solid, class: "bg-info text-info-foreground" },
               { color: :warning, variant: :solid, class: "bg-warning text-warning-foreground" },
               { color: :error, variant: :solid, class: "bg-error text-error-foreground" },
-              { color: :neutral, variant: :solid, class: "bg-inverted text-inverted" },
+              { color: :neutral, variant: :solid, class: "bg-inverted text-inverted-foreground" },
 
               # -- outline --
               { color: :primary, variant: :outline, class: "text-primary ring-primary/50" },
@@ -173,7 +173,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
               { color: :info, variant: :soft, class: "bg-info/10 text-info" },
               { color: :warning, variant: :soft, class: "bg-warning/10 text-warning" },
               { color: :error, variant: :soft, class: "bg-error/10 text-error" },
-              { color: :neutral, variant: :soft, class: "text-foreground bg-muted" },
+              { color: :neutral, variant: :soft, class: "text-foreground bg-elevated" },
 
               # -- subtle --
               { color: :primary, variant: :subtle, class: "bg-primary/10 text-primary ring-primary/25" },
@@ -182,7 +182,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
               { color: :info, variant: :subtle, class: "bg-info/10 text-info ring-info/25" },
               { color: :warning, variant: :subtle, class: "bg-warning/10 text-warning ring-warning/25" },
               { color: :error, variant: :subtle, class: "bg-error/10 text-error ring-error/25" },
-              { color: :neutral, variant: :subtle, class: "ring-accented text-foreground bg-muted" }
+              { color: :neutral, variant: :subtle, class: "text-foreground bg-elevated ring-accented" }
             ],
             defaults: { color: :primary, variant: :soft, size: :md }
           )
@@ -221,7 +221,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
       <%# locals: (color: :primary, variant: :soft, size: :md, css_classes: "", **component_options) %>
       <%= content_tag :div,
           class: Kiso::Themes::#{@class_name}.render(color: color, variant: variant, size: size, class: css_classes),
-          data: { component: :#{@name} },
+          data: kiso_prepare_options(component_options, component: :#{@name}),
           **component_options do %>
         <%= yield %>
       <% end %>
@@ -233,7 +233,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
       <%# locals: (variant: :default, size: :md, css_classes: "", **component_options) %>
       <%= content_tag :div,
           class: Kiso::Themes::#{@class_name}.render(variant: variant, size: size, class: css_classes),
-          data: { component: :#{@name} },
+          data: kiso_prepare_options(component_options, component: :#{@name}),
           **component_options do %>
         <%= yield %>
       <% end %>
