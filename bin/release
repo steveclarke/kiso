@@ -19,6 +19,8 @@ BORDER="147"
 DRY_RUN=false
 SKIP_CONFIRMATION=false
 
+REPO_URL="https://github.com/steveclarke/kiso"
+
 # ---------------------------------------------------------------------------
 # Gum
 # ---------------------------------------------------------------------------
@@ -87,10 +89,12 @@ usage() {
   $(gum style --foreground "$MAUVE" --bold 'Steps performed:')
     1. Preflight checks (clean tree, on master, synced with origin)
     2. Run full test suite and linter
-    3. Bump version in lib/kiso/version.rb
-    4. Verify gem builds
-    5. Commit version bump and create annotated tag
-    6. Print the git push command to trigger the release workflow
+    3. Check CHANGELOG.md has unreleased entries
+    4. Bump version in lib/kiso/version.rb
+    5. Update CHANGELOG.md (move Unreleased → version heading)
+    6. Verify gem builds
+    7. Commit version bump and create annotated tag
+    8. Push to origin and create GitHub Release
 
   $(gum style --foreground "$FLAMINGO" --bold 'Examples:')
     bin/release 0.1.0       # release version 0.1.0
@@ -144,6 +148,7 @@ if [ -z "$NEW_VERSION" ]; then
 fi
 
 TAG="v${NEW_VERSION}"
+TODAY=$(date +%Y-%m-%d)
 
 # ---------------------------------------------------------------------------
 # Preflight checks
@@ -184,6 +189,21 @@ if git rev-parse "$TAG" >/dev/null 2>&1; then
 fi
 gum style --foreground "$GREEN" "✓ Tag ${TAG} is available"
 
+# gh CLI available?
+if ! command -v gh &>/dev/null; then
+  gum style --foreground "$RED" "✗ gh CLI not found. Install it: https://cli.github.com"
+  exit 1
+fi
+gum style --foreground "$GREEN" "✓ gh CLI available"
+
+# CHANGELOG.md has unreleased entries?
+UNRELEASED_CONTENT=$(sed -n '/^## \[Unreleased\]/,/^## \[/{/^## \[/!p;}' CHANGELOG.md | sed '/^$/d')
+if [ -z "$UNRELEASED_CONTENT" ]; then
+  gum style --foreground "$RED" "✗ CHANGELOG.md has no entries under [Unreleased]. Add changes before releasing."
+  exit 1
+fi
+gum style --foreground "$GREEN" "✓ CHANGELOG.md has unreleased entries"
+
 # ---------------------------------------------------------------------------
 # Tests and linter
 # ---------------------------------------------------------------------------
@@ -208,6 +228,9 @@ $(gum style --foreground "$YELLOW" --bold "Dry run complete — no changes made.
 $(gum style --foreground "$BLUE" "Current version: $(gum style --bold "$CURRENT_VERSION")")
 $(gum style --foreground "$BLUE" "New version:     $(gum style --bold "$NEW_VERSION")")
 $(gum style --foreground "$BLUE" "Tag:             $(gum style --bold "$TAG")")
+
+$(gum style --foreground "$MAUVE" --bold "Unreleased changelog entries:")
+$UNRELEASED_CONTENT
 
 All checks passed. Run without --dry-run to commit and tag.
 "
@@ -237,6 +260,20 @@ gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Updating li
 gum style --foreground "$GREEN" "✓ Updated lib/kiso/version.rb"
 
 # ---------------------------------------------------------------------------
+# Update CHANGELOG
+# ---------------------------------------------------------------------------
+
+gum style --foreground "$LAVENDER" --bold "\nUpdating CHANGELOG.md"
+
+NEW_LINKS="[Unreleased]: ${REPO_URL}/compare/${TAG}...HEAD"
+VERSION_LINK="[${NEW_VERSION}]: ${REPO_URL}/releases/tag/${TAG}"
+
+sed -i '' "s/^## \[Unreleased\]$/## [Unreleased]\n\n## [${NEW_VERSION}] - ${TODAY}/" CHANGELOG.md
+sed -i '' "s|^\[Unreleased\]:.*|${NEW_LINKS}\n${VERSION_LINK}|" CHANGELOG.md
+
+gum style --foreground "$GREEN" "✓ Updated CHANGELOG.md"
+
+# ---------------------------------------------------------------------------
 # Verify gem builds
 # ---------------------------------------------------------------------------
 
@@ -248,13 +285,34 @@ gum style --foreground "$GREEN" "✓ Gem builds successfully"
 # Commit and tag
 # ---------------------------------------------------------------------------
 
-gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Committing version bump...")" -- \
-  bash -c "git add lib/kiso/version.rb && git commit -m 'Release v${NEW_VERSION}'"
-gum style --foreground "$GREEN" "✓ Committed version bump"
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Committing release...")" -- \
+  bash -c "git add lib/kiso/version.rb CHANGELOG.md && git commit -m 'Release v${NEW_VERSION}'"
+gum style --foreground "$GREEN" "✓ Committed release"
 
 gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Tagging ${TAG}...")" -- \
   git tag -a "$TAG" -m "Release ${NEW_VERSION}"
 gum style --foreground "$GREEN" "✓ Tagged ${TAG}"
+
+# ---------------------------------------------------------------------------
+# Push and GitHub Release
+# ---------------------------------------------------------------------------
+
+gum style --foreground "$LAVENDER" --bold "\nPushing to origin"
+
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Pushing commit and tag...")" -- \
+  git push origin master "$TAG"
+gum style --foreground "$GREEN" "✓ Pushed commit and tag"
+
+gum style --foreground "$LAVENDER" --bold "\nCreating GitHub Release"
+
+RELEASE_NOTES=$(sed -n "/^## \[${NEW_VERSION}\]/,/^## \[/{/^## \[/!p;}" CHANGELOG.md | sed -e '/^$/d' -e '1{/^$/d;}' -e '${/^$/d;}')
+
+if [[ "$NEW_VERSION" == *pre* || "$NEW_VERSION" == *alpha* || "$NEW_VERSION" == *beta* || "$NEW_VERSION" == *rc* ]]; then
+  gh release create "$TAG" --title "$TAG" --notes "$RELEASE_NOTES" --prerelease
+else
+  gh release create "$TAG" --title "$TAG" --notes "$RELEASE_NOTES"
+fi
+gum style --foreground "$GREEN" "✓ GitHub Release created"
 
 # ---------------------------------------------------------------------------
 # Summary
@@ -263,14 +321,12 @@ gum style --foreground "$GREEN" "✓ Tagged ${TAG}"
 SHORT_SHA=$(git rev-parse --short HEAD)
 
 gum style --border double --padding "1 2" --border-foreground "$GREEN" "
-$(gum style --foreground "$GREEN" --bold "Ready to publish!")
+$(gum style --foreground "$GREEN" --bold "Release complete!")
 $(gum style --foreground "$BLUE" "Version: $(gum style --bold "$NEW_VERSION")")
 $(gum style --foreground "$BLUE" "Tag:     $(gum style --bold "$TAG")")
 $(gum style --foreground "$BLUE" "Commit:  $(gum style --bold "$SHORT_SHA")")
 
-$(gum style --foreground "$YELLOW" "Push to origin to trigger the release workflow:")
+$(gum style --foreground "$BLUE" "Release: ${REPO_URL}/releases/tag/${TAG}")
 
-  git push origin master $TAG
-
-This will push the gem to RubyGems via GitHub Actions.
+GitHub Actions will push the gem to RubyGems.
 "
