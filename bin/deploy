@@ -144,10 +144,10 @@ gum style --foreground "$GREEN" "✓ Working tree clean"
 # ---------------------------------------------------------------------------
 
 gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Loading secrets from 1Password...")" -- \
-  bash -c 'KAMAL_SECRETS=$(kamal secrets fetch --adapter 1password --account sevenview --from "Employee/Kiso Lookbook" DEPLOY_HOST) && echo $(kamal secrets extract DEPLOY_HOST $KAMAL_SECRETS) > /tmp/.kiso_deploy_host'
+  bash -c 'op read "op://Employee/Kiso Lookbook/Kamal Deployment/DEPLOY_HOST" > /tmp/.kiso_deploy_host'
 export DEPLOY_HOST=$(cat /tmp/.kiso_deploy_host)
 rm -f /tmp/.kiso_deploy_host
-gum style --foreground "$GREEN" "✓ Secrets loaded"
+gum style --foreground "$GREEN" "✓ Secrets loaded (DEPLOY_HOST=$(gum style --bold "$DEPLOY_HOST"))"
 
 # ---------------------------------------------------------------------------
 # Confirm
