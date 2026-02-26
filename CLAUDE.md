@@ -153,4 +153,8 @@ bin/dev stop                  # Stop all services
 bin/dev -f                    # Start in foreground (for debugging)
 bundle exec rake test         # Run tests
 bundle exec standardrb --fix  # Lint & auto-format Ruby
+bin/deploy                    # Deploy both services to production (Kamal + 1Password)
+bin/deploy --only lookbook    # Deploy Lookbook only (lookbook.kisoui.com)
+bin/deploy --only docs        # Deploy docs only (kisoui.com)
+bin/release                   # Tag and release a new gem version
 ```

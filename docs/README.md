@@ -1,71 +1,54 @@
-# Bridgetown Website README
+# Kiso Docs
 
-Welcome to your new Bridgetown website! You can update this README file to provide additional context and setup information for yourself or other contributors.
-
-## Table of Contents
-
-- [Bridgetown Website README](#bridgetown-website-readme)
-  - [Table of Contents](#table-of-contents)
-  - [Prerequisites](#prerequisites)
-  - [Install](#install)
-  - [Development](#development)
-    - [Commands](#commands)
-  - [Deployment](#deployment)
-  - [Contributing](#contributing)
-
-## Prerequisites
-
-- [GCC](https://gcc.gnu.org/install/)
-- [Make](https://www.gnu.org/software/make/)
-- [Ruby](https://www.ruby-lang.org/en/downloads/)
-  - `>= 3.2`
-- [Bridgetown Gem](https://rubygems.org/gems/bridgetown)
-  - `gem install bridgetown -N`
-- [Node](https://nodejs.org)
-  - `>= 20`
-
-## Install
-
-```sh
-cd bridgetown-site-folder
-bundle install && npm install
-```
-> Learn more: [Bridgetown Getting Started Documentation](https://www.bridgetownrb.com/docs/).
+The Kiso documentation site — a [Bridgetown](https://www.bridgetownrb.com) static site published at [kisoui.com](https://kisoui.com).
 
 ## Development
 
-To start your site in development mode, run `bin/bridgetown start` and navigate to [localhost:4000](https://localhost:4000/)!
+The docs site runs as part of the main `bin/dev` stack (port 4000). From the repo root:
 
-Use a [theme](https://github.com/topics/bridgetown-theme) or add some [plugins](https://www.bridgetownrb.com/plugins/) to get started quickly.
-
-### Commands
-
-```sh
-# running locally
-bin/bridgetown start
-
-# build & deploy to production
-bin/bridgetown deploy
-
-# load the site up within a Ruby console (IRB)
-bin/bridgetown console
+```bash
+bin/dev          # starts Lookbook (:4001) + docs (:4000)
+bin/dev restart docs  # restart just the docs server
 ```
 
-> Learn more: [Bridgetown CLI Documentation](https://www.bridgetownrb.com/docs/command-line-usage)
+To work on the docs site in isolation:
+
+```bash
+cd docs
+bundle install && npm install
+bin/bridgetown start
+```
+
+## Structure
+
+```
+docs/
+  src/
+    _layouts/      Page layouts
+    _partials/     Shared partials (nav, footer)
+    components/    Component documentation pages
+    index.md       Home page
+  Gemfile          Bridgetown + plugins
+  package.json     Tailwind CSS
+  Dockerfile       Production Docker image (nginx)
+  nginx.conf       nginx config (clean URLs, asset caching)
+```
 
 ## Deployment
 
-You can deploy Bridgetown sites on hosts like statichost.eu and Render as well as traditional web servers by simply building and copying the output folder to your HTML root.
+The docs site deploys via Kamal as a Docker container (nginx serving the static build) to [kisoui.com](https://kisoui.com). It is always deployed alongside Lookbook because it embeds live component previews from [lookbook.kisoui.com](https://lookbook.kisoui.com).
 
-> Read the [Bridgetown Deployment Documentation](https://www.bridgetownrb.com/docs/deployment) for more information.
+```bash
+bin/deploy               # deploy both docs + Lookbook
+bin/deploy --only docs   # deploy docs only
+```
 
-## Contributing
+See [project/DEPLOYING.md](../project/DEPLOYING.md) for the full ops runbook.
 
-If repo is on GitHub:
+## Building
 
-1. Fork it
-2. Clone the fork using `git clone` to your local development machine.
-3. Create your feature branch (`git checkout -b my-new-feature`)
-4. Commit your changes (`git commit -am 'Add some feature'`)
-5. Push to the branch (`git push origin my-new-feature`)
-6. Create a new Pull Request
+```bash
+cd docs
+bundle exec rake deploy   # production build → output/
+bin/bridgetown build      # development build
+```
