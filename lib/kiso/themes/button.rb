@@ -21,7 +21,7 @@ module Kiso
           sm: "h-8 px-3 py-1.5 text-xs rounded-md gap-1.5 has-[>svg]:px-2.5",
           md: "h-9 px-4 py-2 text-sm rounded-md gap-2 has-[>svg]:px-3",
           lg: "h-10 px-5 py-2.5 text-sm rounded-md gap-2 has-[>svg]:px-4",
-          xl: "h-11 px-6 py-3 text-base rounded-lg gap-2.5 has-[>svg]:px-5 [&_svg:not([class*='size-'])]:size-5"
+          xl: "h-11 px-6 py-3 text-base rounded-md gap-2.5 has-[>svg]:px-5 [&_svg:not([class*='size-'])]:size-5"
         },
         color: COLORS.index_with { "" },
         block: {

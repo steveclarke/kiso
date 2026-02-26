@@ -114,11 +114,11 @@ Kiso::Themes::Badge = ClassVariants.build(
       subtle: "ring ring-inset"
     },
     size: {
-      xs: "px-1 py-0.5 text-[8px]/3 rounded-full gap-0.5 [&>svg]:size-2.5",
-      sm: "px-1.5 py-0.5 text-[10px]/3 rounded-full gap-0.5 [&>svg]:size-3",
-      md: "px-2 py-0.5 text-xs rounded-full gap-1 [&>svg]:size-3",
-      lg: "px-2.5 py-1 text-sm rounded-full gap-1 [&>svg]:size-3.5",
-      xl: "px-2.5 py-1 text-base rounded-full gap-1.5 [&>svg]:size-4"
+      xs: "px-2 py-0.5 text-xs rounded-full gap-1 [&>svg]:size-3",
+      sm: "px-2.5 py-0.5 text-xs rounded-full gap-1 [&>svg]:size-3",
+      md: "px-3 py-1 text-xs rounded-full gap-1.5 [&>svg]:size-3.5",
+      lg: "px-3.5 py-1 text-sm rounded-full gap-1.5 [&>svg]:size-4",
+      xl: "px-4 py-1.5 text-sm rounded-full gap-2 [&>svg]:size-4"
     },
     color: COLORS.index_with { "" }
   },

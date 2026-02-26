@@ -43,13 +43,18 @@ any individual improvement.
    `vendor/nuxt-ui/src/theme/`. When in doubt about look and
    feel, check shadcn at `vendor/shadcn-ui/`.
 
-4. **Deterministic output.** Components should produce the same HTML structure
+4. **Spatial system from shadcn.** All spacing, typography, radius, and icon
+   sizing follows the scales extracted from shadcn/ui and documented in the
+   "Spatial System" section of `project/DESIGN_SYSTEM.md`. Never use arbitrary
+   values (`text-[8px]`, `h-[1.15rem]`). Pick from the established scales.
+
+5. **Deterministic output.** Components should produce the same HTML structure
    regardless of who (or what) writes the template. This means: standardized
    prop names, consistent defaults, well-defined layout behavior. An agent
    passing `title:` and `description:` should get the exact same result every
    time.
 
-5. **Progressive enhancement.** Start with props-driven ERB (Phase 1). Add
+6. **Progressive enhancement.** Start with props-driven ERB (Phase 1). Add
    Stimulus controllers only when native HTML5 can't handle it (Phase 2).
    Never require JS for basic rendering.
 
@@ -79,7 +84,8 @@ any individual improvement.
 
 ## Mandatory reading before building any component
 
-1. `project/DESIGN_SYSTEM.md` — compound variant formulas, token table, rules
+1. `project/DESIGN_SYSTEM.md` — compound variant formulas, token table, spatial
+   system (heights, padding, gaps, typography, radius, icon sizing), rules
 2. `project/components/COMPONENT.md` — vision doc for the specific component
    (if it exists)
 3. The shadcn component at `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/`
@@ -301,6 +307,14 @@ For composed usage via `kiso(:component, :part)`:
 | Semantic tokens | `bg-primary`, `text-foreground` — never raw palette shades. |
 | No `dark:` prefixes | Tokens flip automatically via CSS variables. |
 | Foreground pairing | Every color has `-foreground`. Including `inverted-foreground`. |
+| Heights | `h-9` default interactive. Scale: `h-6` (xs), `h-8` (sm), `h-9` (md), `h-10` (lg). |
+| Gaps | `gap-2` default. `gap-1` tight lists, `gap-4` sections, `gap-6` card-level. |
+| Font sizes | `text-sm` body, `text-xs` labels, `text-lg` modal titles. **Never below `text-xs`.** |
+| Font weights | `font-medium` interactive/labels, `font-semibold` headings. |
+| Border radius | `rounded-md` interactive, `rounded-xl` containers, `rounded-full` pills. **No per-size variation.** |
+| Icon sizing | `size-4` standard, `size-3` compact, `size-5` larger. No arbitrary values. |
+| Container padding | `p-6` large (Card, Dialog), `p-4` medium (Sheet, Popover), `p-2` compact. |
+| No arbitrary values | Never use `text-[8px]`, `h-[1.15rem]`, etc. Use standard Tailwind classes only. |
 | Strict locals | Every partial: `<%# locals: (color: :primary, ...) %>` |
 | Data attributes | `data-component="alert"` for identity — NOT for CSS selectors. |
 | `css_classes:` override | Single override point, merged via tailwind_merge. |

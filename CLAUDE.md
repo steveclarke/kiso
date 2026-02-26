@@ -11,8 +11,11 @@ Stimulus.
 - `PLAN.md` — **read first**. Current status, what's done, what to build next,
   priority-ordered component list with batches.
 - `project/DESIGN_SYSTEM.md` — **read before building any component**. Strict
-  compound variant formulas, semantic token table, Nuxt UI token mapping.
-  Every colored component uses identical formulas — no exceptions.
+  compound variant formulas, semantic token table, Nuxt UI token mapping,
+  and **spatial system** (heights, padding, gaps, typography, radius, icon
+  sizing — all extracted from shadcn/ui). Every colored component uses
+  identical formulas — no exceptions. Every component uses spatial values
+  from the established scales — no arbitrary values.
 - `project/COMPONENT_STRATEGY.md` — class_variants patterns, compound variants,
   theming, override system, dark mode.
 - `.claude/skills/contributing/SKILL.md` — component creation workflow and checklist
