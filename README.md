@@ -1,19 +1,12 @@
 # Kiso 基礎
 
-UI components for Rails + Hotwire. Follows the design language of [shadcn/ui](https://ui.shadcn.com), adapted for ERB and Tailwind CSS.
+UI components for Rails. Built on ERB, Tailwind CSS, and Hotwire.
 
-One gem gives you accessible, themeable components. No React, no build step beyond Tailwind. ERB partials with strict locals, variant-driven styling via [class_variants](https://github.com/MooseSaeed/class_variants), and Stimulus controllers only where native HTML falls short.
+Add one gem and get badges, buttons, cards, alerts, and more. They all work with screen readers and dark mode. The look follows [shadcn/ui](https://ui.shadcn.com).
 
-Icons are handled by the companion [kiso-icons](https://github.com/steveclarke/kiso-icons) gem (included as a dependency).
+No React. No extra build step. Just ERB with [class_variants](https://github.com/avo-hq/class_variants) for styling.
 
-## How it works
-
-Components have two layers:
-
-1. **Ruby theme modules** (`lib/kiso/themes/`) — variant definitions using `class_variants` + `tailwind_merge`
-2. **ERB partials** (`app/views/kiso/components/`) — strict locals, computed class strings from theme modules, composition via `yield` and sub-parts
-
-Styling uses semantic tokens (`bg-primary`, `text-foreground`, `bg-muted`) that flip automatically in dark mode. No `dark:` prefixes in component code.
+Icons come from the [kiso-icons](https://github.com/steveclarke/kiso-icons) gem, which is bundled in.
 
 ## Installation
 
@@ -27,23 +20,51 @@ bundle install
 bin/rails generate kiso:install
 ```
 
-### Local Development (Host App)
+## Usage
 
-If you're working on Kiso alongside a host app, point the Gemfile at the git
-repo and use Bundler's local override to resolve from disk:
+Use the `kiso()` helper to render components:
 
-```ruby
-# Gemfile (works everywhere — CI, deploy, other devs)
-gem "kiso", git: "https://github.com/steveclarke/kiso.git", branch: "master"
+```erb
+<%= kiso(:badge, variant: :primary) { "Active" } %>
 ```
 
-```bash
-# Your machine only (one-time setup)
-bundle config set local.kiso ~/src/kiso
+Components are made of small parts. A card has a header, title, content, and footer:
+
+```erb
+<%= kiso(:card) do %>
+  <%= kiso(:card, :header) do %>
+    <%= kiso(:card, :title, text: "Members") %>
+  <% end %>
+  <%= kiso(:card, :content) do %>
+    ...
+  <% end %>
+<% end %>
 ```
 
-Bundler resolves from your local checkout. Edit kiso on disk, changes are
-picked up immediately. Deploy works because it fetches from GitHub.
+Data attributes work on any HTML element too:
+
+```erb
+<%= f.submit "Save", data: { component: "button", variant: "primary" } %>
+```
+
+## How it works
+
+Each component has two parts:
+
+1. **A theme file** in `lib/kiso/themes/` — sets up variants, sizes, and colors
+2. **An ERB partial** in `app/views/kiso/components/` — reads the theme and renders HTML
+
+Colors use tokens like `bg-primary` and `text-muted`. They switch on their own in dark mode. No `dark:` classes needed.
+
+## Design principles
+
+1. **Native HTML first.** Use `<dialog>`, `[popover]`, `<details>` before adding JavaScript.
+2. **Build from small parts.** Card = Header + Title + Content + Footer.
+3. **ERB is enough.** Use strict locals and `yield` for blocks.
+4. **Tailwind classes in ERB.** CSS files only hold transitions and pseudo-states.
+5. **Theme with tokens.** Names like `primary` map to real colors. They flip in dark mode.
+6. **Works with Turbo.** Use them in Turbo Frames and Streams.
+7. **Stimulus only when needed.** Native HTML handles the basics. Stimulus adds the rest.
 
 ## Development
 
@@ -54,9 +75,9 @@ bundle install
 bin/dev
 ```
 
-This starts [Lookbook](https://lookbook.build) on port 4001 and a Tailwind CSS watcher. Open [http://localhost:4001/lookbook](http://localhost:4001/lookbook) to browse component previews.
+This starts [Lookbook](https://lookbook.build) on port 4001 with a Tailwind watcher. Open [http://localhost:4001/lookbook](http://localhost:4001/lookbook) to browse previews.
 
-If you cloned without `--recurse-submodules`, run `bin/vendor init` to fetch the reference repos.
+Cloned without `--recurse-submodules`? Run `bin/vendor init` to fetch the vendor repos.
 
 Run tests:
 
@@ -71,50 +92,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to help out.
 
 ```
 app/views/kiso/components/   ERB partials
-lib/kiso/themes/             Ruby theme modules (ClassVariants definitions)
+lib/kiso/themes/             Theme files (class_variants)
 app/helpers/kiso/            component_tag, kiso() helpers
-app/assets/stylesheets/kiso/ Component CSS (transitions, pseudo-states only)
-test/components/previews/    Lookbook preview classes + templates
-test/dummy/                  Development Rails app
-vendor/shadcn-ui/            Structural reference (git submodule)
-vendor/nuxt-ui/              Theming reference (git submodule)
-docs/                        Bridgetown documentation site
+app/assets/stylesheets/kiso/ CSS (only transitions and pseudo-states)
+test/components/previews/    Lookbook previews
+test/dummy/                  Dev Rails app
+vendor/shadcn-ui/            Layout reference (git submodule)
+vendor/nuxt-ui/              Theme reference (git submodule)
+docs/                        Docs site (Bridgetown)
 ```
-
-## Usage
-
-Render components with the `kiso()` helper:
-
-```erb
-<%= kiso(:badge, variant: :primary) { "Active" } %>
-
-<%= kiso(:card) do %>
-  <%= kiso(:card, :header) do %>
-    <%= kiso(:card, :title, text: "Members") %>
-  <% end %>
-  <%= kiso(:card, :content) do %>
-    ...
-  <% end %>
-<% end %>
-```
-
-CSS-only components work with data attributes directly:
-
-```erb
-<%= f.submit "Save", data: { component: "button", variant: "primary" } %>
-```
-
-## Design Principles
-
-1. **Native first.** `<dialog>`, `[popover]`, `<details>`, `<progress>` before JavaScript.
-2. **Data attributes are the API.** `data-component`, `data-variant`, `data-size`, `data-*-part`.
-3. **Composition over configuration.** Card = Header + Title + Content + Footer.
-4. **ERB is enough.** Strict locals, `yield` for slots, `content_tag` for merging.
-5. **Tailwind classes first.** Utilities in ERB markup. `@apply` only where you can't — variant selectors, pseudo-states.
-6. **One CSS file per component.** Thin files for what ERB can't express. Most styling is in the partials.
-7. **Theme via semantic tokens.** Palette aliases (primary → blue) + surface tokens (bg-elevated, text-muted) that flip automatically in dark mode.
-8. **Turbo-compatible by default.** Works inside Turbo Frames and Streams.
-9. **Stimulus as enhancement.** Remove the controller; the component still renders.
 
 ## Requirements
 
@@ -124,7 +110,7 @@ CSS-only components work with data attributes directly:
 
 ## Status
 
-Early development. See [VISION.md](VISION.md) for the full roadmap and component catalog.
+Early development. See [VISION.md](VISION.md) for the roadmap and full component list.
 
 ## License
 
