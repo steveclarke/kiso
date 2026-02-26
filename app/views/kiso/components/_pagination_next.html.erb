@@ -1,0 +1,12 @@
+<%# locals: (href: "#", active: false, css_classes: "", **component_options) %>
+<% aria_attrs = {label: "Go to next page"}
+   aria_attrs[:current] = "page" if active %>
+<%= content_tag :a,
+    href: href,
+    aria: aria_attrs,
+    class: Kiso::Themes::PaginationNext.render(active: active, class: css_classes),
+    data: kiso_prepare_options(component_options, component: :pagination_next),
+    **component_options do %>
+  <%= content_tag :span, "Next", class: "hidden sm:block" %>
+  <%= kiso_icon("chevron-right") %>
+<% end %>

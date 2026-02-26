@@ -16,6 +16,17 @@ Add Kiso to your Gemfile:
 gem "kiso"
 ```
 
+Import the engine CSS in your Tailwind stylesheet. Kiso ships default color
+tokens, fonts, and source scanning — you can override any token to match your brand:
+
+```css
+@import "tailwindcss";
+@import "kiso/engine";
+
+/* Optional: override tokens to match your brand */
+/* @theme { --color-primary: var(--color-violet-600); } */
+```
+
 Use the `kiso()` helper to render components:
 
 ```erb

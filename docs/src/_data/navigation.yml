@@ -18,6 +18,8 @@ docs:
         href: /components/card
       - title: Empty State
         href: /components/empty_state
+      - title: Pagination
+        href: /components/pagination
       - title: Separator
         href: /components/separator
       - title: Stats Card

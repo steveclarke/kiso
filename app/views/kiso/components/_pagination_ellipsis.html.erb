@@ -1,0 +1,9 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :span,
+    aria: {hidden: true},
+    class: Kiso::Themes::PaginationEllipsis.render(class: css_classes),
+    data: kiso_prepare_options(component_options, component: :pagination_ellipsis),
+    **component_options do %>
+  <%= kiso_icon("ellipsis", size: :sm) %>
+  <%= content_tag :span, "More pages", class: "sr-only" %>
+<% end %>

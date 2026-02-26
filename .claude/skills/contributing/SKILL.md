@@ -106,19 +106,40 @@ app/
 ├── views/kiso/components/  # ERB partials (_badge.html.erb, alert/_title.html.erb)
 ├── assets/
 │   ├── stylesheets/kiso/   # Component CSS (transitions/pseudo-states only)
-│   └── tailwind/kiso/      # Engine CSS bridge (engine.css)
+│   └── tailwind/kiso/      # engine.css — shipped with gem (fonts + all color tokens)
 ├── helpers/kiso/           # component_tag, kiso() helpers
 └── javascript/controllers/kiso/  # Stimulus controllers (namespaced)
 test/
 ├── components/previews/kiso/  # Lookbook previews + templates
-└── dummy/                     # Development Rails app
 skills/kiso/                   # AI skill (update when adding components)
 project/
 ├── DESIGN_SYSTEM.md           # Strict compound variant rules + token map
 ├── COMPONENT_STRATEGY.md      # Architecture, recipes, patterns
 └── components/                # Per-component vision docs
 docs/                          # Bridgetown docs site (published documentation)
+lookbook/                      # Dev Rails app (Lookbook on :4001)
 ```
+
+## CSS architecture
+
+**`app/assets/tailwind/kiso/engine.css`** is what the gem ships. It contains
+everything a host app needs: Geist fonts, all default color tokens (`@theme`),
+and dark mode overrides (`.dark {}`). **Never put color tokens in the Lookbook's
+`application.css`** — they belong in `engine.css` so host apps get them too.
+
+The engine self-sources its own views, themes, and helpers — host apps need
+nothing else:
+
+```css
+@import "tailwindcss";
+@import "kiso/engine";
+
+/* Optional: override any token to match your brand */
+/* @theme { --color-primary: var(--color-violet-600); } */
+```
+
+**`lookbook/app/assets/tailwind/application.css`** only contains the import
+and Lookbook-specific `@source` directives (lookbook views + previews). Nothing else.
 
 ## Component creation workflow
 
