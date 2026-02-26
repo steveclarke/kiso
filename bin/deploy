@@ -140,6 +140,16 @@ fi
 gum style --foreground "$GREEN" "✓ Working tree clean"
 
 # ---------------------------------------------------------------------------
+# Load secrets
+# ---------------------------------------------------------------------------
+
+gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Loading secrets from 1Password...")" -- \
+  bash -c 'KAMAL_SECRETS=$(kamal secrets fetch --adapter 1password --account sevenview --from "Employee/Kiso Lookbook" DEPLOY_HOST) && echo $(kamal secrets extract DEPLOY_HOST $KAMAL_SECRETS) > /tmp/.kiso_deploy_host'
+export DEPLOY_HOST=$(cat /tmp/.kiso_deploy_host)
+rm -f /tmp/.kiso_deploy_host
+gum style --foreground "$GREEN" "✓ Secrets loaded"
+
+# ---------------------------------------------------------------------------
 # Confirm
 # ---------------------------------------------------------------------------
 
