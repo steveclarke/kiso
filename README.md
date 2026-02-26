@@ -59,6 +59,10 @@ Each component has two parts:
 
 Colors use tokens like `bg-primary` and `text-muted`. They switch on their own in dark mode. No `dark:` classes needed.
 
+## Design system
+
+Kiso follows a strict spatial system extracted from [shadcn/ui](https://ui.shadcn.com) — consistent heights, padding, gaps, typography, border radius, and icon sizing across every component. See the [Design System](https://steveclarke.github.io/kiso/design-system) page for the visual reference.
+
 ## Design principles
 
 1. **Native HTML first.** Use `<dialog>`, `[popover]`, `<details>` before adding JavaScript.
