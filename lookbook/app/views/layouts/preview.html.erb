@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html class="<%= params.dig(:lookbook, :display, :theme) == "dark" ? "dark" : "" %>">
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script>
+      (function() {
+        var theme = new URLSearchParams(location.search).get("theme");
+        if (theme === "dark") document.documentElement.classList.add("dark");
+        window.addEventListener("message", function(e) {
+          if (e.data && e.data.type === "kiso:theme")
+            document.documentElement.classList.toggle("dark", e.data.dark);
+        });
+      })();
+    </script>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
   </head>
-  <body class="p-8">
+  <body class="p-8 bg-background">
     <%= yield %>
   </body>
 </html>

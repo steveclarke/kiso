@@ -23,7 +23,7 @@ Bridgetown.configure do |config|
 
   # Lookbook URL — local in development, production for deployed docs
   if Bridgetown.env.development?
-    lookbook_url "http://localhost:4001/lookbook"
+    lookbook_url "http://localhost:4001"
   else
     lookbook_url "https://lookbook.kisoui.com"
   end

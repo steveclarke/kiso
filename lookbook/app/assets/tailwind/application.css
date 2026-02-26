@@ -3,6 +3,8 @@
 
 /* Scan engine component partials for Tailwind class usage */
 @source "../../../../app/views";
+/* Scan lookbook app's own views (preview layout, etc.) */
+@source "../../views";
 /* Scan Lookbook preview templates */
 @source "../../../../test/components/previews";
 /* Scan Ruby theme files for computed class strings */
@@ -15,7 +17,7 @@
    Components use bg-primary, text-foreground, etc. — never raw palette shades.
    Change brand color: swap blue → orange on the primary lines. */
 
-@theme inline {
+@theme {
   /* Brand / action colors — single shade per purpose */
   --color-primary: var(--color-blue-600);
   --color-primary-foreground: white;

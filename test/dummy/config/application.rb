@@ -15,10 +15,5 @@ module Dummy
     config.load_defaults 8.0
     config.eager_load = false
     config.secret_key_base = "test-secret-key-base-for-dummy-app"
-
-    config.lookbook.project_name = "Kiso"
-    config.lookbook.preview_layout = "preview"
-    config.lookbook.preview_embeds.policy = "ALLOWALL"
-    config.lookbook.preview_embeds.panels = ["source"]
   end
 end
