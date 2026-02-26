@@ -131,7 +131,8 @@ done
 # Preflight checks
 # ---------------------------------------------------------------------------
 
-gum style --foreground "$LAVENDER" --bold "\nPreflight checks"
+echo
+gum style --foreground "$LAVENDER" --bold "Preflight checks"
 
 if [ -n "$(git status --porcelain)" ]; then
   gum style --foreground "$RED" "✗ Working tree is not clean. Commit or stash changes first."
@@ -205,7 +206,8 @@ $(gum style --foreground "$YELLOW" --bold "Dry run complete — no services were
 "
 else
   URLS=""
-  [[ "$ONLY" != "docs" ]]     && URLS+="$(gum style --foreground "$BLUE" "  https://lookbook.kisoui.com")\n"
+  [[ "$ONLY" != "docs" ]]     && URLS+="$(gum style --foreground "$BLUE" "  https://lookbook.kisoui.com")
+"
   [[ "$ONLY" != "lookbook" ]] && URLS+="$(gum style --foreground "$BLUE" "  https://kisoui.com")"
 
   gum style --border double --padding "1 2" --border-foreground "$GREEN" "
