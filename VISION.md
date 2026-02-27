@@ -351,7 +351,7 @@ kiso/
         toggle_group.css
         tooltip.css
       tailwind/
-        kiso_engine/
+        kiso/
           engine.css             # Master @import of all component CSS
     helpers/
       kiso/
@@ -493,7 +493,7 @@ bin/rails generate kiso:install
 ```
 
 The install generator:
-1. Adds `@import "../builds/tailwind/kiso_engine.css"` to application.css
+1. Adds `@import "../builds/tailwind/kiso.css"` to application.css
 2. Injects default theme CSS variables (customizable)
 3. Creates `app/helpers/kiso_helper.rb` for icon/builder access
 4. Configures importmap for Stimulus controllers
@@ -663,7 +663,7 @@ maquina's architecture.
 Copy maquina's ERB, CSS, Stimulus, and helpers. Rename namespaces:
 - `maquina_components` -> `kiso`
 - `data-controller="combobox"` -> `data-controller="kiso--combobox"`
-- CSS import path: `kiso_engine/engine.css`
+- CSS import path: `kiso/engine.css`
 - Helper module: `Kiso::ComponentHelper`
 
 Port app-level components (Item, Page, Number Stepper, Slider, Tooltip) from

@@ -21,7 +21,7 @@ this file before every Tailwind build with the correct paths for your environmen
 
 ```css
 @import "tailwindcss";
-@import "../builds/tailwind/kiso_engine";
+@import "../builds/tailwind/kiso";
 
 /* Optional: override tokens to match your brand */
 /* @theme { --color-primary: var(--color-violet-600); } */

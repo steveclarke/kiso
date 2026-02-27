@@ -3,7 +3,7 @@
 How Kiso's CSS, tokens, and source scanning reach host applications. This is
 the most integration-sensitive part of the gem — if it breaks, components
 render without styles. **Read this before changing anything in
-`app/assets/tailwind/kiso_engine/`.**
+`app/assets/tailwind/kiso/`.**
 
 ---
 
@@ -41,7 +41,7 @@ declarations, and dark mode overrides that the host app needs.
 4. The host app imports the generated file in its `application.css`:
    ```css
    @import "tailwindcss";
-   @import "../builds/tailwind/kiso_engine.css";
+   @import "../builds/tailwind/kiso.css";
    ```
 
 ### Why it works
@@ -53,31 +53,30 @@ means `@theme`, `@font-face`, `.dark {}`, and `@source` directives inside
 
 ### Critical constraint: directory name must match engine name
 
-Kiso's engine is registered as `kiso_engine` (in `lib/kiso/engine.rb`) to
-avoid namespace collisions with the `Kiso` module. The CSS directory **must**
-be `app/assets/tailwind/kiso_engine/` — not `kiso/`.
+The CSS directory **must** match the engine name. For `Kiso::Engine`, the
+default engine name is `kiso` (derived from the module name), so the
+directory must be `app/assets/tailwind/kiso/`.
 
 If they don't match, `tailwindcss:engines` silently skips the engine. No
 error, no warning. The generated file won't exist, and `@import` in the host
 app's CSS will fail at Tailwind compile time.
 
-```ruby
-# lib/kiso/engine.rb
-engine_name "kiso_engine"  # <- this name must match the directory
-```
-
 ```
 app/assets/tailwind/
-  kiso_engine/        # <- must match engine_name
+  kiso/               # <- must match engine_name (default: "kiso")
     engine.css        # <- required filename
     checkbox.css      # <- component CSS, imported by engine.css
     radio-group.css
 ```
 
+**Do not set `engine_name` explicitly** unless you have a specific reason.
+The default derived from `Kiso::Engine` is `kiso`, which keeps the directory
+name clean and matches how host apps reference the generated file.
+
 ## What engine.css contains
 
-`app/assets/tailwind/kiso_engine/engine.css` is the single entry point that
-ships with the gem. Everything the host app needs flows through this file.
+`app/assets/tailwind/kiso/engine.css` is the single entry point that ships
+with the gem. Everything the host app needs flows through this file.
 
 ### 1. Component CSS imports
 
@@ -134,11 +133,11 @@ gem "kiso"
 ```css
 /* app/assets/tailwind/application.css */
 @import "tailwindcss";
-@import "../builds/tailwind/kiso_engine.css";
+@import "../builds/tailwind/kiso.css";
 ```
 
-The generated file at `app/assets/builds/tailwind/kiso_engine.css` is
-transient (gitignored) and recreated on every build.
+The generated file at `app/assets/builds/tailwind/kiso.css` is transient
+(gitignored) and recreated on every build.
 
 To retheme:
 ```css
@@ -153,15 +152,15 @@ Lookbook-specific source paths:
 
 ```css
 @import "tailwindcss";
-@import "../builds/tailwind/kiso_engine.css";
+@import "../builds/tailwind/kiso.css";
 
 /* Lookbook-specific sources */
 @source "../../views";
 @source "../../../../test/components/previews";
 ```
 
-The generated file at `lookbook/app/assets/builds/tailwind/kiso_engine.css`
-is gitignored. It is created automatically when `tailwindcss:watch` or
+The generated file at `lookbook/app/assets/builds/tailwind/kiso.css` is
+gitignored. It is created automatically when `tailwindcss:watch` or
 `tailwindcss:build` runs (via Overmind's `css` process or `bin/dev`).
 
 ## Failure modes
@@ -190,7 +189,7 @@ process exits first.
 doesn't match the engine name.
 
 **Check**: `bin/rails runner "puts Kiso::Engine.engine_name"` should output
-`kiso_engine`. The directory should be `app/assets/tailwind/kiso_engine/`.
+`kiso`. The directory should be `app/assets/tailwind/kiso/`.
 
 ### Tokens not applied (no semantic colors)
 
@@ -232,12 +231,12 @@ cd testapp
 bundle install
 # Add @import to application.css
 bin/rails tailwindcss:build
-# Inspect app/assets/builds/tailwind/kiso_engine.css — should exist
+# Inspect app/assets/builds/tailwind/kiso.css — should exist
 # Inspect app/assets/builds/tailwind.css — should contain Kiso classes
 ```
 
 Verify:
-- [ ] `kiso_engine.css` generated automatically
+- [ ] `kiso.css` generated automatically
 - [ ] Semantic tokens present in compiled CSS (`--color-primary`)
 - [ ] Utility classes from theme modules present (`inline-flex`, `rounded-md`)
 - [ ] Dark mode tokens present (`.dark { --color-primary: ... }`)

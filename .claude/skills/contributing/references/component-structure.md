@@ -111,4 +111,4 @@ end
 3. Create partial at `app/views/kiso/components/_{name}.html.erb`
 4. Create Lookbook preview + templates
 5. Update `skills/kiso/references/components.md`
-6. If CSS needed, add file and import in `app/assets/tailwind/kiso_engine/engine.css`
+6. If CSS needed, add file and import in `app/assets/tailwind/kiso/engine.css`

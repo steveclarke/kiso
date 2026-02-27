@@ -110,7 +110,7 @@ app/
 ├── views/kiso/components/  # ERB partials (_badge.html.erb, alert/_title.html.erb)
 ├── assets/
 │   ├── stylesheets/kiso/   # Component CSS (transitions/pseudo-states only)
-│   └── tailwind/kiso_engine/  # engine.css — shipped with gem (fonts + all color tokens)
+│   └── tailwind/kiso/  # engine.css — shipped with gem (fonts + all color tokens)
 ├── helpers/kiso/           # component_tag, kiso() helpers
 └── javascript/controllers/kiso/  # Stimulus controllers (namespaced)
 test/
@@ -126,7 +126,7 @@ lookbook/                      # Dev Rails app (Lookbook on :4001)
 
 ## CSS architecture
 
-**`app/assets/tailwind/kiso_engine/engine.css`** is what the gem ships. It
+**`app/assets/tailwind/kiso/engine.css`** is what the gem ships. It
 contains Geist fonts, all default color tokens (`@theme`), dark mode overrides
 (`.dark {}`), and `@source` directives for Kiso's views, helpers, and theme
 modules. **Never put color tokens in the Lookbook's `application.css`** — they
@@ -140,8 +140,8 @@ and generates `app/assets/builds/tailwind/{engine_name}.css` with an `@import`
 pointing to the engine's CSS. This runs as a prerequisite of both
 `tailwindcss:build` and `tailwindcss:watch` — no custom Rake tasks needed.
 
-Kiso's engine name is `kiso_engine`, so the directory must be
-`app/assets/tailwind/kiso_engine/` to match.
+Kiso's engine name is `kiso`, so the directory must be
+`app/assets/tailwind/kiso/` to match.
 
 ### Lookbook setup
 
@@ -150,7 +150,7 @@ engine file and adds Lookbook-specific source paths:
 
 ```css
 @import "tailwindcss";
-@import "../builds/tailwind/kiso_engine.css";
+@import "../builds/tailwind/kiso.css";
 
 /* Lookbook-specific sources */
 @source "../../views";

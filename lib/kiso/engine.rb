@@ -1,7 +1,6 @@
 module Kiso
   class Engine < ::Rails::Engine
     isolate_namespace Kiso
-    engine_name "kiso_engine"
 
     initializer "kiso.class_variants" do
       ClassVariants.configure do |config|
