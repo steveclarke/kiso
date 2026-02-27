@@ -19,6 +19,7 @@ require "kiso/themes/input"
 require "kiso/themes/textarea"
 require "kiso/themes/input_group"
 require "kiso/themes/checkbox"
+require "kiso/themes/radio_group"
 require "kiso/icons"
 
 module Kiso
