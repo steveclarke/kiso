@@ -5,5 +5,5 @@
     class: Kiso::Themes::Textarea.render(variant: variant, size: size, class: css_classes),
     data: kiso_prepare_options(component_options, component: :textarea),
     **component_options do %>
-  <%= yield if block_given? %>
+  <%= capture { yield }.presence %>
 <% end %>

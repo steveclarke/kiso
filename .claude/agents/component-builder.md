@@ -88,6 +88,11 @@ Rules:
 - `css_classes: ""` and `**component_options` on every partial
 - Use `kiso_prepare_options()` for data attributes
 - Match the HTML element shadcn uses (`<div>`, `<label>`, `<fieldset>`, etc.)
+- **Never use `block_given?` in ERB partials** — it's always `true` due to
+  Rails internals. For default content with optional block override, use:
+  ```erb
+  <%= capture { yield }.presence || kiso_icon("chevron-right") %>
+  ```
 
 ### 4. Create Lookbook previews
 

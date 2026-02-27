@@ -306,19 +306,45 @@ The target pattern for all components with internal structure:
 ```erb
 <%# locals: (title: nil, description: nil, icon: nil, color: :primary,
              variant: :soft, css_classes: "", **component_options) %>
+<% content = capture { yield }.presence %>
 <%= content_tag :div,
     class: Kiso::Themes::Alert.render(color: color, variant: variant, class: css_classes),
     data: { component: :alert },
     **component_options do %>
-  <% if block_given? %>
+  <% if content %>
     <%# Full override — user controls everything %>
-    <%= yield %>
+    <%= content %>
   <% else %>
     <%# Props-driven layout — component handles structure %>
     <%# icon, title, description rendered here %>
   <% end %>
 <% end %>
 ```
+
+### Default content with optional block override
+
+When a component renders default content (like an icon) but allows the caller
+to replace it with a block:
+
+```erb
+<%# One-liner — default with inline fallback %>
+<%= capture { yield }.presence || kiso_icon("chevron-right", class: "size-3.5") %>
+
+<%# Multi-line — assign first, then branch %>
+<% content = capture { yield }.presence %>
+<% if content %>
+  <%= content %>
+<% else %>
+  <%# default content here %>
+<% end %>
+```
+
+**CRITICAL: Never use `block_given?` in ERB partials.** Rails wraps every
+partial in an internal block, so `block_given?` is always `true` — even when
+the caller passes no block. `yield` returns an empty string in that case, so
+`block_given?` + `yield` silently swallows the default. Use
+`capture { yield }.presence` instead — it correctly returns `nil` when no
+block content is provided.
 
 ### Sub-part partials
 
@@ -355,6 +381,7 @@ For composed usage via `kui(:component, :part)`:
 | Container padding | `p-6` large (Card, Dialog), `p-4` medium (Sheet, Popover), `p-2` compact. |
 | No arbitrary values | Never use `text-[8px]`, `h-[1.15rem]`, etc. Use standard Tailwind classes only. |
 | Sub-part naming | `kui(:alert, :title)` — **never** `kui(:alert_title)`. Files live in `alert/_title.html.erb`. Data attrs: `component: :alert, alert_part: :title`. |
+| No `block_given?` in ERB | Rails makes `block_given?` always true in partials. Use `capture { yield }.presence` for default-with-override. |
 | Strict locals | Every partial: `<%# locals: (color: :primary, ...) %>` |
 | Data attributes | `data-component="alert"` for identity — NOT for CSS selectors. |
 | `css_classes:` override | Single override point, merged via tailwind_merge. |

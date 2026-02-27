@@ -91,6 +91,17 @@ Consistency is more important than any individual improvement.
   the same, accept props (`title:`, `description:`, `icon:`) and handle
   layout internally. Yield block replaces all internal structure for full
   control. Props are guardrails for agent-written code.
+- **Never use `block_given?` in ERB partials** — Rails wraps every partial
+  in a block internally, so `block_given?` is always `true` regardless of
+  whether the caller passed a block. For "default content with optional
+  block override", use `capture { yield }.presence` instead:
+  ```erb
+  <%= capture { yield }.presence || kiso_icon("chevron-right") %>
+  ```
+  For multi-line defaults, assign first:
+  ```erb
+  <% content = capture { yield }.presence %>
+  ```
 - **Component vision docs** — `project/components/COMPONENT.md` defines the
   target API for each component. Read before building or extending.
 - **Composition over configuration** — Card = Header + Title + Content + Footer.

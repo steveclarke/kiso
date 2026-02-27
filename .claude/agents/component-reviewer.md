@@ -195,3 +195,6 @@ These are the most frequent issues found in reviews, in order of likelihood:
 6. **Missing text-foreground** on component root
 7. **Arbitrary Tailwind values** sneaking in
 8. **Description text using text-muted-foreground** inside colored components (should be opacity-90)
+9. **Using `block_given?` in ERB partials** — always true due to Rails
+   internals. Must use `capture { yield }.presence` instead for
+   default-with-override patterns. Flag any `block_given?` in ERB as a FAIL.

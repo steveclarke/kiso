@@ -1,5 +1,5 @@
 <%# locals: (css_classes: "", **component_options) %>
-<% captured = capture { yield } if block_given? %>
+<% captured = capture { yield }.presence %>
 <%= content_tag :div,
     class: Kiso::Themes::FieldSeparator.render(class: css_classes),
     data: kiso_prepare_options(component_options, component: :field, field_part: :separator).merge(
