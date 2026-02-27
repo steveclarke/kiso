@@ -1,0 +1,17 @@
+/* RadioGroupItem indicator — CSS ::after for the filled circle dot since
+   native <input type="radio"> can't contain child elements. Uses currentColor
+   which inherits from checked:text-{color}-foreground set by compound variants.
+   Follows the same pattern as Checkbox (mask-image with currentColor). */
+
+[data-radio-group-part="item"] {
+  display: grid;
+  place-content: center;
+}
+
+[data-radio-group-part="item"]:checked::after {
+  content: '';
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 9999px;
+  background-color: currentColor;
+}

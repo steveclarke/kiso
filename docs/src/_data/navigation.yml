@@ -35,6 +35,8 @@ docs:
         href: /components/field
       - title: Input
         href: /components/input
+      - title: RadioGroup
+        href: /components/radio_group
       - title: Textarea
         href: /components/textarea
       - title: InputGroup

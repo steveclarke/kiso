@@ -1,0 +1,16 @@
+<div class="text-foreground">
+  <%= kiso(:radio_group) do %>
+    <div class="flex items-center gap-3">
+      <%= kiso(:radio_group, :item, color: color, value: "free", name: :plan, id: :plan_free, checked: true) %>
+      <label for="plan_free" class="text-sm">Free</label>
+    </div>
+    <div class="flex items-center gap-3">
+      <%= kiso(:radio_group, :item, color: color, value: "pro", name: :plan, id: :plan_pro) %>
+      <label for="plan_pro" class="text-sm">Pro</label>
+    </div>
+    <div class="flex items-center gap-3">
+      <%= kiso(:radio_group, :item, color: color, value: "enterprise", name: :plan, id: :plan_enterprise) %>
+      <label for="plan_enterprise" class="text-sm">Enterprise</label>
+    </div>
+  <% end %>
+</div>
