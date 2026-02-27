@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+################################################################################
+# bin/worktree — Worktree port management for parallel development
+################################################################################
+#
+# Assigns deterministic Lookbook ports to git worktrees so multiple agents
+# can develop components in parallel without port conflicts.
+#
+# USAGE
+# -----
+#   bin/worktree port             Port for current worktree
+#   bin/worktree port <name>      Port for named worktree
+#   bin/worktree env              Export line for current worktree
+#   bin/worktree start            Start Lookbook + Tailwind on assigned port
+#   bin/worktree stop             Stop services in current worktree
+#   bin/worktree status           Show running services
+#
+# PORT FORMULA
+# ------------
+# Main worktree → 4001 (default)
+# Named worktrees → 4101–4600 (MD5 hash of directory name)
+#
+# INTEGRATION
+# -----------
+# Agents use this to start isolated Lookbook instances:
+#
+#   export LOOKBOOK_PORT=$(bin/worktree port)
+#   bin/dev -- -l web,css
+#
+# Or simply:
+#
+#   bin/worktree start
+#
+################################################################################
+
+MAIN_PORT=4001
+PORT_BASE=4101
+PORT_RANGE=500
+
+################################################################################
+# Port Calculation
+################################################################################
+
+# Returns the worktree name (directory basename) or "main" for the primary checkout
+worktree_name() {
+  local name="${1:-}"
+
+  if [ -n "$name" ]; then
+    echo "$name"
+    return
+  fi
+
+  # Detect if we're in a worktree
+  local git_dir
+  git_dir=$(git rev-parse --git-dir 2>/dev/null)
+
+  if [[ "$git_dir" == *".git/worktrees/"* ]]; then
+    # We're in a worktree — extract name from path
+    basename "$(git rev-parse --show-toplevel)"
+  else
+    echo "main"
+  fi
+}
+
+# Deterministic port from worktree name using MD5 hash
+# Main worktree always gets MAIN_PORT
+calculate_port() {
+  local name
+  name=$(worktree_name "${1:-}")
+
+  if [ "$name" = "main" ]; then
+    echo "$MAIN_PORT"
+    return
+  fi
+
+  local hash
+  hash=$(echo -n "$name" | md5 -q 2>/dev/null || echo -n "$name" | md5sum | cut -d' ' -f1)
+  local offset=$(( 16#${hash:0:8} % PORT_RANGE ))
+  echo $(( PORT_BASE + offset ))
+}
+
+################################################################################
+# Commands
+################################################################################
+
+cmd_port() {
+  calculate_port "${1:-}"
+}
+
+cmd_env() {
+  local port
+  port=$(calculate_port "${1:-}")
+  echo "export LOOKBOOK_PORT=$port"
+}
+
+cmd_start() {
+  local port
+  port=$(calculate_port)
+  echo "Starting Lookbook on port $port..."
+  LOOKBOOK_PORT=$port exec bin/dev -- -l web,css
+}
+
+cmd_stop() {
+  bin/dev stop
+}
+
+cmd_status() {
+  bin/dev status 2>/dev/null || echo "Not running"
+}
+
+cmd_help() {
+  cat <<EOF
+Usage: bin/worktree <command> [name]
+
+Commands:
+  port [name]   Show Lookbook port for current or named worktree
+  env [name]    Print export line for shell eval
+  start         Start Lookbook + Tailwind on assigned port
+  stop          Stop services
+  status        Show running services
+  help          Show this help
+
+Examples:
+  bin/worktree port                    # → 4001 (main)
+  bin/worktree port feat-input         # → 4237 (deterministic)
+  eval \$(bin/worktree env)             # Export LOOKBOOK_PORT
+  bin/worktree start                   # Start on assigned port
+EOF
+}
+
+################################################################################
+# Main
+################################################################################
+
+case "${1:-help}" in
+  port)    shift; cmd_port "${1:-}" ;;
+  env)     shift; cmd_env "${1:-}" ;;
+  start)   cmd_start ;;
+  stop)    cmd_stop ;;
+  status)  cmd_status ;;
+  help|-h|--help) cmd_help ;;
+  *)       cmd_help; exit 1 ;;
+esac

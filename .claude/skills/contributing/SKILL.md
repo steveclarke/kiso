@@ -367,13 +367,72 @@ For composed usage via `kiso(:component, :part)`:
 | Update docs | `skills/kiso/references/components.md` + vision doc. |
 | Lint before commit | `bundle exec standardrb --fix` |
 
+## Worktree workflow (parallel development)
+
+When working in a git worktree (e.g., spawned by the orchestrator for parallel
+component builds), use `bin/worktree` for port management:
+
+```bash
+# Get your unique Lookbook port (deterministic from worktree name)
+bin/worktree port              # → 4237
+
+# Start Lookbook + Tailwind on your assigned port (skips docs)
+bin/worktree start
+
+# Or manually:
+export LOOKBOOK_PORT=$(bin/worktree port)
+bin/dev -- -l web,css
+
+# Verify previews render
+curl -s -o /dev/null -w "%{http_code}" http://localhost:$LOOKBOOK_PORT/preview/kiso/{name}/playground
+
+# Stop when done
+bin/worktree stop
+```
+
+Port assignment is hash-based: main worktree → 4001, named worktrees → 4101–4600.
+Same name always gets the same port, no conflicts between parallel agents.
+
+## Pull request workflow
+
+**Always include `Closes #N` in the PR body** so GitHub auto-closes the issue
+on merge. This is the most commonly missed step.
+
+```bash
+# Create branch
+git checkout -b feat/{name}-component
+
+# Stage specific files (never git add -A)
+git add lib/kiso/themes/{name}.rb app/views/kiso/components/...
+
+# Commit
+git commit -m "feat: ComponentName component (#N)"
+
+# Push and create PR
+git push -u origin feat/{name}-component
+gh pr create --title "feat: ComponentName component" --body "$(cat <<'EOF'
+## Summary
+- [what was built]
+
+Closes #N
+
+## Test plan
+- [x] All Lookbook previews render (200)
+- [x] standardrb passes
+- [x] rake test passes
+- [ ] Visual review in Lookbook
+EOF
+)"
+```
+
 ## Commands
 
 ```bash
 bin/dev                         # All services via Overmind (Lookbook :4001 + docs :4000)
+bin/dev -- -l web,css           # Lookbook + Tailwind only (no docs)
+bin/worktree start              # Start on worktree-assigned port
+bin/worktree port               # Show port for current worktree
 overmind restart web            # Restart Lookbook server
-overmind connect docs           # Attach to docs server logs
-cd test/dummy && bin/dev        # Lookbook only (Foreman, legacy)
 bundle exec rake test           # Run tests
 bundle exec standardrb --fix    # Lint & auto-format Ruby
 ```
