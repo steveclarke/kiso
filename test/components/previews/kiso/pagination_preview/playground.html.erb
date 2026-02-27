@@ -1,0 +1,30 @@
+<%
+  # Build a series like Pagy would: [1, :gap, prev, current, next, :gap, total]
+  series = []
+  if total_pages <= 7
+    series = (1..total_pages).to_a
+  else
+    series = [1]
+    series << :gap if current_page > 3
+    ((current_page - 1)..(current_page + 1)).each do |p|
+      series << p if p > 1 && p < total_pages
+    end
+    series << :gap if current_page < total_pages - 2
+    series << total_pages
+  end
+%>
+<%= kiso(:pagination) do %>
+  <%= kiso(:pagination_content) do %>
+    <%= kiso(:pagination_previous, href: current_page > 1 ? "#" : nil) %>
+    <% series.each do |item| %>
+      <% if item == :gap %>
+        <%= kiso(:pagination_item) { kiso(:pagination_ellipsis) } %>
+      <% else %>
+        <%= kiso(:pagination_item) do %>
+          <%= kiso(:pagination_link, href: "#", active: item == current_page) { item.to_s } %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= kiso(:pagination_next, href: current_page < total_pages ? "#" : nil) %>
+  <% end %>
+<% end %>

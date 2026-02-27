@@ -1,0 +1,9 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :nav,
+    role: "navigation",
+    aria: {label: "pagination"},
+    class: Kiso::Themes::Pagination.render(class: css_classes),
+    data: kiso_prepare_options(component_options, component: :pagination),
+    **component_options do %>
+  <%= yield %>
+<% end %>

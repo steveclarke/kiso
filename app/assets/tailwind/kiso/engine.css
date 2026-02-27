@@ -3,6 +3,11 @@
    that are awkward to express in ERB. Most styling lives in Ruby theme modules
    (lib/kiso/themes/) as computed Tailwind classes. */
 
+/* Scan Kiso's own files so host apps don't need to know the gem's internals. */
+@source "../../views";
+@source "../../helpers";
+@source "../../../../lib/kiso/themes";
+
 /* === Geist Font (by Vercel) ===
    Self-hosted variable fonts — no CDN dependency.
    Licensed under the SIL Open Font License (see OFL.txt).
@@ -29,4 +34,95 @@
 @theme inline {
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* === Semantic Color Tokens ===
+   Purpose-named tokens that flip in dark mode. Components use bg-primary,
+   text-foreground, etc. — never raw palette shades or dark: prefixes.
+
+   Override any token in your app's CSS to retheme:
+     @theme { --color-primary: var(--color-violet-600); }
+*/
+
+@theme {
+  /* Brand / action colors */
+  --color-primary: var(--color-blue-600);
+  --color-primary-foreground: white;
+
+  --color-secondary: var(--color-teal-600);
+  --color-secondary-foreground: white;
+
+  --color-success: var(--color-green-600);
+  --color-success-foreground: white;
+
+  --color-info: var(--color-sky-600);
+  --color-info-foreground: white;
+
+  --color-warning: var(--color-amber-500);
+  --color-warning-foreground: var(--color-amber-950);
+
+  --color-error: var(--color-red-600);
+  --color-error-foreground: white;
+
+  /* Surface tokens */
+  --color-background: white;
+  --color-foreground: var(--color-zinc-950);
+
+  --color-muted: var(--color-zinc-100);
+  --color-muted-foreground: var(--color-zinc-500);
+
+  --color-accent: var(--color-zinc-100);
+  --color-accent-foreground: var(--color-zinc-900);
+
+  --color-inverted: var(--color-zinc-900);
+  --color-inverted-foreground: white;
+  --color-elevated: var(--color-zinc-100);
+  --color-accented: var(--color-zinc-300);
+
+  --color-border: var(--color-zinc-200);
+  --color-border-accented: var(--color-zinc-300);
+
+  --color-ring: var(--color-zinc-400);
+}
+
+/* === Dark Mode ===
+   Redefine tokens under .dark — components never use dark: prefixes. */
+
+.dark {
+  --color-primary: var(--color-blue-400);
+  --color-primary-foreground: var(--color-zinc-950);
+
+  --color-secondary: var(--color-teal-400);
+  --color-secondary-foreground: var(--color-zinc-950);
+
+  --color-success: var(--color-green-400);
+  --color-success-foreground: var(--color-zinc-950);
+
+  --color-info: var(--color-sky-400);
+  --color-info-foreground: var(--color-zinc-950);
+
+  --color-warning: var(--color-amber-400);
+  --color-warning-foreground: var(--color-zinc-950);
+
+  --color-error: var(--color-red-400);
+  --color-error-foreground: var(--color-zinc-950);
+
+  --color-background: var(--color-zinc-950);
+  --color-foreground: var(--color-zinc-50);
+
+  --color-muted: var(--color-zinc-800);
+  --color-muted-foreground: var(--color-zinc-400);
+
+  --color-accent: var(--color-zinc-800);
+  --color-accent-foreground: var(--color-zinc-50);
+
+  --color-inverted: white;
+  --color-inverted-foreground: var(--color-zinc-950);
+  --color-elevated: var(--color-zinc-800);
+  --color-accented: var(--color-zinc-700);
+
+  --color-border: var(--color-zinc-800);
+  --color-border-accented: var(--color-zinc-700);
+
+  --color-ring: var(--color-zinc-600);
 }

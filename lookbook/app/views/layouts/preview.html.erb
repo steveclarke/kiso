@@ -14,7 +14,7 @@
     </script>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
   </head>
-  <body class="p-8 bg-background">
+  <body class="p-8 bg-background antialiased" style="text-rendering: optimizeLegibility; font-synthesis-weight: none;">
     <%= yield %>
   </body>
 </html>

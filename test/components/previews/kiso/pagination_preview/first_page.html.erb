@@ -1,0 +1,12 @@
+<%# First page: [1] 2 3 ... 10 — no previous link %>
+<%= kiso(:pagination) do %>
+  <%= kiso(:pagination_content) do %>
+    <%= kiso(:pagination_previous, href: nil) %>
+    <%= kiso(:pagination_item) { kiso(:pagination_link, href: "#", active: true) { "1" } } %>
+    <%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "2" } } %>
+    <%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "3" } } %>
+    <%= kiso(:pagination_item) { kiso(:pagination_ellipsis) } %>
+    <%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "10" } } %>
+    <%= kiso(:pagination_next, href: "#") %>
+  <% end %>
+<% end %>

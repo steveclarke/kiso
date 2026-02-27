@@ -1,0 +1,7 @@
+<%# Prev/Next only — no page numbers — developer builds a wrapper component like this %>
+<%= kiso(:pagination) do %>
+  <%= kiso(:pagination_content) do %>
+    <%= kiso(:pagination_previous, href: "#") %>
+    <%= kiso(:pagination_next, href: "#") %>
+  <% end %>
+<% end %>

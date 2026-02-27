@@ -106,18 +106,55 @@ app/
 ├── views/kiso/components/  # ERB partials (_badge.html.erb, alert/_title.html.erb)
 ├── assets/
 │   ├── stylesheets/kiso/   # Component CSS (transitions/pseudo-states only)
-│   └── tailwind/kiso/      # Engine CSS bridge (engine.css)
+│   └── tailwind/kiso/      # engine.css — shipped with gem (fonts + all color tokens)
 ├── helpers/kiso/           # component_tag, kiso() helpers
 └── javascript/controllers/kiso/  # Stimulus controllers (namespaced)
 test/
 ├── components/previews/kiso/  # Lookbook previews + templates
-└── dummy/                     # Development Rails app
 skills/kiso/                   # AI skill (update when adding components)
 project/
 ├── DESIGN_SYSTEM.md           # Strict compound variant rules + token map
 ├── COMPONENT_STRATEGY.md      # Architecture, recipes, patterns
 └── components/                # Per-component vision docs
 docs/                          # Bridgetown docs site (published documentation)
+lookbook/                      # Dev Rails app (Lookbook on :4001)
+```
+
+## CSS architecture
+
+**`app/assets/tailwind/kiso/engine.css`** is what the gem ships. It contains
+Geist fonts, all default color tokens (`@theme`), and dark mode overrides
+(`.dark {}`). **Never put color tokens in the Lookbook's `application.css`**
+— they belong in `engine.css` so host apps get them too.
+
+### The Tailwind v4 scanning limitation
+
+`@source` directives inside `@import`-ed CSS files are **never processed** by
+Tailwind v4's scanner — only `@theme` works from imported files. This means
+engine.css cannot self-register source paths for host apps.
+
+Kiso solves this with a Rake task (`kiso:tailwindcss:generate_sources`) that
+auto-generates `app/assets/builds/tailwind/kiso.css` in the host app.
+This file contains both:
+- `@import` for engine.css (tokens, fonts, dark mode)
+- `@source` for Kiso's views, helpers, and theme modules (absolute paths)
+
+The task hooks into `tailwindcss:build` and `tailwindcss:watch` automatically
+via Rake `enhance`. Paths come from `Kiso::Engine.root` at build time — always
+correct regardless of environment (dev, Docker, CI).
+
+### Lookbook setup
+
+**`lookbook/app/assets/tailwind/application.css`** imports the generated
+engine file and adds Lookbook-specific source paths:
+
+```css
+@import "tailwindcss";
+@import "../builds/tailwind/kiso.css";
+
+/* Lookbook-specific sources */
+@source "../../views";
+@source "../../../../test/components/previews";
 ```
 
 ## Component creation workflow

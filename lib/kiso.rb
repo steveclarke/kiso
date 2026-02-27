@@ -11,6 +11,7 @@ require "kiso/themes/separator"
 require "kiso/themes/empty_state"
 require "kiso/themes/stats_card"
 require "kiso/themes/table"
+require "kiso/themes/pagination"
 require "kiso/icons"
 
 module Kiso
