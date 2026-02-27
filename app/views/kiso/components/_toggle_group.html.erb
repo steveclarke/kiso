@@ -1,0 +1,12 @@
+<%# locals: (type: :single, variant: :default, size: :default, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::ToggleGroup.render(class: css_classes),
+    role: "group",
+    data: kiso_prepare_options(component_options, component: :toggle_group,
+      controller: "kiso--toggle-group",
+      kiso__toggle_group_type_value: type,
+      kiso__toggle_group_variant_value: variant,
+      kiso__toggle_group_size_value: size),
+    **component_options do %>
+  <%= yield %>
+<% end %>

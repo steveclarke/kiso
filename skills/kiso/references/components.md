@@ -44,6 +44,8 @@ All colored components use **identical compound variant formulas** — see `proj
 | `badge` | `color`, `variant` (solid/outline/soft/subtle), `size` (xs-xl) | [badge.md](components/badge.md) |
 | `alert` | `color`, `variant` (solid/outline/soft/subtle) | [alert.md](components/alert.md) |
 | `button` | `color`, `variant` (solid/outline/soft/subtle/ghost/link), `size` (xs-xl) | [button.md](components/button.md) |
+| `toggle` | `variant` (default/outline), `size` (sm/default/lg), `pressed` | [toggle.md](components/toggle.md) |
+| `toggle_group` | `type` (single/multiple), `variant`, `size`. Sub-part: item | [toggle_group.md](components/toggle_group.md) |
 
 ## Compound Variant Reference
 

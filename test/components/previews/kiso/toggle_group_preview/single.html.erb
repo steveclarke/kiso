@@ -1,0 +1,13 @@
+<div class="flex gap-4 items-center text-foreground">
+  <%= kui(:toggle_group, type: :single) do %>
+    <%= kui(:toggle_group, :item, value: "left", "aria-label": "Align left") do %>
+      <%= kiso_icon("align-left") %>
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "center", pressed: true, "aria-label": "Align center") do %>
+      <%= kiso_icon("align-center") %>
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "right", "aria-label": "Align right") do %>
+      <%= kiso_icon("align-right") %>
+    <% end %>
+  <% end %>
+</div>

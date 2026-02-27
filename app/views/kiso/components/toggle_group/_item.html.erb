@@ -1,0 +1,13 @@
+<%# locals: (value: nil, variant: :default, size: :default, pressed: false, css_classes: "", **component_options) %>
+<% component_options[:type] ||= :button
+   component_options[:"aria-pressed"] = pressed %>
+<%= content_tag :button,
+    class: Kiso::Themes::ToggleGroupItem.render(variant: variant, size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, component: :toggle_group, toggle_group_part: :item,
+      state: pressed ? "on" : "off",
+      value: value,
+      kiso__toggle_group_target: "item",
+      action: "click->kiso--toggle-group#toggle"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

@@ -1,0 +1,8 @@
+<div class="flex gap-4 items-center text-foreground">
+  <%= kui(:toggle, disabled: true, "aria-label": "Toggle bold") do %>
+    <%= kiso_icon("bold") %>
+  <% end %>
+  <%= kui(:toggle, variant: :outline, disabled: true, "aria-label": "Toggle italic") do %>
+    <%= kiso_icon("italic") %>
+  <% end %>
+</div>

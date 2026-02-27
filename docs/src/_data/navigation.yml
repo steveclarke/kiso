@@ -47,6 +47,10 @@ docs:
         href: /components/stats_card
       - title: Table
         href: /components/table
+      - title: Toggle
+        href: /components/toggle
+      - title: ToggleGroup
+        href: /components/toggle_group
 
   - heading: Forms
     items:
