@@ -21,6 +21,7 @@ require "kiso/themes/input_group"
 require "kiso/themes/checkbox"
 require "kiso/themes/radio_group"
 require "kiso/themes/switch"
+require "kiso/themes/breadcrumb"
 require "kiso/icons"
 
 module Kiso

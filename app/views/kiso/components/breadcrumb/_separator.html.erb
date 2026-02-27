@@ -1,0 +1,13 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :li,
+    class: Kiso::Themes::BreadcrumbSeparator.render(class: css_classes),
+    role: "presentation",
+    aria: { hidden: "true" },
+    data: kiso_prepare_options(component_options, component: :breadcrumb, breadcrumb_part: :separator),
+    **component_options do %>
+  <% if block_given? %>
+    <%= yield %>
+  <% else %>
+    <%= kiso_icon "chevron-right", class: "size-3.5" %>
+  <% end %>
+<% end %>

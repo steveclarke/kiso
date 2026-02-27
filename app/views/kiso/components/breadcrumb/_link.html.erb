@@ -1,0 +1,7 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :a,
+    class: Kiso::Themes::BreadcrumbLink.render(class: css_classes),
+    data: kiso_prepare_options(component_options, component: :breadcrumb, breadcrumb_part: :link),
+    **component_options do %>
+  <%= yield %>
+<% end %>

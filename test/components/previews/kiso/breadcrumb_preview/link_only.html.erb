@@ -1,0 +1,17 @@
+<div class="text-foreground">
+  <%= kui(:breadcrumb) do %>
+    <%= kui(:breadcrumb, :list) do %>
+      <%= kui(:breadcrumb, :item) do %>
+        <%= kui(:breadcrumb, :link, href: "#") { "Home" } %>
+      <% end %>
+      <%= kui(:breadcrumb, :separator) %>
+      <%= kui(:breadcrumb, :item) do %>
+        <%= kui(:breadcrumb, :link, href: "#") { "Components" } %>
+      <% end %>
+      <%= kui(:breadcrumb, :separator) %>
+      <%= kui(:breadcrumb, :item) do %>
+        <%= kui(:breadcrumb, :link, href: "#") { "Breadcrumb" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
