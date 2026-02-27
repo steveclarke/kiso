@@ -3,6 +3,8 @@
    that are awkward to express in ERB. Most styling lives in Ruby theme modules
    (lib/kiso/themes/) as computed Tailwind classes. */
 
+@import "./checkbox.css";
+
 /* Scan Kiso's own files so host apps don't need to know the gem's internals. */
 @source "../../views";
 @source "../../helpers";

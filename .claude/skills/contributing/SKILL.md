@@ -194,7 +194,7 @@ Progress:
 - [ ] 9. Add CSS file if needed (transitions/animations only)
 - [ ] 10. Update skills/kiso/references/components.md
 - [ ] 11. Write/update project/components/[NAME].md vision doc
-- [ ] 12. Create docs page (see "Documentation page" below)
+- [ ] 12. Create docs page AND add to docs/src/_data/navigation.yml (see "Documentation page" below)
 - [ ] 13. Run: bundle exec standardrb --fix
 - [ ] 14. Rebuild Tailwind: cd test/dummy && bin/rails tailwindcss:build
 - [ ] 15. Verify in Lookbook: http://localhost:4001/lookbook
