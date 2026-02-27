@@ -170,8 +170,8 @@ deploy_lookbook() {
   if [[ "$DRY_RUN" == "true" ]]; then
     gum style --foreground "$BLUE" "  \$ kamal deploy"
   else
-    gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Deploying Lookbook → lookbook.kisoui.com...")" -- \
-      kamal deploy
+    gum style --foreground "$BLUE" "Deploying Lookbook → lookbook.kisoui.com..."
+    kamal deploy
     gum style --foreground "$GREEN" "✓ Lookbook deployed"
   fi
 }
@@ -180,8 +180,8 @@ deploy_docs() {
   if [[ "$DRY_RUN" == "true" ]]; then
     gum style --foreground "$BLUE" "  \$ kamal deploy -c config/deploy.docs.yml"
   else
-    gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Deploying docs → kisoui.com...")" -- \
-      kamal deploy -c config/deploy.docs.yml
+    gum style --foreground "$BLUE" "Deploying docs → kisoui.com..."
+    kamal deploy -c config/deploy.docs.yml
     gum style --foreground "$GREEN" "✓ Docs deployed"
   fi
 }
