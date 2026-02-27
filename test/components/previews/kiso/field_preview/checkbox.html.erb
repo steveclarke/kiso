@@ -4,8 +4,7 @@
     <%= kiso(:field, :description) { "Select the items you want to display on your dashboard." } %>
 
     <%= kiso(:field, orientation: :horizontal) do %>
-      <input type="checkbox" id="cb_recents" name="items[]" value="recents" checked role="checkbox"
-        class="size-4 rounded border accent-primary">
+      <%= kiso(:checkbox, id: :cb_recents, name: "items[]", value: "recents", checked: true) %>
       <%= kiso(:field, :content) do %>
         <%= kiso(:field, :label, for: :cb_recents) { "Recents" } %>
         <%= kiso(:field, :description) { "Shows your most recent activity." } %>
@@ -13,8 +12,7 @@
     <% end %>
 
     <%= kiso(:field, orientation: :horizontal) do %>
-      <input type="checkbox" id="cb_home" name="items[]" value="home" role="checkbox"
-        class="size-4 rounded border accent-primary">
+      <%= kiso(:checkbox, id: :cb_home, name: "items[]", value: "home") %>
       <%= kiso(:field, :content) do %>
         <%= kiso(:field, :label, for: :cb_home) { "Home" } %>
         <%= kiso(:field, :description) { "Shows your home dashboard." } %>
@@ -22,8 +20,7 @@
     <% end %>
 
     <%= kiso(:field, orientation: :horizontal) do %>
-      <input type="checkbox" id="cb_apps" name="items[]" value="apps" role="checkbox"
-        class="size-4 rounded border accent-primary">
+      <%= kiso(:checkbox, id: :cb_apps, name: "items[]", value: "apps") %>
       <%= kiso(:field, :content) do %>
         <%= kiso(:field, :label, for: :cb_apps) { "Applications" } %>
         <%= kiso(:field, :description) { "Shows your installed applications." } %>

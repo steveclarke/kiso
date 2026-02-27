@@ -29,6 +29,8 @@ docs:
 
   - heading: Forms
     items:
+      - title: Checkbox
+        href: /components/checkbox
       - title: Field
         href: /components/field
       - title: Input
