@@ -156,6 +156,29 @@ docs/                      Bridgetown docs site (published documentation)
 - class_variants ~> 1.1 (variant definitions, Ruby cva equivalent)
 - tailwind_merge ~> 1.0 (class deduplication)
 
+## GitHub Project
+
+The repo uses **GitHub Projects** (project #7, `PVT_kwHNBRnOAUCSOg`).
+When creating issues, add them to the project and set the Status field.
+
+```bash
+# Add issue to project
+gh project item-add 7 --owner steveclarke --url https://github.com/steveclarke/kiso/issues/N
+
+# Set status (use item ID from item-list, not issue number)
+gh project item-edit --project-id PVT_kwHNBRnOAUCSOg --id PVTI_xxx --field-id PVTSSF_lAHNBRnOAUCSOs4PlkNg --single-select-option-id <option-id>
+```
+
+**Status field** (`PVTSSF_lAHNBRnOAUCSOs4PlkNg`) options:
+
+| Status | Option ID |
+|--------|-----------|
+| Someday | `b0767535` |
+| Backlog | `1913d265` |
+| Up Next | `3b515411` |
+| In Progress | `f174b9f7` |
+| Done | `da46eb59` |
+
 ## Git & PRs
 
 - **Always squash merge PRs** (`gh pr merge --squash`). Repo is configured

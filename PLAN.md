@@ -49,9 +49,14 @@ Reference: `vendor/maquina_components/` (local checkout)
 - **#8** — Live component previews in documentation pages
 - **#9** — Polish component documentation to match Nuxt UI quality
 
-### What's Next
+### What's Next / Up Next
 
-**Batch 1 complete.** Next: Batch 2 (form inputs).
+- **#47** — Breadcrumb (7 sub-parts, no JS)
+- **#48** — Toggle + ToggleGroup (3 sub-parts, Stimulus)
+- **#49** — Popover (7 sub-parts, Stimulus, foundation for DropdownMenu/Combobox/DatePicker)
+
+**Batch 1 complete. Batch 2 complete.** Next: Batch 3 (Stimulus components).
+See `project/plans/batch-3-stimulus.md` for the full breakdown.
 Header deferred to Phase 2 (page-level layouts: Header, Sidebar, Page).
 
 ## Phase 1: Maquina Parity
