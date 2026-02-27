@@ -1,0 +1,9 @@
+<%# locals: (variant: :outline, size: :md, disabled: false,
+             css_classes: "", **component_options) %>
+<% component_options[:disabled] = true if disabled %>
+<%= content_tag :textarea,
+    class: Kiso::Themes::Textarea.render(variant: variant, size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, component: :textarea),
+    **component_options do %>
+  <%= yield if block_given? %>
+<% end %>

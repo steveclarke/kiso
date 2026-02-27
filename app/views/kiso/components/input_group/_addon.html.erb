@@ -1,0 +1,7 @@
+<%# locals: (align: :start, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::InputGroupAddon.render(align: align, class: css_classes),
+    data: kiso_prepare_options(component_options, component: :input_group, input_group_part: :addon),
+    **component_options do %>
+  <%= yield %>
+<% end %>

@@ -26,3 +26,14 @@ docs:
         href: /components/stats_card
       - title: Table
         href: /components/table
+
+  - heading: Forms
+    items:
+      - title: Field
+        href: /components/field
+      - title: Input
+        href: /components/input
+      - title: Textarea
+        href: /components/textarea
+      - title: InputGroup
+        href: /components/input_group

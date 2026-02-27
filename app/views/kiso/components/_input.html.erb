@@ -1,0 +1,8 @@
+<%# locals: (variant: :outline, size: :md, type: :text, disabled: false,
+             css_classes: "", **component_options) %>
+<% component_options[:type] = type
+   component_options[:disabled] = true if disabled %>
+<%= tag.input(
+    class: Kiso::Themes::Input.render(variant: variant, size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, component: :input),
+    **component_options) %>

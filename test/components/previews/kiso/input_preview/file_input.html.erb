@@ -1,0 +1,7 @@
+<div class="max-w-sm space-y-4">
+  <%= kiso(:field) do %>
+    <%= kiso(:field, :label, for: :avatar) { "Avatar" } %>
+    <%= kiso(:input, type: :file, id: :avatar, name: :avatar) %>
+    <%= kiso(:field, :description) { "Upload a profile picture. Max 5MB." } %>
+  <% end %>
+</div>

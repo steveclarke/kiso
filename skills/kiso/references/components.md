@@ -52,6 +52,9 @@ or vertical.
 | `field_group` | No variants. Container for stacking fields with gap-7 spacing |
 | `field_set` | No variants. Semantic `<fieldset>` for checkbox/radio groups |
 | `label` | No variants. Styled `<label>` element |
+| `input` | `variant` (outline/soft/ghost), `size` (sm/md/lg), `type`, `disabled` |
+| `textarea` | `variant` (outline/soft/ghost), `size` (sm/md/lg), `disabled` |
+| `input_group` | No variants. Wraps input + addons with shared ring |
 
 ### Field
 
@@ -124,6 +127,87 @@ Styled `<label>` element with disabled state handling. Used internally by FieldL
 ```
 
 **Theme module:** `Kiso::Themes::Label` (`lib/kiso/themes/label.rb`)
+
+### Input
+
+Single-line text field. Non-colored component (no `color:` axis).
+
+**Locals:** `variant:` (outline, soft, ghost), `size:` (sm, md, lg), `type:` (text, email, password, search, number, file, etc.), `disabled:` (true/false), `css_classes:`, `**component_options`
+
+**Defaults:** `variant: :outline, size: :md, type: :text`
+
+All standard HTML input attributes (`placeholder:`, `name:`, `id:`, `value:`, `required:`) pass through via `**component_options`.
+
+```erb
+<%= kiso(:input, placeholder: "Email address") %>
+<%= kiso(:input, variant: :soft, size: :sm) %>
+<%= kiso(:input, type: :file, id: :avatar) %>
+
+<%# With Field %>
+<%= kiso(:field) do %>
+  <%= kiso(:field, :label, for: :email) { "Email" } %>
+  <%= kiso(:input, type: :email, id: :email, name: :email, placeholder: "you@example.com") %>
+  <%= kiso(:field, :description) { "We'll never share your email." } %>
+<% end %>
+
+<%# With Rails form helpers %>
+<%= f.text_field :email, class: Kiso::Themes::Input.render(variant: :outline, size: :md) %>
+```
+
+**Theme module:** `Kiso::Themes::Input` (`lib/kiso/themes/input.rb`)
+
+### Textarea
+
+Multi-line text field. Same variant/size axes as Input. Uses `field-sizing-content` for auto-height with `min-h-16` minimum.
+
+**Locals:** `variant:` (outline, soft, ghost), `size:` (sm, md, lg), `disabled:` (true/false), `css_classes:`, `**component_options`
+
+**Defaults:** `variant: :outline, size: :md`
+
+```erb
+<%= kiso(:textarea, placeholder: "Tell us more...", rows: 4) %>
+
+<%# With Field %>
+<%= kiso(:field) do %>
+  <%= kiso(:field, :label, for: :bio) { "Bio" } %>
+  <%= kiso(:textarea, id: :bio, name: :bio, placeholder: "Tell us about yourself...") %>
+<% end %>
+```
+
+**Theme module:** `Kiso::Themes::Textarea` (`lib/kiso/themes/textarea.rb`)
+
+### InputGroup
+
+Wraps an input with inline prefix/suffix addons. Provides a shared ring — child input strips its own border.
+
+**Locals:** `css_classes:`, `**component_options`
+
+**Sub-parts:** `kiso(:input_group, :addon)` — accepts `align:` (start, end)
+
+```erb
+<%# Prefix text %>
+<%= kiso(:input_group) do %>
+  <%= kiso(:input_group, :addon) { "https://" } %>
+  <%= kiso(:input, type: :text, placeholder: "example.com") %>
+<% end %>
+
+<%# Suffix icon %>
+<%= kiso(:input_group) do %>
+  <%= kiso(:input, type: :search, placeholder: "Search...") %>
+  <%= kiso(:input_group, :addon, align: :end) do %>
+    <svg>...</svg>
+  <% end %>
+<% end %>
+
+<%# Both %>
+<%= kiso(:input_group) do %>
+  <%= kiso(:input_group, :addon) { "$" } %>
+  <%= kiso(:input, type: :number, placeholder: "0.00") %>
+  <%= kiso(:input_group, :addon, align: :end) { "USD" } %>
+<% end %>
+```
+
+**Theme modules:** `Kiso::Themes::InputGroup`, `InputGroupAddon` (`lib/kiso/themes/input_group.rb`)
 
 ## Element
 
