@@ -1,0 +1,9 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::BreadcrumbPage.render(class: css_classes),
+    role: "link",
+    aria: { disabled: "true", current: "page" },
+    data: kiso_prepare_options(component_options, component: :breadcrumb, breadcrumb_part: :page),
+    **component_options do %>
+  <%= yield %>
+<% end %>

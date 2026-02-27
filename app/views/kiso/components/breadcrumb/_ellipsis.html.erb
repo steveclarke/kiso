@@ -1,0 +1,10 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::BreadcrumbEllipsis.render(class: css_classes),
+    role: "presentation",
+    aria: { hidden: "true" },
+    data: kiso_prepare_options(component_options, component: :breadcrumb, breadcrumb_part: :ellipsis),
+    **component_options do %>
+  <%= kiso_icon "ellipsis", class: "size-4" %>
+  <span class="sr-only">More</span>
+<% end %>

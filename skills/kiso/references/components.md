@@ -31,6 +31,12 @@ All colored components use **identical compound variant formulas** — see `proj
 | `radio_group` | `color` (7 colors). Sub-part: item | [radio_group.md](components/radio_group.md) |
 | `switch` | `color` (7 colors), `size` (sm/md), `checked` | [switch.md](components/switch.md) |
 
+## Navigation
+
+| Component | Key locals | Reference |
+|---|---|---|
+| `breadcrumb` | 7 sub-parts: list, item, link, page, separator, ellipsis | [breadcrumb.md](components/breadcrumb.md) |
+
 ## Element
 
 | Component | Key locals | Reference |

@@ -1,0 +1,21 @@
+<div class="text-foreground">
+  <%= kui(:breadcrumb) do %>
+    <%= kui(:breadcrumb, :list) do %>
+      <%= kui(:breadcrumb, :item) do %>
+        <%= kui(:breadcrumb, :link, href: "#") { "Home" } %>
+      <% end %>
+      <%= kui(:breadcrumb, :separator) do %>
+        <%= kiso_icon "slash", class: "size-3.5" %>
+      <% end %>
+      <%= kui(:breadcrumb, :item) do %>
+        <%= kui(:breadcrumb, :link, href: "#") { "Components" } %>
+      <% end %>
+      <%= kui(:breadcrumb, :separator) do %>
+        <%= kiso_icon "slash", class: "size-3.5" %>
+      <% end %>
+      <%= kui(:breadcrumb, :item) do %>
+        <%= kui(:breadcrumb, :page) { "Breadcrumb" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
