@@ -53,6 +53,12 @@ Consistency is more important than any individual improvement.
   invent new formulas. See `project/DESIGN_SYSTEM.md`.
 - **Semantic tokens** — `bg-primary`, `text-foreground`, `bg-muted`, etc.
   Components never use raw palette shades or `dark:` prefixes.
+- **`text-foreground` on container components** — Kiso uses CSS variable
+  swapping for dark mode (`.dark {}` block), not Tailwind `dark:` prefixes.
+  The browser default text color is black and doesn't change automatically.
+  Every component that displays text must set `text-foreground` on its
+  root container so children inherit the correct color in dark mode. See
+  Card, Table, and Empty for examples.
 - **Foreground pairing** — every color has a `-foreground` companion.
   `bg-primary text-primary-foreground` is always accessible. This includes
   `inverted` → `inverted-foreground`.

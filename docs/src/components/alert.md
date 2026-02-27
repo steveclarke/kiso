@@ -75,10 +75,7 @@ needed on the SVG.
 
 ```erb
 <%%= kiso(:alert, color: :error, variant: :soft) do %>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-       fill="currentColor">
-    <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 ..." clip-rule="evenodd" />
-  </svg>
+  <%%= kiso_icon("circle-alert") %>
   <%%= kiso(:alert, :title) { "Error" } %>
   <%%= kiso(:alert, :description) { "Something went wrong." } %>
 <%% end %>

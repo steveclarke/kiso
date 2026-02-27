@@ -23,6 +23,11 @@ module Kiso
       render_with_template
     end
 
+    # @label With Action
+    def with_action
+      render_with_template
+    end
+
     # @label Content Only
     def content_only
       render_with_template

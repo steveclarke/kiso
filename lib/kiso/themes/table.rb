@@ -4,7 +4,7 @@ module Kiso
     # Container: relative w-full overflow-x-auto
     # Table: w-full caption-bottom text-sm
     Table = ClassVariants.build(
-      base: "w-full caption-bottom text-sm"
+      base: "w-full caption-bottom text-sm text-foreground"
     )
 
     # shadcn: [&_tr]:border-b

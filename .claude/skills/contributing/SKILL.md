@@ -347,7 +347,8 @@ For composed usage via `kiso(:component, :part)`:
 | Description text | `opacity-90` inside colored components. Never `text-muted-foreground`. |
 | Ring vs border | `ring ring-inset` for outline/subtle variants. Never `border`. |
 | Semantic tokens | `bg-primary`, `text-foreground` — never raw palette shades. |
-| No `dark:` prefixes | Tokens flip automatically via CSS variables. |
+| No `dark:` prefixes | Tokens flip automatically via CSS variables (`.dark {}` block). |
+| `text-foreground` on containers | Every component root that displays text must set `text-foreground`. Browser default is black and won't flip in dark mode. |
 | Foreground pairing | Every color has `-foreground`. Including `inverted-foreground`. |
 | Heights | `h-9` default interactive. Scale: `h-6` (xs), `h-8` (sm), `h-9` (md), `h-10` (lg). |
 | Gaps | `gap-2` default. `gap-1` tight lists, `gap-4` sections, `gap-6` card-level. |
@@ -362,6 +363,7 @@ For composed usage via `kiso(:component, :part)`:
 | Data attributes | `data-component="alert"` for identity — NOT for CSS selectors. |
 | `css_classes:` override | Single override point, merged via tailwind_merge. |
 | Lookbook previews | Playground first, then Colors, Variants, feature galleries. |
+| Lookbook dark mode | Preview wrapper `div`s must include `text-foreground` so text/icons are visible in dark mode. Lookbook doesn't set a base text color on the preview iframe. |
 | Update docs | `skills/kiso/references/components.md` + vision doc. |
 | Lint before commit | `bundle exec standardrb --fix` |
 

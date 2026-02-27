@@ -1,0 +1,16 @@
+<div class="max-w-sm">
+  <%= kiso(:card) do %>
+    <%= kiso(:card, :header) do %>
+      <%= kiso(:card, :title) { "Notifications" } %>
+      <%= kiso(:card, :description) { "You have 3 unread messages." } %>
+      <%= kiso(:card, :action) do %>
+        <%= kiso(:badge, variant: :outline) { "Featured" } %>
+      <% end %>
+    <% end %>
+    <%= kiso(:card, :content) do %>
+      <p class="text-sm text-muted-foreground">
+        Your notifications will appear here.
+      </p>
+    <% end %>
+  <% end %>
+</div>

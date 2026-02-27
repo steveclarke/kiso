@@ -53,7 +53,7 @@ module Kiso
     )
 
     PaginationEllipsis = ClassVariants.build(
-      base: "pointer-events-none flex size-9 items-center justify-center"
+      base: "pointer-events-none flex size-9 items-center justify-center text-muted-foreground"
     )
   end
 end
