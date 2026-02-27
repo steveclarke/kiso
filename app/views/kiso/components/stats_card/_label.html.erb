@@ -1,7 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::StatsCardLabel.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :stats_card, stats_card_part: :label),
+    data: kiso_prepare_options(component_options, slot: "stats-card-label"),
     **component_options do %>
   <%= yield %>
 <% end %>

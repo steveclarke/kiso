@@ -4,7 +4,7 @@
    component_options[:checked] = true if checked %>
 <%= tag.label(
     class: Kiso::Themes::SwitchTrack.render(color: color, size: size, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :switch)) do %>
+    data: kiso_prepare_options(component_options, slot: "switch")) do %>
   <%= tag.input(class: "peer sr-only", **component_options) %>
   <%= tag.span(class: Kiso::Themes::SwitchThumb.render(size: size)) %>
 <% end %>

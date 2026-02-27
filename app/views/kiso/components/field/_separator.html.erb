@@ -2,7 +2,7 @@
 <% captured = capture { yield }.presence %>
 <%= content_tag :div,
     class: Kiso::Themes::FieldSeparator.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :field, field_part: :separator).merge(
+    data: kiso_prepare_options(component_options, slot: "field-separator").merge(
       content: captured&.present? || nil
     ).compact,
     **component_options do %>

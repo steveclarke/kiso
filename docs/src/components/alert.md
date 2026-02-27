@@ -134,7 +134,7 @@ Kiso::Themes::AlertDescription = ClassVariants.build(
 | Attribute | Value |
 |-----------|-------|
 | `role` | `alert` |
-| `data-component` | `"alert"` |
+| `data-slot` | `"alert"` |
 
 The `role="alert"` attribute is set automatically. Screen readers will
 announce alert content when it appears.

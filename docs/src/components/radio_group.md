@@ -169,7 +169,7 @@ background. The `currentColor` inherits from `checked:text-{color}-foreground`.
 
 | Attribute | Value |
 |-----------|-------|
-| `data-component` | `"radio_group"` |
+| `data-slot` | `"radio-group"` |
 | `role` | `"radiogroup"` (on container) |
 | `type` | `"radio"` (on each item) |
 | `aria-invalid` | Set when validation fails |

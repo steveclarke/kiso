@@ -98,7 +98,7 @@ Kiso::Themes::Separator = ClassVariants.build(
 
 | Attribute | Value |
 |-----------|-------|
-| `data-component` | `"separator"` |
+| `data-slot` | `"separator"` |
 | `role` | `"none"` (decorative) or `"separator"` (semantic) |
 | `aria-orientation` | Set when `decorative: false` |
 

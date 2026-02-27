@@ -2,7 +2,7 @@
 <%= content_tag :div,
     role: :alert,
     class: Kiso::Themes::Alert.render(color: color, variant: variant, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :alert),
+    data: kiso_prepare_options(component_options, slot: "alert"),
     **component_options do %>
   <%= yield %>
 <% end %>

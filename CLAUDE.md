@@ -83,8 +83,12 @@ Consistency is more important than any individual improvement.
   Nuxt UI provides the paint.
 - **`css_classes:` override** — single override point, merged via
   tailwind_merge. Conflicting classes are resolved automatically.
-- **Data attributes for identity, not styling** — `data-component="badge"`
-  for testing, Stimulus, debugging. NOT for CSS selectors.
+- **`data-slot` for component identity (shadcn v4 convention)** — every
+  component and sub-part gets `data-slot="name"` in kebab-case. Root:
+  `data-slot="card"`, sub-parts: `data-slot="card-header"`. Used for CSS
+  targeting (`has-[[data-slot=...]]`), testing, and Stimulus. Stimulus
+  controllers (`data-controller`, `data-action`, `data-*-target`) are
+  added separately when behavior is needed.
 - **Native HTML5 first** — `<dialog>`, `[popover]`, `<details>`, `<progress>`
   before reaching for Stimulus.
 - **Props for common patterns, yield for override** — if 90% of usages look
@@ -108,8 +112,7 @@ Consistency is more important than any individual improvement.
   Small partials, flexibly combined.
 - **Sub-part naming** — sub-parts always use `kui(:component, :part)`, never
   `kui(:component_part)`. Files live in `component/_part.html.erb`. Data
-  attributes follow `component: :alert, alert_part: :title` — not
-  `component: :alert_title`.
+  slots use kebab-case: `data-slot="alert-title"`, `data-slot="card-header"`.
 - **Strict locals on every partial** — `<%# locals: (color: :primary) %>`
 
 ## Component Pattern
@@ -129,7 +132,7 @@ Kiso::Themes::Badge = ClassVariants.build(
 <%# locals: (color: :primary, variant: :soft, size: :md, css_classes: "", **component_options) %>
 <%= content_tag :span,
     class: Kiso::Themes::Badge.render(color: color, variant: variant, size: size, class: css_classes),
-    data: { component: :badge },
+    data: kiso_prepare_options(component_options, slot: "badge"),
     **component_options do %>
   <%= yield %>
 <% end %>
@@ -141,7 +144,7 @@ Kiso::Themes::Badge = ClassVariants.build(
 lib/kiso/themes/           Ruby theme modules (ClassVariants definitions)
 app/views/kiso/components/ ERB partials (rendered via kui() helper)
 app/assets/stylesheets/    Component CSS (thin — transitions/pseudo-states only)
-app/helpers/kiso/          component_tag, kui() helpers
+app/helpers/kiso/          kui(), kiso_prepare_options() helpers
 test/components/previews/  Lookbook preview classes + templates
 test/dummy/                Development Rails app (bin/dev → port 4001)
 skills/kiso/               AI skill (component reference, theming guide)

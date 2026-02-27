@@ -1,7 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :fieldset,
     class: Kiso::Themes::FieldSet.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :field_set),
+    data: kiso_prepare_options(component_options, slot: "field-set"),
     **component_options do %>
   <%= yield %>
 <% end %>

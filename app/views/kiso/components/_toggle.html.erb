@@ -3,7 +3,7 @@
    component_options[:"aria-pressed"] = pressed %>
 <%= content_tag :button,
     class: Kiso::Themes::Toggle.render(variant: variant, size: size, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :toggle,
+    data: kiso_prepare_options(component_options, slot: "toggle",
       state: pressed ? "on" : "off",
       controller: "kiso--toggle",
       action: "click->kiso--toggle#toggle"),

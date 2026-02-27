@@ -21,7 +21,7 @@ Reference: `vendor/maquina_components/` (local checkout)
 
 - [x] Gem skeleton (Rails engine, isolate_namespace, engine_name)
 - [x] test/dummy/ app (Lookbook, Tailwind v4, Propshaft, port 4001)
-- [x] Core helpers: `component_tag()`, `kui()` in ComponentHelper
+- [x] Core helpers: `kui()`, `kiso_prepare_options()` in ComponentHelper
 - [x] class_variants + tailwind_merge integration
 - [x] Theme CSS: 7 semantic palettes + surface tokens + dark mode
 - [x] Badge component (color × variant × size, compound variants)
@@ -93,10 +93,10 @@ below exists in maquina_components.
 | Stats | simple | done | Stats card + stats grid for dashboards |
 | Table | simple | done | 7 sub-parts: header, body, footer, row, head, cell, caption |
 
-**Batch 2 — Form inputs (CSS-only via data attributes in maquina):**
+**Batch 2 — Form inputs:**
 
-Maquina uses `data-component="input"` etc. for CSS-only form styling.
-Kiso will use `kui(:input)` partials with class_variants themes.
+Kiso uses `kui(:input)` partials with class_variants themes and
+`data-slot` identity attributes (shadcn v4 convention).
 
 | Component | Type | Maquina Notes |
 |-----------|------|---------------|

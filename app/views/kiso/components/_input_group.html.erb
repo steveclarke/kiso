@@ -2,7 +2,7 @@
 <%= content_tag :div,
     role: :group,
     class: Kiso::Themes::InputGroup.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :input_group),
+    data: kiso_prepare_options(component_options, slot: "input-group"),
     **component_options do %>
   <%= yield %>
 <% end %>

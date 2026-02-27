@@ -132,7 +132,7 @@ input and a thumb `<span>`. `has-[:checked]` drives the track color,
 
 | Attribute | Value |
 |-----------|-------|
-| `data-component` | `"switch"` |
+| `data-slot` | `"switch"` |
 | `role` | `"switch"` |
 | `type` | `"checkbox"` |
 | `disabled` | Native attribute |

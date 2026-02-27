@@ -3,5 +3,5 @@
     role: (decorative ? "none" : "separator"),
     aria: (decorative ? {} : { orientation: orientation }),
     class: Kiso::Themes::Separator.render(orientation: orientation, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :separator),
+    data: kiso_prepare_options(component_options, slot: "separator"),
     **component_options) %>

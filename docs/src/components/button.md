@@ -193,7 +193,7 @@ focus-visible states:
 
 | Attribute | Value |
 |-----------|-------|
-| `data-component` | `"button"` |
+| `data-slot` | `"button"` |
 | `type` | `"button"` (default, not `"submit"`) |
 | `disabled` | Native attribute on `<button>` |
 | `aria-disabled` | Set on `<a>` when `disabled: true` |

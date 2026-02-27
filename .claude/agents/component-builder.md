@@ -66,7 +66,7 @@ Main partial: `app/views/kiso/components/_{name}.html.erb`
 <%# locals: (variant: :outline, css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::ComponentName.render(variant: variant, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :component_name),
+    data: kiso_prepare_options(component_options, slot: "component-name"),
     **component_options do %>
   <%= yield %>
 <% end %>
@@ -78,7 +78,7 @@ Sub-part partial: `app/views/kiso/components/{name}/_{part}.html.erb`
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::ComponentNamePart.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :component_name, component_name_part: :part),
+    data: kiso_prepare_options(component_options, slot: "component-name-part"),
     **component_options do %>
   <%= yield %>
 <% end %>
@@ -88,7 +88,7 @@ Rules:
 - `text-foreground` on every container component root
 - Strict locals on every partial
 - `css_classes: ""` and `**component_options` on every partial
-- Use `kiso_prepare_options()` for data attributes
+- Use `kiso_prepare_options(slot: "kebab-case-name")` for data-slot identity
 - Match the HTML element shadcn uses (`<div>`, `<label>`, `<fieldset>`, etc.)
 - **Never use `block_given?` in ERB partials** — it's always `true` due to
   Rails internals. For default content with optional block override, use:

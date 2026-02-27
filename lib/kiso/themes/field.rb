@@ -8,14 +8,14 @@ module Kiso
         orientation: {
           vertical: "flex-col [&>*]:w-full [&>.sr-only]:w-auto",
           horizontal: "flex-row items-center " \
-                      "[&>[data-field-part=label]]:flex-auto " \
-                      "has-[>[data-field-part=content]]:items-start " \
-                      "has-[>[data-field-part=content]]:[&>[role=checkbox],[role=radio]]:mt-px",
+                      "[&>[data-slot=field-label]]:flex-auto " \
+                      "has-[>[data-slot=field-content]]:items-start " \
+                      "has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px",
           responsive: "flex-col [&>*]:w-full [&>.sr-only]:w-auto " \
                       "@md/field-group:flex-row @md/field-group:items-center @md/field-group:[&>*]:w-auto " \
-                      "@md/field-group:[&>[data-field-part=label]]:flex-auto " \
-                      "@md/field-group:has-[>[data-field-part=content]]:items-start " \
-                      "@md/field-group:has-[>[data-field-part=content]]:[&>[role=checkbox],[role=radio]]:mt-px"
+                      "@md/field-group:[&>[data-slot=field-label]]:flex-auto " \
+                      "@md/field-group:has-[>[data-slot=field-content]]:items-start " \
+                      "@md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px"
         }
       },
       defaults: {orientation: :vertical}
@@ -32,9 +32,9 @@ module Kiso
     FieldLabel = ClassVariants.build(
       base: "group/field-label peer/field-label flex w-fit gap-2 leading-snug " \
             "group-data-[disabled=true]/field:opacity-50 " \
-            "has-[>[data-component=field]]:w-full has-[>[data-component=field]]:flex-col " \
-            "has-[>[data-component=field]]:rounded-md has-[>[data-component=field]]:border " \
-            "[&>*[data-component=field]]:p-4"
+            "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col " \
+            "has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border " \
+            "[&>*[data-slot=field]]:p-4"
     )
 
     # shadcn: flex w-fit items-center gap-2 text-sm leading-snug font-medium

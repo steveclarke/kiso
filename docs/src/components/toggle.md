@@ -121,7 +121,7 @@ on click.
 |-----------|-------|
 | `aria-pressed` | `true` / `false` |
 | `data-state` | `"on"` / `"off"` |
-| `data-component` | `"toggle"` |
+| `data-slot` | `"toggle"` |
 
 ### Keyboard
 

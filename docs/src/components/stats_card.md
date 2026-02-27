@@ -151,5 +151,5 @@ StatsGrid = ClassVariants.build(
 
 ## Accessibility
 
-Stats Card renders as a `<div>` with `data-component="stats_card"`. Sub-parts
-use `data-stats-card-part` attributes for identity.
+Stats Card renders as a `<div>` with `data-slot="stats-card"`. Sub-parts
+use `data-slot` attributes (e.g., `data-slot="stats-card-header"`).

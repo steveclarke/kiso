@@ -68,7 +68,7 @@ component/sub-part:
   - `bg-card`, `bg-destructive`, etc. → Kiso semantic tokens
   - `text-destructive` → `text-error`
   - `dark:` prefixes → removed (Kiso uses CSS variable swapping)
-  - `data-slot` selectors → `data-component` / `data-{name}-part` selectors
+  - `data-slot` naming should match shadcn (kebab-case)
 
 **Common mistakes:** Dropping classes, adding classes that shadcn doesn't have,
 using arbitrary values, changing spacing.
@@ -98,12 +98,13 @@ Check the theme module's `base:` string for `text-foreground`.
 **Exceptions:** Sub-parts that inherit color from parent (like AlertTitle
 inside Alert). Components inside colored parents that use `opacity-90`.
 
-#### Check 6: Data attributes
+#### Check 6: Data slot identity
 
 Verify:
-- Root component: `data: kiso_prepare_options(component_options, component: :name)`
-- Sub-parts: `data: kiso_prepare_options(component_options, component: :name, name_part: :part)`
-- No raw `data: { component: :name }` — always use `kiso_prepare_options`
+- Root component: `data: kiso_prepare_options(component_options, slot: "name")`
+- Sub-parts: `data: kiso_prepare_options(component_options, slot: "name-part")`
+- All slot values use kebab-case (e.g., `"toggle-group"`, not `"toggle_group"`)
+- No raw `data: { slot: ... }` — always use `kiso_prepare_options`
 
 #### Check 7: All deliverables present
 

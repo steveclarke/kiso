@@ -1,7 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :th,
     class: Kiso::Themes::TableHead.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :table, table_part: :head),
+    data: kiso_prepare_options(component_options, slot: "table-head"),
     **component_options do %>
   <%= yield %>
 <% end %>

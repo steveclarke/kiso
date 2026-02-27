@@ -3,5 +3,5 @@
    component_options[:checked] = true if checked %>
 <%= tag.input(
     class: Kiso::Themes::Checkbox.render(color: color, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :checkbox),
+    data: kiso_prepare_options(component_options, slot: "checkbox"),
     **component_options) %>

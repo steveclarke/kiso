@@ -1,7 +1,7 @@
 <%# locals: (variant: :legend, css_classes: "", **component_options) %>
 <%= content_tag :legend,
     class: Kiso::Themes::FieldLegend.render(variant: variant, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :field_set, field_set_part: :legend).merge(
+    data: kiso_prepare_options(component_options, slot: "field-set-legend").merge(
       variant: variant
     ),
     **component_options do %>

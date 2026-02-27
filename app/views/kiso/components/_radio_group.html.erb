@@ -2,7 +2,7 @@
 <% component_options[:role] = :radiogroup %>
 <%= content_tag :div,
     class: Kiso::Themes::RadioGroup.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :radio_group),
+    data: kiso_prepare_options(component_options, slot: "radio-group"),
     **component_options do %>
   <%= yield %>
 <% end %>

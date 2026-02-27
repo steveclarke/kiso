@@ -141,7 +141,7 @@ Kiso::Themes::Badge = ClassVariants.build(
 
 | Attribute | Value |
 |-----------|-------|
-| `data-component` | `"badge"` |
+| `data-slot` | `"badge"` |
 
 Badges are decorative by default. If a badge conveys meaningful status,
 add `aria-label:` via component options:
