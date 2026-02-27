@@ -6,6 +6,25 @@ docs:
       - title: Design System
         href: /design-system
 
+  - heading: Guide
+    items:
+      - title: Thinking in Partials
+        href: /guide/thinking-in-partials
+      - title: Props
+        href: /guide/props
+      - title: Slots & Composition
+        href: /guide/slots-and-composition
+      - title: Variants & Styling
+        href: /guide/variants-and-styling
+      - title: Customizing Components
+        href: /guide/customizing
+      - title: Common Patterns
+        href: /guide/patterns
+      - title: Interactivity
+        href: /guide/interactivity
+      - title: Dark Mode & Theming
+        href: /guide/dark-mode
+
   - heading: Components
     items:
       - title: Alert
