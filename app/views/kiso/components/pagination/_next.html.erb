@@ -8,5 +8,5 @@
     data: kiso_prepare_options(component_options, slot: "pagination-next"),
     **component_options do %>
   <%= content_tag :span, "Next", class: "hidden sm:block" %>
-  <%= kiso_icon("chevron-right") %>
+  <%= kiso_component_icon(:chevron_right) %>
 <% end %>

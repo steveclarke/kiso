@@ -26,6 +26,21 @@ module Kiso
     # control icon sizing via CSS selectors like [&_svg]:size-4.
     # Pass an explicit size: for standalone icons outside components.
     #
+    # Renders a configurable component icon. Components call this instead
+    # of kiso_icon() when the icon name should be overridable by host apps
+    # via Kiso.config.icons.
+    #
+    #   kiso_component_icon(:chevron_right, class: "size-3.5")
+    #   kiso_component_icon(:ellipsis, size: :sm)
+    #
+    def kiso_component_icon(semantic_name, **)
+      icon_name = Kiso.config.icons.fetch(semantic_name) {
+        raise KeyError, "Unknown Kiso icon: #{semantic_name.inspect}. " \
+          "Known icons: #{Kiso.config.icons.keys.join(", ")}"
+      }
+      kiso_icon(icon_name, **)
+    end
+
     def kiso_icon(name, size: nil, **options)
       css_classes = options.delete(:class) || ""
       size_class = size ? SIZE_PRESETS.fetch(size) : nil

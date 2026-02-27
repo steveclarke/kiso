@@ -1,6 +1,7 @@
 require "class_variants"
 require "tailwind_merge"
 require "kiso/version"
+require "kiso/configuration"
 require "kiso/engine"
 require "kiso/themes/badge"
 require "kiso/themes/alert"
@@ -27,4 +28,14 @@ require "kiso/themes/toggle_group"
 require "kiso/icons"
 
 module Kiso
+  class << self
+    def configuration
+      @configuration ||= Configuration.new
+    end
+    alias_method :config, :configuration
+
+    def configure
+      yield(configuration)
+    end
+  end
 end

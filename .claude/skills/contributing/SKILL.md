@@ -332,7 +332,7 @@ to replace it with a block:
 
 ```erb
 <%# One-liner — default with inline fallback %>
-<%= capture { yield }.presence || kiso_icon("chevron-right", class: "size-3.5") %>
+<%= capture { yield }.presence || kiso_component_icon(:chevron_right, class: "size-3.5") %>
 
 <%# Multi-line — assign first, then branch %>
 <% content = capture { yield }.presence %>
@@ -342,6 +342,12 @@ to replace it with a block:
   <%# default content here %>
 <% end %>
 ```
+
+**Use `kiso_component_icon(:semantic_name)` for all default icons in component
+partials** — never hardcode `kiso_icon("icon-name")`. This lets host apps swap
+icons globally via `Kiso.config.icons`. Add new semantic names to
+`lib/kiso/configuration.rb` when a component needs a new default icon.
+`kiso_icon("name")` is only for user-specified icons in app templates.
 
 **CRITICAL: Never use `block_given?` in ERB partials.** Rails wraps every
 partial in an internal block, so `block_given?` is always `true` — even when
@@ -385,6 +391,7 @@ For composed usage via `kui(:component, :part)`:
 | Container padding | `p-6` large (Card, Dialog), `p-4` medium (Sheet, Popover), `p-2` compact. |
 | No arbitrary values | Never use `text-[8px]`, `h-[1.15rem]`, etc. Use standard Tailwind classes only. |
 | Sub-part naming | `kui(:alert, :title)` — **never** `kui(:alert_title)`. Files live in `alert/_title.html.erb`. Slot: `data-slot="alert-title"`. |
+| Default icons | Use `kiso_component_icon(:semantic_name)` for built-in icons in partials. Never hardcode `kiso_icon("name")`. Add new names to `lib/kiso/configuration.rb`. |
 | No `block_given?` in ERB | Rails makes `block_given?` always true in partials. Use `capture { yield }.presence` for default-with-override. |
 | Strict locals | Every partial: `<%# locals: (color: :primary, ...) %>` |
 | Data slot | `data-slot="alert"` for identity (shadcn v4 convention). Kebab-case. Can be used as CSS selectors (`has-[[data-slot=...]]`). |
