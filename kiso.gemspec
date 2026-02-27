@@ -24,7 +24,6 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency "rails", ">= 8.0"
-  spec.add_dependency "tailwindcss-rails"
   spec.add_dependency "class_variants", "~> 1.1"
   spec.add_dependency "tailwind_merge", "~> 1.0"
   spec.add_dependency "kiso-icons"

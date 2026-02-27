@@ -7,6 +7,7 @@ gemspec
 
 gem "puma"
 gem "propshaft"
+gem "tailwindcss-rails"
 
 # Component preview browser
 gem "lookbook", ">= 2.3"

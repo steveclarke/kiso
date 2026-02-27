@@ -1,4 +1,3 @@
-require "tailwindcss-rails"
 require "class_variants"
 require "tailwind_merge"
 require "kiso/version"
