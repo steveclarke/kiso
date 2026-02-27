@@ -174,7 +174,16 @@ EOF
 
 **CRITICAL:** Include `Closes #N` in the PR body so GitHub auto-closes the issue on merge.
 
-### 10. Stop services
+### 10. Open Lookbook preview for the user
+
+Open the first preview scenario in the user's browser so they can visually
+review the component:
+
+```bash
+open "http://localhost:$LOOKBOOK_PORT/lookbook/inspect/kiso/{name}/playground"
+```
+
+### 11. Stop services
 
 ```bash
 bin/dev stop
