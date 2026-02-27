@@ -1,6 +1,7 @@
 ---
 name: component-reviewer
 description: Reviews a Kiso component PR for quality, structural alignment with shadcn, and adherence to design system rules. Reports pass/fail with specific findings.
+permissionMode: bypassPermissions
 ---
 
 # Component Reviewer
