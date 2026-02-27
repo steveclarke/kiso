@@ -13,4 +13,112 @@
 
 <link rel="stylesheet" href="<%= asset_path :css %>" />
 <script src="<%= asset_path :js %>" defer></script>
-<%= live_reload_dev_js %>
+<%# == Live Reload (patched) ================================================
+  Replaces Bridgetown's built-in `live_reload_dev_js` helper with our own
+  copy that fixes the HTTP/1.1 connection exhaustion bug.
+
+  THE PROBLEM
+  -----------
+  Bridgetown's live reload opens an EventSource (SSE) connection that is
+  never explicitly closed on page navigation. Under HTTP/1.1, browsers
+  limit connections to 6 per origin (Chrome and Firefox both enforce this
+  and have marked it "Won't Fix"):
+
+    - https://issues.chromium.org/issues/40329530
+    - https://bugzilla.mozilla.org/show_bug.cgi?id=906896
+    - https://developer.mozilla.org/en-US/docs/Web/API/EventSource
+
+  Each page navigation opens a new SSE connection while the old one
+  lingers until the server detects a broken pipe (up to 0.5s per the
+  server's sleep interval). After visiting ~6 pages, all connection
+  slots are consumed and the site hangs.
+
+  THE FIX
+  -------
+  We add a `pagehide` event listener that explicitly closes the
+  EventSource before the browser navigates away. This frees the HTTP
+  connection immediately so the next page load gets a slot. This is the
+  same approach used by the htmx community (bigskysoftware/htmx#2109)
+  and Microsoft's fetch-event-source library.
+
+  UPSTREAM STATUS
+  ---------------
+  - Bridgetown issue #950: SSE implementation acknowledged as problematic,
+    milestoned for v2.2.
+  - Bridgetown issue #951: Falcon (HTTP/2) proposed for v3, which would
+    raise the limit to ~100 streams.
+  - No upstream PR exists for the pagehide fix as of Feb 2026.
+
+  Remove this override once Bridgetown ships a fix upstream.
+%>
+<% if Bridgetown.env.development? && !site.config.skip_live_reload %>
+<script type="module">
+  // ---- Bridgetown live reload (from bridgetown-core 2.1.1 utils.rb) ----
+  // Identical to upstream except for the pagehide listener at the bottom.
+
+  let lastmod = 0
+  let reconnectAttempts = 0
+  let connection
+
+  function startLiveReload() {
+    connection = new EventSource("/_bridgetown/live_reload")
+
+    connection.addEventListener("message", event => {
+      reconnectAttempts = 0
+      if (document.querySelector("#bridgetown-build-error")) document.querySelector("#bridgetown-build-error").close()
+      if (event.data == "reloaded!") {
+        location.reload()
+      } else {
+        const newmod = Number(event.data)
+        if (lastmod > 0 && newmod > 0 && lastmod < newmod) {
+          location.reload()
+        } else {
+          lastmod = newmod
+        }
+      }
+    })
+
+    connection.addEventListener("builderror", event => {
+      let dialog = document.querySelector("#bridgetown-build-error")
+      if (!dialog) {
+        dialog = document.createElement("dialog")
+        dialog.id = "bridgetown-build-error"
+        dialog.style.borderColor = "red"
+        dialog.style.fontSize = "110%"
+        dialog.innerHTML = `
+          <p style="color:red">There was an error when building the site:</p>
+          <output><pre></pre></output>
+          <p><small>Check your Bridgetown logs for further details.</small></p>
+        `
+        document.body.appendChild(dialog)
+        dialog.showModal()
+      }
+      dialog.querySelector("pre").textContent = JSON.parse(event.data)
+    })
+
+    connection.addEventListener("error", () => {
+      if (connection.readyState === 2) {
+        // reconnect with new object
+        connection.close()
+        reconnectAttempts++
+        if (reconnectAttempts < 25) {
+          console.warn("Live reload: attempting to reconnect in 3 seconds...")
+          setTimeout(() => startLiveReload(), 3000)
+        } else {
+          console.error("Too many live reload connections failed. Refresh the page to try again.")
+        }
+      }
+    })
+  }
+
+  // FIX: Close the SSE connection when the page is about to unload.
+  // Without this, the browser holds the HTTP/1.1 connection open after
+  // navigation, consuming one of the 6 per-origin connection slots.
+  // After ~6 page navigations all slots are exhausted and the site hangs.
+  window.addEventListener("pagehide", () => {
+    if (connection) connection.close()
+  })
+
+  startLiveReload()
+</script>
+<% end %>
