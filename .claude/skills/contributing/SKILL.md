@@ -123,23 +123,39 @@ lookbook/                      # Dev Rails app (Lookbook on :4001)
 ## CSS architecture
 
 **`app/assets/tailwind/kiso/engine.css`** is what the gem ships. It contains
-everything a host app needs: Geist fonts, all default color tokens (`@theme`),
-and dark mode overrides (`.dark {}`). **Never put color tokens in the Lookbook's
-`application.css`** — they belong in `engine.css` so host apps get them too.
+Geist fonts, all default color tokens (`@theme`), and dark mode overrides
+(`.dark {}`). **Never put color tokens in the Lookbook's `application.css`**
+— they belong in `engine.css` so host apps get them too.
 
-The engine self-sources its own views, themes, and helpers — host apps need
-nothing else:
+### The Tailwind v4 scanning limitation
+
+`@source` directives inside `@import`-ed CSS files are **never processed** by
+Tailwind v4's scanner — only `@theme` works from imported files. This means
+engine.css cannot self-register source paths for host apps.
+
+Kiso solves this with a Rake task (`kiso:tailwindcss:generate_sources`) that
+auto-generates `app/assets/builds/tailwind/kiso.css` in the host app.
+This file contains both:
+- `@import` for engine.css (tokens, fonts, dark mode)
+- `@source` for Kiso's views, helpers, and theme modules (absolute paths)
+
+The task hooks into `tailwindcss:build` and `tailwindcss:watch` automatically
+via Rake `enhance`. Paths come from `Kiso::Engine.root` at build time — always
+correct regardless of environment (dev, Docker, CI).
+
+### Lookbook setup
+
+**`lookbook/app/assets/tailwind/application.css`** imports the generated
+engine file and adds Lookbook-specific source paths:
 
 ```css
 @import "tailwindcss";
-@import "kiso/engine";
+@import "../builds/tailwind/kiso.css";
 
-/* Optional: override any token to match your brand */
-/* @theme { --color-primary: var(--color-violet-600); } */
+/* Lookbook-specific sources */
+@source "../../views";
+@source "../../../../test/components/previews";
 ```
-
-**`lookbook/app/assets/tailwind/application.css`** only contains the import
-and Lookbook-specific `@source` directives (lookbook views + previews). Nothing else.
 
 ## Component creation workflow
 

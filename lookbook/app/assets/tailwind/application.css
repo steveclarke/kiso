@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "../../../../app/assets/tailwind/kiso/engine.css";
+@import "../builds/tailwind/kiso.css";
 
 /* Lookbook-specific sources */
 @source "../../views";
