@@ -1,6 +1,6 @@
 module Kiso
-  # @label Empty State
-  class EmptyStatePreview < Lookbook::Preview
+  # @label Empty
+  class EmptyPreview < Lookbook::Preview
     # @label Playground
     # @param title text "No Projects Yet"
     # @param description text "You haven't created any projects yet. Get started by creating your first project."

@@ -9,7 +9,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | Component | Key locals |
 |---|---|
 | `card` | `variant` (outline/soft/subtle) |
-| `empty_state` | No variants on root. Media sub-part has `variant` (default/icon) |
+| `empty` | No variants on root. Media sub-part has `variant` (default/icon) |
 | `stats_card` | `variant` (outline/soft/subtle) |
 | `stats_grid` | `columns` (2/3/4) |
 | `separator` | `orientation` (horizontal/vertical), `decorative` (true/false) |
@@ -168,38 +168,38 @@ Header, Title, Description, Content, Footer.
 
 **Theme modules:** `Kiso::Themes::Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter` (`lib/kiso/themes/card.rb`)
 
-### Empty State
+### Empty
 
 Centered placeholder for empty content areas (no data, no results, empty uploads).
 Composed from sub-parts like Card. No color axis.
 
 **Locals:** `css_classes:`, `**component_options`
 
-**Sub-parts:** `kiso(:empty_state, :header)`, `kiso(:empty_state, :media)`, `kiso(:empty_state, :title)`, `kiso(:empty_state, :description)`, `kiso(:empty_state, :content)`
+**Sub-parts:** `kiso(:empty, :header)`, `kiso(:empty, :media)`, `kiso(:empty, :title)`, `kiso(:empty, :description)`, `kiso(:empty, :content)`
 
 **Media variants:** `variant:` (default, icon) — `:icon` renders a muted rounded container for SVG icons.
 
 ```erb
-<%= kiso(:empty_state) do %>
-  <%= kiso(:empty_state, :header) do %>
-    <%= kiso(:empty_state, :media, variant: :icon) do %>
+<%= kiso(:empty) do %>
+  <%= kiso(:empty, :header) do %>
+    <%= kiso(:empty, :media, variant: :icon) do %>
       <svg>...</svg>
     <% end %>
-    <%= kiso(:empty_state, :title) { "No Projects Yet" } %>
-    <%= kiso(:empty_state, :description) { "Get started by creating your first project." } %>
+    <%= kiso(:empty, :title) { "No Projects Yet" } %>
+    <%= kiso(:empty, :description) { "Get started by creating your first project." } %>
   <% end %>
-  <%= kiso(:empty_state, :content) do %>
+  <%= kiso(:empty, :content) do %>
     <%= kiso(:button) { "Create Project" } %>
   <% end %>
 <% end %>
 
 <%# With dashed border %>
-<%= kiso(:empty_state, css_classes: "border border-dashed") do %>
+<%= kiso(:empty, css_classes: "border border-dashed") do %>
   ...
 <% end %>
 ```
 
-**Theme modules:** `Kiso::Themes::EmptyState`, `EmptyStateHeader`, `EmptyStateMedia`, `EmptyStateTitle`, `EmptyStateDescription`, `EmptyStateContent` (`lib/kiso/themes/empty_state.rb`)
+**Theme modules:** `Kiso::Themes::Empty`, `EmptyHeader`, `EmptyMedia`, `EmptyTitle`, `EmptyDescription`, `EmptyContent` (`lib/kiso/themes/empty.rb`)
 
 ### Stats Card
 

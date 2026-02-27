@@ -1,0 +1,9 @@
+<%= kiso(:empty) do %>
+  <%= kiso(:empty, :header) do %>
+    <%= kiso(:empty, :media, variant: :icon) do %>
+      <%= kiso_icon("search") %>
+    <% end %>
+    <%= kiso(:empty, :title) { "No Results Found" } %>
+    <%= kiso(:empty, :description) { "Try adjusting your search or filter to find what you're looking for." } %>
+  <% end %>
+<% end %>

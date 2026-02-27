@@ -60,7 +60,11 @@ any individual improvement.
 
 ### What we take from each reference
 
-**From shadcn/ui — structure + implementation (the skeleton):**
+**From shadcn/ui — structure + naming + implementation (the skeleton):**
+- **Match names exactly.** Use the same component name and sub-part names
+  that shadcn uses. If shadcn calls it `empty`, we call it `empty` — not
+  `empty_state`. Check the shadcn source file name and exported component
+  names before naming anything.
 - **Match div-for-div, class-for-class.** Read the shadcn component at
   `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/` and copy their
   Tailwind utility classes for layout, spacing, typography, and structure.
@@ -178,21 +182,22 @@ engine file and adds Lookbook-specific source paths:
 Component: [name]
 Progress:
 - [ ] 1. Read project/DESIGN_SYSTEM.md and project/components/[NAME].md
-- [ ] 2. Read Nuxt UI theme file for this component
-- [ ] 3. Create theme module in lib/kiso/themes/
+- [ ] 2. Verify component name matches shadcn exactly (check file name + exports)
+- [ ] 3. Read Nuxt UI theme file for this component
+- [ ] 4. Create theme module in lib/kiso/themes/
          - Copy compound variants from Badge (same formulas, different base)
-- [ ] 4. Require theme in lib/kiso.rb
-- [ ] 5. Create ERB partial in app/views/kiso/components/
+- [ ] 5. Require theme in lib/kiso.rb
+- [ ] 6. Create ERB partial in app/views/kiso/components/
          - Props-driven for common patterns, yield for override
-- [ ] 6. Create sub-part partials if needed (title, description, etc.)
-- [ ] 7. Create Lookbook preview + templates in test/components/previews/kiso/
-- [ ] 8. Add CSS file if needed (transitions/animations only)
-- [ ] 9. Update skills/kiso/references/components.md
-- [ ] 10. Write/update project/components/[NAME].md vision doc
-- [ ] 11. Create docs page (see "Documentation page" below)
-- [ ] 12. Run: bundle exec standardrb --fix
-- [ ] 13. Rebuild Tailwind: cd test/dummy && bin/rails tailwindcss:build
-- [ ] 14. Verify in Lookbook: http://localhost:4001/lookbook
+- [ ] 7. Create sub-part partials if needed (title, description, etc.)
+- [ ] 8. Create Lookbook preview + templates in test/components/previews/kiso/
+- [ ] 9. Add CSS file if needed (transitions/animations only)
+- [ ] 10. Update skills/kiso/references/components.md
+- [ ] 11. Write/update project/components/[NAME].md vision doc
+- [ ] 12. Create docs page (see "Documentation page" below)
+- [ ] 13. Run: bundle exec standardrb --fix
+- [ ] 14. Rebuild Tailwind: cd test/dummy && bin/rails tailwindcss:build
+- [ ] 15. Verify in Lookbook: http://localhost:4001/lookbook
 ```
 
 ### Documentation page

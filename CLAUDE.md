@@ -65,6 +65,11 @@ Consistency is more important than any individual improvement.
   (`vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/`). Copy their
   Tailwind utility classes for layout, spacing, typography, and structure.
   Only deviate where Kiso's variant system or semantic tokens require it.
+- **Component names must match shadcn exactly** — use the same name shadcn
+  uses for the component and all its sub-parts. If shadcn calls it `empty`,
+  we call it `empty` — not `empty_state`. If shadcn calls a sub-part
+  `header`, we call it `header`. Check the shadcn source file name and
+  exported component names before naming anything.
 - **Nuxt UI is the theming source of truth** — check the Nuxt UI theme file
   (`vendor/nuxt-ui/src/theme/`) for variant formulas and token usage.
   This is where `color:` × `variant:` axes, compound variants, and the

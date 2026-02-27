@@ -16,8 +16,8 @@ docs:
         href: /components/button
       - title: Card
         href: /components/card
-      - title: Empty State
-        href: /components/empty_state
+      - title: Empty
+        href: /components/empty
       - title: Pagination
         href: /components/pagination
       - title: Separator

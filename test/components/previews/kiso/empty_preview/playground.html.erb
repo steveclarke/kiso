@@ -1,0 +1,9 @@
+<%= kiso(:empty) do %>
+  <%= kiso(:empty, :header) do %>
+    <%= kiso(:empty, :media, variant: :icon) do %>
+      <%= kiso_icon("folder") %>
+    <% end %>
+    <%= kiso(:empty, :title) { title } %>
+    <%= kiso(:empty, :description) { description } %>
+  <% end %>
+<% end %>
