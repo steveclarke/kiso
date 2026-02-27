@@ -29,7 +29,6 @@ source: lib/kiso/themes/radio_group.rb
 
 | Local | Type | Default |
 |-------|------|---------|
-| `color:` | `:primary` \| `:secondary` \| `:success` \| `:info` \| `:warning` \| `:error` \| `:neutral` | `:primary` |
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
 
