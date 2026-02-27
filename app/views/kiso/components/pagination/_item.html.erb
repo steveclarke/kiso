@@ -1,7 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :li,
     class: Kiso::Themes::PaginationItem.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :pagination_item),
+    data: kiso_prepare_options(component_options, component: :pagination, pagination_part: :item),
     **component_options do %>
   <%= yield %>
 <% end %>

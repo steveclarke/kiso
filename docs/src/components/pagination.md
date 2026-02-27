@@ -10,12 +10,12 @@ source: lib/kiso/themes/pagination.rb
 
 ```erb
 <%%= kiso(:pagination) do %>
-  <%%= kiso(:pagination_content) do %>
-    <%%= kiso(:pagination_previous, href: "#") %>
-    <%%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "1" } } %>
-    <%%= kiso(:pagination_item) { kiso(:pagination_link, href: "#", active: true) { "2" } } %>
-    <%%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "3" } } %>
-    <%%= kiso(:pagination_next, href: "#") %>
+  <%%= kiso(:pagination, :content) do %>
+    <%%= kiso(:pagination, :previous, href: "#") %>
+    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "1" } } %>
+    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#", active: true) { "2" } } %>
+    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "3" } } %>
+    <%%= kiso(:pagination, :next, href: "#") %>
   <%% end %>
 <%% end %>
 ```
@@ -31,30 +31,21 @@ source: lib/kiso/themes/pagination.rb
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
 
-### `pagination_content`
+### `:content`
 
 | Local | Type | Default |
 |-------|------|---------|
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
 
-### `pagination_item`
+### `:item`
 
 | Local | Type | Default |
 |-------|------|---------|
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
 
-### `pagination_link`
-
-| Local | Type | Default |
-|-------|------|---------|
-| `href:` | `String` | `"#"` |
-| `active:` | `Boolean` | `false` |
-| `css_classes:` | `String` | `""` |
-| `**component_options` | `Hash` | `{}` |
-
-### `pagination_previous` / `pagination_next`
+### `:link`
 
 | Local | Type | Default |
 |-------|------|---------|
@@ -63,7 +54,16 @@ source: lib/kiso/themes/pagination.rb
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
 
-### `pagination_ellipsis`
+### `:previous` / `:next`
+
+| Local | Type | Default |
+|-------|------|---------|
+| `href:` | `String` | `"#"` |
+| `active:` | `Boolean` | `false` |
+| `css_classes:` | `String` | `""` |
+| `**component_options` | `Hash` | `{}` |
+
+### `:ellipsis`
 
 | Local | Type | Default |
 |-------|------|---------|
@@ -82,21 +82,21 @@ by iterating over its series output.
 module PagyPaginationHelper
   def kiso_pagy_nav(pagy)
     kiso(:pagination) do
-      kiso(:pagination_content) do
-        concat kiso(:pagination_previous, href: pagy.prev ? pagy_url(pagy.prev) : nil)
+      kiso(:pagination, :content) do
+        concat kiso(:pagination, :previous, href: pagy.prev ? pagy_url(pagy.prev) : nil)
         pagy.series.each do |item|
           concat(
             case item
             when :gap
-              kiso(:pagination_item) { kiso(:pagination_ellipsis) }
+              kiso(:pagination, :item) { kiso(:pagination, :ellipsis) }
             when String # current page (Pagy stringifies the current page)
-              kiso(:pagination_item) { kiso(:pagination_link, href: "#", active: true) { item } }
+              kiso(:pagination, :item) { kiso(:pagination, :link, href: "#", active: true) { item } }
             when Integer
-              kiso(:pagination_item) { kiso(:pagination_link, href: pagy_url(item)) { item.to_s } }
+              kiso(:pagination, :item) { kiso(:pagination, :link, href: pagy_url(item)) { item.to_s } }
             end
           )
         end
-        concat kiso(:pagination_next, href: pagy.next ? pagy_url(pagy.next) : nil)
+        concat kiso(:pagination, :next, href: pagy.next ? pagy_url(pagy.next) : nil)
       end
     end
   end
@@ -109,13 +109,13 @@ Pass `href: nil` to disable prev/next links when at the boundary.
 
 ```erb
 <%%= kiso(:pagination) do %>
-  <%%= kiso(:pagination_content) do %>
-    <%%= kiso(:pagination_previous, href: nil) %> <%# disabled on first page %>
-    <%%= kiso(:pagination_item) { kiso(:pagination_link, href: "#", active: true) { "1" } } %>
-    <%%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "2" } } %>
-    <%%= kiso(:pagination_item) { kiso(:pagination_ellipsis) } %>
-    <%%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "10" } } %>
-    <%%= kiso(:pagination_next, href: "#") %>
+  <%%= kiso(:pagination, :content) do %>
+    <%%= kiso(:pagination, :previous, href: nil) %> <%# disabled on first page %>
+    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#", active: true) { "1" } } %>
+    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "2" } } %>
+    <%%= kiso(:pagination, :item) { kiso(:pagination, :ellipsis) } %>
+    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "10" } } %>
+    <%%= kiso(:pagination, :next, href: "#") %>
   <%% end %>
 <%% end %>
 ```
@@ -126,9 +126,9 @@ Omit page numbers entirely for simple sequential navigation.
 
 ```erb
 <%%= kiso(:pagination) do %>
-  <%%= kiso(:pagination_content) do %>
-    <%%= kiso(:pagination_previous, href: "#") %>
-    <%%= kiso(:pagination_next, href: "#") %>
+  <%%= kiso(:pagination, :content) do %>
+    <%%= kiso(:pagination, :previous, href: "#") %>
+    <%%= kiso(:pagination, :next, href: "#") %>
   <%% end %>
 <%% end %>
 ```

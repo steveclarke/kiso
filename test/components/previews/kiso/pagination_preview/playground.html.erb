@@ -14,17 +14,17 @@
   end
 %>
 <%= kiso(:pagination) do %>
-  <%= kiso(:pagination_content) do %>
-    <%= kiso(:pagination_previous, href: current_page > 1 ? "#" : nil) %>
+  <%= kiso(:pagination, :content) do %>
+    <%= kiso(:pagination, :previous, href: current_page > 1 ? "#" : nil) %>
     <% series.each do |item| %>
       <% if item == :gap %>
-        <%= kiso(:pagination_item) { kiso(:pagination_ellipsis) } %>
+        <%= kiso(:pagination, :item) { kiso(:pagination, :ellipsis) } %>
       <% else %>
-        <%= kiso(:pagination_item) do %>
-          <%= kiso(:pagination_link, href: "#", active: item == current_page) { item.to_s } %>
+        <%= kiso(:pagination, :item) do %>
+          <%= kiso(:pagination, :link, href: "#", active: item == current_page) { item.to_s } %>
         <% end %>
       <% end %>
     <% end %>
-    <%= kiso(:pagination_next, href: current_page < total_pages ? "#" : nil) %>
+    <%= kiso(:pagination, :next, href: current_page < total_pages ? "#" : nil) %>
   <% end %>
 <% end %>

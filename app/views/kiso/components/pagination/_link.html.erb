@@ -3,7 +3,7 @@
     href: href,
     **(active ? {aria: {current: "page"}} : {}),
     class: Kiso::Themes::PaginationLink.render(active: active, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :pagination_link, active: active),
+    data: kiso_prepare_options(component_options, component: :pagination, pagination_part: :link, active: active),
     **component_options do %>
   <%= yield %>
 <% end %>

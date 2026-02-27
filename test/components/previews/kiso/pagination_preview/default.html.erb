@@ -1,14 +1,14 @@
 <%# Middle page: 1 ... 4 [5] 6 ... 10 %>
 <%= kiso(:pagination) do %>
-  <%= kiso(:pagination_content) do %>
-    <%= kiso(:pagination_previous, href: "#") %>
-    <%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "1" } } %>
-    <%= kiso(:pagination_item) { kiso(:pagination_ellipsis) } %>
-    <%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "4" } } %>
-    <%= kiso(:pagination_item) { kiso(:pagination_link, href: "#", active: true) { "5" } } %>
-    <%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "6" } } %>
-    <%= kiso(:pagination_item) { kiso(:pagination_ellipsis) } %>
-    <%= kiso(:pagination_item) { kiso(:pagination_link, href: "#") { "10" } } %>
-    <%= kiso(:pagination_next, href: "#") %>
+  <%= kiso(:pagination, :content) do %>
+    <%= kiso(:pagination, :previous, href: "#") %>
+    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "1" } } %>
+    <%= kiso(:pagination, :item) { kiso(:pagination, :ellipsis) } %>
+    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "4" } } %>
+    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#", active: true) { "5" } } %>
+    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "6" } } %>
+    <%= kiso(:pagination, :item) { kiso(:pagination, :ellipsis) } %>
+    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "10" } } %>
+    <%= kiso(:pagination, :next, href: "#") %>
   <% end %>
 <% end %>

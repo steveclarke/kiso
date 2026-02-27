@@ -84,6 +84,10 @@ Consistency is more important than any individual improvement.
   target API for each component. Read before building or extending.
 - **Composition over configuration** — Card = Header + Title + Content + Footer.
   Small partials, flexibly combined.
+- **Sub-part naming** — sub-parts always use `kiso(:component, :part)`, never
+  `kiso(:component_part)`. Files live in `component/_part.html.erb`. Data
+  attributes follow `component: :alert, alert_part: :title` — not
+  `component: :alert_title`.
 - **Strict locals on every partial** — `<%# locals: (color: :primary) %>`
 
 ## Component Pattern
