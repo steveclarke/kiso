@@ -1,0 +1,22 @@
+<div class="max-w-sm space-y-6">
+  <%# Simple switch %>
+  <%= kiso(:field, orientation: :horizontal) do %>
+    <label class="relative inline-flex h-5 w-9 cursor-pointer items-center rounded-full bg-muted transition-colors has-[:checked]:bg-primary">
+      <input type="checkbox" id="mfa" name="mfa" class="peer sr-only" role="switch">
+      <span class="pointer-events-none block size-4 translate-x-0.5 rounded-full bg-background shadow-sm transition-transform peer-checked:translate-x-[18px]"></span>
+    </label>
+    <%= kiso(:field, :content) do %>
+      <%= kiso(:field, :label, for: :mfa) { "Multi-factor authentication" } %>
+      <%= kiso(:field, :description) { "Add an extra layer of security to your account." } %>
+    <% end %>
+  <% end %>
+
+  <%# Switch with just label %>
+  <%= kiso(:field, orientation: :horizontal) do %>
+    <label class="relative inline-flex h-5 w-9 cursor-pointer items-center rounded-full bg-muted transition-colors has-[:checked]:bg-primary">
+      <input type="checkbox" id="notifications" name="notifications" class="peer sr-only" role="switch" checked>
+      <span class="pointer-events-none block size-4 translate-x-0.5 rounded-full bg-background shadow-sm transition-transform peer-checked:translate-x-[18px]"></span>
+    </label>
+    <%= kiso(:field, :label, for: :notifications) { "Enable notifications" } %>
+  <% end %>
+</div>

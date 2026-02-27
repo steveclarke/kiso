@@ -1,0 +1,45 @@
+<div class="max-w-md">
+  <%= kiso(:field_set) do %>
+    <%= kiso(:field_set, :legend) { "Responses" } %>
+    <%= kiso(:field, :description) { "Manage how you receive form responses." } %>
+
+    <%= kiso(:field_group) do %>
+      <%= kiso(:field, orientation: :horizontal) do %>
+        <label class="relative inline-flex h-5 w-9 cursor-pointer items-center rounded-full bg-muted transition-colors has-[:checked]:bg-primary">
+          <input type="checkbox" id="email_resp" class="peer sr-only" role="switch" checked>
+          <span class="pointer-events-none block size-4 translate-x-0.5 rounded-full bg-background shadow-sm transition-transform peer-checked:translate-x-[18px]"></span>
+        </label>
+        <%= kiso(:field, :content) do %>
+          <%= kiso(:field, :label, for: :email_resp) { "Email notifications" } %>
+          <%= kiso(:field, :description) { "Receive email for each new response." } %>
+        <% end %>
+      <% end %>
+
+      <%= kiso(:field, :separator) { "Or" } %>
+
+      <%= kiso(:field, orientation: :horizontal) do %>
+        <label class="relative inline-flex h-5 w-9 cursor-pointer items-center rounded-full bg-muted transition-colors has-[:checked]:bg-primary">
+          <input type="checkbox" id="webhook_resp" class="peer sr-only" role="switch">
+          <span class="pointer-events-none block size-4 translate-x-0.5 rounded-full bg-background shadow-sm transition-transform peer-checked:translate-x-[18px]"></span>
+        </label>
+        <%= kiso(:field, :content) do %>
+          <%= kiso(:field, :label, for: :webhook_resp) { "Webhook" } %>
+          <%= kiso(:field, :description) { "Send responses to a webhook URL." } %>
+        <% end %>
+      <% end %>
+
+      <%= kiso(:field, :separator) %>
+
+      <%= kiso(:field, orientation: :horizontal) do %>
+        <label class="relative inline-flex h-5 w-9 cursor-pointer items-center rounded-full bg-muted transition-colors has-[:checked]:bg-primary">
+          <input type="checkbox" id="slack_resp" class="peer sr-only" role="switch">
+          <span class="pointer-events-none block size-4 translate-x-0.5 rounded-full bg-background shadow-sm transition-transform peer-checked:translate-x-[18px]"></span>
+        </label>
+        <%= kiso(:field, :content) do %>
+          <%= kiso(:field, :label, for: :slack_resp) { "Slack integration" } %>
+          <%= kiso(:field, :description) { "Post responses to a Slack channel." } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

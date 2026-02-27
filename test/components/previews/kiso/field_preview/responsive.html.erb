@@ -1,0 +1,32 @@
+<div class="max-w-2xl">
+  <%= kiso(:field_set) do %>
+    <%= kiso(:field_set, :legend) { "Profile" } %>
+    <%= kiso(:field, :description) { "This information will be displayed on your public profile." } %>
+
+    <%= kiso(:field_group) do %>
+      <%= kiso(:field, orientation: :responsive) do %>
+        <%= kiso(:field, :label, for: :resp_name) { "Full name" } %>
+        <input type="text" id="resp_name" name="name" placeholder="Evil Rabbit"
+          class="flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+      <% end %>
+
+      <%= kiso(:field, orientation: :responsive) do %>
+        <%= kiso(:field, :label, for: :resp_email) { "Email" } %>
+        <%= kiso(:field, :content) do %>
+          <input type="email" id="resp_email" name="email" placeholder="evil@rabbit.com"
+            class="flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+          <%= kiso(:field, :description) { "This will be visible to other members." } %>
+        <% end %>
+      <% end %>
+
+      <%= kiso(:field, orientation: :responsive) do %>
+        <%= kiso(:field, :label, for: :resp_bio) { "Bio" } %>
+        <%= kiso(:field, :content) do %>
+          <textarea id="resp_bio" name="bio" rows="3" placeholder="Tell us about yourself..."
+            class="flex w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"></textarea>
+          <%= kiso(:field, :description) { "You can use markdown for formatting." } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

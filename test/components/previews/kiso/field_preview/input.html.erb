@@ -1,0 +1,18 @@
+<div class="max-w-sm space-y-8">
+  <%# Basic input with description %>
+  <%= kiso(:field) do %>
+    <%= kiso(:field, :label, for: :username) { "Username" } %>
+    <input type="text" id="username" name="username" placeholder="shadcn"
+      class="flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+    <%= kiso(:field, :description) { "This is your public display name." } %>
+  <% end %>
+
+  <%# Input with validation error %>
+  <%= kiso(:field, invalid: true) do %>
+    <%= kiso(:field, :label, for: :password) { "Password" } %>
+    <input type="password" id="password" name="password" value="abc"
+      class="flex h-9 w-full rounded-md border border-error bg-transparent px-3 py-1 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-error"
+      aria-invalid="true">
+    <%= kiso(:field, :error, errors: ["Must be at least 8 characters", "Must contain a number"]) %>
+  <% end %>
+</div>

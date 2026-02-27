@@ -11,6 +11,10 @@ require "kiso/themes/empty"
 require "kiso/themes/stats_card"
 require "kiso/themes/table"
 require "kiso/themes/pagination"
+require "kiso/themes/label"
+require "kiso/themes/field"
+require "kiso/themes/field_group"
+require "kiso/themes/field_set"
 require "kiso/icons"
 
 module Kiso
