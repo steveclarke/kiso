@@ -66,8 +66,18 @@ require_overmind() {
     || error "overmind is not installed. Run bin/setup to install."
 }
 
+is_running() {
+  [ -e "$SOCKET" ] && overmind status > /dev/null 2>&1
+}
+
 require_running() {
-  [ -e "$SOCKET" ] || error "Overmind is not running."
+  is_running || error "Overmind is not running. Start it with: bin/dev"
+}
+
+cleanup_stale_socket() {
+  if [ -e "$SOCKET" ] && ! overmind status > /dev/null 2>&1; then
+    rm -f "$SOCKET"
+  fi
 }
 
 usage() {
@@ -114,20 +124,40 @@ cmd_start() {
     esac
   done
 
+  cleanup_stale_socket
+
+  if is_running; then
+    echo "Overmind is already running."
+    overmind status
+    echo ""
+    echo "  Lookbook → http://localhost:${LOOKBOOK_PORT:-4001}"
+    echo "  Docs     → http://localhost:4000"
+    return
+  fi
+
   if $foreground; then
     exec overmind start -f "$PROCFILE" "${passthrough[@]+"${passthrough[@]}"}"
   else
-    exec overmind start -f "$PROCFILE" -D "${passthrough[@]+"${passthrough[@]}"}"
+    overmind start -f "$PROCFILE" -D "${passthrough[@]+"${passthrough[@]}"}"
+    sleep 1
+    overmind status
+    echo ""
+    echo "  Lookbook → http://localhost:${LOOKBOOK_PORT:-4001}"
+    echo "  Docs     → http://localhost:4000"
   fi
 }
 
 cmd_stop() {
-  require_running
+  if ! is_running; then
+    cleanup_stale_socket
+    error "Overmind is not running."
+  fi
   overmind quit 2>/dev/null || rm -f "$SOCKET"
 }
 
 cmd_restart() {
-  if [ ! -e "$SOCKET" ]; then
+  if ! is_running; then
+    cleanup_stale_socket
     echo "Overmind not running — starting daemonized..."
     overmind start -f "$PROCFILE" -D
     sleep 1
