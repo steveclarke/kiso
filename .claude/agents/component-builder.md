@@ -155,44 +155,32 @@ bundle exec standardrb --fix
 bundle exec rake test
 ```
 
-### 9. Create the PR
+### 9. Commit (but do NOT push or create PR)
 
 ```bash
 git checkout -b feat/{name}-component
 git add [specific files]
 git commit -m "feat: ComponentName component (#N)"
-git push -u origin feat/{name}-component
-gh pr create --title "feat: ComponentName component (#N)" --body "$(cat <<'EOF'
-## Summary
-- [bullet points of what was built]
-
-Closes #N
-
-## Test plan
-- [x] All Lookbook previews render (200)
-- [x] standardrb passes
-- [x] rake test passes
-- [ ] Visual review in Lookbook
-EOF
-)"
 ```
 
-**CRITICAL:** Include `Closes #N` in the PR body so GitHub auto-closes the issue on merge.
+**Do NOT run `git push` or `gh pr create`.** The factory orchestrator handles
+push and PR creation after you return. You may not have push permissions from
+a worktree context.
 
-### 10. Open Lookbook preview for the user
+### 10. Leave Lookbook running
 
-Open the first preview scenario in the user's browser so they can visually
-review the component:
+**Do NOT stop Lookbook.** Leave it running so the factory orchestrator can
+give the user a preview URL. The orchestrator will stop services when done.
 
-```bash
-open "http://localhost:$LOOKBOOK_PORT/lookbook/inspect/kiso/{name}/playground"
-```
+### 11. Report your results
 
-### 11. Stop services
-
-```bash
-bin/dev stop
-```
+In your final output, clearly include:
+- **Worktree path** (the directory you're working in)
+- **Branch name** (e.g., `feat/breadcrumb-component`)
+- **Lookbook port** (from `bin/worktree port`)
+- **Preview URLs** for each Lookbook scenario
+- **Summary** of all files created
+- The **PR body** text (title, summary, `Closes #N`) so the orchestrator can create it
 
 ## Quality checklist (verify before creating PR)
 
