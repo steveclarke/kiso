@@ -5,5 +5,5 @@
     aria: { hidden: "true" },
     data: kiso_prepare_options(component_options, slot: "breadcrumb-separator"),
     **component_options do %>
-  <%= capture { yield }.presence || kiso_icon("chevron-right", class: "size-3.5") %>
+  <%= capture { yield }.presence || kiso_component_icon(:chevron_right, class: "size-3.5") %>
 <% end %>
