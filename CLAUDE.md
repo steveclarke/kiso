@@ -149,6 +149,8 @@ docs/                      Bridgetown docs site (published documentation)
 
 - **Always squash merge PRs** (`gh pr merge --squash`). Repo is configured
   to only allow squash merges.
+- **Link PRs to issues** — include `Closes #N` in the PR body so GitHub
+  auto-closes the issue on merge.
 - **Do not commit without explicit permission** from the user.
 - **Dev server**: `bin/dev` runs Overmind daemonized. Start it if not
   running, restart services as needed (`overmind restart web`).
