@@ -111,7 +111,7 @@ app/
 ├── assets/
 │   ├── stylesheets/kiso/   # Component CSS (transitions/pseudo-states only)
 │   └── tailwind/kiso/  # engine.css — shipped with gem (fonts + all color tokens)
-├── helpers/kiso/           # component_tag, kiso() helpers
+├── helpers/kiso/           # component_tag, kui() helpers
 └── javascript/controllers/kiso/  # Stimulus controllers (namespaced)
 test/
 ├── components/previews/kiso/  # Lookbook previews + templates
@@ -231,7 +231,7 @@ blocks containing `<%=` will be executed. Escape the tag as `<%%=` so it
 renders as literal code:
 
 ```
-<%%= kiso(:badge) { "Example" } %>
+<%%= kui(:badge) { "Example" } %>
 ```
 
 ## Colored component template
@@ -322,7 +322,7 @@ The target pattern for all components with internal structure:
 
 ### Sub-part partials
 
-For composed usage via `kiso(:component, :part)`:
+For composed usage via `kui(:component, :part)`:
 
 ```erb
 <%# app/views/kiso/components/alert/_title.html.erb %>
@@ -354,7 +354,7 @@ For composed usage via `kiso(:component, :part)`:
 | Icon sizing | `size-4` standard, `size-3` compact, `size-5` larger. No arbitrary values. |
 | Container padding | `p-6` large (Card, Dialog), `p-4` medium (Sheet, Popover), `p-2` compact. |
 | No arbitrary values | Never use `text-[8px]`, `h-[1.15rem]`, etc. Use standard Tailwind classes only. |
-| Sub-part naming | `kiso(:alert, :title)` — **never** `kiso(:alert_title)`. Files live in `alert/_title.html.erb`. Data attrs: `component: :alert, alert_part: :title`. |
+| Sub-part naming | `kui(:alert, :title)` — **never** `kui(:alert_title)`. Files live in `alert/_title.html.erb`. Data attrs: `component: :alert, alert_part: :title`. |
 | Strict locals | Every partial: `<%# locals: (color: :primary, ...) %>` |
 | Data attributes | `data-component="alert"` for identity — NOT for CSS selectors. |
 | `css_classes:` override | Single override point, merged via tailwind_merge. |

@@ -95,8 +95,8 @@ Consistency is more important than any individual improvement.
   target API for each component. Read before building or extending.
 - **Composition over configuration** — Card = Header + Title + Content + Footer.
   Small partials, flexibly combined.
-- **Sub-part naming** — sub-parts always use `kiso(:component, :part)`, never
-  `kiso(:component_part)`. Files live in `component/_part.html.erb`. Data
+- **Sub-part naming** — sub-parts always use `kui(:component, :part)`, never
+  `kui(:component_part)`. Files live in `component/_part.html.erb`. Data
   attributes follow `component: :alert, alert_part: :title` — not
   `component: :alert_title`.
 - **Strict locals on every partial** — `<%# locals: (color: :primary) %>`
@@ -128,9 +128,9 @@ Kiso::Themes::Badge = ClassVariants.build(
 
 ```
 lib/kiso/themes/           Ruby theme modules (ClassVariants definitions)
-app/views/kiso/components/ ERB partials (rendered via kiso() helper)
+app/views/kiso/components/ ERB partials (rendered via kui() helper)
 app/assets/stylesheets/    Component CSS (thin — transitions/pseudo-states only)
-app/helpers/kiso/          component_tag, kiso() helpers
+app/helpers/kiso/          component_tag, kui() helpers
 test/components/previews/  Lookbook preview classes + templates
 test/dummy/                Development Rails app (bin/dev → port 4001)
 skills/kiso/               AI skill (component reference, theming guide)

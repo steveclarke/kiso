@@ -9,19 +9,19 @@ source: lib/kiso/themes/table.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:table) do %>
-  <%%= kiso(:table, :header) do %>
-    <%%= kiso(:table, :row) do %>
-      <%%= kiso(:table, :head) { "Name" } %>
-      <%%= kiso(:table, :head) { "Email" } %>
-      <%%= kiso(:table, :head, css_classes: "text-right") { "Amount" } %>
+<%%= kui(:table) do %>
+  <%%= kui(:table, :header) do %>
+    <%%= kui(:table, :row) do %>
+      <%%= kui(:table, :head) { "Name" } %>
+      <%%= kui(:table, :head) { "Email" } %>
+      <%%= kui(:table, :head, css_classes: "text-right") { "Amount" } %>
     <%% end %>
   <%% end %>
-  <%%= kiso(:table, :body) do %>
-    <%%= kiso(:table, :row) do %>
-      <%%= kiso(:table, :cell, css_classes: "font-medium") { "Alice" } %>
-      <%%= kiso(:table, :cell) { "alice@example.com" } %>
-      <%%= kiso(:table, :cell, css_classes: "text-right") { "$250.00" } %>
+  <%%= kui(:table, :body) do %>
+    <%%= kui(:table, :row) do %>
+      <%%= kui(:table, :cell, css_classes: "font-medium") { "Alice" } %>
+      <%%= kui(:table, :cell) { "alice@example.com" } %>
+      <%%= kui(:table, :cell, css_classes: "text-right") { "$250.00" } %>
     <%% end %>
   <%% end %>
 <%% end %>
@@ -43,13 +43,13 @@ wrapping a `<table>` element.
 
 | Part | HTML | Usage | Purpose |
 |------|------|-------|---------|
-| `:header` | `<thead>` | `kiso(:table, :header)` | Table head section |
-| `:body` | `<tbody>` | `kiso(:table, :body)` | Table body section |
-| `:footer` | `<tfoot>` | `kiso(:table, :footer)` | Table foot with muted bg |
-| `:row` | `<tr>` | `kiso(:table, :row)` | Table row with hover state |
-| `:head` | `<th>` | `kiso(:table, :head)` | Column header cell |
-| `:cell` | `<td>` | `kiso(:table, :cell)` | Data cell |
-| `:caption` | `<caption>` | `kiso(:table, :caption)` | Table caption (bottom) |
+| `:header` | `<thead>` | `kui(:table, :header)` | Table head section |
+| `:body` | `<tbody>` | `kui(:table, :body)` | Table body section |
+| `:footer` | `<tfoot>` | `kui(:table, :footer)` | Table foot with muted bg |
+| `:row` | `<tr>` | `kui(:table, :row)` | Table row with hover state |
+| `:head` | `<th>` | `kui(:table, :head)` | Column header cell |
+| `:cell` | `<td>` | `kui(:table, :cell)` | Data cell |
+| `:caption` | `<caption>` | `kui(:table, :caption)` | Table caption (bottom) |
 
 All sub-parts accept `css_classes:` and `**component_options`.
 
@@ -74,28 +74,28 @@ Table (scrollable container + <table>)
 ### With Caption and Footer
 
 ```erb
-<%%= kiso(:table) do %>
-  <%%= kiso(:table, :caption) { "A list of your recent invoices." } %>
-  <%%= kiso(:table, :header) do %>
-    <%%= kiso(:table, :row) do %>
-      <%%= kiso(:table, :head, css_classes: "w-[100px]") { "Invoice" } %>
-      <%%= kiso(:table, :head) { "Status" } %>
-      <%%= kiso(:table, :head) { "Method" } %>
-      <%%= kiso(:table, :head, css_classes: "text-right") { "Amount" } %>
+<%%= kui(:table) do %>
+  <%%= kui(:table, :caption) { "A list of your recent invoices." } %>
+  <%%= kui(:table, :header) do %>
+    <%%= kui(:table, :row) do %>
+      <%%= kui(:table, :head, css_classes: "w-[100px]") { "Invoice" } %>
+      <%%= kui(:table, :head) { "Status" } %>
+      <%%= kui(:table, :head) { "Method" } %>
+      <%%= kui(:table, :head, css_classes: "text-right") { "Amount" } %>
     <%% end %>
   <%% end %>
-  <%%= kiso(:table, :body) do %>
-    <%%= kiso(:table, :row) do %>
-      <%%= kiso(:table, :cell, css_classes: "font-medium") { "INV001" } %>
-      <%%= kiso(:table, :cell) { "Paid" } %>
-      <%%= kiso(:table, :cell) { "Credit Card" } %>
-      <%%= kiso(:table, :cell, css_classes: "text-right") { "$250.00" } %>
+  <%%= kui(:table, :body) do %>
+    <%%= kui(:table, :row) do %>
+      <%%= kui(:table, :cell, css_classes: "font-medium") { "INV001" } %>
+      <%%= kui(:table, :cell) { "Paid" } %>
+      <%%= kui(:table, :cell) { "Credit Card" } %>
+      <%%= kui(:table, :cell, css_classes: "text-right") { "$250.00" } %>
     <%% end %>
   <%% end %>
-  <%%= kiso(:table, :footer) do %>
-    <%%= kiso(:table, :row) do %>
-      <%%= kiso(:table, :cell, colspan: 3) { "Total" } %>
-      <%%= kiso(:table, :cell, css_classes: "text-right") { "$2,500.00" } %>
+  <%%= kui(:table, :footer) do %>
+    <%%= kui(:table, :row) do %>
+      <%%= kui(:table, :cell, colspan: 3) { "Total" } %>
+      <%%= kui(:table, :cell, css_classes: "text-right") { "$2,500.00" } %>
     <%% end %>
   <%% end %>
 <%% end %>
@@ -106,7 +106,7 @@ Table (scrollable container + <table>)
 Add alternating row colors via `css_classes:` on individual rows:
 
 ```erb
-<%%= kiso(:table, :row, css_classes: "bg-muted/25") do %>
+<%%= kui(:table, :row, css_classes: "bg-muted/25") do %>
   ...
 <%% end %>
 ```
@@ -117,8 +117,8 @@ Use `css_classes: "text-right"` on both the `:head` and `:cell` for
 numeric columns:
 
 ```erb
-<%%= kiso(:table, :head, css_classes: "text-right") { "Amount" } %>
-<%%= kiso(:table, :cell, css_classes: "text-right") { "$250.00" } %>
+<%%= kui(:table, :head, css_classes: "text-right") { "Amount" } %>
+<%%= kui(:table, :cell, css_classes: "text-right") { "$250.00" } %>
 ```
 
 ### Selected Rows
@@ -126,7 +126,7 @@ numeric columns:
 Add `data-state="selected"` to highlight a row:
 
 ```erb
-<%%= kiso(:table, :row, "data-state": "selected") do %>
+<%%= kui(:table, :row, "data-state": "selected") do %>
   ...
 <%% end %>
 ```

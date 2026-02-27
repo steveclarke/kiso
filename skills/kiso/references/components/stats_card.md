@@ -5,26 +5,26 @@ tighter spacing and sub-parts optimized for stats.
 
 **Locals:** `variant:` (outline, soft, subtle), `css_classes:`, `**component_options`
 
-**Sub-parts:** `kiso(:stats_card, :header)`, `kiso(:stats_card, :label)`, `kiso(:stats_card, :value)`, `kiso(:stats_card, :description)`
+**Sub-parts:** `kui(:stats_card, :header)`, `kui(:stats_card, :label)`, `kui(:stats_card, :value)`, `kui(:stats_card, :description)`
 
 **Defaults:** `variant: :outline`
 
 ```erb
 <%# Simple — label, value, description %>
-<%= kiso(:stats_card) do %>
-  <%= kiso(:stats_card, :label) { "Total Revenue" } %>
-  <%= kiso(:stats_card, :value) { "$45,231.89" } %>
-  <%= kiso(:stats_card, :description) { "+20.1% from last month" } %>
+<%= kui(:stats_card) do %>
+  <%= kui(:stats_card, :label) { "Total Revenue" } %>
+  <%= kui(:stats_card, :value) { "$45,231.89" } %>
+  <%= kui(:stats_card, :description) { "+20.1% from last month" } %>
 <% end %>
 
 <%# With icon — use header to position label + icon %>
-<%= kiso(:stats_card) do %>
-  <%= kiso(:stats_card, :header) do %>
-    <%= kiso(:stats_card, :label) { "Total Revenue" } %>
+<%= kui(:stats_card) do %>
+  <%= kui(:stats_card, :header) do %>
+    <%= kui(:stats_card, :label) { "Total Revenue" } %>
     <svg class="size-4 text-muted-foreground">...</svg>
   <% end %>
-  <%= kiso(:stats_card, :value) { "$45,231.89" } %>
-  <%= kiso(:stats_card, :description) { "+20.1% from last month" } %>
+  <%= kui(:stats_card, :value) { "$45,231.89" } %>
+  <%= kui(:stats_card, :description) { "+20.1% from last month" } %>
 <% end %>
 ```
 
@@ -39,11 +39,11 @@ Responsive grid wrapper for stats cards.
 **Defaults:** `columns: 4`
 
 ```erb
-<%= kiso(:stats_grid, columns: 4) do %>
-  <%= kiso(:stats_card) do %>...<%  end %>
-  <%= kiso(:stats_card) do %>...<%  end %>
-  <%= kiso(:stats_card) do %>...<%  end %>
-  <%= kiso(:stats_card) do %>...<%  end %>
+<%= kui(:stats_grid, columns: 4) do %>
+  <%= kui(:stats_card) do %>...<%  end %>
+  <%= kui(:stats_card) do %>...<%  end %>
+  <%= kui(:stats_card) do %>...<%  end %>
+  <%= kui(:stats_card) do %>...<%  end %>
 <% end %>
 ```
 

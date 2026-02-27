@@ -9,9 +9,9 @@ source: lib/kiso/themes/input_group.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:input_group) do %>
-  <%%= kiso(:input_group, :addon) { "https://" } %>
-  <%%= kiso(:input, type: :text, placeholder: "example.com") %>
+<%%= kui(:input_group) do %>
+  <%%= kui(:input_group, :addon) { "https://" } %>
+  <%%= kui(:input, type: :text, placeholder: "example.com") %>
 <%% end %>
 ```
 
@@ -51,18 +51,18 @@ InputGroup [ring ring-inset ring-accented rounded-md]
 ### Prefix Text
 
 ```erb
-<%%= kiso(:input_group) do %>
-  <%%= kiso(:input_group, :addon) { "https://" } %>
-  <%%= kiso(:input, type: :text, placeholder: "example.com") %>
+<%%= kui(:input_group) do %>
+  <%%= kui(:input_group, :addon) { "https://" } %>
+  <%%= kui(:input, type: :text, placeholder: "example.com") %>
 <%% end %>
 ```
 
 ### Suffix Icon
 
 ```erb
-<%%= kiso(:input_group) do %>
-  <%%= kiso(:input, type: :search, placeholder: "Search...") %>
-  <%%= kiso(:input_group, :addon, align: :end) do %>
+<%%= kui(:input_group) do %>
+  <%%= kui(:input, type: :search, placeholder: "Search...") %>
+  <%%= kui(:input_group, :addon, align: :end) do %>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
       <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
     </svg>
@@ -73,10 +73,10 @@ InputGroup [ring ring-inset ring-accented rounded-md]
 ### Prefix and Suffix
 
 ```erb
-<%%= kiso(:input_group) do %>
-  <%%= kiso(:input_group, :addon) { "$" } %>
-  <%%= kiso(:input, type: :number, placeholder: "0.00") %>
-  <%%= kiso(:input_group, :addon, align: :end) { "USD" } %>
+<%%= kui(:input_group) do %>
+  <%%= kui(:input_group, :addon) { "$" } %>
+  <%%= kui(:input, type: :number, placeholder: "0.00") %>
+  <%%= kui(:input_group, :addon, align: :end) { "USD" } %>
 <%% end %>
 ```
 

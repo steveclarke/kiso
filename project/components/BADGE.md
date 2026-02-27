@@ -5,8 +5,8 @@
 Inline label. Composition-only via yield.
 
 ```erb
-<%= kiso(:badge, color: :success, variant: :soft) { "Active" } %>
-<%= kiso(:badge, color: :error, variant: :solid, size: :sm) { "Failed" } %>
+<%= kui(:badge, color: :success, variant: :soft) { "Active" } %>
+<%= kui(:badge, color: :error, variant: :solid, size: :sm) { "Failed" } %>
 ```
 
 **Locals:** `color:`, `variant:`, `size:`, `css_classes:`, `**component_options`
@@ -17,16 +17,16 @@ Props-driven for common patterns, yield for full override.
 
 ```erb
 <%# Simple: text as prop %>
-<%= kiso(:badge, text: "Active", color: :success) %>
+<%= kui(:badge, text: "Active", color: :success) %>
 
 <%# With leading icon %>
-<%= kiso(:badge, text: "Active", color: :success, icon: "check-circle") %>
+<%= kui(:badge, text: "Active", color: :success, icon: "check-circle") %>
 
 <%# With trailing icon %>
-<%= kiso(:badge, text: "3", color: :error, trailing_icon: "arrow-up") %>
+<%= kui(:badge, text: "3", color: :error, trailing_icon: "arrow-up") %>
 
 <%# Yield still works for full control %>
-<%= kiso(:badge, color: :info) do %>
+<%= kui(:badge, color: :info) do %>
   <svg class="size-3">...</svg>
   Custom content
 <% end %>

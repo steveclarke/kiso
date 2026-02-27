@@ -9,13 +9,13 @@ source: lib/kiso/themes/pagination.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:pagination) do %>
-  <%%= kiso(:pagination, :content) do %>
-    <%%= kiso(:pagination, :previous, href: "#") %>
-    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "1" } } %>
-    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#", active: true) { "2" } } %>
-    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "3" } } %>
-    <%%= kiso(:pagination, :next, href: "#") %>
+<%%= kui(:pagination) do %>
+  <%%= kui(:pagination, :content) do %>
+    <%%= kui(:pagination, :previous, href: "#") %>
+    <%%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "1" } } %>
+    <%%= kui(:pagination, :item) { kui(:pagination, :link, href: "#", active: true) { "2" } } %>
+    <%%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "3" } } %>
+    <%%= kui(:pagination, :next, href: "#") %>
   <%% end %>
 <%% end %>
 ```
@@ -81,22 +81,22 @@ by iterating over its series output.
 <%# app/helpers/pagy_pagination_helper.rb %>
 module PagyPaginationHelper
   def kiso_pagy_nav(pagy)
-    kiso(:pagination) do
-      kiso(:pagination, :content) do
-        concat kiso(:pagination, :previous, href: pagy.prev ? pagy_url(pagy.prev) : nil)
+    kui(:pagination) do
+      kui(:pagination, :content) do
+        concat kui(:pagination, :previous, href: pagy.prev ? pagy_url(pagy.prev) : nil)
         pagy.series.each do |item|
           concat(
             case item
             when :gap
-              kiso(:pagination, :item) { kiso(:pagination, :ellipsis) }
+              kui(:pagination, :item) { kui(:pagination, :ellipsis) }
             when String # current page (Pagy stringifies the current page)
-              kiso(:pagination, :item) { kiso(:pagination, :link, href: "#", active: true) { item } }
+              kui(:pagination, :item) { kui(:pagination, :link, href: "#", active: true) { item } }
             when Integer
-              kiso(:pagination, :item) { kiso(:pagination, :link, href: pagy_url(item)) { item.to_s } }
+              kui(:pagination, :item) { kui(:pagination, :link, href: pagy_url(item)) { item.to_s } }
             end
           )
         end
-        concat kiso(:pagination, :next, href: pagy.next ? pagy_url(pagy.next) : nil)
+        concat kui(:pagination, :next, href: pagy.next ? pagy_url(pagy.next) : nil)
       end
     end
   end
@@ -108,14 +108,14 @@ end
 Pass `href: nil` to disable prev/next links when at the boundary.
 
 ```erb
-<%%= kiso(:pagination) do %>
-  <%%= kiso(:pagination, :content) do %>
-    <%%= kiso(:pagination, :previous, href: nil) %> <%# disabled on first page %>
-    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#", active: true) { "1" } } %>
-    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "2" } } %>
-    <%%= kiso(:pagination, :item) { kiso(:pagination, :ellipsis) } %>
-    <%%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "10" } } %>
-    <%%= kiso(:pagination, :next, href: "#") %>
+<%%= kui(:pagination) do %>
+  <%%= kui(:pagination, :content) do %>
+    <%%= kui(:pagination, :previous, href: nil) %> <%# disabled on first page %>
+    <%%= kui(:pagination, :item) { kui(:pagination, :link, href: "#", active: true) { "1" } } %>
+    <%%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "2" } } %>
+    <%%= kui(:pagination, :item) { kui(:pagination, :ellipsis) } %>
+    <%%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "10" } } %>
+    <%%= kui(:pagination, :next, href: "#") %>
   <%% end %>
 <%% end %>
 ```
@@ -125,10 +125,10 @@ Pass `href: nil` to disable prev/next links when at the boundary.
 Omit page numbers entirely for simple sequential navigation.
 
 ```erb
-<%%= kiso(:pagination) do %>
-  <%%= kiso(:pagination, :content) do %>
-    <%%= kiso(:pagination, :previous, href: "#") %>
-    <%%= kiso(:pagination, :next, href: "#") %>
+<%%= kui(:pagination) do %>
+  <%%= kui(:pagination, :content) do %>
+    <%%= kui(:pagination, :previous, href: "#") %>
+    <%%= kui(:pagination, :next, href: "#") %>
   <%% end %>
 <%% end %>
 ```

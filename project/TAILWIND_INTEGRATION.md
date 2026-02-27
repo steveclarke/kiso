@@ -241,6 +241,6 @@ Verify:
 - [ ] Utility classes from theme modules present (`inline-flex`, `rounded-md`)
 - [ ] Dark mode tokens present (`.dark { --color-primary: ... }`)
 - [ ] Geist font declarations present
-- [ ] Components render correctly (`<%= kiso(:badge) { "Test" } %>`)
+- [ ] Components render correctly (`<%= kui(:badge) { "Test" } %>`)
 - [ ] Dark mode works (add `class="dark"` to `<html>`)
 - [ ] Host app can override tokens (`@theme { --color-primary: ... }`)

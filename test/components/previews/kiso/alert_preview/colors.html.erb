@@ -1,8 +1,8 @@
 <div class="max-w-lg space-y-3">
   <% %i[primary secondary success info warning error neutral].each do |color| %>
-    <%= kiso(:alert, color: color) do %>
-      <%= kiso(:alert, :title) { color.to_s.capitalize } %>
-      <%= kiso(:alert, :description) { "This is a #{color} alert." } %>
+    <%= kui(:alert, color: color) do %>
+      <%= kui(:alert, :title) { color.to_s.capitalize } %>
+      <%= kui(:alert, :description) { "This is a #{color} alert." } %>
     <% end %>
   <% end %>
 </div>

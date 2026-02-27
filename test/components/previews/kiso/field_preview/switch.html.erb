@@ -1,16 +1,16 @@
 <div class="max-w-sm space-y-6">
   <%# Simple switch %>
-  <%= kiso(:field, orientation: :horizontal) do %>
-    <%= kiso(:switch, id: :mfa, name: :mfa) %>
-    <%= kiso(:field, :content) do %>
-      <%= kiso(:field, :label, for: :mfa) { "Multi-factor authentication" } %>
-      <%= kiso(:field, :description) { "Add an extra layer of security to your account." } %>
+  <%= kui(:field, orientation: :horizontal) do %>
+    <%= kui(:switch, id: :mfa, name: :mfa) %>
+    <%= kui(:field, :content) do %>
+      <%= kui(:field, :label, for: :mfa) { "Multi-factor authentication" } %>
+      <%= kui(:field, :description) { "Add an extra layer of security to your account." } %>
     <% end %>
   <% end %>
 
   <%# Switch with just label %>
-  <%= kiso(:field, orientation: :horizontal) do %>
-    <%= kiso(:switch, id: :notifications, name: :notifications, checked: true) %>
-    <%= kiso(:field, :label, for: :notifications) { "Enable notifications" } %>
+  <%= kui(:field, orientation: :horizontal) do %>
+    <%= kui(:switch, id: :notifications, name: :notifications, checked: true) %>
+    <%= kui(:field, :label, for: :notifications) { "Enable notifications" } %>
   <% end %>
 </div>

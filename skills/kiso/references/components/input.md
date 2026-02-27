@@ -9,15 +9,15 @@ Single-line text field. Non-colored component (no `color:` axis).
 All standard HTML input attributes (`placeholder:`, `name:`, `id:`, `value:`, `required:`) pass through via `**component_options`.
 
 ```erb
-<%= kiso(:input, placeholder: "Email address") %>
-<%= kiso(:input, variant: :soft, size: :sm) %>
-<%= kiso(:input, type: :file, id: :avatar) %>
+<%= kui(:input, placeholder: "Email address") %>
+<%= kui(:input, variant: :soft, size: :sm) %>
+<%= kui(:input, type: :file, id: :avatar) %>
 
 <%# With Field %>
-<%= kiso(:field) do %>
-  <%= kiso(:field, :label, for: :email) { "Email" } %>
-  <%= kiso(:input, type: :email, id: :email, name: :email, placeholder: "you@example.com") %>
-  <%= kiso(:field, :description) { "We'll never share your email." } %>
+<%= kui(:field) do %>
+  <%= kui(:field, :label, for: :email) { "Email" } %>
+  <%= kui(:input, type: :email, id: :email, name: :email, placeholder: "you@example.com") %>
+  <%= kui(:field, :description) { "We'll never share your email." } %>
 <% end %>
 
 <%# With Rails form helpers %>

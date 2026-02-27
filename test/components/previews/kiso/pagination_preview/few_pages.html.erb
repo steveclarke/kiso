@@ -1,12 +1,12 @@
 <%# Few pages (no ellipsis needed): 1 2 [3] 4 5 %>
-<%= kiso(:pagination) do %>
-  <%= kiso(:pagination, :content) do %>
-    <%= kiso(:pagination, :previous, href: "#") %>
-    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "1" } } %>
-    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "2" } } %>
-    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#", active: true) { "3" } } %>
-    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "4" } } %>
-    <%= kiso(:pagination, :item) { kiso(:pagination, :link, href: "#") { "5" } } %>
-    <%= kiso(:pagination, :next, href: "#") %>
+<%= kui(:pagination) do %>
+  <%= kui(:pagination, :content) do %>
+    <%= kui(:pagination, :previous, href: "#") %>
+    <%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "1" } } %>
+    <%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "2" } } %>
+    <%= kui(:pagination, :item) { kui(:pagination, :link, href: "#", active: true) { "3" } } %>
+    <%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "4" } } %>
+    <%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "5" } } %>
+    <%= kui(:pagination, :next, href: "#") %>
   <% end %>
 <% end %>

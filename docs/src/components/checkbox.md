@@ -9,7 +9,7 @@ source: lib/kiso/themes/checkbox.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:checkbox) %>
+<%%= kui(:checkbox) %>
 ```
 
 <%= render "component_preview", component: "kiso/checkbox", scenario: "playground", height: "300px" %>
@@ -33,9 +33,9 @@ All standard HTML input attributes (`name:`, `id:`, `value:`, `disabled:`,
 The color applies to the checked state — background fill, ring, and checkmark.
 
 ```erb
-<%%= kiso(:checkbox, color: :primary, checked: true) %>
-<%%= kiso(:checkbox, color: :success, checked: true) %>
-<%%= kiso(:checkbox, color: :error, checked: true) %>
+<%%= kui(:checkbox, color: :primary, checked: true) %>
+<%%= kui(:checkbox, color: :success, checked: true) %>
+<%%= kui(:checkbox, color: :error, checked: true) %>
 ```
 
 ### With Field
@@ -43,11 +43,11 @@ The color applies to the checked state — background fill, ring, and checkmark.
 Pair with Field for label, description, and validation support.
 
 ```erb
-<%%= kiso(:field, orientation: :horizontal) do %>
-  <%%= kiso(:checkbox, id: :terms, name: :terms, value: "1") %>
-  <%%= kiso(:field, :content) do %>
-    <%%= kiso(:field, :label, for: :terms) { "Accept terms and conditions" } %>
-    <%%= kiso(:field, :description) { "You agree to our Terms of Service and Privacy Policy." } %>
+<%%= kui(:field, orientation: :horizontal) do %>
+  <%%= kui(:checkbox, id: :terms, name: :terms, value: "1") %>
+  <%%= kui(:field, :content) do %>
+    <%%= kui(:field, :label, for: :terms) { "Accept terms and conditions" } %>
+    <%%= kui(:field, :description) { "You agree to our Terms of Service and Privacy Policy." } %>
   <%% end %>
 <%% end %>
 ```
@@ -55,8 +55,8 @@ Pair with Field for label, description, and validation support.
 ### Disabled
 
 ```erb
-<%%= kiso(:checkbox, disabled: true) %>
-<%%= kiso(:checkbox, checked: true, disabled: true) %>
+<%%= kui(:checkbox, disabled: true) %>
+<%%= kui(:checkbox, checked: true, disabled: true) %>
 ```
 
 ### With Rails Form Helpers

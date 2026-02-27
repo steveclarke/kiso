@@ -1,16 +1,16 @@
 <div class="space-y-4">
   <p class="text-sm text-muted-foreground">Disabled buttons</p>
   <div class="flex flex-wrap gap-3 items-center">
-    <%= kiso(:button, disabled: true) { "Solid" } %>
-    <%= kiso(:button, disabled: true, variant: :outline) { "Outline" } %>
-    <%= kiso(:button, disabled: true, variant: :soft) { "Soft" } %>
-    <%= kiso(:button, disabled: true, variant: :ghost) { "Ghost" } %>
-    <%= kiso(:button, disabled: true, variant: :link) { "Link" } %>
+    <%= kui(:button, disabled: true) { "Solid" } %>
+    <%= kui(:button, disabled: true, variant: :outline) { "Outline" } %>
+    <%= kui(:button, disabled: true, variant: :soft) { "Soft" } %>
+    <%= kui(:button, disabled: true, variant: :ghost) { "Ghost" } %>
+    <%= kui(:button, disabled: true, variant: :link) { "Link" } %>
   </div>
 
   <p class="text-sm text-muted-foreground">Disabled links (aria-disabled)</p>
   <div class="flex flex-wrap gap-3 items-center">
-    <%= kiso(:button, href: "#", disabled: true) { "Disabled Link" } %>
-    <%= kiso(:button, href: "#", disabled: true, variant: :outline) { "Disabled Outline" } %>
+    <%= kui(:button, href: "#", disabled: true) { "Disabled Link" } %>
+    <%= kui(:button, href: "#", disabled: true, variant: :outline) { "Disabled Outline" } %>
   </div>
 </div>

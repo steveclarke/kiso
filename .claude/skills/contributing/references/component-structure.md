@@ -45,15 +45,15 @@ For composed components (Card = Header + Title + Content + Footer):
 <% end %>
 ```
 
-Rendered via the `kiso()` helper with a part argument:
+Rendered via the `kui()` helper with a part argument:
 
 ```erb
-<%= kiso(:card) do %>
-  <%= kiso(:card, :header) do %>
-    <%= kiso(:card, :title) { "Members" } %>
-    <%= kiso(:card, :description) { "Manage your team members." } %>
+<%= kui(:card) do %>
+  <%= kui(:card, :header) do %>
+    <%= kui(:card, :title) { "Members" } %>
+    <%= kui(:card, :description) { "Manage your team members." } %>
   <% end %>
-  <%= kiso(:card, :content) do %>
+  <%= kui(:card, :content) do %>
     ...
   <% end %>
 <% end %>
@@ -101,7 +101,7 @@ end
 
 - **Playground first** — interactive params, shown as default when clicking the component
 - **Gallery scenarios** — Colors, Variants, Sizes as separate views showing all options
-- **`render_with_template`** — use ERB templates (not inline render) so `kiso()` helper works
+- **`render_with_template`** — use ERB templates (not inline render) so `kui()` helper works
 - **`.to_sym`** — Lookbook passes strings, theme modules expect symbols
 
 ## Registering a New Component

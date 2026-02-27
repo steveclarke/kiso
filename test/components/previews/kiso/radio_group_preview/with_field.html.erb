@@ -1,30 +1,30 @@
 <div class="max-w-sm text-foreground">
-  <%= kiso(:field_set) do %>
-    <%= kiso(:field_set, :legend, variant: :label) { "Subscription Plan" } %>
-    <%= kiso(:field, :description) { "Choose the plan that works best for you." } %>
+  <%= kui(:field_set) do %>
+    <%= kui(:field_set, :legend, variant: :label) { "Subscription Plan" } %>
+    <%= kui(:field, :description) { "Choose the plan that works best for you." } %>
 
-    <%= kiso(:radio_group, css_classes: "mt-3") do %>
-      <%= kiso(:field, orientation: :horizontal) do %>
-        <%= kiso(:radio_group, :item, value: "free", name: :plan, id: :plan_free, checked: true) %>
-        <%= kiso(:field, :content) do %>
-          <%= kiso(:field, :label, for: :plan_free) { "Free" } %>
-          <%= kiso(:field, :description) { "Up to 3 projects. Basic features." } %>
+    <%= kui(:radio_group, css_classes: "mt-3") do %>
+      <%= kui(:field, orientation: :horizontal) do %>
+        <%= kui(:radio_group, :item, value: "free", name: :plan, id: :plan_free, checked: true) %>
+        <%= kui(:field, :content) do %>
+          <%= kui(:field, :label, for: :plan_free) { "Free" } %>
+          <%= kui(:field, :description) { "Up to 3 projects. Basic features." } %>
         <% end %>
       <% end %>
 
-      <%= kiso(:field, orientation: :horizontal) do %>
-        <%= kiso(:radio_group, :item, value: "pro", name: :plan, id: :plan_pro) %>
-        <%= kiso(:field, :content) do %>
-          <%= kiso(:field, :label, for: :plan_pro) { "Pro" } %>
-          <%= kiso(:field, :description) { "Unlimited projects. Priority support." } %>
+      <%= kui(:field, orientation: :horizontal) do %>
+        <%= kui(:radio_group, :item, value: "pro", name: :plan, id: :plan_pro) %>
+        <%= kui(:field, :content) do %>
+          <%= kui(:field, :label, for: :plan_pro) { "Pro" } %>
+          <%= kui(:field, :description) { "Unlimited projects. Priority support." } %>
         <% end %>
       <% end %>
 
-      <%= kiso(:field, orientation: :horizontal) do %>
-        <%= kiso(:radio_group, :item, value: "enterprise", name: :plan, id: :plan_enterprise) %>
-        <%= kiso(:field, :content) do %>
-          <%= kiso(:field, :label, for: :plan_enterprise) { "Enterprise" } %>
-          <%= kiso(:field, :description) { "Custom solutions. Dedicated account manager." } %>
+      <%= kui(:field, orientation: :horizontal) do %>
+        <%= kui(:radio_group, :item, value: "enterprise", name: :plan, id: :plan_enterprise) %>
+        <%= kui(:field, :content) do %>
+          <%= kui(:field, :label, for: :plan_enterprise) { "Enterprise" } %>
+          <%= kui(:field, :description) { "Custom solutions. Dedicated account manager." } %>
         <% end %>
       <% end %>
     <% end %>

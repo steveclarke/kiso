@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-4">
   <% %i[primary secondary success info warning error neutral].each do |color| %>
     <div class="flex items-center gap-2">
-      <%= kiso(:checkbox, color: color, checked: true, id: color) %>
+      <%= kui(:checkbox, color: color, checked: true, id: color) %>
       <label for="<%= color %>" class="text-sm text-foreground capitalize"><%= color %></label>
     </div>
   <% end %>

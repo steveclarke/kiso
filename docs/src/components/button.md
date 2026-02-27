@@ -9,7 +9,7 @@ source: lib/kiso/themes/button.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:button) { "Click me" } %>
+<%%= kui(:button) { "Click me" } %>
 ```
 
 <%= render "component_preview", component: "kiso/button", scenario: "playground", height: "300px" %>
@@ -33,13 +33,13 @@ source: lib/kiso/themes/button.rb
 ### Color
 
 ```erb
-<%%= kiso(:button, color: :primary) { "Primary" } %>
-<%%= kiso(:button, color: :secondary) { "Secondary" } %>
-<%%= kiso(:button, color: :success) { "Success" } %>
-<%%= kiso(:button, color: :info) { "Info" } %>
-<%%= kiso(:button, color: :warning) { "Warning" } %>
-<%%= kiso(:button, color: :error) { "Error" } %>
-<%%= kiso(:button, color: :neutral) { "Neutral" } %>
+<%%= kui(:button, color: :primary) { "Primary" } %>
+<%%= kui(:button, color: :secondary) { "Secondary" } %>
+<%%= kui(:button, color: :success) { "Success" } %>
+<%%= kui(:button, color: :info) { "Info" } %>
+<%%= kui(:button, color: :warning) { "Warning" } %>
+<%%= kui(:button, color: :error) { "Error" } %>
+<%%= kui(:button, color: :neutral) { "Neutral" } %>
 ```
 
 ### Variant
@@ -48,22 +48,22 @@ Six variants. The core four (solid, outline, soft, subtle) use the standard
 compound variant formulas. Ghost and link are Button-only additions.
 
 ```erb
-<%%= kiso(:button, variant: :solid) { "Solid" } %>
-<%%= kiso(:button, variant: :outline) { "Outline" } %>
-<%%= kiso(:button, variant: :soft) { "Soft" } %>
-<%%= kiso(:button, variant: :subtle) { "Subtle" } %>
-<%%= kiso(:button, variant: :ghost) { "Ghost" } %>
-<%%= kiso(:button, variant: :link) { "Link" } %>
+<%%= kui(:button, variant: :solid) { "Solid" } %>
+<%%= kui(:button, variant: :outline) { "Outline" } %>
+<%%= kui(:button, variant: :soft) { "Soft" } %>
+<%%= kui(:button, variant: :subtle) { "Subtle" } %>
+<%%= kui(:button, variant: :ghost) { "Ghost" } %>
+<%%= kui(:button, variant: :link) { "Link" } %>
 ```
 
 ### Size
 
 ```erb
-<%%= kiso(:button, size: :xs) { "Extra Small" } %>
-<%%= kiso(:button, size: :sm) { "Small" } %>
-<%%= kiso(:button, size: :md) { "Medium" } %>
-<%%= kiso(:button, size: :lg) { "Large" } %>
-<%%= kiso(:button, size: :xl) { "Extra Large" } %>
+<%%= kui(:button, size: :xs) { "Extra Small" } %>
+<%%= kui(:button, size: :sm) { "Small" } %>
+<%%= kui(:button, size: :md) { "Medium" } %>
+<%%= kui(:button, size: :lg) { "Large" } %>
+<%%= kui(:button, size: :xl) { "Extra Large" } %>
 ```
 
 ### Smart Tag
@@ -72,10 +72,10 @@ When `href:` is present, renders `<a>` instead of `<button>`.
 
 ```erb
 <%%# Renders <button> %>
-<%%= kiso(:button) { "Action" } %>
+<%%= kui(:button) { "Action" } %>
 
 <%%# Renders <a href="/settings"> %>
-<%%= kiso(:button, href: "/settings") { "Settings" } %>
+<%%= kui(:button, href: "/settings") { "Settings" } %>
 ```
 
 ### Disabled
@@ -84,8 +84,8 @@ For `<button>`, sets the native `disabled` attribute. For `<a>`, sets
 `aria-disabled="true"`.
 
 ```erb
-<%%= kiso(:button, disabled: true) { "Unavailable" } %>
-<%%= kiso(:button, href: "#", disabled: true) { "Disabled Link" } %>
+<%%= kui(:button, disabled: true) { "Unavailable" } %>
+<%%= kui(:button, href: "#", disabled: true) { "Disabled Link" } %>
 ```
 
 ### Block
@@ -93,7 +93,7 @@ For `<button>`, sets the native `disabled` attribute. For `<a>`, sets
 Full-width button.
 
 ```erb
-<%%= kiso(:button, block: true) { "Full Width" } %>
+<%%= kui(:button, block: true) { "Full Width" } %>
 ```
 
 ### Submit
@@ -102,7 +102,7 @@ Defaults to `type: :button` for safety. Set `type: :submit` explicitly
 for forms.
 
 ```erb
-<%%= kiso(:button, type: :submit, color: :primary) { "Save" } %>
+<%%= kui(:button, type: :submit, color: :primary) { "Save" } %>
 ```
 
 ### With Icon
@@ -112,7 +112,7 @@ SVGs without an explicit `size-*` class are auto-sized to match the button
 size via `[&_svg:not([class*='size-'])]:size-4`.
 
 ```erb
-<%%= kiso(:button, variant: :outline) do %>
+<%%= kui(:button, variant: :outline) do %>
   <%%= kiso_icon("plus") %>
   Add Item
 <%% end %>
@@ -124,8 +124,8 @@ size via `[&_svg:not([class*='size-'])]:size-4`.
 
 ```erb
 <div class="flex gap-3">
-  <%%= kiso(:button, type: :submit) { "Save" } %>
-  <%%= kiso(:button, variant: :ghost, data: { action: "click->form#reset" }) { "Cancel" } %>
+  <%%= kui(:button, type: :submit) { "Save" } %>
+  <%%= kui(:button, variant: :ghost, data: { action: "click->form#reset" }) { "Cancel" } %>
 </div>
 ```
 
@@ -133,9 +133,9 @@ size via `[&_svg:not([class*='size-'])]:size-4`.
 
 ```erb
 <div class="flex gap-2">
-  <%%= kiso(:button, href: "/dashboard", variant: :solid) { "Dashboard" } %>
-  <%%= kiso(:button, href: "/settings", variant: :outline) { "Settings" } %>
-  <%%= kiso(:button, href: "/help", variant: :ghost) { "Help" } %>
+  <%%= kui(:button, href: "/dashboard", variant: :solid) { "Dashboard" } %>
+  <%%= kui(:button, href: "/settings", variant: :outline) { "Settings" } %>
+  <%%= kui(:button, href: "/help", variant: :ghost) { "Help" } %>
 </div>
 ```
 

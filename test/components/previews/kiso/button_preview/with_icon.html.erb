@@ -1,22 +1,22 @@
 <div class="space-y-4">
   <p class="text-sm text-muted-foreground">Leading icon</p>
   <div class="flex flex-wrap gap-3 items-center">
-    <%= kiso(:button) do %>
+    <%= kui(:button) do %>
       <%= kiso_icon("plus") %>
       Add Item
     <% end %>
 
-    <%= kiso(:button, variant: :outline) do %>
+    <%= kui(:button, variant: :outline) do %>
       <%= kiso_icon("download") %>
       Download
     <% end %>
 
-    <%= kiso(:button, variant: :soft) do %>
+    <%= kui(:button, variant: :soft) do %>
       <%= kiso_icon("refresh-cw") %>
       Refresh
     <% end %>
 
-    <%= kiso(:button, variant: :ghost) do %>
+    <%= kui(:button, variant: :ghost) do %>
       <%= kiso_icon("x") %>
       Close
     <% end %>
@@ -25,7 +25,7 @@
   <p class="text-sm text-muted-foreground">Icon auto-sizing per button size</p>
   <div class="flex gap-3 items-end">
     <% %i[xs sm md lg xl].each do |size| %>
-      <%= kiso(:button, size: size, variant: :outline) do %>
+      <%= kui(:button, size: size, variant: :outline) do %>
         <%= kiso_icon("circle-plus") %>
         <%= size.to_s.upcase %>
       <% end %>

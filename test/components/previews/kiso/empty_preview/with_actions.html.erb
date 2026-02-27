@@ -1,15 +1,15 @@
-<%= kiso(:empty) do %>
-  <%= kiso(:empty, :header) do %>
-    <%= kiso(:empty, :media, variant: :icon) do %>
+<%= kui(:empty) do %>
+  <%= kui(:empty, :header) do %>
+    <%= kui(:empty, :media, variant: :icon) do %>
       <%= kiso_icon("folder") %>
     <% end %>
-    <%= kiso(:empty, :title) { "No Projects Yet" } %>
-    <%= kiso(:empty, :description) { "You haven't created any projects yet. Get started by creating your first project." } %>
+    <%= kui(:empty, :title) { "No Projects Yet" } %>
+    <%= kui(:empty, :description) { "You haven't created any projects yet. Get started by creating your first project." } %>
   <% end %>
-  <%= kiso(:empty, :content) do %>
+  <%= kui(:empty, :content) do %>
     <div class="flex gap-2">
-      <%= kiso(:button) { "Create Project" } %>
-      <%= kiso(:button, variant: :outline) { "Import Project" } %>
+      <%= kui(:button) { "Create Project" } %>
+      <%= kui(:button, variant: :outline) { "Import Project" } %>
     </div>
   <% end %>
 <% end %>

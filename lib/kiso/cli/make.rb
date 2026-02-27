@@ -99,7 +99,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
         **Defaults:** `color: :primary, variant: :soft, size: :md`
 
         ```erb
-        <%%= kiso(:#{@name}, color: :primary, variant: :soft) { "Label" } %>
+        <%%= kui(:#{@name}, color: :primary, variant: :soft) { "Label" } %>
         ```
 
         **Theme module:** `Kiso::Themes::#{@class_name}` (`lib/kiso/themes/#{@name}.rb`)
@@ -114,7 +114,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
         **Defaults:** `variant: :default, size: :md`
 
         ```erb
-        <%%= kiso(:#{@name}) { "Label" } %>
+        <%%= kui(:#{@name}) { "Label" } %>
         ```
 
         **Theme module:** `Kiso::Themes::#{@class_name}` (`lib/kiso/themes/#{@name}.rb`)
@@ -310,13 +310,13 @@ class Kiso::Cli::Make < Kiso::Cli::Base
     if @colored
       <<~ERB
         <div class="flex gap-4 items-center p-8">
-          <%%= kiso(:#{@name}, color: color, variant: variant, size: size) { text } %>
+          <%%= kui(:#{@name}, color: color, variant: variant, size: size) { text } %>
         </div>
       ERB
     else
       <<~ERB
         <div class="flex gap-4 items-center p-8">
-          <%%= kiso(:#{@name}, variant: variant, size: size) { text } %>
+          <%%= kui(:#{@name}, variant: variant, size: size) { text } %>
         </div>
       ERB
     end
@@ -324,7 +324,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
 
   def colors_template
     colors = %w[primary secondary success info warning error neutral]
-    lines = colors.map { |c| "  <%%= kiso(:#{@name}, color: :#{c}) { \"#{c.capitalize}\" } %>" }
+    lines = colors.map { |c| "  <%%= kui(:#{@name}, color: :#{c}) { \"#{c.capitalize}\" } %>" }
 
     <<~ERB
       <div class="flex flex-wrap gap-3 items-center p-8">
@@ -338,7 +338,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
     colors = %w[primary secondary success info warning error neutral]
 
     sections = variants.map do |v|
-      lines = colors.map { |c| "    <%%= kiso(:#{@name}, color: :#{c}, variant: :#{v}) { \"#{c.capitalize}\" } %>" }
+      lines = colors.map { |c| "    <%%= kui(:#{@name}, color: :#{c}, variant: :#{v}) { \"#{c.capitalize}\" } %>" }
       <<~SECTION
         <div>
           <p class="text-sm text-muted-foreground mb-2">#{v.capitalize}</p>
@@ -358,7 +358,7 @@ class Kiso::Cli::Make < Kiso::Cli::Base
 
   def sizes_template
     sizes = %w[sm md lg]
-    lines = sizes.map { |s| "  <%%= kiso(:#{@name}, size: :#{s}) { \"#{s.capitalize}\" } %>" }
+    lines = sizes.map { |s| "  <%%= kui(:#{@name}, size: :#{s}) { \"#{s.capitalize}\" } %>" }
 
     <<~ERB
       <div class="flex gap-4 items-center p-8">

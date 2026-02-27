@@ -9,7 +9,7 @@ source: lib/kiso/themes/separator.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:separator) %>
+<%%= kui(:separator) %>
 ```
 
 <%= render "component_preview", component: "kiso/separator", scenario: "playground", height: "250px" %>
@@ -34,7 +34,7 @@ The default orientation. Add spacing with `css_classes:`.
   <h4 class="text-sm font-medium leading-none">Kiso Components</h4>
   <p class="text-sm text-muted-foreground">A UI component library for Rails.</p>
 </div>
-<%%= kiso(:separator, css_classes: "my-4") %>
+<%%= kui(:separator, css_classes: "my-4") %>
 <div class="space-y-1">
   <h4 class="text-sm font-medium leading-none">Built with Tailwind</h4>
   <p class="text-sm text-muted-foreground">Semantic tokens, dark mode, no @@apply.</p>
@@ -49,9 +49,9 @@ a fixed height and flex layout.
 ```erb
 <div class="flex h-5 items-center space-x-4 text-sm">
   <div>Blog</div>
-  <%%= kiso(:separator, orientation: :vertical) %>
+  <%%= kui(:separator, orientation: :vertical) %>
   <div>Docs</div>
-  <%%= kiso(:separator, orientation: :vertical) %>
+  <%%= kui(:separator, orientation: :vertical) %>
   <div>Source</div>
 </div>
 ```
@@ -61,12 +61,12 @@ a fixed height and flex layout.
 ### Between Cards
 
 ```erb
-<%%= kiso(:card) do %>
-  <%%= kiso(:card, :content) { "First card" } %>
+<%%= kui(:card) do %>
+  <%%= kui(:card, :content) { "First card" } %>
 <%% end %>
-<%%= kiso(:separator, css_classes: "my-6") %>
-<%%= kiso(:card) do %>
-  <%%= kiso(:card, :content) { "Second card" } %>
+<%%= kui(:separator, css_classes: "my-6") %>
+<%%= kui(:card) do %>
+  <%%= kui(:card, :content) { "Second card" } %>
 <%% end %>
 ```
 
@@ -75,7 +75,7 @@ a fixed height and flex layout.
 Use `css_classes:` to override styles. TailwindMerge resolves conflicts.
 
 ```erb
-<%%= kiso(:separator, css_classes: "my-8 bg-primary") %>
+<%%= kui(:separator, css_classes: "my-8 bg-primary") %>
 ```
 
 ## Theme
@@ -107,5 +107,5 @@ meaningful boundary, set `decorative: false` to add `role="separator"` and
 `aria-orientation`:
 
 ```erb
-<%%= kiso(:separator, decorative: false) %>
+<%%= kui(:separator, decorative: false) %>
 ```

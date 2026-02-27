@@ -27,14 +27,14 @@ this file before every Tailwind build with the correct paths for your environmen
 /* @theme { --color-primary: var(--color-violet-600); } */
 ```
 
-Use the `kiso()` helper to render components:
+Use the `kui()` helper to render components:
 
 ```erb
-<%%= kiso(:badge, color: :primary) { "New" } %>
+<%%= kui(:badge, color: :primary) { "New" } %>
 
-<%%= kiso(:button, href: "/signup", variant: :solid) { "Get started" } %>
+<%%= kui(:button, href: "/signup", variant: :solid) { "Get started" } %>
 
-<%%= kiso(:alert, color: :success, variant: :soft) do |alert| %>
+<%%= kui(:alert, color: :success, variant: :soft) do |alert| %>
   <%% alert.with_title { "Done!" } %>
   <%% alert.with_description { "Your changes have been saved." } %>
 <%% end %>

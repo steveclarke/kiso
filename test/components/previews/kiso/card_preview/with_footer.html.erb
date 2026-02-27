@@ -1,10 +1,10 @@
 <div class="max-w-sm">
-  <%= kiso(:card) do %>
-    <%= kiso(:card, :header) do %>
-      <%= kiso(:card, :title) { "Create project" } %>
-      <%= kiso(:card, :description) { "Deploy your new project in one click." } %>
+  <%= kui(:card) do %>
+    <%= kui(:card, :header) do %>
+      <%= kui(:card, :title) { "Create project" } %>
+      <%= kui(:card, :description) { "Deploy your new project in one click." } %>
     <% end %>
-    <%= kiso(:card, :content) do %>
+    <%= kui(:card, :content) do %>
       <div class="space-y-4">
         <div class="space-y-2">
           <label class="text-sm font-medium" for="name">Name</label>
@@ -23,9 +23,9 @@
         </div>
       </div>
     <% end %>
-    <%= kiso(:card, :footer, css_classes: "justify-between gap-2") do %>
-      <%= kiso(:button, variant: :outline) { "Cancel" } %>
-      <%= kiso(:button) { "Deploy" } %>
+    <%= kui(:card, :footer, css_classes: "justify-between gap-2") do %>
+      <%= kui(:button, variant: :outline) { "Cancel" } %>
+      <%= kui(:button) { "Deploy" } %>
     <% end %>
   <% end %>
 </div>

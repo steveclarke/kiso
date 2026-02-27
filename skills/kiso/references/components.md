@@ -1,6 +1,6 @@
 # Components
 
-Rails ERB components powered by Tailwind CSS and class_variants. Each component is a partial rendered via the `kiso()` helper. Theme definitions live in `lib/kiso/themes/`.
+Rails ERB components powered by Tailwind CSS and class_variants. Each component is a partial rendered via the `kui()` helper. Theme definitions live in `lib/kiso/themes/`.
 
 All colored components use **identical compound variant formulas** — see `project/DESIGN_SYSTEM.md`.
 

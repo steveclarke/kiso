@@ -1,7 +1,7 @@
 <div class="max-w-sm">
-  <%= kiso(:field) do %>
-    <%= kiso(:field, :label, for: :feedback) { "Feedback" } %>
-    <%= kiso(:textarea, id: :feedback, name: :feedback, placeholder: "Tell us what you think...", rows: 4) %>
-    <%= kiso(:field, :description) { "Your feedback helps us improve. We read every message." } %>
+  <%= kui(:field) do %>
+    <%= kui(:field, :label, for: :feedback) { "Feedback" } %>
+    <%= kui(:textarea, id: :feedback, name: :feedback, placeholder: "Tell us what you think...", rows: 4) %>
+    <%= kui(:field, :description) { "Your feedback helps us improve. We read every message." } %>
   <% end %>
 </div>

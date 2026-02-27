@@ -21,16 +21,16 @@ bin/rails generate kiso:install
 
 ## Rendering Components
 
-Use the `kiso()` helper to render components:
+Use the `kui()` helper to render components:
 
 ```erb
-<%= kiso(:badge, color: :success, variant: :soft) { "Active" } %>
+<%= kui(:badge, color: :success, variant: :soft) { "Active" } %>
 
-<%= kiso(:card) do %>
-  <%= kiso(:card, :header) do %>
-    <%= kiso(:card, :title, text: "Members") %>
+<%= kui(:card) do %>
+  <%= kui(:card, :header) do %>
+    <%= kui(:card, :title, text: "Members") %>
   <% end %>
-  <%= kiso(:card, :content) do %>
+  <%= kui(:card, :content) do %>
     ...
   <% end %>
 <% end %>
@@ -79,7 +79,7 @@ Override brand colors in your app's CSS:
 Pass `css_classes:` to override styles on a specific instance. Conflicting classes are resolved automatically via tailwind_merge:
 
 ```erb
-<%= kiso(:badge, color: :primary, css_classes: "rounded-full px-4") { "Custom" } %>
+<%= kui(:badge, color: :primary, css_classes: "rounded-full px-4") { "Custom" } %>
 ```
 
 ## Additional references

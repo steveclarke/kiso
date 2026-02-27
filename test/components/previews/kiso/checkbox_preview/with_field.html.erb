@@ -1,17 +1,17 @@
 <div class="max-w-sm flex flex-col gap-4">
-  <%= kiso(:field, orientation: :horizontal) do %>
-    <%= kiso(:checkbox, id: :terms, name: :terms, value: "1") %>
-    <%= kiso(:field, :content) do %>
-      <%= kiso(:field, :label, for: :terms) { "Accept terms and conditions" } %>
-      <%= kiso(:field, :description) { "You agree to our Terms of Service and Privacy Policy." } %>
+  <%= kui(:field, orientation: :horizontal) do %>
+    <%= kui(:checkbox, id: :terms, name: :terms, value: "1") %>
+    <%= kui(:field, :content) do %>
+      <%= kui(:field, :label, for: :terms) { "Accept terms and conditions" } %>
+      <%= kui(:field, :description) { "You agree to our Terms of Service and Privacy Policy." } %>
     <% end %>
   <% end %>
 
-  <%= kiso(:field, orientation: :horizontal) do %>
-    <%= kiso(:checkbox, id: :newsletter, name: :newsletter, value: "1", checked: true) %>
-    <%= kiso(:field, :content) do %>
-      <%= kiso(:field, :label, for: :newsletter) { "Subscribe to newsletter" } %>
-      <%= kiso(:field, :description) { "Get notified about new features and updates." } %>
+  <%= kui(:field, orientation: :horizontal) do %>
+    <%= kui(:checkbox, id: :newsletter, name: :newsletter, value: "1", checked: true) %>
+    <%= kui(:field, :content) do %>
+      <%= kui(:field, :label, for: :newsletter) { "Subscribe to newsletter" } %>
+      <%= kui(:field, :description) { "Get notified about new features and updates." } %>
     <% end %>
   <% end %>
 </div>

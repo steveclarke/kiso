@@ -10,13 +10,13 @@ No JS needed. 7 shadcn exports. Pure HTML/CSS.
 
 | Kiso component | shadcn export | HTML | Purpose |
 |---|---|---|---|
-| `kiso(:breadcrumb)` | `Breadcrumb` | `<nav>` | Root with aria-label |
-| `kiso(:breadcrumb, :list)` | `BreadcrumbList` | `<ol>` | Ordered list |
-| `kiso(:breadcrumb, :item)` | `BreadcrumbItem` | `<li>` | Segment wrapper |
-| `kiso(:breadcrumb, :link)` | `BreadcrumbLink` | `<a>` | Clickable link |
-| `kiso(:breadcrumb, :page)` | `BreadcrumbPage` | `<span>` | Current page (non-interactive) |
-| `kiso(:breadcrumb, :separator)` | `BreadcrumbSeparator` | `<li>` | Chevron divider |
-| `kiso(:breadcrumb, :ellipsis)` | `BreadcrumbEllipsis` | `<span>` | Truncation indicator |
+| `kui(:breadcrumb)` | `Breadcrumb` | `<nav>` | Root with aria-label |
+| `kui(:breadcrumb, :list)` | `BreadcrumbList` | `<ol>` | Ordered list |
+| `kui(:breadcrumb, :item)` | `BreadcrumbItem` | `<li>` | Segment wrapper |
+| `kui(:breadcrumb, :link)` | `BreadcrumbLink` | `<a>` | Clickable link |
+| `kui(:breadcrumb, :page)` | `BreadcrumbPage` | `<span>` | Current page (non-interactive) |
+| `kui(:breadcrumb, :separator)` | `BreadcrumbSeparator` | `<li>` | Chevron divider |
+| `kui(:breadcrumb, :ellipsis)` | `BreadcrumbEllipsis` | `<span>` | Truncation indicator |
 
 **shadcn source:** `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/breadcrumb.tsx`
 **Nuxt UI theme:** `vendor/nuxt-ui/src/theme/breadcrumb.ts`
@@ -32,13 +32,13 @@ top of it. 7 shadcn exports.
 
 | Kiso component | shadcn export | HTML | Purpose |
 |---|---|---|---|
-| `kiso(:popover)` | `Popover` | (context wrapper) | Root |
-| `kiso(:popover, :trigger)` | `PopoverTrigger` | `<button>` | Opens popover |
-| `kiso(:popover, :content)` | `PopoverContent` | `<div>` (portal) | Floating panel |
-| `kiso(:popover, :anchor)` | `PopoverAnchor` | `<div>` | Position reference |
-| `kiso(:popover, :header)` | `PopoverHeader` | `<div>` | Title + description wrapper |
-| `kiso(:popover, :title)` | `PopoverTitle` | `<div>` | Heading |
-| `kiso(:popover, :description)` | `PopoverDescription` | `<p>` | Description |
+| `kui(:popover)` | `Popover` | (context wrapper) | Root |
+| `kui(:popover, :trigger)` | `PopoverTrigger` | `<button>` | Opens popover |
+| `kui(:popover, :content)` | `PopoverContent` | `<div>` (portal) | Floating panel |
+| `kui(:popover, :anchor)` | `PopoverAnchor` | `<div>` | Position reference |
+| `kui(:popover, :header)` | `PopoverHeader` | `<div>` | Title + description wrapper |
+| `kui(:popover, :title)` | `PopoverTitle` | `<div>` | Heading |
+| `kui(:popover, :description)` | `PopoverDescription` | `<p>` | Description |
 
 **shadcn source:** `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/popover.tsx`
 **Nuxt UI theme:** `vendor/nuxt-ui/src/theme/popover.ts`
@@ -55,9 +55,9 @@ wraps multiple toggles with single/multi selection.
 
 | Kiso component | shadcn export | HTML | Purpose |
 |---|---|---|---|
-| `kiso(:toggle)` | `Toggle` | `<button>` | Two-state toggle button |
-| `kiso(:toggle_group)` | `ToggleGroup` | `<div>` | Container, single/multi select |
-| `kiso(:toggle_group, :item)` | `ToggleGroupItem` | `<button>` | Individual toggle in group |
+| `kui(:toggle)` | `Toggle` | `<button>` | Two-state toggle button |
+| `kui(:toggle_group)` | `ToggleGroup` | `<div>` | Container, single/multi select |
+| `kui(:toggle_group, :item)` | `ToggleGroupItem` | `<button>` | Individual toggle in group |
 
 **shadcn source:** `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/toggle.tsx`,
 `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/toggle-group.tsx`
@@ -75,20 +75,20 @@ Most sub-part-heavy component. 15 shadcn exports. Nested sub-menus.
 
 | Kiso component | shadcn export | HTML | Purpose |
 |---|---|---|---|
-| `kiso(:dropdown_menu)` | `DropdownMenu` | (context wrapper) | Root |
-| `kiso(:dropdown_menu, :trigger)` | `DropdownMenuTrigger` | `<button>` | Opens menu |
-| `kiso(:dropdown_menu, :content)` | `DropdownMenuContent` | `<div>` (portal) | Menu panel |
-| `kiso(:dropdown_menu, :item)` | `DropdownMenuItem` | `<div role="menuitem">` | Menu item |
-| `kiso(:dropdown_menu, :checkbox_item)` | `DropdownMenuCheckboxItem` | `<div role="menuitemcheckbox">` | Checkbox item |
-| `kiso(:dropdown_menu, :radio_group)` | `DropdownMenuRadioGroup` | `<div>` | Radio group container |
-| `kiso(:dropdown_menu, :radio_item)` | `DropdownMenuRadioItem` | `<div role="menuitemradio">` | Radio item |
-| `kiso(:dropdown_menu, :label)` | `DropdownMenuLabel` | `<span>` | Section header |
-| `kiso(:dropdown_menu, :separator)` | `DropdownMenuSeparator` | `<div>` | Divider |
-| `kiso(:dropdown_menu, :shortcut)` | `DropdownMenuShortcut` | `<span>` | Keyboard hint |
-| `kiso(:dropdown_menu, :group)` | `DropdownMenuGroup` | `<div>` | Semantic grouping |
-| `kiso(:dropdown_menu, :sub)` | `DropdownMenuSub` | (context wrapper) | Sub-menu root |
-| `kiso(:dropdown_menu, :sub_trigger)` | `DropdownMenuSubTrigger` | `<div>` | Opens sub-menu |
-| `kiso(:dropdown_menu, :sub_content)` | `DropdownMenuSubContent` | `<div>` | Sub-menu panel |
+| `kui(:dropdown_menu)` | `DropdownMenu` | (context wrapper) | Root |
+| `kui(:dropdown_menu, :trigger)` | `DropdownMenuTrigger` | `<button>` | Opens menu |
+| `kui(:dropdown_menu, :content)` | `DropdownMenuContent` | `<div>` (portal) | Menu panel |
+| `kui(:dropdown_menu, :item)` | `DropdownMenuItem` | `<div role="menuitem">` | Menu item |
+| `kui(:dropdown_menu, :checkbox_item)` | `DropdownMenuCheckboxItem` | `<div role="menuitemcheckbox">` | Checkbox item |
+| `kui(:dropdown_menu, :radio_group)` | `DropdownMenuRadioGroup` | `<div>` | Radio group container |
+| `kui(:dropdown_menu, :radio_item)` | `DropdownMenuRadioItem` | `<div role="menuitemradio">` | Radio item |
+| `kui(:dropdown_menu, :label)` | `DropdownMenuLabel` | `<span>` | Section header |
+| `kui(:dropdown_menu, :separator)` | `DropdownMenuSeparator` | `<div>` | Divider |
+| `kui(:dropdown_menu, :shortcut)` | `DropdownMenuShortcut` | `<span>` | Keyboard hint |
+| `kui(:dropdown_menu, :group)` | `DropdownMenuGroup` | `<div>` | Semantic grouping |
+| `kui(:dropdown_menu, :sub)` | `DropdownMenuSub` | (context wrapper) | Sub-menu root |
+| `kui(:dropdown_menu, :sub_trigger)` | `DropdownMenuSubTrigger` | `<div>` | Opens sub-menu |
+| `kui(:dropdown_menu, :sub_content)` | `DropdownMenuSubContent` | `<div>` | Sub-menu panel |
 
 **shadcn source:** `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/dropdown-menu.tsx`
 **Nuxt UI theme:** `vendor/nuxt-ui/src/theme/dropdown-menu.ts`
@@ -112,11 +112,11 @@ third-party library). Kiso builds its own following Nuxt UI's architecture
 
 | Kiso component | shadcn/Nuxt UI reference | HTML | Purpose |
 |---|---|---|---|
-| `kiso(:toaster)` | `Toaster` | `<div>` (fixed viewport) | Container, positioning, stacking |
-| `kiso(:toast)` | `Toast` | `<li>` | Individual notification |
-| `kiso(:toast, :title)` | Toast title slot | `<div>` | Heading text |
-| `kiso(:toast, :description)` | Toast description slot | `<div>` | Secondary text |
-| `kiso(:toast, :close)` | Toast close slot | `<button>` | Dismiss button |
+| `kui(:toaster)` | `Toaster` | `<div>` (fixed viewport) | Container, positioning, stacking |
+| `kui(:toast)` | `Toast` | `<li>` | Individual notification |
+| `kui(:toast, :title)` | Toast title slot | `<div>` | Heading text |
+| `kui(:toast, :description)` | Toast description slot | `<div>` | Secondary text |
+| `kui(:toast, :close)` | Toast close slot | `<button>` | Dismiss button |
 
 **shadcn source:** `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/sonner.tsx`
 (wrapper around Sonner library — reference only, not structural source)
@@ -135,15 +135,15 @@ Search/command palette. shadcn builds this on `cmdk`. 9 exports.
 
 | Kiso component | shadcn export | HTML | Purpose |
 |---|---|---|---|
-| `kiso(:command)` | `Command` | `<div>` | Root with search filtering |
-| `kiso(:command, :input)` | `CommandInput` | `<div>` + `<input>` | Search field |
-| `kiso(:command, :list)` | `CommandList` | scrollable `<div>` | Results container |
-| `kiso(:command, :empty)` | `CommandEmpty` | `<div>` | "No results" message |
-| `kiso(:command, :group)` | `CommandGroup` | `<div>` | Grouped results |
-| `kiso(:command, :item)` | `CommandItem` | `<div>` | Individual result item |
-| `kiso(:command, :separator)` | `CommandSeparator` | `<div>` | Divider |
-| `kiso(:command, :shortcut)` | `CommandShortcut` | `<span>` | Keyboard hint |
-| `kiso(:command, :dialog)` | `CommandDialog` | `<dialog>` | Command palette in modal |
+| `kui(:command)` | `Command` | `<div>` | Root with search filtering |
+| `kui(:command, :input)` | `CommandInput` | `<div>` + `<input>` | Search field |
+| `kui(:command, :list)` | `CommandList` | scrollable `<div>` | Results container |
+| `kui(:command, :empty)` | `CommandEmpty` | `<div>` | "No results" message |
+| `kui(:command, :group)` | `CommandGroup` | `<div>` | Grouped results |
+| `kui(:command, :item)` | `CommandItem` | `<div>` | Individual result item |
+| `kui(:command, :separator)` | `CommandSeparator` | `<div>` | Divider |
+| `kui(:command, :shortcut)` | `CommandShortcut` | `<span>` | Keyboard hint |
+| `kui(:command, :dialog)` | `CommandDialog` | `<dialog>` | Command palette in modal |
 
 **shadcn source:** `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/command.tsx`
 **Nuxt UI theme:** `vendor/nuxt-ui/src/theme/command-palette.ts`
@@ -160,7 +160,7 @@ Date grid. shadcn uses `react-day-picker`. Kiso needs custom Stimulus.
 
 | Kiso component | shadcn export | HTML | Purpose |
 |---|---|---|---|
-| `kiso(:calendar)` | `Calendar` | `<div>` + `<table>` | Date grid with navigation |
+| `kui(:calendar)` | `Calendar` | `<div>` + `<table>` | Date grid with navigation |
 
 **shadcn source:** `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/calendar.tsx`
 **Nuxt UI theme:** `vendor/nuxt-ui/src/theme/calendar.ts`
@@ -181,7 +181,7 @@ can provide a convenience wrapper.
 
 | Kiso component | shadcn pattern | HTML | Purpose |
 |---|---|---|---|
-| `kiso(:date_picker)` | Popover + Calendar | `<div>` | Trigger button + popover + calendar |
+| `kui(:date_picker)` | Popover + Calendar | `<div>` | Trigger button + popover + calendar |
 
 **shadcn source:** `vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples/date-picker-demo.tsx`
 (composition example, not a registered component)
@@ -199,29 +199,29 @@ modes, mobile Sheet overlay, keyboard shortcut, cookie persistence.
 
 | Kiso component | shadcn export | HTML |
 |---|---|---|
-| `kiso(:sidebar_provider)` | `SidebarProvider` | `<div>` (context + CSS vars) |
-| `kiso(:sidebar)` | `Sidebar` | `<div>` / Sheet on mobile |
-| `kiso(:sidebar, :trigger)` | `SidebarTrigger` | `<button>` |
-| `kiso(:sidebar, :rail)` | `SidebarRail` | `<button>` |
-| `kiso(:sidebar, :inset)` | `SidebarInset` | `<main>` |
-| `kiso(:sidebar, :input)` | `SidebarInput` | `<input>` |
-| `kiso(:sidebar, :header)` | `SidebarHeader` | `<div>` |
-| `kiso(:sidebar, :footer)` | `SidebarFooter` | `<div>` |
-| `kiso(:sidebar, :separator)` | `SidebarSeparator` | Separator component |
-| `kiso(:sidebar, :content)` | `SidebarContent` | `<div>` (scrollable) |
-| `kiso(:sidebar, :group)` | `SidebarGroup` | `<div>` |
-| `kiso(:sidebar, :group_label)` | `SidebarGroupLabel` | `<div>` |
-| `kiso(:sidebar, :group_action)` | `SidebarGroupAction` | `<button>` |
-| `kiso(:sidebar, :group_content)` | `SidebarGroupContent` | `<div>` |
-| `kiso(:sidebar, :menu)` | `SidebarMenu` | `<ul>` |
-| `kiso(:sidebar, :menu_item)` | `SidebarMenuItem` | `<li>` |
-| `kiso(:sidebar, :menu_button)` | `SidebarMenuButton` | `<button>` / `<a>` |
-| `kiso(:sidebar, :menu_action)` | `SidebarMenuAction` | `<button>` |
-| `kiso(:sidebar, :menu_badge)` | `SidebarMenuBadge` | `<div>` |
-| `kiso(:sidebar, :menu_skeleton)` | `SidebarMenuSkeleton` | `<div>` |
-| `kiso(:sidebar, :menu_sub)` | `SidebarMenuSub` | `<ul>` |
-| `kiso(:sidebar, :menu_sub_item)` | `SidebarMenuSubItem` | `<li>` |
-| `kiso(:sidebar, :menu_sub_button)` | `SidebarMenuSubButton` | `<a>` / `<button>` |
+| `kui(:sidebar_provider)` | `SidebarProvider` | `<div>` (context + CSS vars) |
+| `kui(:sidebar)` | `Sidebar` | `<div>` / Sheet on mobile |
+| `kui(:sidebar, :trigger)` | `SidebarTrigger` | `<button>` |
+| `kui(:sidebar, :rail)` | `SidebarRail` | `<button>` |
+| `kui(:sidebar, :inset)` | `SidebarInset` | `<main>` |
+| `kui(:sidebar, :input)` | `SidebarInput` | `<input>` |
+| `kui(:sidebar, :header)` | `SidebarHeader` | `<div>` |
+| `kui(:sidebar, :footer)` | `SidebarFooter` | `<div>` |
+| `kui(:sidebar, :separator)` | `SidebarSeparator` | Separator component |
+| `kui(:sidebar, :content)` | `SidebarContent` | `<div>` (scrollable) |
+| `kui(:sidebar, :group)` | `SidebarGroup` | `<div>` |
+| `kui(:sidebar, :group_label)` | `SidebarGroupLabel` | `<div>` |
+| `kui(:sidebar, :group_action)` | `SidebarGroupAction` | `<button>` |
+| `kui(:sidebar, :group_content)` | `SidebarGroupContent` | `<div>` |
+| `kui(:sidebar, :menu)` | `SidebarMenu` | `<ul>` |
+| `kui(:sidebar, :menu_item)` | `SidebarMenuItem` | `<li>` |
+| `kui(:sidebar, :menu_button)` | `SidebarMenuButton` | `<button>` / `<a>` |
+| `kui(:sidebar, :menu_action)` | `SidebarMenuAction` | `<button>` |
+| `kui(:sidebar, :menu_badge)` | `SidebarMenuBadge` | `<div>` |
+| `kui(:sidebar, :menu_skeleton)` | `SidebarMenuSkeleton` | `<div>` |
+| `kui(:sidebar, :menu_sub)` | `SidebarMenuSub` | `<ul>` |
+| `kui(:sidebar, :menu_sub_item)` | `SidebarMenuSubItem` | `<li>` |
+| `kui(:sidebar, :menu_sub_button)` | `SidebarMenuSubButton` | `<a>` / `<button>` |
 
 **shadcn source:** `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/sidebar.tsx`
 **Nuxt UI theme:** `vendor/nuxt-ui/src/theme/dashboard-sidebar.ts` (simpler pattern)

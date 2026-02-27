@@ -1,22 +1,22 @@
 <div class="max-w-md">
-  <%= kiso(:field_set) do %>
-    <%= kiso(:field_set, :legend) { "Address Information" } %>
-    <%= kiso(:field, :description) { "Enter your billing address." } %>
+  <%= kui(:field_set) do %>
+    <%= kui(:field_set, :legend) { "Address Information" } %>
+    <%= kui(:field, :description) { "Enter your billing address." } %>
 
-    <%= kiso(:field_group) do %>
-      <%= kiso(:field) do %>
-        <%= kiso(:field, :label, for: :street) { "Street address" } %>
-        <%= kiso(:input, id: :street, name: :street, placeholder: "123 Main St") %>
+    <%= kui(:field_group) do %>
+      <%= kui(:field) do %>
+        <%= kui(:field, :label, for: :street) { "Street address" } %>
+        <%= kui(:input, id: :street, name: :street, placeholder: "123 Main St") %>
       <% end %>
 
-      <%= kiso(:field) do %>
-        <%= kiso(:field, :label, for: :city) { "City" } %>
-        <%= kiso(:input, id: :city, name: :city, placeholder: "San Francisco") %>
+      <%= kui(:field) do %>
+        <%= kui(:field, :label, for: :city) { "City" } %>
+        <%= kui(:input, id: :city, name: :city, placeholder: "San Francisco") %>
       <% end %>
 
-      <%= kiso(:field) do %>
-        <%= kiso(:field, :label, for: :postal) { "Postal code" } %>
-        <%= kiso(:input, id: :postal, name: :postal, placeholder: "94103") %>
+      <%= kui(:field) do %>
+        <%= kui(:field, :label, for: :postal) { "Postal code" } %>
+        <%= kui(:input, id: :postal, name: :postal, placeholder: "94103") %>
       <% end %>
     <% end %>
   <% end %>

@@ -6,25 +6,25 @@ Interactive element with smart tag, 6 variants, 5 sizes, 7 colors.
 
 ```erb
 <%# Basic %>
-<%= kiso(:button) { "Click me" } %>
+<%= kui(:button) { "Click me" } %>
 
 <%# Color + variant %>
-<%= kiso(:button, color: :error, variant: :solid) { "Delete" } %>
+<%= kui(:button, color: :error, variant: :solid) { "Delete" } %>
 
 <%# As link (renders <a>) %>
-<%= kiso(:button, href: "/settings", variant: :outline) { "Settings" } %>
+<%= kui(:button, href: "/settings", variant: :outline) { "Settings" } %>
 
 <%# Ghost + link variants %>
-<%= kiso(:button, variant: :ghost) { "Cancel" } %>
-<%= kiso(:button, variant: :link) { "Learn more" } %>
+<%= kui(:button, variant: :ghost) { "Cancel" } %>
+<%= kui(:button, variant: :link) { "Learn more" } %>
 
 <%# Disabled, full-width, submit %>
-<%= kiso(:button, disabled: true) { "Unavailable" } %>
-<%= kiso(:button, block: true) { "Continue" } %>
-<%= kiso(:button, type: :submit) { "Save" } %>
+<%= kui(:button, disabled: true) { "Unavailable" } %>
+<%= kui(:button, block: true) { "Continue" } %>
+<%= kui(:button, type: :submit) { "Save" } %>
 
 <%# With inline icon (yield-based) %>
-<%= kiso(:button, variant: :outline) do %>
+<%= kui(:button, variant: :outline) do %>
   <svg class="size-4">...</svg>
   Download
 <% end %>
@@ -50,22 +50,22 @@ Props-driven for common patterns, yield for override.
 
 ```erb
 <%# Simple: text as prop %>
-<%= kiso(:button, text: "Save", color: :primary) %>
+<%= kui(:button, text: "Save", color: :primary) %>
 
 <%# With leading icon %>
-<%= kiso(:button, text: "Download", icon: "arrow-down-tray") %>
+<%= kui(:button, text: "Download", icon: "arrow-down-tray") %>
 
 <%# With trailing icon %>
-<%= kiso(:button, text: "Next", trailing_icon: "chevron-right") %>
+<%= kui(:button, text: "Next", trailing_icon: "chevron-right") %>
 
 <%# Icon-only (square mode) %>
-<%= kiso(:button, icon: "plus", square: true, size: :sm) %>
+<%= kui(:button, icon: "plus", square: true, size: :sm) %>
 
 <%# Loading state %>
-<%= kiso(:button, text: "Saving...", loading: true) %>
+<%= kui(:button, text: "Saving...", loading: true) %>
 
 <%# Yield still works for full control %>
-<%= kiso(:button, color: :info, variant: :soft) do %>
+<%= kui(:button, color: :info, variant: :soft) do %>
   <svg class="size-4">...</svg>
   Custom content
 <% end %>

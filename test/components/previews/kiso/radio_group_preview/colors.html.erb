@@ -1,12 +1,12 @@
 <div class="flex flex-col gap-6 text-foreground">
   <% %i[primary secondary success info warning error neutral].each do |color| %>
-    <%= kiso(:radio_group) do %>
+    <%= kui(:radio_group) do %>
       <div class="flex items-center gap-3">
-        <%= kiso(:radio_group, :item, color: color, value: "yes", name: color, id: "#{color}_yes", checked: true) %>
+        <%= kui(:radio_group, :item, color: color, value: "yes", name: color, id: "#{color}_yes", checked: true) %>
         <label for="<%= color %>_yes" class="text-sm capitalize"><%= color %></label>
       </div>
       <div class="flex items-center gap-3">
-        <%= kiso(:radio_group, :item, color: color, value: "no", name: color, id: "#{color}_no") %>
+        <%= kui(:radio_group, :item, color: color, value: "no", name: color, id: "#{color}_no") %>
         <label for="<%= color %>_no" class="text-sm capitalize"><%= color %> unchecked</label>
       </div>
     <% end %>

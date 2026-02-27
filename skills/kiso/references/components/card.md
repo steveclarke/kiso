@@ -5,22 +5,22 @@ Header, Title, Description, Content, Footer.
 
 **Locals:** `variant:` (outline, soft, subtle), `css_classes:`, `**component_options`
 
-**Sub-parts:** `kiso(:card, :header)`, `kiso(:card, :title)`, `kiso(:card, :description)`, `kiso(:card, :content)`, `kiso(:card, :footer)`
+**Sub-parts:** `kui(:card, :header)`, `kui(:card, :title)`, `kui(:card, :description)`, `kui(:card, :content)`, `kui(:card, :footer)`
 
 **Defaults:** `variant: :outline`
 
 ```erb
-<%= kiso(:card) do %>
-  <%= kiso(:card, :header) do %>
-    <%= kiso(:card, :title) { "Card Title" } %>
-    <%= kiso(:card, :description) { "Card description goes here." } %>
+<%= kui(:card) do %>
+  <%= kui(:card, :header) do %>
+    <%= kui(:card, :title) { "Card Title" } %>
+    <%= kui(:card, :description) { "Card description goes here." } %>
   <% end %>
-  <%= kiso(:card, :content) do %>
+  <%= kui(:card, :content) do %>
     <p>Your content here.</p>
   <% end %>
-  <%= kiso(:card, :footer) do %>
-    <%= kiso(:button, variant: :outline) { "Cancel" } %>
-    <%= kiso(:button) { "Save" } %>
+  <%= kui(:card, :footer) do %>
+    <%= kui(:button, variant: :outline) { "Cancel" } %>
+    <%= kui(:button) { "Save" } %>
   <% end %>
 <% end %>
 ```

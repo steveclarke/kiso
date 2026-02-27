@@ -9,7 +9,7 @@ source: lib/kiso/themes/textarea.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:textarea, placeholder: "Tell us more...") %>
+<%%= kui(:textarea, placeholder: "Tell us more...") %>
 ```
 
 <%= render "component_preview", component: "kiso/textarea", scenario: "playground", height: "300px" %>
@@ -32,9 +32,9 @@ All standard HTML textarea attributes (`placeholder:`, `name:`, `id:`, `rows:`,
 ### Variant
 
 ```erb
-<%%= kiso(:textarea, variant: :outline, placeholder: "Outline (default)") %>
-<%%= kiso(:textarea, variant: :soft, placeholder: "Soft") %>
-<%%= kiso(:textarea, variant: :ghost, placeholder: "Ghost") %>
+<%%= kui(:textarea, variant: :outline, placeholder: "Outline (default)") %>
+<%%= kui(:textarea, variant: :soft, placeholder: "Soft") %>
+<%%= kui(:textarea, variant: :ghost, placeholder: "Ghost") %>
 ```
 
 ### Size
@@ -43,26 +43,26 @@ Controls padding and font size. Height is automatic via `field-sizing-content`
 with a minimum of `min-h-16`.
 
 ```erb
-<%%= kiso(:textarea, size: :sm, placeholder: "Small") %>
-<%%= kiso(:textarea, size: :md, placeholder: "Medium") %>
-<%%= kiso(:textarea, size: :lg, placeholder: "Large") %>
+<%%= kui(:textarea, size: :sm, placeholder: "Small") %>
+<%%= kui(:textarea, size: :md, placeholder: "Medium") %>
+<%%= kui(:textarea, size: :lg, placeholder: "Large") %>
 ```
 
 ### With Field
 
 ```erb
-<%%= kiso(:field) do %>
-  <%%= kiso(:field, :label, for: :feedback) { "Feedback" } %>
-  <%%= kiso(:textarea, id: :feedback, name: :feedback,
+<%%= kui(:field) do %>
+  <%%= kui(:field, :label, for: :feedback) { "Feedback" } %>
+  <%%= kui(:textarea, id: :feedback, name: :feedback,
       placeholder: "Tell us what you think...", rows: 4) %>
-  <%%= kiso(:field, :description) { "Your feedback helps us improve." } %>
+  <%%= kui(:field, :description) { "Your feedback helps us improve." } %>
 <%% end %>
 ```
 
 ### Disabled
 
 ```erb
-<%%= kiso(:textarea, placeholder: "Disabled", disabled: true) %>
+<%%= kui(:textarea, placeholder: "Disabled", disabled: true) %>
 ```
 
 ### With Rails Form Helpers

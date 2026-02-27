@@ -5,15 +5,15 @@ Container for grouping related content with optional header, content, and footer
 ## Current API
 
 ```erb
-<%= kiso(:card, variant: :outline) do %>
-  <%= kiso(:card, :header) do %>
-    <%= kiso(:card, :title) { "Title" } %>
-    <%= kiso(:card, :description) { "Description" } %>
+<%= kui(:card, variant: :outline) do %>
+  <%= kui(:card, :header) do %>
+    <%= kui(:card, :title) { "Title" } %>
+    <%= kui(:card, :description) { "Description" } %>
   <% end %>
-  <%= kiso(:card, :content) do %>
+  <%= kui(:card, :content) do %>
     ...
   <% end %>
-  <%= kiso(:card, :footer) do %>
+  <%= kui(:card, :footer) do %>
     ...
   <% end %>
 <% end %>

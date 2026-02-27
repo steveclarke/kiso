@@ -20,7 +20,7 @@ One sentence description (same as frontmatter).
 ## Quick Start
 
 ```erb
-<%= kiso(:component_name) { "Content" } %>
+<%= kui(:component_name) { "Content" } %>
 ```
 
 [Link to Lookbook playground →](/lookbook/inspect/kiso/component_name/playground)
@@ -41,8 +41,8 @@ One sentence description (same as frontmatter).
 Use the `color:` local to change the color.
 
 ```erb
-<%= kiso(:component_name, color: :primary) { "Primary" } %>
-<%= kiso(:component_name, color: :error) { "Error" } %>
+<%= kui(:component_name, color: :primary) { "Primary" } %>
+<%= kui(:component_name, color: :error) { "Error" } %>
 ```
 
 ### Variant
@@ -50,8 +50,8 @@ Use the `color:` local to change the color.
 Use the `variant:` local to change the visual style.
 
 ```erb
-<%= kiso(:component_name, variant: :solid) { "Solid" } %>
-<%= kiso(:component_name, variant: :outline) { "Outline" } %>
+<%= kui(:component_name, variant: :solid) { "Solid" } %>
+<%= kui(:component_name, variant: :outline) { "Outline" } %>
 ```
 
 <!-- Repeat for each variant axis: size, icon, block, disabled, etc. -->
@@ -61,11 +61,11 @@ Use the `variant:` local to change the visual style.
 <!-- Only for compound components with sub-parts. Skip for simple ones. -->
 
 ```erb
-<%= kiso(:alert, color: :info) do %>
+<%= kui(:alert, color: :info) do %>
   <svg class="size-5 shrink-0">...</svg>
   <div class="flex-1">
-    <%= kiso(:alert, :title) { "Title" } %>
-    <%= kiso(:alert, :description) { "Description text." } %>
+    <%= kui(:alert, :title) { "Title" } %>
+    <%= kui(:alert, :description) { "Description text." } %>
   </div>
 <% end %>
 ```
@@ -84,7 +84,7 @@ Use the `variant:` local to change the visual style.
 Use `css_classes:` to override styles. Conflicts are resolved by TailwindMerge.
 
 ```erb
-<%= kiso(:component_name, css_classes: "rounded-full") { "Custom" } %>
+<%= kui(:component_name, css_classes: "rounded-full") { "Custom" } %>
 ```
 
 <!-- Add 2-4 real-world examples showing common patterns. -->

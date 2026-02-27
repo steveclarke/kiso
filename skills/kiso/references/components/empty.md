@@ -5,21 +5,21 @@ Composed from sub-parts like Card. No color axis.
 
 **Locals:** `css_classes:`, `**component_options`
 
-**Sub-parts:** `kiso(:empty, :header)`, `kiso(:empty, :media)`, `kiso(:empty, :title)`, `kiso(:empty, :description)`, `kiso(:empty, :content)`
+**Sub-parts:** `kui(:empty, :header)`, `kui(:empty, :media)`, `kui(:empty, :title)`, `kui(:empty, :description)`, `kui(:empty, :content)`
 
 **Media variants:** `variant:` (default, icon) — `:icon` renders a muted rounded container for SVG icons.
 
 ```erb
-<%= kiso(:empty) do %>
-  <%= kiso(:empty, :header) do %>
-    <%= kiso(:empty, :media, variant: :icon) do %>
+<%= kui(:empty) do %>
+  <%= kui(:empty, :header) do %>
+    <%= kui(:empty, :media, variant: :icon) do %>
       <svg>...</svg>
     <% end %>
-    <%= kiso(:empty, :title) { "No Projects Yet" } %>
-    <%= kiso(:empty, :description) { "Get started by creating your first project." } %>
+    <%= kui(:empty, :title) { "No Projects Yet" } %>
+    <%= kui(:empty, :description) { "Get started by creating your first project." } %>
   <% end %>
-  <%= kiso(:empty, :content) do %>
-    <%= kiso(:button) { "Create Project" } %>
+  <%= kui(:empty, :content) do %>
+    <%= kui(:button) { "Create Project" } %>
   <% end %>
 <% end %>
 ```

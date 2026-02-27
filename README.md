@@ -25,20 +25,20 @@ bin/rails generate kiso:install
 
 ## Usage
 
-Use the `kiso()` helper to render components:
+Use the `kui()` helper to render components:
 
 ```erb
-<%= kiso(:badge, variant: :primary) { "Active" } %>
+<%= kui(:badge, variant: :primary) { "Active" } %>
 ```
 
 Components are made of small parts. A card has a header, title, content, and footer:
 
 ```erb
-<%= kiso(:card) do %>
-  <%= kiso(:card, :header) do %>
-    <%= kiso(:card, :title, text: "Members") %>
+<%= kui(:card) do %>
+  <%= kui(:card, :header) do %>
+    <%= kui(:card, :title, text: "Members") %>
   <% end %>
-  <%= kiso(:card, :content) do %>
+  <%= kui(:card, :content) do %>
     ...
   <% end %>
 <% end %>
@@ -100,7 +100,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to help out.
 ```
 app/views/kiso/components/   ERB partials
 lib/kiso/themes/             Theme files (class_variants)
-app/helpers/kiso/            component_tag, kiso() helpers
+app/helpers/kiso/            component_tag, kui() helpers
 app/assets/stylesheets/kiso/ CSS (only transitions and pseudo-states)
 test/components/previews/    Lookbook previews
 test/dummy/                  Dev Rails app

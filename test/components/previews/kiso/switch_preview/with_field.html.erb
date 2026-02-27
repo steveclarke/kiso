@@ -1,17 +1,17 @@
 <div class="max-w-sm flex flex-col gap-4 text-foreground">
-  <%= kiso(:field, orientation: :horizontal) do %>
-    <%= kiso(:switch, id: :marketing, name: :marketing, value: "1") %>
-    <%= kiso(:field, :content) do %>
-      <%= kiso(:field, :label, for: :marketing) { "Marketing emails" } %>
-      <%= kiso(:field, :description) { "Receive emails about new products, features, and more." } %>
+  <%= kui(:field, orientation: :horizontal) do %>
+    <%= kui(:switch, id: :marketing, name: :marketing, value: "1") %>
+    <%= kui(:field, :content) do %>
+      <%= kui(:field, :label, for: :marketing) { "Marketing emails" } %>
+      <%= kui(:field, :description) { "Receive emails about new products, features, and more." } %>
     <% end %>
   <% end %>
 
-  <%= kiso(:field, orientation: :horizontal) do %>
-    <%= kiso(:switch, id: :security, name: :security, value: "1", checked: true, color: :success) %>
-    <%= kiso(:field, :content) do %>
-      <%= kiso(:field, :label, for: :security) { "Security emails" } %>
-      <%= kiso(:field, :description) { "Receive emails about your account security." } %>
+  <%= kui(:field, orientation: :horizontal) do %>
+    <%= kui(:switch, id: :security, name: :security, value: "1", checked: true, color: :success) %>
+    <%= kui(:field, :content) do %>
+      <%= kui(:field, :label, for: :security) { "Security emails" } %>
+      <%= kui(:field, :description) { "Receive emails about your account security." } %>
     <% end %>
   <% end %>
 </div>

@@ -1,34 +1,34 @@
 <div class="max-w-md">
-  <%= kiso(:field_set) do %>
-    <%= kiso(:field_set, :legend) { "Responses" } %>
-    <%= kiso(:field, :description) { "Manage how you receive form responses." } %>
+  <%= kui(:field_set) do %>
+    <%= kui(:field_set, :legend) { "Responses" } %>
+    <%= kui(:field, :description) { "Manage how you receive form responses." } %>
 
-    <%= kiso(:field_group) do %>
-      <%= kiso(:field, orientation: :horizontal) do %>
-        <%= kiso(:switch, id: :email_resp, checked: true) %>
-        <%= kiso(:field, :content) do %>
-          <%= kiso(:field, :label, for: :email_resp) { "Email notifications" } %>
-          <%= kiso(:field, :description) { "Receive email for each new response." } %>
+    <%= kui(:field_group) do %>
+      <%= kui(:field, orientation: :horizontal) do %>
+        <%= kui(:switch, id: :email_resp, checked: true) %>
+        <%= kui(:field, :content) do %>
+          <%= kui(:field, :label, for: :email_resp) { "Email notifications" } %>
+          <%= kui(:field, :description) { "Receive email for each new response." } %>
         <% end %>
       <% end %>
 
-      <%= kiso(:field, :separator) { "Or" } %>
+      <%= kui(:field, :separator) { "Or" } %>
 
-      <%= kiso(:field, orientation: :horizontal) do %>
-        <%= kiso(:switch, id: :webhook_resp) %>
-        <%= kiso(:field, :content) do %>
-          <%= kiso(:field, :label, for: :webhook_resp) { "Webhook" } %>
-          <%= kiso(:field, :description) { "Send responses to a webhook URL." } %>
+      <%= kui(:field, orientation: :horizontal) do %>
+        <%= kui(:switch, id: :webhook_resp) %>
+        <%= kui(:field, :content) do %>
+          <%= kui(:field, :label, for: :webhook_resp) { "Webhook" } %>
+          <%= kui(:field, :description) { "Send responses to a webhook URL." } %>
         <% end %>
       <% end %>
 
-      <%= kiso(:field, :separator) %>
+      <%= kui(:field, :separator) %>
 
-      <%= kiso(:field, orientation: :horizontal) do %>
-        <%= kiso(:switch, id: :slack_resp) %>
-        <%= kiso(:field, :content) do %>
-          <%= kiso(:field, :label, for: :slack_resp) { "Slack integration" } %>
-          <%= kiso(:field, :description) { "Post responses to a Slack channel." } %>
+      <%= kui(:field, orientation: :horizontal) do %>
+        <%= kui(:switch, id: :slack_resp) %>
+        <%= kui(:field, :content) do %>
+          <%= kui(:field, :label, for: :slack_resp) { "Slack integration" } %>
+          <%= kui(:field, :description) { "Post responses to a Slack channel." } %>
         <% end %>
       <% end %>
     <% end %>

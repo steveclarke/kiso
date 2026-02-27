@@ -21,7 +21,7 @@ Reference: `vendor/maquina_components/` (local checkout)
 
 - [x] Gem skeleton (Rails engine, isolate_namespace, engine_name)
 - [x] test/dummy/ app (Lookbook, Tailwind v4, Propshaft, port 4001)
-- [x] Core helpers: `component_tag()`, `kiso()` in ComponentHelper
+- [x] Core helpers: `component_tag()`, `kui()` in ComponentHelper
 - [x] class_variants + tailwind_merge integration
 - [x] Theme CSS: 7 semantic palettes + surface tokens + dark mode
 - [x] Badge component (color × variant × size, compound variants)
@@ -91,7 +91,7 @@ below exists in maquina_components.
 **Batch 2 — Form inputs (CSS-only via data attributes in maquina):**
 
 Maquina uses `data-component="input"` etc. for CSS-only form styling.
-Kiso will use `kiso(:input)` partials with class_variants themes.
+Kiso will use `kui(:input)` partials with class_variants themes.
 
 | Component | Type | Maquina Notes |
 |-----------|------|---------------|

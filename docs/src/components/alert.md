@@ -9,9 +9,9 @@ source: lib/kiso/themes/alert.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:alert) do %>
-  <%%= kiso(:alert, :title) { "Heads up!" } %>
-  <%%= kiso(:alert, :description) { "You can add components using the CLI." } %>
+<%%= kui(:alert) do %>
+  <%%= kui(:alert, :title) { "Heads up!" } %>
+  <%%= kui(:alert, :description) { "You can add components using the CLI." } %>
 <%% end %>
 ```
 
@@ -33,10 +33,10 @@ automatically creates a two-column layout (icon + content). Without an icon,
 content spans the full width.
 
 ```erb
-<%%= kiso(:alert, color: :info) do %>
+<%%= kui(:alert, color: :info) do %>
   <svg>...</svg>
-  <%%= kiso(:alert, :title) { "Title text" } %>
-  <%%= kiso(:alert, :description) { "Description text." } %>
+  <%%= kui(:alert, :title) { "Title text" } %>
+  <%%= kui(:alert, :description) { "Description text." } %>
 <%% end %>
 ```
 
@@ -44,27 +44,27 @@ content spans the full width.
 
 | Part | Rendered via | Description |
 |------|-------------|-------------|
-| `:title` | `kiso(:alert, :title)` | Bold heading with `tracking-tight`. Inherits parent text color. |
-| `:description` | `kiso(:alert, :description)` | Supporting text at `opacity-90`. |
+| `:title` | `kui(:alert, :title)` | Bold heading with `tracking-tight`. Inherits parent text color. |
+| `:description` | `kui(:alert, :description)` | Supporting text at `opacity-90`. |
 
 ## Usage
 
 ### Color
 
 ```erb
-<%%= kiso(:alert, color: :primary) do %>
-  <%%= kiso(:alert, :title) { "Primary" } %>
-  <%%= kiso(:alert, :description) { "This is a primary alert." } %>
+<%%= kui(:alert, color: :primary) do %>
+  <%%= kui(:alert, :title) { "Primary" } %>
+  <%%= kui(:alert, :description) { "This is a primary alert." } %>
 <%% end %>
 ```
 
 ### Variant
 
 ```erb
-<%%= kiso(:alert, variant: :solid) do %>...<%% end %>
-<%%= kiso(:alert, variant: :outline) do %>...<%% end %>
-<%%= kiso(:alert, variant: :soft) do %>...<%% end %>
-<%%= kiso(:alert, variant: :subtle) do %>...<%% end %>
+<%%= kui(:alert, variant: :solid) do %>...<%% end %>
+<%%= kui(:alert, variant: :outline) do %>...<%% end %>
+<%%= kui(:alert, variant: :soft) do %>...<%% end %>
+<%%= kui(:alert, variant: :subtle) do %>...<%% end %>
 ```
 
 ### With Icon
@@ -74,18 +74,18 @@ Place an SVG as a direct child of the alert. The grid handles sizing
 needed on the SVG.
 
 ```erb
-<%%= kiso(:alert, color: :error, variant: :soft) do %>
+<%%= kui(:alert, color: :error, variant: :soft) do %>
   <%%= kiso_icon("circle-alert") %>
-  <%%= kiso(:alert, :title) { "Error" } %>
-  <%%= kiso(:alert, :description) { "Something went wrong." } %>
+  <%%= kui(:alert, :title) { "Error" } %>
+  <%%= kui(:alert, :description) { "Something went wrong." } %>
 <%% end %>
 ```
 
 ### Title Only
 
 ```erb
-<%%= kiso(:alert, color: :warning) do %>
-  <%%= kiso(:alert, :title) { "Your trial expires in 3 days." } %>
+<%%= kui(:alert, color: :warning) do %>
+  <%%= kui(:alert, :title) { "Your trial expires in 3 days." } %>
 <%% end %>
 ```
 
@@ -94,8 +94,8 @@ needed on the SVG.
 ### Custom Classes
 
 ```erb
-<%%= kiso(:alert, css_classes: "max-w-md") do %>
-  <%%= kiso(:alert, :title) { "Constrained width" } %>
+<%%= kui(:alert, css_classes: "max-w-md") do %>
+  <%%= kui(:alert, :title) { "Constrained width" } %>
 <%% end %>
 ```
 

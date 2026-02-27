@@ -9,12 +9,12 @@ source: lib/kiso/themes/card.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:card) do %>
-  <%%= kiso(:card, :header) do %>
-    <%%= kiso(:card, :title) { "Card Title" } %>
-    <%%= kiso(:card, :description) { "Card description." } %>
+<%%= kui(:card) do %>
+  <%%= kui(:card, :header) do %>
+    <%%= kui(:card, :title) { "Card Title" } %>
+    <%%= kui(:card, :description) { "Card description." } %>
   <%% end %>
-  <%%= kiso(:card, :content) do %>
+  <%%= kui(:card, :content) do %>
     <p>Your content here.</p>
   <%% end %>
 <%% end %>
@@ -34,11 +34,11 @@ source: lib/kiso/themes/card.rb
 
 | Part | Usage | Purpose |
 |------|-------|---------|
-| `:header` | `kiso(:card, :header)` | Contains title and description |
-| `:title` | `kiso(:card, :title)` | Semibold heading text |
-| `:description` | `kiso(:card, :description)` | Muted description text |
-| `:content` | `kiso(:card, :content)` | Main body area |
-| `:footer` | `kiso(:card, :footer)` | Action area (flex row) |
+| `:header` | `kui(:card, :header)` | Contains title and description |
+| `:title` | `kui(:card, :title)` | Semibold heading text |
+| `:description` | `kui(:card, :description)` | Muted description text |
+| `:content` | `kui(:card, :content)` | Main body area |
+| `:footer` | `kui(:card, :footer)` | Action area (flex row) |
 
 All sub-parts accept `css_classes:` and `**component_options`.
 
@@ -62,9 +62,9 @@ All sub-parts are optional. Use any combination.
 Use the `variant:` local to change the card's visual style.
 
 ```erb
-<%%= kiso(:card, variant: :outline) do %>...<%% end %>
-<%%= kiso(:card, variant: :soft) do %>...<%% end %>
-<%%= kiso(:card, variant: :subtle) do %>...<%% end %>
+<%%= kui(:card, variant: :outline) do %>...<%% end %>
+<%%= kui(:card, variant: :soft) do %>...<%% end %>
+<%%= kui(:card, variant: :subtle) do %>...<%% end %>
 ```
 
 | Variant | Appearance |
@@ -76,17 +76,17 @@ Use the `variant:` local to change the card's visual style.
 ### With Footer
 
 ```erb
-<%%= kiso(:card) do %>
-  <%%= kiso(:card, :header) do %>
-    <%%= kiso(:card, :title) { "Create project" } %>
-    <%%= kiso(:card, :description) { "Deploy your new project in one click." } %>
+<%%= kui(:card) do %>
+  <%%= kui(:card, :header) do %>
+    <%%= kui(:card, :title) { "Create project" } %>
+    <%%= kui(:card, :description) { "Deploy your new project in one click." } %>
   <%% end %>
-  <%%= kiso(:card, :content) do %>
+  <%%= kui(:card, :content) do %>
     <%# form fields here %>
   <%% end %>
-  <%%= kiso(:card, :footer, css_classes: "justify-between") do %>
-    <%%= kiso(:button, variant: :outline) { "Cancel" } %>
-    <%%= kiso(:button) { "Deploy" } %>
+  <%%= kui(:card, :footer, css_classes: "justify-between") do %>
+    <%%= kui(:button, variant: :outline) { "Cancel" } %>
+    <%%= kui(:button) { "Deploy" } %>
   <%% end %>
 <%% end %>
 ```
@@ -97,8 +97,8 @@ Card uses `gap-6` and `py-6` for vertical spacing, so sub-parts only need
 horizontal padding. Any combination of sub-parts works without extra spacing:
 
 ```erb
-<%%= kiso(:card) do %>
-  <%%= kiso(:card, :content) do %>
+<%%= kui(:card) do %>
+  <%%= kui(:card, :content) do %>
     <p>Simple card with content only.</p>
   <%% end %>
 <%% end %>
@@ -134,7 +134,7 @@ Card renders a `<div>` with `data-component="card"`. Sub-parts use
 For semantic meaning, use `component_options` to set a role:
 
 ```erb
-<%%= kiso(:card, role: :region, "aria-label": "User profile") do %>
+<%%= kui(:card, role: :region, "aria-label": "User profile") do %>
   ...
 <%% end %>
 ```

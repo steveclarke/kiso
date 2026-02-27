@@ -7,12 +7,12 @@ Multi-line text field. Same variant/size axes as Input. Uses `field-sizing-conte
 **Defaults:** `variant: :outline, size: :md`
 
 ```erb
-<%= kiso(:textarea, placeholder: "Tell us more...", rows: 4) %>
+<%= kui(:textarea, placeholder: "Tell us more...", rows: 4) %>
 
 <%# With Field %>
-<%= kiso(:field) do %>
-  <%= kiso(:field, :label, for: :bio) { "Bio" } %>
-  <%= kiso(:textarea, id: :bio, name: :bio, placeholder: "Tell us about yourself...") %>
+<%= kui(:field) do %>
+  <%= kui(:field, :label, for: :bio) { "Bio" } %>
+  <%= kui(:textarea, id: :bio, name: :bio, placeholder: "Tell us about yourself...") %>
 <% end %>
 ```
 

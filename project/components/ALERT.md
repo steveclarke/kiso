@@ -7,10 +7,10 @@ icon is a direct child, the grid automatically creates a two-column layout.
 No wrapper divs or manual icon sizing needed.
 
 ```erb
-<%= kiso(:alert, color: :info) do %>
+<%= kui(:alert, color: :info) do %>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">...</svg>
-  <%= kiso(:alert, :title) { "Heads up!" } %>
-  <%= kiso(:alert, :description) { "You can add components." } %>
+  <%= kui(:alert, :title) { "Heads up!" } %>
+  <%= kui(:alert, :description) { "You can add components." } %>
 <% end %>
 ```
 
@@ -23,25 +23,25 @@ Props-driven for the common case. Yield for full override.
 
 ```erb
 <%# Simple: just strings %>
-<%= kiso(:alert, color: :info,
+<%= kui(:alert, color: :info,
     title: "Heads up!",
     description: "You can add components using the CLI.") %>
 
 <%# With icon (name resolved by icon helper) %>
-<%= kiso(:alert, color: :error, variant: :soft,
+<%= kui(:alert, color: :error, variant: :soft,
     icon: "x-circle",
     title: "Error",
     description: "Something went wrong.") %>
 
 <%# With close button %>
-<%= kiso(:alert, color: :warning,
+<%= kui(:alert, color: :warning,
     icon: "exclamation-triangle",
     title: "Warning",
     description: "Your session expires in 5 minutes.",
     close: true) %>
 
 <%# With actions (renders Buttons, requires Button component) %>
-<%= kiso(:alert, color: :info,
+<%= kui(:alert, color: :info,
     icon: "sparkles",
     title: "New feature available",
     description: "Dark mode is now supported.",
@@ -51,7 +51,7 @@ Props-driven for the common case. Yield for full override.
     ]) %>
 
 <%# Full override: yield replaces all internal structure %>
-<%= kiso(:alert, color: :error) do %>
+<%= kui(:alert, color: :error) do %>
   anything you want — icon, custom layout, etc.
 <% end %>
 ```
@@ -92,10 +92,10 @@ AlertClose = ClassVariants.build(base: "absolute top-2.5 right-2.5")
 
 ### Sub-parts (kept for advanced usage)
 
-- `kiso(:alert, :title)` — still works for yield-based composition
-- `kiso(:alert, :description)` — still works
-- `kiso(:alert, :icon)` — NEW: wraps icon with proper sizing/shrink
-- `kiso(:alert, :actions)` — NEW: flex container for action buttons
+- `kui(:alert, :title)` — still works for yield-based composition
+- `kui(:alert, :description)` — still works
+- `kui(:alert, :icon)` — NEW: wraps icon with proper sizing/shrink
+- `kui(:alert, :actions)` — NEW: flex container for action buttons
 
 ## Dependencies
 

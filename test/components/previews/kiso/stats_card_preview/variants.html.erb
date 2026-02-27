@@ -1,9 +1,9 @@
 <div class="grid max-w-2xl grid-cols-3 gap-4">
   <% %i[outline soft subtle].each do |variant| %>
-    <%= kiso(:stats_card, variant: variant) do %>
-      <%= kiso(:stats_card, :label) { variant.to_s.capitalize } %>
-      <%= kiso(:stats_card, :value) { "$45,231.89" } %>
-      <%= kiso(:stats_card, :description) { "+20.1% from last month" } %>
+    <%= kui(:stats_card, variant: variant) do %>
+      <%= kui(:stats_card, :label) { variant.to_s.capitalize } %>
+      <%= kui(:stats_card, :value) { "$45,231.89" } %>
+      <%= kui(:stats_card, :description) { "+20.1% from last month" } %>
     <% end %>
   <% end %>
 </div>

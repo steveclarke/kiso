@@ -7,21 +7,21 @@ descriptions, errors, and layout orientation.
 
 **Defaults:** `orientation: :vertical, invalid: false, disabled: false`
 
-**Sub-parts:** `kiso(:field, :label)`, `kiso(:field, :content)`, `kiso(:field, :title)`, `kiso(:field, :description)`, `kiso(:field, :error)`, `kiso(:field, :separator)`
+**Sub-parts:** `kui(:field, :label)`, `kui(:field, :content)`, `kui(:field, :title)`, `kui(:field, :description)`, `kui(:field, :error)`, `kui(:field, :separator)`
 
 ```erb
 <%# Vertical field (default) %>
-<%= kiso(:field) do %>
-  <%= kiso(:field, :label, for: :email) { "Email" } %>
-  <%= kiso(:input, id: :email, name: :email) %>
-  <%= kiso(:field, :description) { "We'll never share your email." } %>
-  <%= kiso(:field, :error, errors: @user.errors[:email]) %>
+<%= kui(:field) do %>
+  <%= kui(:field, :label, for: :email) { "Email" } %>
+  <%= kui(:input, id: :email, name: :email) %>
+  <%= kui(:field, :description) { "We'll never share your email." } %>
+  <%= kui(:field, :error, errors: @user.errors[:email]) %>
 <% end %>
 
 <%# Horizontal (checkbox/switch layout) %>
-<%= kiso(:field, orientation: :horizontal) do %>
-  <%= kiso(:checkbox, id: :terms) %>
-  <%= kiso(:field, :label, for: :terms) { "Accept terms" } %>
+<%= kui(:field, orientation: :horizontal) do %>
+  <%= kui(:checkbox, id: :terms) %>
+  <%= kui(:field, :label, for: :terms) { "Accept terms" } %>
 <% end %>
 ```
 
@@ -34,9 +34,9 @@ descriptions, errors, and layout orientation.
 Stacks multiple fields with `gap-7` spacing. Provides `@container/field-group` scope for responsive Field orientation.
 
 ```erb
-<%= kiso(:field_group) do %>
-  <%= kiso(:field) do %>...<% end %>
-  <%= kiso(:field) do %>...<% end %>
+<%= kui(:field_group) do %>
+  <%= kui(:field) do %>...<% end %>
+  <%= kui(:field) do %>...<% end %>
 <% end %>
 ```
 
@@ -46,14 +46,14 @@ Stacks multiple fields with `gap-7` spacing. Provides `@container/field-group` s
 
 Semantic `<fieldset>` for grouping related controls.
 
-**Sub-parts:** `kiso(:field_set, :legend)` — accepts `variant:` (legend, label)
+**Sub-parts:** `kui(:field_set, :legend)` — accepts `variant:` (legend, label)
 
 ```erb
-<%= kiso(:field_set) do %>
-  <%= kiso(:field_set, :legend) { "Notifications" } %>
-  <%= kiso(:field, orientation: :horizontal) do %>
-    <%= kiso(:checkbox, id: :email_notifs) %>
-    <%= kiso(:field, :label, for: :email_notifs) { "Email" } %>
+<%= kui(:field_set) do %>
+  <%= kui(:field_set, :legend) { "Notifications" } %>
+  <%= kui(:field, orientation: :horizontal) do %>
+    <%= kui(:checkbox, id: :email_notifs) %>
+    <%= kui(:field, :label, for: :email_notifs) { "Email" } %>
   <% end %>
 <% end %>
 ```

@@ -19,7 +19,7 @@ simplicity**. Every component works with Turbo out of the box.
 ### Three Layers
 
 ```
-1. ERB Partials          <%= kiso(:card) { ... } %>
+1. ERB Partials          <%= kui(:card) { ... } %>
 2. CSS (data-attributes)  [data-component="card"] { ... }
 3. Stimulus Controllers   data-controller="kiso--combobox" (only when needed)
 ```
@@ -251,11 +251,11 @@ Produces `<div data-card-part="header">` (no `data-component` on sub-parts).
 
 ### Rendering Components
 
-The `kiso()` helper (in `Kiso::ComponentHelper`) wraps `render` with the
+The `kui()` helper (in `Kiso::ComponentHelper`) wraps `render` with the
 `kiso/components/` namespace so callers never think about paths:
 
 ```ruby
-def kiso(component, part = nil, collection: nil, **kwargs, &block)
+def kui(component, part = nil, collection: nil, **kwargs, &block)
   path = if part
     "kiso/components/#{component}/#{part}"
   else
@@ -273,13 +273,13 @@ end
 **Usage:**
 
 ```erb
-<%= kiso(:badge, variant: :success) { "Active" } %>
+<%= kui(:badge, variant: :success) { "Active" } %>
 
-<%= kiso(:card) do %>
-  <%= kiso(:card, :header) do %>
-    <%= kiso(:card, :title, text: "Members") %>
+<%= kui(:card) do %>
+  <%= kui(:card, :header) do %>
+    <%= kui(:card, :title, text: "Members") %>
   <% end %>
-  <%= kiso(:card, :content) do %>
+  <%= kui(:card, :content) do %>
     ...
   <% end %>
 <% end %>
@@ -288,7 +288,7 @@ end
 **Collections:**
 
 ```erb
-<%= kiso(:badge, collection: @statuses) %>
+<%= kui(:badge, collection: @statuses) %>
 ```
 
 CSS-only components (Button, Input, etc.) use data attributes directly:
@@ -365,7 +365,7 @@ kiso/
         dropdown_menu_helper.rb
         table_helper.rb
         toggle_group_helper.rb
-        component_helper.rb      # component_tag() + kiso() render helper
+        component_helper.rb      # component_tag() + kui() render helper
     javascript/
       controllers/
         kiso/                    # Namespaced under kiso--
@@ -730,7 +730,7 @@ real usage.
 
 - ~~**Stimulus controller namespacing**~~: **Resolved.** Namespace everything.
   Controllers use `data-controller="kiso--combobox"`, views live under
-  `app/views/kiso/components/`, and the `kiso()` render helper hides the
+  `app/views/kiso/components/`, and the `kui()` render helper hides the
   path from callers.
 
 - ~~**Monorepo or separate repo**~~: **Resolved.** Separate repo. Kiso lives

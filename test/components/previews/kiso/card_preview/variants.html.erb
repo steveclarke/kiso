@@ -1,11 +1,11 @@
 <div class="max-w-sm space-y-6">
   <% %i[outline soft subtle].each do |variant| %>
-    <%= kiso(:card, variant: variant) do %>
-      <%= kiso(:card, :header) do %>
-        <%= kiso(:card, :title) { variant.to_s.capitalize } %>
-        <%= kiso(:card, :description) { "This card uses the #{variant} variant." } %>
+    <%= kui(:card, variant: variant) do %>
+      <%= kui(:card, :header) do %>
+        <%= kui(:card, :title) { variant.to_s.capitalize } %>
+        <%= kui(:card, :description) { "This card uses the #{variant} variant." } %>
       <% end %>
-      <%= kiso(:card, :content) do %>
+      <%= kui(:card, :content) do %>
         <p class="text-sm text-muted-foreground">Card content area.</p>
       <% end %>
     <% end %>

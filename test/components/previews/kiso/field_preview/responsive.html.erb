@@ -1,27 +1,27 @@
 <div class="max-w-2xl">
-  <%= kiso(:field_set) do %>
-    <%= kiso(:field_set, :legend) { "Profile" } %>
-    <%= kiso(:field, :description) { "This information will be displayed on your public profile." } %>
+  <%= kui(:field_set) do %>
+    <%= kui(:field_set, :legend) { "Profile" } %>
+    <%= kui(:field, :description) { "This information will be displayed on your public profile." } %>
 
-    <%= kiso(:field_group) do %>
-      <%= kiso(:field, orientation: :responsive) do %>
-        <%= kiso(:field, :label, for: :resp_name) { "Full name" } %>
-        <%= kiso(:input, id: :resp_name, name: :name, placeholder: "Evil Rabbit") %>
+    <%= kui(:field_group) do %>
+      <%= kui(:field, orientation: :responsive) do %>
+        <%= kui(:field, :label, for: :resp_name) { "Full name" } %>
+        <%= kui(:input, id: :resp_name, name: :name, placeholder: "Evil Rabbit") %>
       <% end %>
 
-      <%= kiso(:field, orientation: :responsive) do %>
-        <%= kiso(:field, :label, for: :resp_email) { "Email" } %>
-        <%= kiso(:field, :content) do %>
-          <%= kiso(:input, type: :email, id: :resp_email, name: :email, placeholder: "evil@rabbit.com") %>
-          <%= kiso(:field, :description) { "This will be visible to other members." } %>
+      <%= kui(:field, orientation: :responsive) do %>
+        <%= kui(:field, :label, for: :resp_email) { "Email" } %>
+        <%= kui(:field, :content) do %>
+          <%= kui(:input, type: :email, id: :resp_email, name: :email, placeholder: "evil@rabbit.com") %>
+          <%= kui(:field, :description) { "This will be visible to other members." } %>
         <% end %>
       <% end %>
 
-      <%= kiso(:field, orientation: :responsive) do %>
-        <%= kiso(:field, :label, for: :resp_bio) { "Bio" } %>
-        <%= kiso(:field, :content) do %>
-          <%= kiso(:textarea, id: :resp_bio, name: :bio, rows: 3, placeholder: "Tell us about yourself...") %>
-          <%= kiso(:field, :description) { "You can use markdown for formatting." } %>
+      <%= kui(:field, orientation: :responsive) do %>
+        <%= kui(:field, :label, for: :resp_bio) { "Bio" } %>
+        <%= kui(:field, :content) do %>
+          <%= kui(:textarea, id: :resp_bio, name: :bio, rows: 3, placeholder: "Tell us about yourself...") %>
+          <%= kui(:field, :description) { "You can use markdown for formatting." } %>
         <% end %>
       <% end %>
     <% end %>

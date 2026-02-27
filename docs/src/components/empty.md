@@ -9,13 +9,13 @@ source: lib/kiso/themes/empty.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:empty) do %>
-  <%%= kiso(:empty, :header) do %>
-    <%%= kiso(:empty, :media, variant: :icon) do %>
+<%%= kui(:empty) do %>
+  <%%= kui(:empty, :header) do %>
+    <%%= kui(:empty, :media, variant: :icon) do %>
       <%%= kiso_icon("folder") %>
     <%% end %>
-    <%%= kiso(:empty, :title) { "No Projects Yet" } %>
-    <%%= kiso(:empty, :description) { "Get started by creating your first project." } %>
+    <%%= kui(:empty, :title) { "No Projects Yet" } %>
+    <%%= kui(:empty, :description) { "Get started by creating your first project." } %>
   <%% end %>
 <%% end %>
 ```
@@ -35,11 +35,11 @@ The root `empty` has no variant axis — it renders a centered flex container.
 
 | Part | Usage | Purpose |
 |------|-------|---------|
-| `:header` | `kiso(:empty, :header)` | Groups media, title, and description |
-| `:media` | `kiso(:empty, :media)` | Icon or image container |
-| `:title` | `kiso(:empty, :title)` | Heading text |
-| `:description` | `kiso(:empty, :description)` | Muted description text |
-| `:content` | `kiso(:empty, :content)` | Action area (buttons, links) |
+| `:header` | `kui(:empty, :header)` | Groups media, title, and description |
+| `:media` | `kui(:empty, :media)` | Icon or image container |
+| `:title` | `kui(:empty, :title)` | Heading text |
+| `:description` | `kui(:empty, :description)` | Muted description text |
+| `:content` | `kui(:empty, :content)` | Action area (buttons, links) |
 
 All sub-parts accept `css_classes:` and `**component_options`.
 
@@ -63,11 +63,11 @@ All sub-parts are optional. Use any combination.
 The `:media` sub-part has a `variant:` local to control how icons are displayed.
 
 ```erb
-<%%= kiso(:empty, :media) do %>
+<%%= kui(:empty, :media) do %>
   <svg>...</svg>
 <%% end %>
 
-<%%= kiso(:empty, :media, variant: :icon) do %>
+<%%= kui(:empty, :media, variant: :icon) do %>
   <svg>...</svg>
 <%% end %>
 ```
@@ -82,18 +82,18 @@ The `:media` sub-part has a `variant:` local to control how icons are displayed.
 Use the `:content` sub-part for buttons and links below the header.
 
 ```erb
-<%%= kiso(:empty) do %>
-  <%%= kiso(:empty, :header) do %>
-    <%%= kiso(:empty, :media, variant: :icon) do %>
+<%%= kui(:empty) do %>
+  <%%= kui(:empty, :header) do %>
+    <%%= kui(:empty, :media, variant: :icon) do %>
       <svg>...</svg>
     <%% end %>
-    <%%= kiso(:empty, :title) { "No Projects Yet" } %>
-    <%%= kiso(:empty, :description) { "Get started by creating your first project." } %>
+    <%%= kui(:empty, :title) { "No Projects Yet" } %>
+    <%%= kui(:empty, :description) { "Get started by creating your first project." } %>
   <%% end %>
-  <%%= kiso(:empty, :content) do %>
+  <%%= kui(:empty, :content) do %>
     <div class="flex gap-2">
-      <%%= kiso(:button) { "Create Project" } %>
-      <%%= kiso(:button, variant: :outline) { "Import Project" } %>
+      <%%= kui(:button) { "Create Project" } %>
+      <%%= kui(:button, variant: :outline) { "Import Project" } %>
     </div>
   <%% end %>
 <%% end %>
@@ -105,10 +105,10 @@ The base includes `border-dashed` (style only). Add `border` via `css_classes:`
 to show the dashed outline — useful for drop zones and upload areas.
 
 ```erb
-<%%= kiso(:empty, css_classes: "border border-dashed") do %>
-  <%%= kiso(:empty, :header) do %>
-    <%%= kiso(:empty, :title) { "Upload Files" } %>
-    <%%= kiso(:empty, :description) { "Drag and drop files here." } %>
+<%%= kui(:empty, css_classes: "border border-dashed") do %>
+  <%%= kui(:empty, :header) do %>
+    <%%= kui(:empty, :title) { "Upload Files" } %>
+    <%%= kui(:empty, :description) { "Drag and drop files here." } %>
   <%% end %>
 <%% end %>
 ```
@@ -119,15 +119,15 @@ Empty states work well nested inside Card content areas. Override `flex-1`
 with `flex-none` when the empty state shouldn't expand to fill the container.
 
 ```erb
-<%%= kiso(:card) do %>
-  <%%= kiso(:card, :header) do %>
-    <%%= kiso(:card, :title) { "Recent Activity" } %>
+<%%= kui(:card) do %>
+  <%%= kui(:card, :header) do %>
+    <%%= kui(:card, :title) { "Recent Activity" } %>
   <%% end %>
-  <%%= kiso(:card, :content) do %>
-    <%%= kiso(:empty, css_classes: "flex-none") do %>
-      <%%= kiso(:empty, :header) do %>
-        <%%= kiso(:empty, :title) { "No Activity" } %>
-        <%%= kiso(:empty, :description) { "Activity will show up here." } %>
+  <%%= kui(:card, :content) do %>
+    <%%= kui(:empty, css_classes: "flex-none") do %>
+      <%%= kui(:empty, :header) do %>
+        <%%= kui(:empty, :title) { "No Activity" } %>
+        <%%= kui(:empty, :description) { "Activity will show up here." } %>
       <%% end %>
     <%% end %>
   <%% end %>
@@ -160,7 +160,7 @@ use `data-empty-part` attributes for identity.
 For semantic meaning, use `component_options` to set a role:
 
 ```erb
-<%%= kiso(:empty, role: :status, "aria-label": "No results") do %>
+<%%= kui(:empty, role: :status, "aria-label": "No results") do %>
   ...
 <%% end %>
 ```

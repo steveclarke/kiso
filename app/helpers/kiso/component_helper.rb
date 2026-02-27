@@ -26,11 +26,11 @@ module Kiso
 
     # Renders a Kiso component partial.
     #
-    #   kiso(:badge, variant: :success) { "Active" }
-    #   kiso(:card, :header) { ... }
-    #   kiso(:badge, collection: @statuses)
+    #   kui(:badge, variant: :success) { "Active" }
+    #   kui(:card, :header) { ... }
+    #   kui(:badge, collection: @statuses)
     #
-    def kiso(component, part = nil, collection: nil, **kwargs, &block)
+    def kui(component, part = nil, collection: nil, **kwargs, &block)
       path = if part
         "kiso/components/#{component}/#{part}"
       else

@@ -6,20 +6,20 @@ Visual divider between content sections or inline items.
 
 ```erb
 <%# Horizontal (default) %>
-<%= kiso(:separator) %>
+<%= kui(:separator) %>
 
 <%# With spacing %>
-<%= kiso(:separator, css_classes: "my-4") %>
+<%= kui(:separator, css_classes: "my-4") %>
 
 <%# Vertical %>
 <div class="flex h-5 items-center space-x-4 text-sm">
   <div>Blog</div>
-  <%= kiso(:separator, orientation: :vertical) %>
+  <%= kui(:separator, orientation: :vertical) %>
   <div>Docs</div>
 </div>
 
 <%# Semantic (non-decorative) %>
-<%= kiso(:separator, decorative: false) %>
+<%= kui(:separator, decorative: false) %>
 ```
 
 ## Locals

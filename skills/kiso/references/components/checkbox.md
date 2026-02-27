@@ -7,13 +7,13 @@ A toggle control for boolean choices. Native `<input type="checkbox">` with colo
 **Defaults:** `color: :primary`
 
 ```erb
-<%= kiso(:checkbox, color: :primary) %>
-<%= kiso(:checkbox, color: :success, checked: true) %>
+<%= kui(:checkbox, color: :primary) %>
+<%= kui(:checkbox, color: :success, checked: true) %>
 
 <%# With Field %>
-<%= kiso(:field, orientation: :horizontal) do %>
-  <%= kiso(:checkbox, id: :terms) %>
-  <%= kiso(:field, :label, for: :terms) { "Accept terms" } %>
+<%= kui(:field, orientation: :horizontal) do %>
+  <%= kui(:checkbox, id: :terms) %>
+  <%= kui(:field, :label, for: :terms) { "Accept terms" } %>
 <% end %>
 ```
 

@@ -11,7 +11,7 @@ A clear description of what's happening.
 Steps or a minimal code example:
 
 ```erb
-<%= kiso(:badge, variant: :primary) { "..." } %>
+<%= kui(:badge, variant: :primary) { "..." } %>
 ```
 
 **Expected behavior**

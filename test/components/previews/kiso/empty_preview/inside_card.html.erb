@@ -1,17 +1,17 @@
 <div class="max-w-md">
-  <%= kiso(:card) do %>
-    <%= kiso(:card, :header) do %>
-      <%= kiso(:card, :title) { "Recent Activity" } %>
-      <%= kiso(:card, :description) { "Your latest project updates." } %>
+  <%= kui(:card) do %>
+    <%= kui(:card, :header) do %>
+      <%= kui(:card, :title) { "Recent Activity" } %>
+      <%= kui(:card, :description) { "Your latest project updates." } %>
     <% end %>
-    <%= kiso(:card, :content) do %>
-      <%= kiso(:empty, css_classes: "flex-none") do %>
-        <%= kiso(:empty, :header) do %>
-          <%= kiso(:empty, :media, variant: :icon) do %>
+    <%= kui(:card, :content) do %>
+      <%= kui(:empty, css_classes: "flex-none") do %>
+        <%= kui(:empty, :header) do %>
+          <%= kui(:empty, :media, variant: :icon) do %>
             <%= kiso_icon("activity") %>
           <% end %>
-          <%= kiso(:empty, :title) { "No Activity" } %>
-          <%= kiso(:empty, :description) { "When you start working on projects, your activity will show up here." } %>
+          <%= kui(:empty, :title) { "No Activity" } %>
+          <%= kui(:empty, :description) { "When you start working on projects, your activity will show up here." } %>
         <% end %>
       <% end %>
     <% end %>

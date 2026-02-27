@@ -9,10 +9,10 @@ source: lib/kiso/themes/stats_card.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:stats_card) do %>
-  <%%= kiso(:stats_card, :label) { "Total Revenue" } %>
-  <%%= kiso(:stats_card, :value) { "$45,231.89" } %>
-  <%%= kiso(:stats_card, :description) { "+20.1% from last month" } %>
+<%%= kui(:stats_card) do %>
+  <%%= kui(:stats_card, :label) { "Total Revenue" } %>
+  <%%= kui(:stats_card, :value) { "$45,231.89" } %>
+  <%%= kui(:stats_card, :description) { "+20.1% from last month" } %>
 <%% end %>
 ```
 
@@ -30,10 +30,10 @@ source: lib/kiso/themes/stats_card.rb
 
 | Part | Usage | Purpose |
 |------|-------|---------|
-| `:header` | `kiso(:stats_card, :header)` | Flex row for label + icon |
-| `:label` | `kiso(:stats_card, :label)` | Metric name (small muted text) |
-| `:value` | `kiso(:stats_card, :value)` | Big metric number (tabular-nums) |
-| `:description` | `kiso(:stats_card, :description)` | Trend text or subtitle |
+| `:header` | `kui(:stats_card, :header)` | Flex row for label + icon |
+| `:label` | `kui(:stats_card, :label)` | Metric name (small muted text) |
+| `:value` | `kui(:stats_card, :value)` | Big metric number (tabular-nums) |
+| `:description` | `kui(:stats_card, :description)` | Trend text or subtitle |
 
 All sub-parts accept `css_classes:` and `**component_options`.
 
@@ -59,9 +59,9 @@ Use `:header` only when you need a label + icon row. Otherwise, place
 Same visual variants as Card — matches when used alongside cards in dashboards.
 
 ```erb
-<%%= kiso(:stats_card, variant: :outline) do %>...<%% end %>
-<%%= kiso(:stats_card, variant: :soft) do %>...<%% end %>
-<%%= kiso(:stats_card, variant: :subtle) do %>...<%% end %>
+<%%= kui(:stats_card, variant: :outline) do %>...<%% end %>
+<%%= kui(:stats_card, variant: :soft) do %>...<%% end %>
+<%%= kui(:stats_card, variant: :subtle) do %>...<%% end %>
 ```
 
 | Variant | Appearance |
@@ -75,41 +75,41 @@ Same visual variants as Card — matches when used alongside cards in dashboards
 Wrap `:label` and an SVG inside `:header` to position them side by side.
 
 ```erb
-<%%= kiso(:stats_card) do %>
-  <%%= kiso(:stats_card, :header) do %>
-    <%%= kiso(:stats_card, :label) { "Total Revenue" } %>
+<%%= kui(:stats_card) do %>
+  <%%= kui(:stats_card, :header) do %>
+    <%%= kui(:stats_card, :label) { "Total Revenue" } %>
     <svg class="size-4 text-muted-foreground">...</svg>
   <%% end %>
-  <%%= kiso(:stats_card, :value) { "$45,231.89" } %>
-  <%%= kiso(:stats_card, :description) { "+20.1% from last month" } %>
+  <%%= kui(:stats_card, :value) { "$45,231.89" } %>
+  <%%= kui(:stats_card, :description) { "+20.1% from last month" } %>
 <%% end %>
 ```
 
 ### Stats Grid
 
-Use `kiso(:stats_grid)` to arrange stats cards in a responsive grid.
+Use `kui(:stats_grid)` to arrange stats cards in a responsive grid.
 
 ```erb
-<%%= kiso(:stats_grid, columns: 4) do %>
-  <%%= kiso(:stats_card) do %>
-    <%%= kiso(:stats_card, :label) { "Revenue" } %>
-    <%%= kiso(:stats_card, :value) { "$45,231" } %>
-    <%%= kiso(:stats_card, :description) { "+20.1%" } %>
+<%%= kui(:stats_grid, columns: 4) do %>
+  <%%= kui(:stats_card) do %>
+    <%%= kui(:stats_card, :label) { "Revenue" } %>
+    <%%= kui(:stats_card, :value) { "$45,231" } %>
+    <%%= kui(:stats_card, :description) { "+20.1%" } %>
   <%% end %>
-  <%%= kiso(:stats_card) do %>
-    <%%= kiso(:stats_card, :label) { "Subscribers" } %>
-    <%%= kiso(:stats_card, :value) { "+2,350" } %>
-    <%%= kiso(:stats_card, :description) { "+180.1%" } %>
+  <%%= kui(:stats_card) do %>
+    <%%= kui(:stats_card, :label) { "Subscribers" } %>
+    <%%= kui(:stats_card, :value) { "+2,350" } %>
+    <%%= kui(:stats_card, :description) { "+180.1%" } %>
   <%% end %>
-  <%%= kiso(:stats_card) do %>
-    <%%= kiso(:stats_card, :label) { "Active Now" } %>
-    <%%= kiso(:stats_card, :value) { "+573" } %>
-    <%%= kiso(:stats_card, :description) { "+201 this hour" } %>
+  <%%= kui(:stats_card) do %>
+    <%%= kui(:stats_card, :label) { "Active Now" } %>
+    <%%= kui(:stats_card, :value) { "+573" } %>
+    <%%= kui(:stats_card, :description) { "+201 this hour" } %>
   <%% end %>
-  <%%= kiso(:stats_card) do %>
-    <%%= kiso(:stats_card, :label) { "Growth" } %>
-    <%%= kiso(:stats_card, :value) { "4.5%" } %>
-    <%%= kiso(:stats_card, :description) { "+0.5%" } %>
+  <%%= kui(:stats_card) do %>
+    <%%= kui(:stats_card, :label) { "Growth" } %>
+    <%%= kui(:stats_card, :value) { "4.5%" } %>
+    <%%= kui(:stats_card, :description) { "+0.5%" } %>
   <%% end %>
 <%% end %>
 ```

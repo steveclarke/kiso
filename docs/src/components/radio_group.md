@@ -9,14 +9,14 @@ source: lib/kiso/themes/radio_group.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:radio_group, name: :plan) do %>
+<%%= kui(:radio_group, name: :plan) do %>
   <div class="flex items-center gap-3">
-    <%%= kiso(:radio_group, :item, value: "free", id: :plan_free) %>
-    <%%= kiso(:field, :label, for: :plan_free) { "Free" } %>
+    <%%= kui(:radio_group, :item, value: "free", id: :plan_free) %>
+    <%%= kui(:field, :label, for: :plan_free) { "Free" } %>
   </div>
   <div class="flex items-center gap-3">
-    <%%= kiso(:radio_group, :item, value: "pro", id: :plan_pro) %>
-    <%%= kiso(:field, :label, for: :plan_pro) { "Pro" } %>
+    <%%= kui(:radio_group, :item, value: "pro", id: :plan_pro) %>
+    <%%= kui(:field, :label, for: :plan_pro) { "Pro" } %>
   </div>
 <%% end %>
 ```
@@ -47,7 +47,7 @@ All standard HTML input attributes (`name:`, `id:`, `value:`, `disabled:`,
 
 | Part | Usage | HTML Element |
 |------|-------|-------------|
-| `:item` | `kiso(:radio_group, :item)` | `<input type="radio">` |
+| `:item` | `kui(:radio_group, :item)` | `<input type="radio">` |
 
 ## Anatomy
 
@@ -64,17 +64,17 @@ radio_group (div role="radiogroup")
 The color applies to the checked state -- background fill and ring.
 
 ```erb
-<%%= kiso(:radio_group, name: :color_demo) do %>
+<%%= kui(:radio_group, name: :color_demo) do %>
   <div class="flex items-center gap-3">
-    <%%= kiso(:radio_group, :item, color: :primary, value: "a", id: :color_a, checked: true) %>
+    <%%= kui(:radio_group, :item, color: :primary, value: "a", id: :color_a, checked: true) %>
     <label for="color_a" class="text-sm">Primary</label>
   </div>
   <div class="flex items-center gap-3">
-    <%%= kiso(:radio_group, :item, color: :success, value: "b", id: :color_b) %>
+    <%%= kui(:radio_group, :item, color: :success, value: "b", id: :color_b) %>
     <label for="color_b" class="text-sm">Success</label>
   </div>
   <div class="flex items-center gap-3">
-    <%%= kiso(:radio_group, :item, color: :error, value: "c", id: :color_c) %>
+    <%%= kui(:radio_group, :item, color: :error, value: "c", id: :color_c) %>
     <label for="color_c" class="text-sm">Error</label>
   </div>
 <%% end %>
@@ -85,24 +85,24 @@ The color applies to the checked state -- background fill and ring.
 Pair with FieldSet and Field for labels, descriptions, and accessible structure.
 
 ```erb
-<%%= kiso(:field_set) do %>
-  <%%= kiso(:field_set, :legend, variant: :label) { "Subscription Plan" } %>
-  <%%= kiso(:field, :description) { "Choose the plan that works best for you." } %>
+<%%= kui(:field_set) do %>
+  <%%= kui(:field_set, :legend, variant: :label) { "Subscription Plan" } %>
+  <%%= kui(:field, :description) { "Choose the plan that works best for you." } %>
 
-  <%%= kiso(:radio_group, css_classes: "mt-3") do %>
-    <%%= kiso(:field, orientation: :horizontal) do %>
-      <%%= kiso(:radio_group, :item, value: "free", name: :plan, id: :plan_free) %>
-      <%%= kiso(:field, :content) do %>
-        <%%= kiso(:field, :label, for: :plan_free) { "Free" } %>
-        <%%= kiso(:field, :description) { "Up to 3 projects." } %>
+  <%%= kui(:radio_group, css_classes: "mt-3") do %>
+    <%%= kui(:field, orientation: :horizontal) do %>
+      <%%= kui(:radio_group, :item, value: "free", name: :plan, id: :plan_free) %>
+      <%%= kui(:field, :content) do %>
+        <%%= kui(:field, :label, for: :plan_free) { "Free" } %>
+        <%%= kui(:field, :description) { "Up to 3 projects." } %>
       <%% end %>
     <%% end %>
 
-    <%%= kiso(:field, orientation: :horizontal) do %>
-      <%%= kiso(:radio_group, :item, value: "pro", name: :plan, id: :plan_pro) %>
-      <%%= kiso(:field, :content) do %>
-        <%%= kiso(:field, :label, for: :plan_pro) { "Pro" } %>
-        <%%= kiso(:field, :description) { "Unlimited projects." } %>
+    <%%= kui(:field, orientation: :horizontal) do %>
+      <%%= kui(:radio_group, :item, value: "pro", name: :plan, id: :plan_pro) %>
+      <%%= kui(:field, :content) do %>
+        <%%= kui(:field, :label, for: :plan_pro) { "Pro" } %>
+        <%%= kui(:field, :description) { "Unlimited projects." } %>
       <%% end %>
     <%% end %>
   <%% end %>
@@ -112,13 +112,13 @@ Pair with FieldSet and Field for labels, descriptions, and accessible structure.
 ### Disabled
 
 ```erb
-<%%= kiso(:radio_group, name: :status) do %>
+<%%= kui(:radio_group, name: :status) do %>
   <div class="flex items-center gap-3">
-    <%%= kiso(:radio_group, :item, value: "on", id: :on, checked: true) %>
+    <%%= kui(:radio_group, :item, value: "on", id: :on, checked: true) %>
     <label for="on" class="text-sm">Enabled (selected)</label>
   </div>
   <div class="flex items-center gap-3">
-    <%%= kiso(:radio_group, :item, value: "off", id: :off, disabled: true) %>
+    <%%= kui(:radio_group, :item, value: "off", id: :off, disabled: true) %>
     <label for="off" class="text-sm text-muted-foreground">Disabled</label>
   </div>
 <%% end %>

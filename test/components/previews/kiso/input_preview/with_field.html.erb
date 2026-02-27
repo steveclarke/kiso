@@ -1,15 +1,15 @@
 <div class="max-w-sm space-y-8">
   <%# Basic input with description %>
-  <%= kiso(:field) do %>
-    <%= kiso(:field, :label, for: :username) { "Username" } %>
-    <%= kiso(:input, id: :username, name: :username, placeholder: "shadcn") %>
-    <%= kiso(:field, :description) { "This is your public display name." } %>
+  <%= kui(:field) do %>
+    <%= kui(:field, :label, for: :username) { "Username" } %>
+    <%= kui(:input, id: :username, name: :username, placeholder: "shadcn") %>
+    <%= kui(:field, :description) { "This is your public display name." } %>
   <% end %>
 
   <%# Input with validation error %>
-  <%= kiso(:field, invalid: true) do %>
-    <%= kiso(:field, :label, for: :password) { "Password" } %>
-    <%= kiso(:input, type: :password, id: :password, name: :password, value: "abc", "aria-invalid": true) %>
-    <%= kiso(:field, :error, errors: ["Must be at least 8 characters", "Must contain a number"]) %>
+  <%= kui(:field, invalid: true) do %>
+    <%= kui(:field, :label, for: :password) { "Password" } %>
+    <%= kui(:input, type: :password, id: :password, name: :password, value: "abc", "aria-invalid": true) %>
+    <%= kui(:field, :error, errors: ["Must be at least 8 characters", "Must contain a number"]) %>
   <% end %>
 </div>

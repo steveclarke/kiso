@@ -5,23 +5,23 @@ Data table with semantic HTML elements. Scrollable container wrapper with
 
 **Locals:** `css_classes:`, `**component_options`
 
-**Sub-parts:** `kiso(:table, :header)` (thead), `kiso(:table, :body)` (tbody), `kiso(:table, :footer)` (tfoot), `kiso(:table, :row)` (tr), `kiso(:table, :head)` (th), `kiso(:table, :cell)` (td), `kiso(:table, :caption)` (caption)
+**Sub-parts:** `kui(:table, :header)` (thead), `kui(:table, :body)` (tbody), `kui(:table, :footer)` (tfoot), `kui(:table, :row)` (tr), `kui(:table, :head)` (th), `kui(:table, :cell)` (td), `kui(:table, :caption)` (caption)
 
 ```erb
-<%= kiso(:table) do %>
-  <%= kiso(:table, :caption) { "A list of recent invoices." } %>
-  <%= kiso(:table, :header) do %>
-    <%= kiso(:table, :row) do %>
-      <%= kiso(:table, :head) { "Invoice" } %>
-      <%= kiso(:table, :head) { "Status" } %>
-      <%= kiso(:table, :head, css_classes: "text-right") { "Amount" } %>
+<%= kui(:table) do %>
+  <%= kui(:table, :caption) { "A list of recent invoices." } %>
+  <%= kui(:table, :header) do %>
+    <%= kui(:table, :row) do %>
+      <%= kui(:table, :head) { "Invoice" } %>
+      <%= kui(:table, :head) { "Status" } %>
+      <%= kui(:table, :head, css_classes: "text-right") { "Amount" } %>
     <% end %>
   <% end %>
-  <%= kiso(:table, :body) do %>
-    <%= kiso(:table, :row) do %>
-      <%= kiso(:table, :cell, css_classes: "font-medium") { "INV001" } %>
-      <%= kiso(:table, :cell) { "Paid" } %>
-      <%= kiso(:table, :cell, css_classes: "text-right") { "$250.00" } %>
+  <%= kui(:table, :body) do %>
+    <%= kui(:table, :row) do %>
+      <%= kui(:table, :cell, css_classes: "font-medium") { "INV001" } %>
+      <%= kui(:table, :cell) { "Paid" } %>
+      <%= kui(:table, :cell, css_classes: "text-right") { "$250.00" } %>
     <% end %>
   <% end %>
 <% end %>

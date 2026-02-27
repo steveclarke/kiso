@@ -9,11 +9,11 @@ source: lib/kiso/themes/field.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:field) do %>
-  <%%= kiso(:field, :label, for: :email) { "Email address" } %>
-  <%%= kiso(:input, type: :email, id: :email, name: :email) %>
-  <%%= kiso(:field, :description) { "We'll never share your email." } %>
-  <%%= kiso(:field, :error) { @user.errors[:email].first } %>
+<%%= kui(:field) do %>
+  <%%= kui(:field, :label, for: :email) { "Email address" } %>
+  <%%= kui(:input, type: :email, id: :email, name: :email) %>
+  <%%= kui(:field, :description) { "We'll never share your email." } %>
+  <%%= kui(:field, :error) { @user.errors[:email].first } %>
 <%% end %>
 ```
 
@@ -65,18 +65,18 @@ source: lib/kiso/themes/field.rb
 
 | Part | Usage | Element | Purpose |
 |------|-------|---------|---------|
-| `:label` | `kiso(:field, :label)` | `<label>` | Accessible label (wraps Label component) |
-| `:content` | `kiso(:field, :content)` | `<div>` | Groups label + description in a flex column |
-| `:title` | `kiso(:field, :title)` | `<div>` | Lightweight title (alternative to label) |
-| `:description` | `kiso(:field, :description)` | `<p>` | Helper text below field |
-| `:error` | `kiso(:field, :error)` | `<div role="alert">` | Error message (only renders when content present) |
-| `:separator` | `kiso(:field, :separator)` | `<div>` | Visual divider with optional text |
+| `:label` | `kui(:field, :label)` | `<label>` | Accessible label (wraps Label component) |
+| `:content` | `kui(:field, :content)` | `<div>` | Groups label + description in a flex column |
+| `:title` | `kui(:field, :title)` | `<div>` | Lightweight title (alternative to label) |
+| `:description` | `kui(:field, :description)` | `<p>` | Helper text below field |
+| `:error` | `kui(:field, :error)` | `<div role="alert">` | Error message (only renders when content present) |
+| `:separator` | `kui(:field, :separator)` | `<div>` | Visual divider with optional text |
 
 FieldSet sub-parts:
 
 | Part | Usage | Element | Purpose |
 |------|-------|---------|---------|
-| `:legend` | `kiso(:field_set, :legend)` | `<legend>` | Semantic legend with variant styling |
+| `:legend` | `kui(:field_set, :legend)` | `<legend>` | Semantic legend with variant styling |
 
 All sub-parts accept `css_classes:` and `**component_options`.
 
@@ -109,10 +109,10 @@ FieldSet
 The standard layout — label above input, full width.
 
 ```erb
-<%%= kiso(:field) do %>
-  <%%= kiso(:field, :label, for: :name) { "Full name" } %>
-  <%%= kiso(:input, id: :name, name: :name) %>
-  <%%= kiso(:field, :description) { "As it appears on your ID." } %>
+<%%= kui(:field) do %>
+  <%%= kui(:field, :label, for: :name) { "Full name" } %>
+  <%%= kui(:input, id: :name, name: :name) %>
+  <%%= kui(:field, :description) { "As it appears on your ID." } %>
 <%% end %>
 ```
 
@@ -121,20 +121,20 @@ The standard layout — label above input, full width.
 Label and control side by side — ideal for checkboxes, radios, and switches.
 
 ```erb
-<%%= kiso(:field, orientation: :horizontal) do %>
-  <%%= kiso(:checkbox, id: :dark_mode, name: :dark_mode) %>
-  <%%= kiso(:field, :label, for: :dark_mode) { "Enable dark mode" } %>
+<%%= kui(:field, orientation: :horizontal) do %>
+  <%%= kui(:checkbox, id: :dark_mode, name: :dark_mode) %>
+  <%%= kui(:field, :label, for: :dark_mode) { "Enable dark mode" } %>
 <%% end %>
 ```
 
 With description using FieldContent:
 
 ```erb
-<%%= kiso(:field, orientation: :horizontal) do %>
-  <%%= kiso(:checkbox, id: :newsletter, name: :newsletter) %>
-  <%%= kiso(:field, :content) do %>
-    <%%= kiso(:field, :label, for: :newsletter) { "Newsletter" } %>
-    <%%= kiso(:field, :description) { "Receive weekly updates." } %>
+<%%= kui(:field, orientation: :horizontal) do %>
+  <%%= kui(:checkbox, id: :newsletter, name: :newsletter) %>
+  <%%= kui(:field, :content) do %>
+    <%%= kui(:field, :label, for: :newsletter) { "Newsletter" } %>
+    <%%= kui(:field, :description) { "Receive weekly updates." } %>
   <%% end %>
 <%% end %>
 ```
@@ -145,10 +145,10 @@ Stacks vertically on mobile, switches to horizontal at the `@md` container
 query breakpoint. Requires a parent FieldGroup for the container query scope.
 
 ```erb
-<%%= kiso(:field_group) do %>
-  <%%= kiso(:field, orientation: :responsive) do %>
-    <%%= kiso(:field, :label, for: :company) { "Company" } %>
-    <%%= kiso(:input, id: :company, name: :company) %>
+<%%= kui(:field_group) do %>
+  <%%= kui(:field, orientation: :responsive) do %>
+    <%%= kui(:field, :label, for: :company) { "Company" } %>
+    <%%= kui(:input, id: :company, name: :company) %>
   <%% end %>
 <%% end %>
 ```
@@ -159,10 +159,10 @@ Set `invalid: true` on the field to apply error styling. Use FieldError to
 display messages — it only renders when content is present.
 
 ```erb
-<%%= kiso(:field, invalid: true) do %>
-  <%%= kiso(:field, :label, for: :email) { "Email" } %>
-  <%%= kiso(:input, id: :email, name: :email) %>
-  <%%= kiso(:field, :error) { "Please enter a valid email." } %>
+<%%= kui(:field, invalid: true) do %>
+  <%%= kui(:field, :label, for: :email) { "Email" } %>
+  <%%= kui(:input, id: :email, name: :email) %>
+  <%%= kui(:field, :error) { "Please enter a valid email." } %>
 <%% end %>
 ```
 
@@ -170,7 +170,7 @@ Pass Rails model errors directly via the `errors:` prop. Single errors render
 as text; multiple errors render as a bulleted list:
 
 ```erb
-<%%= kiso(:field, :error, errors: @user.errors[:email]) %>
+<%%= kui(:field, :error, errors: @user.errors[:email]) %>
 ```
 
 ### FieldGroup
@@ -178,14 +178,14 @@ as text; multiple errors render as a bulleted list:
 Stacks multiple fields with consistent `gap-7` spacing.
 
 ```erb
-<%%= kiso(:field_group) do %>
-  <%%= kiso(:field) do %>
-    <%%= kiso(:field, :label, for: :first_name) { "First name" } %>
-    <%%= kiso(:input, id: :first_name, name: :first_name) %>
+<%%= kui(:field_group) do %>
+  <%%= kui(:field) do %>
+    <%%= kui(:field, :label, for: :first_name) { "First name" } %>
+    <%%= kui(:input, id: :first_name, name: :first_name) %>
   <%% end %>
-  <%%= kiso(:field) do %>
-    <%%= kiso(:field, :label, for: :last_name) { "Last name" } %>
-    <%%= kiso(:input, id: :last_name, name: :last_name) %>
+  <%%= kui(:field) do %>
+    <%%= kui(:field, :label, for: :last_name) { "Last name" } %>
+    <%%= kui(:input, id: :last_name, name: :last_name) %>
   <%% end %>
 <%% end %>
 ```
@@ -195,15 +195,15 @@ Stacks multiple fields with consistent `gap-7` spacing.
 Semantic `<fieldset>` for grouping related controls (checkboxes, radios).
 
 ```erb
-<%%= kiso(:field_set) do %>
-  <%%= kiso(:field_set, :legend) { "Notifications" } %>
-  <%%= kiso(:field, orientation: :horizontal) do %>
-    <%%= kiso(:checkbox, id: :email_notifs, name: "notifs[]", value: "email") %>
-    <%%= kiso(:field, :label, for: :email_notifs) { "Email" } %>
+<%%= kui(:field_set) do %>
+  <%%= kui(:field_set, :legend) { "Notifications" } %>
+  <%%= kui(:field, orientation: :horizontal) do %>
+    <%%= kui(:checkbox, id: :email_notifs, name: "notifs[]", value: "email") %>
+    <%%= kui(:field, :label, for: :email_notifs) { "Email" } %>
   <%% end %>
-  <%%= kiso(:field, orientation: :horizontal) do %>
-    <%%= kiso(:checkbox, id: :sms_notifs, name: "notifs[]", value: "sms") %>
-    <%%= kiso(:field, :label, for: :sms_notifs) { "SMS" } %>
+  <%%= kui(:field, orientation: :horizontal) do %>
+    <%%= kui(:checkbox, id: :sms_notifs, name: "notifs[]", value: "sms") %>
+    <%%= kui(:field, :label, for: :sms_notifs) { "SMS" } %>
   <%% end %>
 <%% end %>
 ```
@@ -213,7 +213,7 @@ Semantic `<fieldset>` for grouping related controls (checkboxes, radios).
 Visual divider between fields, with optional centered text.
 
 ```erb
-<%%= kiso(:field, :separator) { "Or continue with" } %>
+<%%= kui(:field, :separator) { "Or continue with" } %>
 ```
 
 ## Theme

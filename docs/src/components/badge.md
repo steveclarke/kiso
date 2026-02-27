@@ -9,7 +9,7 @@ source: lib/kiso/themes/badge.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:badge) { "New" } %>
+<%%= kui(:badge) { "New" } %>
 ```
 
 <%= render "component_preview", component: "kiso/badge", scenario: "playground", height: "300px" %>
@@ -31,13 +31,13 @@ source: lib/kiso/themes/badge.rb
 Use the `color:` local to change the color of the Badge.
 
 ```erb
-<%%= kiso(:badge, color: :primary) { "Primary" } %>
-<%%= kiso(:badge, color: :secondary) { "Secondary" } %>
-<%%= kiso(:badge, color: :success) { "Success" } %>
-<%%= kiso(:badge, color: :info) { "Info" } %>
-<%%= kiso(:badge, color: :warning) { "Warning" } %>
-<%%= kiso(:badge, color: :error) { "Error" } %>
-<%%= kiso(:badge, color: :neutral) { "Neutral" } %>
+<%%= kui(:badge, color: :primary) { "Primary" } %>
+<%%= kui(:badge, color: :secondary) { "Secondary" } %>
+<%%= kui(:badge, color: :success) { "Success" } %>
+<%%= kui(:badge, color: :info) { "Info" } %>
+<%%= kui(:badge, color: :warning) { "Warning" } %>
+<%%= kui(:badge, color: :error) { "Error" } %>
+<%%= kui(:badge, color: :neutral) { "Neutral" } %>
 ```
 
 ### Variant
@@ -45,10 +45,10 @@ Use the `color:` local to change the color of the Badge.
 Use the `variant:` local to change the visual style.
 
 ```erb
-<%%= kiso(:badge, variant: :solid) { "Solid" } %>
-<%%= kiso(:badge, variant: :outline) { "Outline" } %>
-<%%= kiso(:badge, variant: :soft) { "Soft" } %>
-<%%= kiso(:badge, variant: :subtle) { "Subtle" } %>
+<%%= kui(:badge, variant: :solid) { "Solid" } %>
+<%%= kui(:badge, variant: :outline) { "Outline" } %>
+<%%= kui(:badge, variant: :soft) { "Soft" } %>
+<%%= kui(:badge, variant: :subtle) { "Subtle" } %>
 ```
 
 ### Size
@@ -56,11 +56,11 @@ Use the `variant:` local to change the visual style.
 Use the `size:` local to change the size.
 
 ```erb
-<%%= kiso(:badge, size: :xs) { "XS" } %>
-<%%= kiso(:badge, size: :sm) { "SM" } %>
-<%%= kiso(:badge, size: :md) { "MD" } %>
-<%%= kiso(:badge, size: :lg) { "LG" } %>
-<%%= kiso(:badge, size: :xl) { "XL" } %>
+<%%= kui(:badge, size: :xs) { "XS" } %>
+<%%= kui(:badge, size: :sm) { "SM" } %>
+<%%= kui(:badge, size: :md) { "MD" } %>
+<%%= kui(:badge, size: :lg) { "LG" } %>
+<%%= kui(:badge, size: :xl) { "XL" } %>
 ```
 
 ## Examples
@@ -71,7 +71,7 @@ Drop an SVG inside the yield block. The badge's `gap` and `items-center`
 handle spacing automatically.
 
 ```erb
-<%%= kiso(:badge, color: :success, variant: :solid) do %>
+<%%= kui(:badge, color: :success, variant: :solid) do %>
   <%%= kiso_icon("check") %>
   Active
 <%% end %>
@@ -82,7 +82,7 @@ handle spacing automatically.
 Use `css_classes:` to override styles. TailwindMerge resolves conflicts.
 
 ```erb
-<%%= kiso(:badge, css_classes: "rounded-md px-3") { "Squared" } %>
+<%%= kui(:badge, css_classes: "rounded-md px-3") { "Squared" } %>
 ```
 
 ### With Component Options
@@ -90,7 +90,7 @@ Use `css_classes:` to override styles. TailwindMerge resolves conflicts.
 Pass HTML attributes via `**component_options` for data attributes, ARIA, etc.
 
 ```erb
-<%%= kiso(:badge, color: :error, data: { count: 5 }) { "5" } %>
+<%%= kui(:badge, color: :error, data: { count: 5 }) { "5" } %>
 ```
 
 ## Theme
@@ -147,5 +147,5 @@ Badges are decorative by default. If a badge conveys meaningful status,
 add `aria-label:` via component options:
 
 ```erb
-<%%= kiso(:badge, color: :error, "aria-label": "3 unread messages") { "3" } %>
+<%%= kui(:badge, color: :error, "aria-label": "3 unread messages") { "3" } %>
 ```

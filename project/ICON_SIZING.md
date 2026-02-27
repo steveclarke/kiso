@@ -194,7 +194,7 @@ can control sizing:
 
 ```erb
 <%# Inside a component — parent CSS handles sizing %>
-<%= kiso(:button) do %>
+<%= kui(:button) do %>
   <%= kiso_icon("plus") %>
   Add Item
 <% end %>
@@ -229,13 +229,13 @@ ERB partials with `yield` don't support named slots. We can't do:
 
 ```erb
 <%# This doesn't exist in ERB %>
-<%= kiso(:button, leading_icon: "plus") %>
+<%= kui(:button, leading_icon: "plus") %>
 ```
 
 Instead, icons are regular content inside a `yield` block:
 
 ```erb
-<%= kiso(:button) do %>
+<%= kui(:button) do %>
   <%= kiso_icon("plus") %>
   Add Item
 <% end %>

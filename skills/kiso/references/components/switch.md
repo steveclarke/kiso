@@ -7,14 +7,14 @@ A binary toggle for on/off states. Uses a native `<input type="checkbox">` with 
 **Defaults:** `color: :primary, size: :md`
 
 ```erb
-<%= kiso(:switch) %>
-<%= kiso(:switch, color: :success, checked: true) %>
-<%= kiso(:switch, size: :sm) %>
+<%= kui(:switch) %>
+<%= kui(:switch, color: :success, checked: true) %>
+<%= kui(:switch, size: :sm) %>
 
 <%# With Field %>
-<%= kiso(:field, orientation: :horizontal) do %>
-  <%= kiso(:switch, id: :dark_mode, name: :dark_mode, value: "1") %>
-  <%= kiso(:field, :label, for: :dark_mode) { "Dark mode" } %>
+<%= kui(:field, orientation: :horizontal) do %>
+  <%= kui(:switch, id: :dark_mode, name: :dark_mode, value: "1") %>
+  <%= kui(:field, :label, for: :dark_mode) { "Dark mode" } %>
 <% end %>
 ```
 

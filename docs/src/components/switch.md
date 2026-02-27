@@ -9,7 +9,7 @@ source: lib/kiso/themes/switch.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:switch) %>
+<%%= kui(:switch) %>
 ```
 
 <%= render "component_preview", component: "kiso/switch", scenario: "playground", height: "300px" %>
@@ -34,16 +34,16 @@ All standard HTML input attributes (`name:`, `id:`, `value:`, `disabled:`,
 The color applies to the checked state background.
 
 ```erb
-<%%= kiso(:switch, color: :primary, checked: true) %>
-<%%= kiso(:switch, color: :success, checked: true) %>
-<%%= kiso(:switch, color: :error, checked: true) %>
+<%%= kui(:switch, color: :primary, checked: true) %>
+<%%= kui(:switch, color: :success, checked: true) %>
+<%%= kui(:switch, color: :error, checked: true) %>
 ```
 
 ### Size
 
 ```erb
-<%%= kiso(:switch, size: :sm) %>
-<%%= kiso(:switch, size: :md) %>
+<%%= kui(:switch, size: :sm) %>
+<%%= kui(:switch, size: :md) %>
 ```
 
 | Size | Track | Thumb |
@@ -56,11 +56,11 @@ The color applies to the checked state background.
 Pair with Field for label, description, and accessible structure.
 
 ```erb
-<%%= kiso(:field, orientation: :horizontal) do %>
-  <%%= kiso(:switch, id: :marketing, name: :marketing, value: "1") %>
-  <%%= kiso(:field, :content) do %>
-    <%%= kiso(:field, :label, for: :marketing) { "Marketing emails" } %>
-    <%%= kiso(:field, :description) { "Receive emails about new products." } %>
+<%%= kui(:field, orientation: :horizontal) do %>
+  <%%= kui(:switch, id: :marketing, name: :marketing, value: "1") %>
+  <%%= kui(:field, :content) do %>
+    <%%= kui(:field, :label, for: :marketing) { "Marketing emails" } %>
+    <%%= kui(:field, :description) { "Receive emails about new products." } %>
   <%% end %>
 <%% end %>
 ```
@@ -68,8 +68,8 @@ Pair with Field for label, description, and accessible structure.
 ### Disabled
 
 ```erb
-<%%= kiso(:switch, disabled: true) %>
-<%%= kiso(:switch, checked: true, disabled: true) %>
+<%%= kui(:switch, disabled: true) %>
+<%%= kui(:switch, checked: true, disabled: true) %>
 ```
 
 ### With Rails Form Helpers
@@ -85,7 +85,7 @@ Use the theme classes directly with Rails form builders:
 Or render the full component by passing form attributes:
 
 ```erb
-<%%= kiso(:switch, id: :dark_mode, name: "user[dark_mode]", value: "1") %>
+<%%= kui(:switch, id: :dark_mode, name: "user[dark_mode]", value: "1") %>
 ```
 
 ## Theme

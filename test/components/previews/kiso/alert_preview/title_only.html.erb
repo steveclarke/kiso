@@ -1,10 +1,10 @@
 <div class="max-w-lg space-y-3">
-  <%= kiso(:alert, color: :info) do %>
-    <%= kiso(:alert, :title) { "New components are available." } %>
+  <%= kui(:alert, color: :info) do %>
+    <%= kui(:alert, :title) { "New components are available." } %>
   <% end %>
 
-  <%= kiso(:alert, color: :warning, variant: :outline) do %>
+  <%= kui(:alert, color: :warning, variant: :outline) do %>
     <%= kiso_icon("triangle-alert") %>
-    <%= kiso(:alert, :title) { "Your trial expires in 3 days." } %>
+    <%= kui(:alert, :title) { "Your trial expires in 3 days." } %>
   <% end %>
 </div>

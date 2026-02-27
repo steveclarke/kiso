@@ -1,12 +1,12 @@
-<%= kiso(:table) do %>
-  <%= kiso(:table, :header) do %>
-    <%= kiso(:table, :row) do %>
-      <%= kiso(:table, :head) { "Name" } %>
-      <%= kiso(:table, :head) { "Email" } %>
-      <%= kiso(:table, :head) { "Role" } %>
+<%= kui(:table) do %>
+  <%= kui(:table, :header) do %>
+    <%= kui(:table, :row) do %>
+      <%= kui(:table, :head) { "Name" } %>
+      <%= kui(:table, :head) { "Email" } %>
+      <%= kui(:table, :head) { "Role" } %>
     <% end %>
   <% end %>
-  <%= kiso(:table, :body) do %>
+  <%= kui(:table, :body) do %>
     <% [
       { name: "Alice Johnson", email: "alice@example.com", role: "Admin" },
       { name: "Bob Smith", email: "bob@example.com", role: "Editor" },
@@ -14,10 +14,10 @@
       { name: "Dave Brown", email: "dave@example.com", role: "Editor" },
       { name: "Eve Davis", email: "eve@example.com", role: "Admin" },
     ].each_with_index do |row, i| %>
-      <%= kiso(:table, :row, css_classes: i.even? ? "bg-muted/25" : "") do %>
-        <%= kiso(:table, :cell, css_classes: "font-medium") { row[:name] } %>
-        <%= kiso(:table, :cell) { row[:email] } %>
-        <%= kiso(:table, :cell) { row[:role] } %>
+      <%= kui(:table, :row, css_classes: i.even? ? "bg-muted/25" : "") do %>
+        <%= kui(:table, :cell, css_classes: "font-medium") { row[:name] } %>
+        <%= kui(:table, :cell) { row[:email] } %>
+        <%= kui(:table, :cell) { row[:role] } %>
       <% end %>
     <% end %>
   <% end %>

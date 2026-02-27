@@ -9,7 +9,7 @@ source: lib/kiso/themes/input.rb
 ## Quick Start
 
 ```erb
-<%%= kiso(:input, placeholder: "Email address") %>
+<%%= kui(:input, placeholder: "Email address") %>
 ```
 
 <%= render "component_preview", component: "kiso/input", scenario: "playground", height: "300px" %>
@@ -33,17 +33,17 @@ All standard HTML input attributes (`placeholder:`, `name:`, `id:`, `value:`,
 ### Variant
 
 ```erb
-<%%= kiso(:input, variant: :outline, placeholder: "Outline (default)") %>
-<%%= kiso(:input, variant: :soft, placeholder: "Soft") %>
-<%%= kiso(:input, variant: :ghost, placeholder: "Ghost") %>
+<%%= kui(:input, variant: :outline, placeholder: "Outline (default)") %>
+<%%= kui(:input, variant: :soft, placeholder: "Soft") %>
+<%%= kui(:input, variant: :ghost, placeholder: "Ghost") %>
 ```
 
 ### Size
 
 ```erb
-<%%= kiso(:input, size: :sm, placeholder: "Small") %>
-<%%= kiso(:input, size: :md, placeholder: "Medium") %>
-<%%= kiso(:input, size: :lg, placeholder: "Large") %>
+<%%= kui(:input, size: :sm, placeholder: "Small") %>
+<%%= kui(:input, size: :md, placeholder: "Medium") %>
+<%%= kui(:input, size: :lg, placeholder: "Large") %>
 ```
 
 ### With Field
@@ -51,10 +51,10 @@ All standard HTML input attributes (`placeholder:`, `name:`, `id:`, `value:`,
 Wrap in a Field for label, description, and error support.
 
 ```erb
-<%%= kiso(:field) do %>
-  <%%= kiso(:field, :label, for: :username) { "Username" } %>
-  <%%= kiso(:input, id: :username, name: :username, placeholder: "shadcn") %>
-  <%%= kiso(:field, :description) { "This is your public display name." } %>
+<%%= kui(:field) do %>
+  <%%= kui(:field, :label, for: :username) { "Username" } %>
+  <%%= kui(:input, id: :username, name: :username, placeholder: "shadcn") %>
+  <%%= kui(:field, :description) { "This is your public display name." } %>
 <%% end %>
 ```
 
@@ -63,27 +63,27 @@ Wrap in a Field for label, description, and error support.
 Set `aria-invalid` on the input and `invalid: true` on the Field.
 
 ```erb
-<%%= kiso(:field, invalid: true) do %>
-  <%%= kiso(:field, :label, for: :password) { "Password" } %>
-  <%%= kiso(:input, type: :password, id: :password, "aria-invalid": true) %>
-  <%%= kiso(:field, :error, errors: ["Must be at least 8 characters"]) %>
+<%%= kui(:field, invalid: true) do %>
+  <%%= kui(:field, :label, for: :password) { "Password" } %>
+  <%%= kui(:input, type: :password, id: :password, "aria-invalid": true) %>
+  <%%= kui(:field, :error, errors: ["Must be at least 8 characters"]) %>
 <%% end %>
 ```
 
 ### File Input
 
 ```erb
-<%%= kiso(:field) do %>
-  <%%= kiso(:field, :label, for: :avatar) { "Avatar" } %>
-  <%%= kiso(:input, type: :file, id: :avatar, name: :avatar) %>
-  <%%= kiso(:field, :description) { "Upload a profile picture. Max 5MB." } %>
+<%%= kui(:field) do %>
+  <%%= kui(:field, :label, for: :avatar) { "Avatar" } %>
+  <%%= kui(:input, type: :file, id: :avatar, name: :avatar) %>
+  <%%= kui(:field, :description) { "Upload a profile picture. Max 5MB." } %>
 <%% end %>
 ```
 
 ### Disabled
 
 ```erb
-<%%= kiso(:input, placeholder: "Disabled", disabled: true) %>
+<%%= kui(:input, placeholder: "Disabled", disabled: true) %>
 ```
 
 ### With Rails Form Helpers

@@ -1,14 +1,14 @@
-<%= kiso(:table) do %>
-  <%= kiso(:table, :caption) { "A list of your recent invoices." } %>
-  <%= kiso(:table, :header) do %>
-    <%= kiso(:table, :row) do %>
-      <%= kiso(:table, :head, css_classes: "w-[100px]") { "Invoice" } %>
-      <%= kiso(:table, :head) { "Status" } %>
-      <%= kiso(:table, :head) { "Method" } %>
-      <%= kiso(:table, :head, css_classes: "text-right") { "Amount" } %>
+<%= kui(:table) do %>
+  <%= kui(:table, :caption) { "A list of your recent invoices." } %>
+  <%= kui(:table, :header) do %>
+    <%= kui(:table, :row) do %>
+      <%= kui(:table, :head, css_classes: "w-[100px]") { "Invoice" } %>
+      <%= kui(:table, :head) { "Status" } %>
+      <%= kui(:table, :head) { "Method" } %>
+      <%= kui(:table, :head, css_classes: "text-right") { "Amount" } %>
     <% end %>
   <% end %>
-  <%= kiso(:table, :body) do %>
+  <%= kui(:table, :body) do %>
     <% [
       { invoice: "INV001", status: "Paid", method: "Credit Card", amount: "$250.00" },
       { invoice: "INV002", status: "Pending", method: "PayPal", amount: "$150.00" },
@@ -16,11 +16,11 @@
       { invoice: "INV004", status: "Paid", method: "Credit Card", amount: "$450.00" },
       { invoice: "INV005", status: "Paid", method: "PayPal", amount: "$550.00" },
     ].each do |row| %>
-      <%= kiso(:table, :row) do %>
-        <%= kiso(:table, :cell, css_classes: "font-medium") { row[:invoice] } %>
-        <%= kiso(:table, :cell) { row[:status] } %>
-        <%= kiso(:table, :cell) { row[:method] } %>
-        <%= kiso(:table, :cell, css_classes: "text-right") { row[:amount] } %>
+      <%= kui(:table, :row) do %>
+        <%= kui(:table, :cell, css_classes: "font-medium") { row[:invoice] } %>
+        <%= kui(:table, :cell) { row[:status] } %>
+        <%= kui(:table, :cell) { row[:method] } %>
+        <%= kui(:table, :cell, css_classes: "text-right") { row[:amount] } %>
       <% end %>
     <% end %>
   <% end %>
