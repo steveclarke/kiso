@@ -6,10 +6,12 @@
 @import "./checkbox.css";
 @import "./radio-group.css";
 
-/* Scan Kiso's own files so host apps don't need to know the gem's internals. */
-@source "../../views";
-@source "../../helpers";
-@source "../../../../lib/kiso/themes";
+/* Scan Kiso's own files so host apps don't need to know the gem's internals.
+   Paths are relative to THIS file (app/assets/tailwind/kiso/engine.css).
+   Count carefully — wrong paths fail SILENTLY (classes just won't generate). */
+@source "../../../views";              /* → app/views              */
+@source "../../../helpers";            /* → app/helpers            */
+@source "../../../../lib/kiso/themes"; /* → lib/kiso/themes        */
 
 /* === Geist Font (by Vercel) ===
    Self-hosted variable fonts — no CDN dependency.
