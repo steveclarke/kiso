@@ -206,7 +206,7 @@ bin/dev stop
 - [ ] `ring ring-inset` for outline/subtle (not `border`)
 - [ ] Semantic tokens only (no raw palette shades, no `dark:` prefixes)
 - [ ] No arbitrary Tailwind values
-- [ ] All files: theme, require, partials, previews, docs page, nav entry, skills ref (new file in `components/` + index row)
+- [ ] All files: theme, require in kiso.rb, partials, previews, docs page, nav entry, skills ref (new file in `components/` + index row)
 - [ ] `Closes #N` in PR body
 - [ ] Lint passes
 - [ ] Tests pass
