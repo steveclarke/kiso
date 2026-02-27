@@ -95,12 +95,19 @@ Consistency is more important than any individual improvement.
   the same, accept props (`title:`, `description:`, `icon:`) and handle
   layout internally. Yield block replaces all internal structure for full
   control. Props are guardrails for agent-written code.
+- **`kiso_component_icon` for default icons in partials** — when a component
+  renders a built-in default icon (separator chevron, pagination arrows,
+  close button X), use `kiso_component_icon(:semantic_name)` instead of
+  `kiso_icon("icon-name")`. This lets host apps swap icons globally via
+  `Kiso.config.icons[:semantic_name] = "heroicons:chevron-right"`. See
+  `lib/kiso/configuration.rb` for the registry of semantic icon names.
+  `kiso_icon("name")` is still used for user-specified icons in app code.
 - **Never use `block_given?` in ERB partials** — Rails wraps every partial
   in a block internally, so `block_given?` is always `true` regardless of
   whether the caller passed a block. For "default content with optional
   block override", use `capture { yield }.presence` instead:
   ```erb
-  <%= capture { yield }.presence || kiso_icon("chevron-right") %>
+  <%= capture { yield }.presence || kiso_component_icon(:chevron_right) %>
   ```
   For multi-line defaults, assign first:
   ```erb

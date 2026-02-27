@@ -93,8 +93,13 @@ Rules:
 - **Never use `block_given?` in ERB partials** — it's always `true` due to
   Rails internals. For default content with optional block override, use:
   ```erb
-  <%= capture { yield }.presence || kiso_icon("chevron-right") %>
+  <%= capture { yield }.presence || kiso_component_icon(:chevron_right) %>
   ```
+- **Use `kiso_component_icon(:semantic_name)` for all default icons** — never
+  hardcode `kiso_icon("icon-name")` in component partials. This lets host
+  apps swap icons globally via `Kiso.config.icons`. If your component needs
+  a new default icon, add the semantic name to `lib/kiso/configuration.rb`
+  first. `kiso_icon("name")` is only for user-specified icons in app templates.
 
 ### 4. Create Lookbook previews
 
@@ -211,6 +216,7 @@ In your final output, clearly include:
 - [ ] `opacity-90` for description text inside colored components (not `text-muted-foreground`)
 - [ ] `ring ring-inset` for outline/subtle (not `border`)
 - [ ] Semantic tokens only (no raw palette shades, no `dark:` prefixes)
+- [ ] Default icons use `kiso_component_icon(:name)`, not `kiso_icon("name")` — new icons registered in `lib/kiso/configuration.rb`
 - [ ] No arbitrary Tailwind values
 - [ ] All files: theme, require in kiso.rb, partials, previews, docs page, nav entry, skills ref (new file in `components/` + index row)
 - [ ] `Closes #N` in PR body
