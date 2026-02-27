@@ -16,9 +16,11 @@ Read these files in this exact order:
 1. `project/DESIGN_SYSTEM.md` — compound variant formulas, token table, spatial system
 2. `project/components/{COMPONENT}.md` — vision doc (if it exists)
 3. `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx` — **structural source of truth**. Copy div-for-div, class-for-class.
-4. `vendor/nuxt-ui/src/theme/{name}.ts` — **theming source of truth**. Color × variant compounds.
-5. An existing Kiso component as reference — read `lib/kiso/themes/card.rb` and `app/views/kiso/components/_card.html.erb` for the exact patterns.
-6. `.claude/skills/contributing/SKILL.md` — full conventions and checklist
+4. `vendor/shadcn-ui/apps/v4/content/docs/components/radix/{name}.mdx` — **docs page**. Lists all demos to replicate in Lookbook.
+5. `vendor/shadcn-ui/apps/v4/examples/radix/{name}-*.tsx` — **demo implementations**. Translate these to ERB for Lookbook previews. Use the same icons, text, and layout.
+6. `vendor/nuxt-ui/src/theme/{name}.ts` — **theming source of truth**. Color × variant compounds.
+7. An existing Kiso component as reference — read `lib/kiso/themes/card.rb` and `app/views/kiso/components/_card.html.erb` for the exact patterns.
+8. `.claude/skills/contributing/SKILL.md` — full conventions and checklist
 
 ## Naming rules (CRITICAL)
 
@@ -99,7 +101,18 @@ Rules:
 File: `test/components/previews/kiso/{name}_preview.rb`
 Templates: `test/components/previews/kiso/{name}_preview/*.html.erb`
 
-Match the shadcn docs page demo count. Check `https://ui.shadcn.com/docs/components/radix/{name}` for how many demos they show and replicate them.
+**Mirror shadcn's demos exactly.** Read the shadcn docs and example files in
+the vendor submodule to understand what demos to create:
+
+1. Read `vendor/shadcn-ui/apps/v4/content/docs/components/radix/{name}.mdx`
+   — this lists all the `<ComponentPreview>` demos on the docs page.
+2. Read each example at `vendor/shadcn-ui/apps/v4/examples/radix/{name}-*.tsx`
+   — these are the actual demo implementations. Translate them to ERB.
+3. Create one Lookbook preview per shadcn demo. Use the same scenario names
+   (playground, outline, sizes, disabled, with-text, etc.).
+4. Use the same icons, text labels, and layout as shadcn's demos — don't
+   invent your own. If shadcn uses Bold/Italic/Underline icons, use those.
+   If they use "Bookmark" with text, do the same.
 
 Preview class pattern:
 ```ruby

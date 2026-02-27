@@ -113,7 +113,10 @@ Check that ALL of these files exist in the PR:
 - [ ] Main partial: `app/views/kiso/components/_{name}.html.erb`
 - [ ] Sub-part partials (if component has sub-parts)
 - [ ] Lookbook preview class: `test/components/previews/kiso/{name}_preview.rb`
-- [ ] Lookbook preview templates (one per demo)
+- [ ] Lookbook preview templates matching shadcn demos (compare against
+      `vendor/shadcn-ui/apps/v4/content/docs/components/radix/{name}.mdx` and
+      `vendor/shadcn-ui/apps/v4/examples/radix/{name}-*.tsx` — same scenarios,
+      same icons, same text labels)
 - [ ] Docs page: `docs/src/components/{name}.md`
 - [ ] Navigation entry in `docs/src/_data/navigation.yml`
 - [ ] Skills reference: new file at `skills/kiso/references/components/{name}.md`

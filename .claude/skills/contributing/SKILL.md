@@ -168,7 +168,11 @@ engine file and adds Lookbook-specific source paths:
 3. **Read the shadcn component** at
    `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx` — this is
    the structural source of truth. Copy their Tailwind classes div-for-div.
-4. Read the Nuxt UI theme file at
+4. **Read the shadcn docs and examples** at
+   `vendor/shadcn-ui/apps/v4/content/docs/components/radix/{name}.mdx` and
+   `vendor/shadcn-ui/apps/v4/examples/radix/{name}-*.tsx` — these define
+   which demos to create in Lookbook and what content/icons to use.
+5. Read the Nuxt UI theme file at
    `vendor/nuxt-ui/src/theme/{name}.ts` for variant formulas and slot
    structure — this is the theming source of truth.
 
@@ -186,7 +190,7 @@ Progress:
 - [ ] 6. Create ERB partial in app/views/kiso/components/
          - Props-driven for common patterns, yield for override
 - [ ] 7. Create sub-part partials if needed (title, description, etc.)
-- [ ] 8. Create Lookbook preview + templates in test/components/previews/kiso/
+- [ ] 8. Create Lookbook previews mirroring shadcn demos (read examples/radix/{name}-*.tsx)
 - [ ] 9. Add CSS file if needed (transitions/animations only)
 - [ ] 10. Update skills/kiso/references/components.md
 - [ ] 11. Write/update project/components/[NAME].md vision doc
