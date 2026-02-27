@@ -1,8 +1,8 @@
-<div class="flex gap-4 items-center text-foreground">
-  <%= kui(:toggle, disabled: true, "aria-label": "Toggle bold") do %>
-    <%= kiso_icon("bold") %>
+<div class="flex flex-wrap gap-2 items-center text-foreground">
+  <%= kui(:toggle, disabled: true, "aria-label": "Toggle disabled") do %>
+    Disabled
   <% end %>
-  <%= kui(:toggle, variant: :outline, disabled: true, "aria-label": "Toggle italic") do %>
-    <%= kiso_icon("italic") %>
+  <%= kui(:toggle, variant: :outline, disabled: true, "aria-label": "Toggle disabled outline") do %>
+    Disabled
   <% end %>
 </div>

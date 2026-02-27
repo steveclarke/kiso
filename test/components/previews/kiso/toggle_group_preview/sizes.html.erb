@@ -1,18 +1,30 @@
-<div class="space-y-4 text-foreground">
-  <% %i[sm default lg].each do |size| %>
-    <div>
-      <p class="text-sm text-muted-foreground mb-2"><%= size %></p>
-      <%= kui(:toggle_group, type: :single, size: size) do %>
-        <%= kui(:toggle_group, :item, value: "left", size: size, "aria-label": "Align left") do %>
-          <%= kiso_icon("align-left") %>
-        <% end %>
-        <%= kui(:toggle_group, :item, value: "center", size: size, "aria-label": "Align center") do %>
-          <%= kiso_icon("align-center") %>
-        <% end %>
-        <%= kui(:toggle_group, :item, value: "right", size: size, "aria-label": "Align right") do %>
-          <%= kiso_icon("align-right") %>
-        <% end %>
-      <% end %>
-    </div>
+<div class="flex flex-col gap-4 text-foreground">
+  <%= kui(:toggle_group, type: :single, variant: :outline, size: :sm) do %>
+    <%= kui(:toggle_group, :item, value: "top", variant: :outline, size: :sm, pressed: true, "aria-label": "Toggle top") do %>
+      Top
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "bottom", variant: :outline, size: :sm, "aria-label": "Toggle bottom") do %>
+      Bottom
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "left", variant: :outline, size: :sm, "aria-label": "Toggle left") do %>
+      Left
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "right", variant: :outline, size: :sm, "aria-label": "Toggle right") do %>
+      Right
+    <% end %>
+  <% end %>
+  <%= kui(:toggle_group, type: :single, variant: :outline) do %>
+    <%= kui(:toggle_group, :item, value: "top", variant: :outline, pressed: true, "aria-label": "Toggle top") do %>
+      Top
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "bottom", variant: :outline, "aria-label": "Toggle bottom") do %>
+      Bottom
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "left", variant: :outline, "aria-label": "Toggle left") do %>
+      Left
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "right", variant: :outline, "aria-label": "Toggle right") do %>
+      Right
+    <% end %>
   <% end %>
 </div>

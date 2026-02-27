@@ -73,7 +73,7 @@ module Kiso
       variants: {
         variant: {
           default: "",
-          outline: "ring ring-inset ring-border shadow-xs"
+          outline: "border border-border shadow-xs -ml-px first:ml-0"
         },
         size: {
           sm: "h-8 px-3",

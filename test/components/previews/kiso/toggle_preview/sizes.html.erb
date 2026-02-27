@@ -1,7 +1,11 @@
-<div class="flex gap-4 items-center text-foreground">
-  <% %i[sm default lg].each do |size| %>
-    <%= kui(:toggle, size: size, "aria-label": "Toggle bold (#{size})") do %>
-      <%= kiso_icon("bold") %>
-    <% end %>
+<div class="flex flex-wrap gap-2 items-center text-foreground">
+  <%= kui(:toggle, variant: :outline, size: :sm, "aria-label": "Toggle small") do %>
+    Small
+  <% end %>
+  <%= kui(:toggle, variant: :outline, "aria-label": "Toggle default") do %>
+    Default
+  <% end %>
+  <%= kui(:toggle, variant: :outline, size: :lg, "aria-label": "Toggle large") do %>
+    Large
   <% end %>
 </div>
