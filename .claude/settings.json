@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git push)",
+      "Bash(git checkout -b *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(gh pr create *)",
+      "Bash(gh pr merge *)",
+      "Bash(bundle exec *)",
+      "Bash(bin/dev *)",
+      "Bash(bin/dev)",
+      "Bash(bin/worktree *)"
+    ]
+  }
+}
