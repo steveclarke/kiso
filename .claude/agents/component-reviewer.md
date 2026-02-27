@@ -116,7 +116,8 @@ Check that ALL of these files exist in the PR:
 - [ ] Lookbook preview templates (one per demo)
 - [ ] Docs page: `docs/src/components/{name}.md`
 - [ ] Navigation entry in `docs/src/_data/navigation.yml`
-- [ ] Skills reference update in `skills/kiso/references/components.md`
+- [ ] Skills reference: new file at `skills/kiso/references/components/{name}.md`
+- [ ] Skills reference: row added to index `skills/kiso/references/components.md`
 
 #### Check 8: PR body has Closes #N
 

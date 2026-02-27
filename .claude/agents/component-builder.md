@@ -127,7 +127,12 @@ Add to navigation: `docs/src/_data/navigation.yml` (alphabetical order in Compon
 
 ### 6. Update skills reference
 
-Add the component to `skills/kiso/references/components.md` in the appropriate section (Layout, Forms, Element).
+Create a new file at `skills/kiso/references/components/{name}.md` with the
+component's API reference (locals, defaults, sub-parts, usage examples, theme
+modules). Follow any existing component file as a template.
+
+Then add a row to the appropriate table in `skills/kiso/references/components.md`
+(Layout, Forms, or Element) linking to the new file.
 
 ### 7. Start Lookbook and verify
 
@@ -201,7 +206,7 @@ bin/dev stop
 - [ ] `ring ring-inset` for outline/subtle (not `border`)
 - [ ] Semantic tokens only (no raw palette shades, no `dark:` prefixes)
 - [ ] No arbitrary Tailwind values
-- [ ] All files: theme, require, partials, previews, docs page, nav entry, skills ref
+- [ ] All files: theme, require, partials, previews, docs page, nav entry, skills ref (new file in `components/` + index row)
 - [ ] `Closes #N` in PR body
 - [ ] Lint passes
 - [ ] Tests pass
