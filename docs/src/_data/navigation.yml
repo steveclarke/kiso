@@ -39,3 +39,5 @@ docs:
         href: /components/textarea
       - title: InputGroup
         href: /components/input_group
+      - title: Switch
+        href: /components/switch

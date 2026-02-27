@@ -55,6 +55,8 @@ or vertical.
 | `input` | `variant` (outline/soft/ghost), `size` (sm/md/lg), `type`, `disabled` |
 | `textarea` | `variant` (outline/soft/ghost), `size` (sm/md/lg), `disabled` |
 | `input_group` | No variants. Wraps input + addons with shared ring |
+| `checkbox` | `color` (7 colors), `checked` |
+| `switch` | `color` (7 colors), `size` (sm/md), `checked` |
 
 ### Field
 
@@ -208,6 +210,49 @@ Wraps an input with inline prefix/suffix addons. Provides a shared ring — chil
 ```
 
 **Theme modules:** `Kiso::Themes::InputGroup`, `InputGroupAddon` (`lib/kiso/themes/input_group.rb`)
+
+### Checkbox
+
+A toggle control for boolean choices. Native `<input type="checkbox">` with color variants for the checked state.
+
+**Locals:** `color:` (7 colors), `checked:` (true/false), `css_classes:`, `**component_options`
+
+**Defaults:** `color: :primary`
+
+```erb
+<%= kiso(:checkbox, color: :primary) %>
+<%= kiso(:checkbox, color: :success, checked: true) %>
+
+<%# With Field %>
+<%= kiso(:field, orientation: :horizontal) do %>
+  <%= kiso(:checkbox, id: :terms) %>
+  <%= kiso(:field, :label, for: :terms) { "Accept terms" } %>
+<% end %>
+```
+
+**Theme module:** `Kiso::Themes::Checkbox` (`lib/kiso/themes/checkbox.rb`)
+
+### Switch
+
+A binary toggle for on/off states. Uses a native `<input type="checkbox">` with `role="switch"` inside a `<label>` that doubles as the track.
+
+**Locals:** `color:` (7 colors), `size:` (sm, md), `checked:` (true/false), `css_classes:`, `**component_options`
+
+**Defaults:** `color: :primary, size: :md`
+
+```erb
+<%= kiso(:switch) %>
+<%= kiso(:switch, color: :success, checked: true) %>
+<%= kiso(:switch, size: :sm) %>
+
+<%# With Field %>
+<%= kiso(:field, orientation: :horizontal) do %>
+  <%= kiso(:switch, id: :dark_mode, name: :dark_mode, value: "1") %>
+  <%= kiso(:field, :label, for: :dark_mode) { "Dark mode" } %>
+<% end %>
+```
+
+**Theme modules:** `Kiso::Themes::SwitchTrack`, `SwitchThumb` (`lib/kiso/themes/switch.rb`)
 
 ## Element
 
