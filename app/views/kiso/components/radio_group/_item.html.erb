@@ -1,0 +1,6 @@
+<%# locals: (color: :primary, css_classes: "", **component_options) %>
+<% component_options[:type] = :radio %>
+<%= tag.input(
+    class: Kiso::Themes::RadioGroupItem.render(color: color, class: css_classes),
+    data: kiso_prepare_options(component_options, component: :radio_group, radio_group_part: :item),
+    **component_options) %>

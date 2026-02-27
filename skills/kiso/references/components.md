@@ -55,6 +55,7 @@ or vertical.
 | `input` | `variant` (outline/soft/ghost), `size` (sm/md/lg), `type`, `disabled` |
 | `textarea` | `variant` (outline/soft/ghost), `size` (sm/md/lg), `disabled` |
 | `input_group` | No variants. Wraps input + addons with shared ring |
+| `radio_group` | `color` (7 colors). Sub-part: item |
 
 ### Field
 
@@ -208,6 +209,38 @@ Wraps an input with inline prefix/suffix addons. Provides a shared ring — chil
 ```
 
 **Theme modules:** `Kiso::Themes::InputGroup`, `InputGroupAddon` (`lib/kiso/themes/input_group.rb`)
+
+### RadioGroup
+
+A group of radio buttons for selecting one option from a set. Container uses
+`role="radiogroup"`, items are native `<input type="radio">`.
+
+**Locals (RadioGroup):** `color:` (primary, secondary, success, info, warning, error, neutral), `css_classes:`, `**component_options`
+
+**Locals (RadioGroupItem):** `color:` (7 colors), `css_classes:`, `**component_options`
+
+**Defaults:** `color: :primary`
+
+**Sub-parts:** `kiso(:radio_group, :item)`
+
+```erb
+<%= kiso(:radio_group, name: :plan) do %>
+  <div class="flex items-center gap-3">
+    <%= kiso(:radio_group, :item, value: "free", id: :plan_free) %>
+    <%= kiso(:field, :label, for: :plan_free) { "Free" } %>
+  </div>
+  <div class="flex items-center gap-3">
+    <%= kiso(:radio_group, :item, value: "pro", id: :plan_pro) %>
+    <%= kiso(:field, :label, for: :plan_pro) { "Pro" } %>
+  </div>
+<% end %>
+
+<%# With Rails form helpers %>
+<%= f.radio_button :plan, "free",
+    class: Kiso::Themes::RadioGroupItem.render(color: :primary) %>
+```
+
+**Theme modules:** `Kiso::Themes::RadioGroup`, `RadioGroupItem` (`lib/kiso/themes/radio_group.rb`)
 
 ## Element
 
