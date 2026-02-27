@@ -15,6 +15,9 @@ require "kiso/themes/label"
 require "kiso/themes/field"
 require "kiso/themes/field_group"
 require "kiso/themes/field_set"
+require "kiso/themes/input"
+require "kiso/themes/textarea"
+require "kiso/themes/input_group"
 require "kiso/icons"
 
 module Kiso
