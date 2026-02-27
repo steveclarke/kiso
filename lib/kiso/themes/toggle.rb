@@ -28,7 +28,7 @@ module Kiso
             "disabled:pointer-events-none disabled:opacity-50 " \
             "data-[state=on]:bg-muted data-[state=on]:text-foreground " \
             "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 " \
-            "focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none " \
+            "focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none " \
             "transition-[color,box-shadow] " \
             "whitespace-nowrap",
       variants: {
@@ -55,17 +55,18 @@ module Kiso
     #
     # Kiso: uses ring instead of border for outline variant, so the
     # border-l-0/first:border-l rules adapt to ring-based approach.
-    # For zero-spacing groups, items lose individual rounding and share
-    # a visual boundary.
+    # Default spacing is 0 (items flush), so joined pill appearance is
+    # applied directly: rounded-none + first/last rounding.
 
     ToggleGroupItem = ClassVariants.build(
-      base: "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-foreground " \
-            "bg-transparent " \
+      base: "inline-flex items-center justify-center gap-2 text-sm font-medium text-foreground " \
+            "bg-transparent min-w-0 " \
+            "rounded-none first:rounded-l-md last:rounded-r-md " \
             "hover:bg-muted hover:text-muted-foreground " \
             "disabled:pointer-events-none disabled:opacity-50 " \
             "data-[state=on]:bg-muted data-[state=on]:text-foreground " \
             "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 " \
-            "focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none " \
+            "focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none " \
             "transition-[color,box-shadow] " \
             "whitespace-nowrap " \
             "shrink-0 focus:z-10 focus-visible:z-10",
@@ -75,9 +76,9 @@ module Kiso
           outline: "ring ring-inset ring-border shadow-xs"
         },
         size: {
-          sm: "h-8 px-3 min-w-8",
-          default: "h-9 px-3 min-w-9",
-          lg: "h-10 px-3 min-w-10"
+          sm: "h-8 px-3",
+          default: "h-9 px-3",
+          lg: "h-10 px-3"
         }
       },
       defaults: {variant: :default, size: :default}
