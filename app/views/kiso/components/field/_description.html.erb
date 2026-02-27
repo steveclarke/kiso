@@ -1,0 +1,7 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :p,
+    class: Kiso::Themes::FieldDescription.render(class: css_classes),
+    data: kiso_prepare_options(component_options, component: :field, field_part: :description),
+    **component_options do %>
+  <%= yield %>
+<% end %>

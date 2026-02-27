@@ -1,0 +1,22 @@
+<%# locals: (errors: [], css_classes: "", **component_options) %>
+<% messages = Array(errors).compact.map(&:to_s).reject(&:blank?).uniq %>
+<% content = capture { yield }.presence %>
+<% if content || messages.any? %>
+  <%= content_tag :div,
+      role: :alert,
+      class: Kiso::Themes::FieldError.render(class: css_classes),
+      data: kiso_prepare_options(component_options, component: :field, field_part: :error),
+      **component_options do %>
+    <% if content %>
+      <%= content %>
+    <% elsif messages.one? %>
+      <%= messages.first %>
+    <% else %>
+      <ul class="ml-4 flex list-disc flex-col gap-1">
+        <% messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+<% end %>

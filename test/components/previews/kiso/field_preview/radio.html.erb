@@ -1,0 +1,33 @@
+<div class="max-w-sm">
+  <%= kiso(:field_set) do %>
+    <%= kiso(:field_set, :legend, variant: :label) { "Subscription Plan" } %>
+    <%= kiso(:field, :description) { "Choose the plan that works best for you." } %>
+
+    <%= kiso(:field, orientation: :horizontal) do %>
+      <input type="radio" id="plan_free" name="plan" value="free" role="radio"
+        class="size-4 accent-primary" checked>
+      <%= kiso(:field, :content) do %>
+        <%= kiso(:field, :label, for: :plan_free) { "Free" } %>
+        <%= kiso(:field, :description) { "Up to 3 projects. Basic features." } %>
+      <% end %>
+    <% end %>
+
+    <%= kiso(:field, orientation: :horizontal) do %>
+      <input type="radio" id="plan_pro" name="plan" value="pro" role="radio"
+        class="size-4 accent-primary">
+      <%= kiso(:field, :content) do %>
+        <%= kiso(:field, :label, for: :plan_pro) { "Pro" } %>
+        <%= kiso(:field, :description) { "Unlimited projects. Priority support." } %>
+      <% end %>
+    <% end %>
+
+    <%= kiso(:field, orientation: :horizontal) do %>
+      <input type="radio" id="plan_enterprise" name="plan" value="enterprise" role="radio"
+        class="size-4 accent-primary">
+      <%= kiso(:field, :content) do %>
+        <%= kiso(:field, :label, for: :plan_enterprise) { "Enterprise" } %>
+        <%= kiso(:field, :description) { "Custom solutions. Dedicated account manager." } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

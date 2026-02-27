@@ -1,0 +1,15 @@
+<%# locals: (css_classes: "", **component_options) %>
+<% captured = capture { yield } if block_given? %>
+<%= content_tag :div,
+    class: Kiso::Themes::FieldSeparator.render(class: css_classes),
+    data: kiso_prepare_options(component_options, component: :field, field_part: :separator).merge(
+      content: captured&.present? || nil
+    ).compact,
+    **component_options do %>
+  <%= kiso(:separator, css_classes: "absolute inset-0 top-1/2") %>
+  <% if captured&.present? %>
+    <span class="<%= Kiso::Themes::FieldSeparatorText.render %>">
+      <%= captured %>
+    </span>
+  <% end %>
+<% end %>

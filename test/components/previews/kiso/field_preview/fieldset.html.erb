@@ -1,0 +1,26 @@
+<div class="max-w-md">
+  <%= kiso(:field_set) do %>
+    <%= kiso(:field_set, :legend) { "Address Information" } %>
+    <%= kiso(:field, :description) { "Enter your billing address." } %>
+
+    <%= kiso(:field_group) do %>
+      <%= kiso(:field) do %>
+        <%= kiso(:field, :label, for: :street) { "Street address" } %>
+        <input type="text" id="street" name="street" placeholder="123 Main St"
+          class="flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+      <% end %>
+
+      <%= kiso(:field) do %>
+        <%= kiso(:field, :label, for: :city) { "City" } %>
+        <input type="text" id="city" name="city" placeholder="San Francisco"
+          class="flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+      <% end %>
+
+      <%= kiso(:field) do %>
+        <%= kiso(:field, :label, for: :postal) { "Postal code" } %>
+        <input type="text" id="postal" name="postal" placeholder="94103"
+          class="flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

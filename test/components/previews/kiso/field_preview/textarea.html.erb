@@ -1,0 +1,8 @@
+<div class="max-w-sm">
+  <%= kiso(:field) do %>
+    <%= kiso(:field, :label, for: :feedback) { "Feedback" } %>
+    <textarea id="feedback" name="feedback" placeholder="Tell us what you think..." rows="4"
+      class="flex w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"></textarea>
+    <%= kiso(:field, :description) { "Your feedback helps us improve. We read every message." } %>
+  <% end %>
+</div>
