@@ -3,7 +3,7 @@
     class: Kiso::Themes::BreadcrumbSeparator.render(class: css_classes),
     role: "presentation",
     aria: { hidden: "true" },
-    data: kiso_prepare_options(component_options, component: :breadcrumb, breadcrumb_part: :separator),
+    data: kiso_prepare_options(component_options, slot: "breadcrumb-separator"),
     **component_options do %>
   <%= capture { yield }.presence || kiso_icon("chevron-right", class: "size-3.5") %>
 <% end %>

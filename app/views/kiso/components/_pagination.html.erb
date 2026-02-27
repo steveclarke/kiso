@@ -3,7 +3,7 @@
     role: "navigation",
     aria: {label: "pagination"},
     class: Kiso::Themes::Pagination.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :pagination),
+    data: kiso_prepare_options(component_options, slot: "pagination"),
     **component_options do %>
   <%= yield %>
 <% end %>

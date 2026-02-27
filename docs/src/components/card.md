@@ -128,8 +128,8 @@ CardFooter      = ClassVariants.build(base: "flex items-center px-6")
 
 ## Accessibility
 
-Card renders a `<div>` with `data-component="card"`. Sub-parts use
-`data-card-part` attributes for identity.
+Card renders a `<div>` with `data-slot="card"`. Sub-parts use
+`data-slot` attributes (e.g., `data-slot="card-header"`).
 
 For semantic meaning, use `component_options` to set a role:
 

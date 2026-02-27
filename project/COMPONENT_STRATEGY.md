@@ -229,7 +229,7 @@ dark mode happens automatically.
 Or in component CSS:
 
 ```css
-[data-component="button"][data-variant="primary"] {
+[data-slot="button"] {
   @apply bg-primary text-primary-foreground hover:bg-primary/90;
 }
 ```
@@ -769,25 +769,24 @@ and class_variants for the classes in ERB:
 ```css
 /* app/assets/stylesheets/button.css */
 /* Transitions, animations — things hard to express in ERB */
-[data-component="button"] {
+[data-slot="button"] {
   @apply transition-colors duration-150;
 }
 
-[data-component="button"]:focus-visible {
+[data-slot="button"]:focus-visible {
   @apply outline-2 outline-offset-2 outline-ring;
 }
 ```
 
 ```erb
 <%# ERB handles variant classes — the bulk of the styling %>
-<button
-  class="<%= Kiso::Themes::Button.render(color: color, variant: variant,
-               size: size, class: css_classes) %>"
-  data-component="button"
-  data-variant="<%= variant %>"
-  data-size="<%= size %>">
+<%= content_tag :button,
+    class: Kiso::Themes::Button.render(color: color, variant: variant,
+               size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "button"),
+    **component_options do %>
   <%= yield %>
-</button>
+<% end %>
 ```
 
 The data attributes serve as **hooks for CSS that's awkward in ERB** (pseudo-
@@ -1048,7 +1047,7 @@ end
 ### What to Leave Behind
 
 - **BEM naming** (`unio-button--scheme-primary`) — Kiso uses
-  `data-component` / `data-variant` attributes instead. Same purpose
+  `data-slot` attributes (shadcn v4 convention) instead. Same purpose
   (CSS hooks, debugging, test selectors), less class noise.
 - **Hardcoded colors** (`bg-sky-600`, `text-gray-500`) — Kiso uses
   semantic tokens (`bg-primary`, `text-muted-foreground`). No dark mode
@@ -1415,7 +1414,7 @@ transitions for `<dialog>`. No animation JS needed.
   is good enough and universally understood.
 
 - **BEM-ish class naming** (`.btn--link`, `.panel--centered`) — Kiso uses
-  `data-component` / `data-variant` attributes, which serve the same purpose
+  `data-slot` attributes (shadcn v4 convention), which serve the same purpose
   without class noise. Though Fizzy's naming is clean and consistent.
 
 - **CSS-only variant system** — Fizzy's "override custom properties for

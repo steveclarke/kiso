@@ -2,7 +2,7 @@
 <%= content_tag :div,
     role: :group,
     class: Kiso::Themes::Field.render(orientation: orientation, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :field).merge(
+    data: kiso_prepare_options(component_options, slot: "field").merge(
       orientation: orientation,
       invalid: (true if invalid),
       disabled: (true if disabled)

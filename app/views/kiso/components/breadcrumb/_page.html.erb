@@ -3,7 +3,7 @@
     class: Kiso::Themes::BreadcrumbPage.render(class: css_classes),
     role: "link",
     aria: { disabled: "true", current: "page" },
-    data: kiso_prepare_options(component_options, component: :breadcrumb, breadcrumb_part: :page),
+    data: kiso_prepare_options(component_options, slot: "breadcrumb-page"),
     **component_options do %>
   <%= yield %>
 <% end %>

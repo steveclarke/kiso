@@ -3,7 +3,7 @@
 <% component_options[:disabled] = true if disabled %>
 <%= content_tag :textarea,
     class: Kiso::Themes::Textarea.render(variant: variant, size: size, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :textarea),
+    data: kiso_prepare_options(component_options, slot: "textarea"),
     **component_options do %>
   <%= capture { yield }.presence %>
 <% end %>

@@ -1,5 +1,5 @@
 <%# locals: (css_classes: "", **component_options) %>
-<% component_options[:data] = (component_options[:data] || {}).merge(field_part: :label) %>
+<% component_options[:data] = (component_options[:data] || {}).merge(slot: "field-label") %>
 <%= kui(:label,
     css_classes: Kiso::Themes::FieldLabel.render(class: css_classes),
     **component_options) { yield } %>

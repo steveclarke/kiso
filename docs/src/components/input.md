@@ -128,7 +128,7 @@ Kiso::Themes::Input = ClassVariants.build(
 
 | Attribute | Value |
 |-----------|-------|
-| `data-component` | `"input"` |
+| `data-slot` | `"input"` |
 | `aria-invalid` | Set when validation fails |
 | `disabled` | Native attribute |
 

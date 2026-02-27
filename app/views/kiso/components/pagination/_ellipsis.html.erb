@@ -2,7 +2,7 @@
 <%= content_tag :span,
     aria: {hidden: true},
     class: Kiso::Themes::PaginationEllipsis.render(class: css_classes),
-    data: kiso_prepare_options(component_options, component: :pagination, pagination_part: :ellipsis),
+    data: kiso_prepare_options(component_options, slot: "pagination-ellipsis"),
     **component_options do %>
   <%= kiso_icon("ellipsis", size: :sm) %>
   <%= content_tag :span, "More pages", class: "sr-only" %>

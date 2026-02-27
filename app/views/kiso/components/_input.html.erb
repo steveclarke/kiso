@@ -4,5 +4,5 @@
    component_options[:disabled] = true if disabled %>
 <%= tag.input(
     class: Kiso::Themes::Input.render(variant: variant, size: size, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :input),
+    data: kiso_prepare_options(component_options, slot: "input"),
     **component_options) %>

@@ -3,7 +3,7 @@
     class: Kiso::Themes::BreadcrumbEllipsis.render(class: css_classes),
     role: "presentation",
     aria: { hidden: "true" },
-    data: kiso_prepare_options(component_options, component: :breadcrumb, breadcrumb_part: :ellipsis),
+    data: kiso_prepare_options(component_options, slot: "breadcrumb-ellipsis"),
     **component_options do %>
   <%= kiso_icon "ellipsis", class: "size-4" %>
   <span class="sr-only">More</span>

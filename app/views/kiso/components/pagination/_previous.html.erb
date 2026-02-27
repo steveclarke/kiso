@@ -5,7 +5,7 @@
     href: href,
     aria: aria_attrs,
     class: Kiso::Themes::PaginationPrevious.render(active: active, class: css_classes),
-    data: kiso_prepare_options(component_options, component: :pagination, pagination_part: :previous),
+    data: kiso_prepare_options(component_options, slot: "pagination-previous"),
     **component_options do %>
   <%= kiso_icon("chevron-left") %>
   <%= content_tag :span, "Previous", class: "hidden sm:block" %>

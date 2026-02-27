@@ -5,7 +5,7 @@
   <%= content_tag :div,
       role: :alert,
       class: Kiso::Themes::FieldError.render(class: css_classes),
-      data: kiso_prepare_options(component_options, component: :field, field_part: :error),
+      data: kiso_prepare_options(component_options, slot: "field-error"),
       **component_options do %>
     <% if content %>
       <%= content %>

@@ -217,11 +217,12 @@ class Kiso::Cli::Make < Kiso::Cli::Base
   # -- Partial templates --
 
   def colored_partial_template
+    slot = @name.tr("_", "-")
     <<~ERB
       <%# locals: (color: :primary, variant: :soft, size: :md, css_classes: "", **component_options) %>
       <%= content_tag :div,
           class: Kiso::Themes::#{@class_name}.render(color: color, variant: variant, size: size, class: css_classes),
-          data: kiso_prepare_options(component_options, component: :#{@name}),
+          data: kiso_prepare_options(component_options, slot: "#{slot}"),
           **component_options do %>
         <%= yield %>
       <% end %>
@@ -229,11 +230,12 @@ class Kiso::Cli::Make < Kiso::Cli::Base
   end
 
   def simple_partial_template
+    slot = @name.tr("_", "-")
     <<~ERB
       <%# locals: (variant: :default, size: :md, css_classes: "", **component_options) %>
       <%= content_tag :div,
           class: Kiso::Themes::#{@class_name}.render(variant: variant, size: size, class: css_classes),
-          data: kiso_prepare_options(component_options, component: :#{@name}),
+          data: kiso_prepare_options(component_options, slot: "#{slot}"),
           **component_options do %>
         <%= yield %>
       <% end %>

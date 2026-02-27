@@ -137,7 +137,7 @@ Omit page numbers entirely for simple sequential navigation.
 
 | Attribute | Value |
 |-----------|-------|
-| `data-component` | `"pagination"` |
+| `data-slot` | `"pagination"` |
 | `role` on nav | `"navigation"` |
 | `aria-label` on nav | `"pagination"` |
 | `aria-current` on active link | `"page"` |

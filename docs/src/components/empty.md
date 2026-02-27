@@ -154,8 +154,8 @@ EmptyContent     = ClassVariants.build(base: "flex w-full max-w-sm min-w-0 flex-
 
 ## Accessibility
 
-Empty renders as a `<div>` with `data-component="empty"`. Sub-parts
-use `data-empty-part` attributes for identity.
+Empty renders as a `<div>` with `data-slot="empty"`. Sub-parts
+use `data-slot` attributes (e.g., `data-slot="empty-header"`).
 
 For semantic meaning, use `component_options` to set a role:
 

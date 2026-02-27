@@ -109,7 +109,7 @@ A quality gate agent (~150 lines) with a 10-point checklist:
 | 3 | Tailwind classes match shadcn for layout/spacing/typography |
 | 4 | Compound variant formulas match the design system (if colored) |
 | 5 | `text-foreground` set on container roots (dark mode) |
-| 6 | Data attributes use `kiso_prepare_options` helper |
+| 6 | `data-slot` set via `kiso_prepare_options(slot: "...")` helper |
 | 7 | All deliverables present (theme, partials, previews, docs, nav, ref) |
 | 8 | PR body contains `Closes #N` |
 | 9 | No arbitrary Tailwind values |

@@ -20,7 +20,7 @@ simplicity**. Every component works with Turbo out of the box.
 
 ```
 1. ERB Partials          <%= kui(:card) { ... } %>
-2. CSS (data-attributes)  [data-component="card"] { ... }
+2. CSS (data-slot)       [data-slot="card"] { ... }
 3. Stimulus Controllers   data-controller="kiso--combobox" (only when needed)
 ```
 
@@ -28,9 +28,10 @@ simplicity**. Every component works with Turbo out of the box.
 `yield` and sub-part partials (Card > Header > Title). No Ruby class overhead,
 no ViewComponent dependency.
 
-**CSS** targets `data-component` and `data-variant` attributes using
-`@apply` for Tailwind utilities and CSS custom properties for theming. Every
-component is a standalone CSS file, imported into a master `engine.css`.
+**CSS** targets `data-slot` attributes (shadcn v4 convention) for component
+identity and contextual styling (`has-[[data-slot=...]]`). Theme modules
+define Tailwind utility classes in Ruby; CSS files are thin (transitions,
+pseudo-states only).
 
 **Stimulus controllers** are added progressively. Native HTML5 first:
 `<dialog>`, Popover API, `<details>/<summary>`, `<input type="range">`. Stimulus
@@ -199,13 +200,15 @@ defaults, and the host app's Iconify Tailwind plugin.
 
 ### Component API Pattern
 
-Every component follows the same conventions, powered by a `component_tag`
-helper that handles all the data-attribute wiring:
+Every component follows the same conventions, using `kiso_prepare_options`
+to set `data-slot` (shadcn v4 convention) for component identity:
 
 ```erb
 <%# kiso/components/_badge.html.erb %>
-<%# locals: (variant: :default, size: :md, css_classes: "", **component_options) %>
-<%= component_tag :span, :badge, variant:, size:, class: css_classes,
+<%# locals: (color: :primary, variant: :soft, size: :md, css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::Badge.render(color: color, variant: variant, size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "badge"),
     **component_options do %>
   <%= yield %>
 <% end %>
@@ -214,40 +217,37 @@ helper that handles all the data-attribute wiring:
 This produces:
 
 ```html
-<span data-component="badge" data-variant="default" data-size="md">Active</span>
+<span data-slot="badge" class="...">Active</span>
 ```
 
-The `component_tag` helper (in `Kiso::ComponentHelper`):
-- Wraps `content_tag` with automatic data-attribute merging
-- Sets `data-component`, `data-variant`, `data-size` from keyword args
-- Merges any caller-provided `data:` hash (so apps can add their own data
-  attributes without clobbering component ones)
-- Compacts nil values — omit `size:` and no `data-size` appears
+The `kiso_prepare_options` helper (in `Kiso::ComponentHelper`):
+- Sets `data-slot` for component identity (kebab-case, matching shadcn v4)
+- Guards against accidental `class:` usage (must use `css_classes:`)
+- Merges any caller-provided `data:` hash from `component_options`
+- Accepts extra `**data_attrs` for Stimulus bindings, state, etc.
 
-**Sub-parts** use the `part:` parameter:
+**Sub-parts** use the same `slot:` parameter with a combined name:
 
 ```erb
 <%# kiso/components/card/_header.html.erb %>
 <%# locals: (css_classes: "", **component_options) %>
-<%= component_tag :div, :card, part: :header, class: css_classes,
+<%= content_tag :div,
+    class: Kiso::Themes::CardHeader.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "card-header"),
     **component_options do %>
   <%= yield %>
 <% end %>
 ```
 
-Produces `<div data-card-part="header">` (no `data-component` on sub-parts).
+Produces `<div data-slot="card-header">`.
 
 **API summary:**
 
-| Argument | Purpose | Output |
+| `slot:` value | Purpose | Output |
 |---|---|---|
-| `:span` | HTML element | `<span ...>` |
-| `:badge` | Component name | `data-component="badge"` |
-| `variant:` | Visual style | `data-variant="..."` |
-| `size:` | Dimensions | `data-size="..."` |
-| `part:` | Sub-part name | `data-badge-part="..."` |
-| `class:` | Extra Tailwind classes | `class="..."` |
-| `**options` | Passthrough HTML attrs | `id="..."`, `aria-*`, etc. |
+| `"badge"` | Root component | `data-slot="badge"` |
+| `"card-header"` | Sub-part | `data-slot="card-header"` |
+| `"toggle-group"` | Multi-word root | `data-slot="toggle-group"` |
 
 ### Rendering Components
 
@@ -365,7 +365,7 @@ kiso/
         dropdown_menu_helper.rb
         table_helper.rb
         toggle_group_helper.rb
-        component_helper.rb      # component_tag() + kui() render helper
+        component_helper.rb      # kui() + kiso_prepare_options() helpers
     javascript/
       controllers/
         kiso/                    # Namespaced under kiso--
@@ -688,8 +688,9 @@ real usage.
 1. **Native first.** Use `<dialog>`, `[popover]`, `<details>`, `<progress>`
    before reaching for JavaScript. Progressive enhancement, not reimplementation.
 
-2. **Data attributes are the API.** `data-component`, `data-variant`,
-   `data-size`, `data-*-part`. CSS selects on these. No class soup.
+2. **`data-slot` is the identity API.** Every component gets `data-slot`
+   (shadcn v4 convention). CSS targets via `[data-slot=...]` and
+   `has-[[data-slot=...]]`. No class soup.
 
 3. **Composition over configuration.** Card is Header + Title + Content +
    Footer. Not `<Card title="..." footer="...">`. Small pieces, flexibly

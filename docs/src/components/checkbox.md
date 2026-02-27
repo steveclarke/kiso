@@ -99,7 +99,7 @@ SVG (Lucide Check icon). The `currentColor` inherits from
 
 | Attribute | Value |
 |-----------|-------|
-| `data-component` | `"checkbox"` |
+| `data-slot` | `"checkbox"` |
 | `type` | `"checkbox"` |
 | `aria-invalid` | Set when validation fails |
 | `disabled` | Native attribute |

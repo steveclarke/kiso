@@ -110,7 +110,7 @@ Kiso::Themes::ComponentName = ClassVariants.build(
 | Attribute | Value |
 |-----------|-------|
 | `role` | `alert` |
-| `data-component` | `"alert"` |
+| `data-slot` | `"alert"` |
 
 ### Keyboard
 

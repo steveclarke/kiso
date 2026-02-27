@@ -111,7 +111,7 @@ app/
 ├── assets/
 │   ├── stylesheets/kiso/   # Component CSS (transitions/pseudo-states only)
 │   └── tailwind/kiso/  # engine.css — shipped with gem (fonts + all color tokens)
-├── helpers/kiso/           # component_tag, kui() helpers
+├── helpers/kiso/           # kui(), kiso_prepare_options() helpers
 └── javascript/controllers/kiso/  # Stimulus controllers (namespaced)
 test/
 ├── components/previews/kiso/  # Lookbook previews + templates
@@ -359,7 +359,7 @@ For composed usage via `kui(:component, :part)`:
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::AlertTitle.render(class: css_classes),
-    data: { component: :alert, alert_part: :title },
+    data: kiso_prepare_options(component_options, slot: "alert-title"),
     **component_options do %>
   <%= yield %>
 <% end %>
@@ -384,10 +384,10 @@ For composed usage via `kui(:component, :part)`:
 | Icon sizing | `size-4` standard, `size-3` compact, `size-5` larger. No arbitrary values. |
 | Container padding | `p-6` large (Card, Dialog), `p-4` medium (Sheet, Popover), `p-2` compact. |
 | No arbitrary values | Never use `text-[8px]`, `h-[1.15rem]`, etc. Use standard Tailwind classes only. |
-| Sub-part naming | `kui(:alert, :title)` — **never** `kui(:alert_title)`. Files live in `alert/_title.html.erb`. Data attrs: `component: :alert, alert_part: :title`. |
+| Sub-part naming | `kui(:alert, :title)` — **never** `kui(:alert_title)`. Files live in `alert/_title.html.erb`. Slot: `data-slot="alert-title"`. |
 | No `block_given?` in ERB | Rails makes `block_given?` always true in partials. Use `capture { yield }.presence` for default-with-override. |
 | Strict locals | Every partial: `<%# locals: (color: :primary, ...) %>` |
-| Data attributes | `data-component="alert"` for identity — NOT for CSS selectors. |
+| Data slot | `data-slot="alert"` for identity (shadcn v4 convention). Kebab-case. Can be used as CSS selectors (`has-[[data-slot=...]]`). |
 | `css_classes:` override | Single override point, merged via tailwind_merge. |
 | Lookbook previews | Playground first, then Colors, Variants, feature galleries. |
 | Lookbook dark mode | Preview wrapper `div`s must include `text-foreground` so text/icons are visible in dark mode. Lookbook doesn't set a base text color on the preview iframe. |

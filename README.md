@@ -100,7 +100,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to help out.
 ```
 app/views/kiso/components/   ERB partials
 lib/kiso/themes/             Theme files (class_variants)
-app/helpers/kiso/            component_tag, kui() helpers
+app/helpers/kiso/            kui(), kiso_prepare_options() helpers
 app/assets/stylesheets/kiso/ CSS (only transitions and pseudo-states)
 test/components/previews/    Lookbook previews
 test/dummy/                  Dev Rails app

@@ -2,7 +2,7 @@
 <%= content_tag :nav,
     class: Kiso::Themes::Breadcrumb.render(class: css_classes),
     aria: { label: "breadcrumb" },
-    data: kiso_prepare_options(component_options, component: :breadcrumb),
+    data: kiso_prepare_options(component_options, slot: "breadcrumb"),
     **component_options do %>
   <%= yield %>
 <% end %>

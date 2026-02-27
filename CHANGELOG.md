@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Core engine with `kui()` component helper and `component_tag` builder
+- Core engine with `kui()` component helper and `kiso_prepare_options` builder
 - `class_variants` + `tailwind_merge` integration for variant definitions
 - Theme CSS with 7 palettes, surface tokens, and dark mode
 - Badge component (color × variant × size, pill shape, SVG handling)

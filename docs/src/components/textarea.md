@@ -105,7 +105,7 @@ Kiso::Themes::Textarea = ClassVariants.build(
 
 | Attribute | Value |
 |-----------|-------|
-| `data-component` | `"textarea"` |
+| `data-slot` | `"textarea"` |
 | `aria-invalid` | Set when validation fails |
 | `disabled` | Native attribute |
 

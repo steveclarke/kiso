@@ -114,7 +114,7 @@ Kiso::Themes::InputGroupAddon = ClassVariants.build(
 | Attribute | Value |
 |-----------|-------|
 | `role` | `"group"` on the container |
-| `data-component` | `"input_group"` |
+| `data-slot` | `"input-group"` |
 
 Focus and error states bubble up from the child input via `has-[:focus-visible]`
 and `has-[[aria-invalid]]` selectors on the container.
