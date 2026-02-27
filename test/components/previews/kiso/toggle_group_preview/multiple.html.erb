@@ -1,0 +1,13 @@
+<div class="flex gap-4 items-center text-foreground">
+  <%= kui(:toggle_group, type: :multiple) do %>
+    <%= kui(:toggle_group, :item, value: "bold", pressed: true, "aria-label": "Toggle bold") do %>
+      <%= kiso_icon("bold") %>
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "italic", pressed: true, "aria-label": "Toggle italic") do %>
+      <%= kiso_icon("italic") %>
+    <% end %>
+    <%= kui(:toggle_group, :item, value: "underline", "aria-label": "Toggle underline") do %>
+      <%= kiso_icon("underline") %>
+    <% end %>
+  <% end %>
+</div>
