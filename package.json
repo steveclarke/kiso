@@ -16,6 +16,7 @@
   },
   "files": [
     "app/javascript/controllers/kiso",
+    "app/javascript/kiso/utils",
     "README.md",
     "LICENSE"
   ],
@@ -24,7 +25,8 @@
   "types": "app/javascript/controllers/kiso/index.d.ts",
   "exports": {
     ".": "./app/javascript/controllers/kiso/index.js",
-    "./controllers/*": "./app/javascript/controllers/kiso/*"
+    "./controllers/*": "./app/javascript/controllers/kiso/*",
+    "./utils/*": "./app/javascript/kiso/utils/*"
   },
   "scripts": {
     "lint": "oxlint",

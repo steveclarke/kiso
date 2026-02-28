@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
-import { FOCUSABLE_SELECTOR } from "./utils/focusable"
-import { positionBelow } from "./utils/positioning"
+import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
+import { positionBelow } from "kiso-ui/utils/positioning"
 
 /**
  * Popover controller — toggles a floating panel anchored to a trigger element.

@@ -126,6 +126,21 @@ Consistency is more important than any individual improvement.
   `kui(:component_part)`. Files live in `component/_part.html.erb`. Data
   slots use kebab-case: `data-slot="alert-title"`, `data-slot="card-header"`.
 - **Strict locals on every partial** — `<%# locals: (color: :primary) %>`
+- **Bare specifier imports for shared utils** — Kiso must support both
+  importmaps (Rails) and npm bundlers (esbuild/Vite). Relative imports
+  (`./utils/highlight`) don't work with importmaps because Propshaft serves
+  fingerprinted filenames that relative URLs can't resolve. Instead, import
+  shared utilities using bare specifiers that match the npm package name:
+  ```javascript
+  import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
+  import { positionBelow } from "kiso-ui/utils/positioning"
+  import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
+  ```
+  These resolve via `pin_all_from` in `config/importmap.rb` for Rails apps
+  and via `package.json` `exports` for bundler apps. Both use wildcards,
+  so new util files in `app/javascript/kiso/utils/` are picked up
+  automatically — no config changes needed. **Never use relative imports
+  for shared utils.**
 - **JSDoc on all JavaScript** — every Stimulus controller, method, property,
   and event must have JSDoc comments. Class-level: `@example` with HTML usage,
   `@property` for targets/values, `@fires` for dispatched events. Methods:
@@ -209,9 +224,14 @@ gh project item-edit --project-id PVT_kwHNBRnOAUCSOg --id PVTI_xxx --field-id PV
 - **Dev server**: `bin/dev` runs Overmind daemonized. Start it if not
   running, restart services as needed (`overmind restart web`).
 
-## Linting
+## Linting & Formatting
 
-- **standardrb** — run `bundle exec standardrb --fix` before committing.
+- **Ruby**: `bundle exec standardrb --fix` before committing.
+- **JS lint**: `npm run lint` (oxlint). Config: `.oxlintrc.json`.
+- **JS format**: `npm run fmt` (oxfmt). Config: `.oxfmtrc.json`.
+- Run both checks before committing JS changes: `npm run lint && npm run fmt:check`
+- oxfmt uses no semicolons, double quotes, trailing commas, and sorts
+  imports + Tailwind classes automatically.
 
 ## Commands
 
@@ -224,6 +244,10 @@ bin/dev stop                  # Stop all services
 bin/dev -f                    # Start in foreground (for debugging)
 bundle exec rake test         # Run tests
 bundle exec standardrb --fix  # Lint & auto-format Ruby
+npm run lint                  # Lint JS (oxlint)
+npm run lint:fix              # Lint JS with auto-fix
+npm run fmt                   # Format JS (oxfmt)
+npm run fmt:check             # Check JS formatting (CI)
 bin/deploy                    # Deploy both services to production (Kamal + 1Password)
 bin/deploy --only lookbook    # Deploy Lookbook only (lookbook.kisoui.com)
 bin/deploy --only docs        # Deploy docs only (kisoui.com)
