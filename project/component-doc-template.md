@@ -75,7 +75,7 @@ Use the `variant:` local to change the visual style.
 | Part | Description |
 |------|-------------|
 | `:title` | Bold heading text. |
-| `:description` | Supporting text at `opacity-90`. |
+| `:description` | Supporting text (inherits parent color). |
 
 ## Examples
 

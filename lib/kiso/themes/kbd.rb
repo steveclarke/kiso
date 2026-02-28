@@ -10,7 +10,7 @@ module Kiso
     #
     # Sub-parts: {KbdGroup}
     Kbd = ClassVariants.build(
-      base: "bg-muted text-muted-foreground pointer-events-none inline-flex items-center " \
+      base: "bg-muted text-foreground pointer-events-none inline-flex items-center " \
             "justify-center gap-1 rounded-sm font-sans font-medium select-none " \
             "[&_svg:not([class*='size-'])]:size-3",
       variants: {

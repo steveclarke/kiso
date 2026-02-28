@@ -104,7 +104,7 @@ flip with CSS variables).
 Check the theme module's `base:` string for `text-foreground`.
 
 **Exceptions:** Sub-parts that inherit color from parent (like AlertTitle
-inside Alert). Components inside colored parents that use `opacity-90`.
+inside Alert). Description text inside colored components inherits parent color.
 
 #### Check 6: Data slot identity
 
@@ -240,7 +240,7 @@ These are the most frequent issues found in reviews, in order of likelihood:
 5. **Missing navigation.yml entry** — docs page exists but isn't linked
 6. **Missing text-foreground** on component root
 7. **Arbitrary Tailwind values** sneaking in
-8. **Description text using text-muted-foreground** inside colored components (should be opacity-90)
+8. **Description text using text-muted-foreground** inside colored components (should inherit parent color)
 9. **Using `block_given?` in ERB partials** — always true due to Rails
    internals. Must use `capture { yield }.presence` instead for
    default-with-override patterns. Flag any `block_given?` in ERB as a FAIL.

@@ -52,8 +52,7 @@ test.describe("Alert component", () => {
 
   test("passes WCAG 2.1 AA", async ({ page }) => {
     await page.goto(`${BASE}/playground`)
-    // Exclude color-contrast: opacity-90 on description reduces contrast (known design choice)
-    const results = await checkA11y(page, { exclude: ["color-contrast"] })
+    const results = await checkA11y(page)
     expect(results.violations).toEqual([])
   })
 })

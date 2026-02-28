@@ -270,7 +270,7 @@ In your final text output, include:
 - [ ] Tailwind classes match shadcn for layout/spacing/typography
 - [ ] Colored components use identical compound variant formulas (copied from Badge)
 - [ ] `text-foreground` on container component roots
-- [ ] `opacity-90` for description text inside colored components (not `text-muted-foreground`)
+- [ ] Description text inside colored components inherits parent color (not `text-muted-foreground`)
 - [ ] `ring ring-inset` for outline/subtle (not `border`)
 - [ ] Semantic tokens only (no raw palette shades, no `dark:` prefixes)
 - [ ] Default icons use `kiso_component_icon(:name)`, not `kiso_icon("name")` — new icons registered in `lib/kiso/configuration.rb`

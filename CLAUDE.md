@@ -67,8 +67,8 @@ Consistency is more important than any individual improvement.
 - **Foreground pairing** — every color has a `-foreground` companion.
   `bg-primary text-primary-foreground` is always accessible. This includes
   `inverted` → `inverted-foreground`.
-- **`opacity-90` for secondary text inside colored components** — description
-  text inherits the parent color at 90% opacity. Never use
+- **Inherit parent color for secondary text inside colored components** —
+  description text inherits the parent text color at full opacity. Never use
   `text-muted-foreground` inside colored components (it's absolute zinc-500,
   unreadable on colored backgrounds).
 - **shadcn is the structural source of truth** — when building a component,

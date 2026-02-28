@@ -316,7 +316,7 @@ For composed usage via `kui(:component, :part)`:
 | Convention | Rule |
 |------------|------|
 | Compound variants | **Identical across all colored components.** Copy from Badge. |
-| Description text | `opacity-90` inside colored components. Never `text-muted-foreground`. |
+| Description text | Inherits parent color at full opacity inside colored components. Never `text-muted-foreground`. |
 | Ring vs border | `ring ring-inset` for outline/subtle variants. Never `border`. |
 | Semantic tokens | `bg-primary`, `text-foreground` — never raw palette shades. |
 | No `dark:` prefixes | Tokens flip automatically via CSS variables (`.dark {}` block). |

@@ -114,7 +114,7 @@ Always use semantic tokens, never Tailwind palette colors:
 - `border-border` — default borders (tables, separators)
 
 ### Description text
-- Use `opacity-90` for secondary text inside colored components (inherits parent color)
+- Inside colored components, description inherits parent text color at full opacity
 - Use `text-muted-foreground` only outside colored components (absolute zinc-500)
 
 ## Using the Theme in ERB

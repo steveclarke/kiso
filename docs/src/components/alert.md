@@ -45,7 +45,7 @@ content spans the full width.
 | Part | Rendered via | Description |
 |------|-------------|-------------|
 | `:title` | `kui(:alert, :title)` | Bold heading with `tracking-tight`. Inherits parent text color. |
-| `:description` | `kui(:alert, :description)` | Supporting text at `opacity-90`. |
+| `:description` | `kui(:alert, :description)` | Supporting text (inherits parent color). |
 
 ## Usage
 
@@ -122,12 +122,13 @@ Kiso::Themes::AlertTitle = ClassVariants.build(
   base: "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight"
 )
 Kiso::Themes::AlertDescription = ClassVariants.build(
-  base: "col-start-2 grid justify-items-start gap-1 text-sm opacity-90 [&_p]:leading-relaxed"
+  base: "col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
 )
 ```
 
-**Note:** Description uses `opacity-90` (relative to parent text color), not
-`text-muted-foreground`. This ensures readability on colored backgrounds.
+**Note:** Description inherits the parent text color. Never use
+`text-muted-foreground` inside colored components — it's an absolute color
+that becomes unreadable on colored backgrounds.
 
 ## Accessibility
 

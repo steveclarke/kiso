@@ -61,7 +61,7 @@ Props-driven for the common case. Yield for full override.
 | Local | Type | Default | Description |
 |-------|------|---------|-------------|
 | `title` | String | nil | Alert title. Bold, inherits parent color. |
-| `description` | String | nil | Alert description. Rendered at `opacity-90`. |
+| `description` | String | nil | Alert description. Inherits parent text color. |
 | `icon` | String | nil | Icon name (leading). Rendered via icon helper. |
 | `close` | Boolean | false | Show close button (X icon, top-right). |
 | `close_url` | String | nil | If set, close button is a link instead of dismiss. |

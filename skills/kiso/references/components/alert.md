@@ -29,6 +29,6 @@ Contextual feedback message with optional icon, title, and description. Composit
 <% end %>
 ```
 
-**Note:** Description uses `opacity-90` (relative to parent text color), not `text-muted-foreground`.
+**Note:** Description inherits parent text color. Never use `text-muted-foreground` inside colored components.
 
 **Theme modules:** `Kiso::Themes::Alert`, `AlertTitle`, `AlertDescription` (`lib/kiso/themes/alert.rb`)

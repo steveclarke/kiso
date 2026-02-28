@@ -142,8 +142,8 @@ The same title/description pattern repeats across all container components:
 | Empty state | `text-lg font-medium tracking-tight` | `text-sm text-muted-foreground` |
 | Form fields | `text-sm font-medium` | `text-sm text-muted-foreground` |
 
-Inside colored components, description uses `opacity-90` instead of
-`text-muted-foreground`.
+Inside colored components, description inherits the parent text color at
+full opacity (never use `text-muted-foreground` on colored backgrounds).
 
 ---
 
@@ -418,7 +418,7 @@ each section. Header uses `gap-2` between title and description.
 <%= render "component_preview", component: "kiso/alert", scenario: "with_icon", chromeless: true, height: "350px" %>
 
 `rounded-lg` — title uses `font-medium tracking-tight`, description uses
-`text-sm` with `opacity-90` inside colored variants.
+`text-sm` inside colored variants (inherits parent text color).
 
 ---
 
@@ -449,7 +449,7 @@ classes change per component.
 | `/50` | Outline ring opacity |
 | `/25` | Subtle ring opacity |
 | `/10` | Soft/subtle background tint |
-| `opacity-90` | Secondary/description text inside colored components |
+| (inherit) | Description text inside colored components inherits parent color |
 
 ---
 

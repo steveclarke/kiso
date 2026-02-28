@@ -117,10 +117,10 @@ When referencing Nuxt UI source code, use this translation:
    Button — same 28 compound variants (7 colors x 4 variants). Only base
    classes differ.
 
-2. **Description / secondary text uses `opacity-90`**, not `text-muted-foreground`.
-   Opacity is relative to the parent's text color, so it works on colored
-   solid backgrounds. `text-muted-foreground` is an absolute color (zinc-500)
-   that breaks on non-white backgrounds.
+2. **Description / secondary text inherits the parent's text color** inside
+   colored components. Never use `text-muted-foreground` inside colored
+   components — it's an absolute color (zinc-500) that breaks on non-white
+   backgrounds.
 
 3. **`ring ring-inset` goes on the variant axis.** DRY — defined once, not
    repeated in each compound variant entry.
@@ -142,7 +142,7 @@ When referencing Nuxt UI source code, use this translation:
    - `/50` — outline ring opacity
    - `/25` — subtle ring opacity
    - `/10` — soft/subtle background tint
-   - `opacity-90` — secondary/description text
+   - (description text inherits parent color at full opacity)
 
 8. **Interactive components extend base formulas with states.** Button adds
    hover/active/focus-visible classes to the same base color tokens. Pattern:
@@ -293,8 +293,8 @@ Titles and descriptions follow the same pattern everywhere:
 | Form fields | `text-sm font-medium` (label) | `text-sm text-muted-foreground` |
 
 Description is always `text-sm text-muted-foreground` on neutral backgrounds.
-Inside colored components (Alert with color variants), use `opacity-90`
-instead (see Rule 2 above).
+Inside colored components (Alert with color variants), description inherits
+the parent text color at full opacity (see Rule 2 above).
 
 ### Kiso size variants
 

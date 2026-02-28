@@ -72,9 +72,9 @@ module Kiso
       base: "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight"
     )
 
-    # Alert body text. Uses +opacity-90+ for relative dimming on colored backgrounds.
+    # Alert body text. Inherits parent text color for contrast on colored backgrounds.
     AlertDescription = ClassVariants.build(
-      base: "col-start-2 grid justify-items-start gap-1 text-sm opacity-90 [&_p]:leading-relaxed"
+      base: "col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
     )
   end
 end
