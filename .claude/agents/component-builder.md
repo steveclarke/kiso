@@ -245,17 +245,39 @@ In your final text output, include:
 Before writing positioning, highlighting, or keyboard navigation code, check
 for existing utilities:
 
-- **`utils/positioning.js`** — `positionBelow(anchor, content, options)` for
+- **`kiso-ui/utils/positioning`** — `positionBelow(anchor, content, options)` for
   dropdown/popover positioning. Supports `gap`, `align` (start/center/end),
   and `container` options.
-- **`utils/highlight.js`** — `highlightItem(clearItems, items, index)` for
+- **`kiso-ui/utils/highlight`** — `highlightItem(clearItems, items, index)` for
   managing `data-highlighted` state with scroll-into-view.
   `wrapIndex(current, direction, length)` for circular list navigation.
-- **`utils/focusable.js`** — `FOCUSABLE_SELECTOR` constant for querying
+- **`kiso-ui/utils/focusable`** — `FOCUSABLE_SELECTOR` constant for querying
   focusable elements (links, buttons, inputs, etc.). Use with
   `querySelector`/`querySelectorAll` instead of inlining the selector string.
 
 Never reimplement these patterns inline.
+
+### Bare specifier imports (CRITICAL)
+
+**Never use relative imports (`./utils/...`) for shared utilities.** Use bare
+specifiers matching the npm package name:
+
+```javascript
+import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
+import { positionBelow } from "kiso-ui/utils/positioning"
+import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
+```
+
+Relative imports break importmaps because Propshaft serves fingerprinted
+filenames that relative URLs can't resolve. Bare specifiers resolve via
+importmap pins (`config/importmap.rb`) for Rails apps and via `package.json`
+`exports` for bundler apps. The same import path works in both worlds.
+
+When adding a **new** util file, just create it in
+`app/javascript/kiso/utils/`. Both `config/importmap.rb` (`pin_all_from`
+with `under: "kiso-ui/utils"`) and `package.json` (`"./utils/*"` export)
+use wildcards, so new files are picked up automatically — no config
+changes needed.
 
 ### No hardcoded classes or SVG in JavaScript
 

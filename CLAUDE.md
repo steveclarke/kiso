@@ -126,6 +126,21 @@ Consistency is more important than any individual improvement.
   `kui(:component_part)`. Files live in `component/_part.html.erb`. Data
   slots use kebab-case: `data-slot="alert-title"`, `data-slot="card-header"`.
 - **Strict locals on every partial** — `<%# locals: (color: :primary) %>`
+- **Bare specifier imports for shared utils** — Kiso must support both
+  importmaps (Rails) and npm bundlers (esbuild/Vite). Relative imports
+  (`./utils/highlight`) don't work with importmaps because Propshaft serves
+  fingerprinted filenames that relative URLs can't resolve. Instead, import
+  shared utilities using bare specifiers that match the npm package name:
+  ```javascript
+  import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
+  import { positionBelow } from "kiso-ui/utils/positioning"
+  import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
+  ```
+  These resolve via `pin_all_from` in `config/importmap.rb` for Rails apps
+  and via `package.json` `exports` for bundler apps. Both use wildcards,
+  so new util files in `app/javascript/kiso/utils/` are picked up
+  automatically — no config changes needed. **Never use relative imports
+  for shared utils.**
 - **JSDoc on all JavaScript** — every Stimulus controller, method, property,
   and event must have JSDoc comments. Class-level: `@example` with HTML usage,
   `@property` for targets/values, `@fires` for dispatched events. Methods:

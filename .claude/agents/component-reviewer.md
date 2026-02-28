@@ -228,8 +228,12 @@ These are the most frequent issues found in reviews, in order of likelihood:
 11. **Inline SVG in JS** — never use `innerHTML` with SVG. Render icons
     server-side with `kiso_component_icon()` and toggle `hidden` in JS.
 12. **Reimplemented positioning/highlighting/focusable queries** — use shared
-    utilities from `utils/positioning.js`, `utils/highlight.js`, and
-    `FOCUSABLE_SELECTOR` from `utils/focusable.js` instead of writing inline.
+    utilities from `kiso-ui/utils/positioning`, `kiso-ui/utils/highlight`, and
+    `FOCUSABLE_SELECTOR` from `kiso-ui/utils/focusable` instead of writing inline.
+12a. **Relative imports for shared utils** — imports like `./utils/highlight`
+    or `../utils/positioning` break importmaps (Propshaft fingerprints
+    filenames). Must use bare specifiers: `"kiso-ui/utils/highlight"`. Flag
+    any `from "./utils/` or `from "../utils/` in JS as a FAIL.
 13. **Anonymous event listeners** — always bind named handlers and clean up
     in `disconnect()`. Anonymous arrow functions leak.
 14. **Disabled attribute as presence** — use `dataset.disabled === "true"`,

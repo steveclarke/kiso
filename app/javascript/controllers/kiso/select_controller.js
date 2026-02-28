@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
-import { highlightItem, wrapIndex } from "./utils/highlight"
-import { positionBelow } from "./utils/positioning"
+import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
+import { positionBelow } from "kiso-ui/utils/positioning"
 
 /**
  * Custom select dropdown with keyboard navigation and form integration.

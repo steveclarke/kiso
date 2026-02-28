@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-import { wrapIndex } from "./utils/highlight"
+import { wrapIndex } from "kiso-ui/utils/highlight"
 
 /**
  * Command palette with search filtering, keyboard navigation, and item selection.

@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
-import { highlightItem, wrapIndex } from "./utils/highlight"
-import { positionBelow } from "./utils/positioning"
+import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
+import { positionBelow } from "kiso-ui/utils/positioning"
 
 /**
  * Dropdown menu with keyboard navigation, sub-menus, checkbox items, and radio items.
