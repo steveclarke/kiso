@@ -7,84 +7,14 @@ description: Guide for contributing to Kiso. Provides component structure patter
 
 Guidelines for contributing to the Kiso component library.
 
-## Philosophy
+## Philosophy and conventions
 
-Kiso is a UI framework built for the **era of agentic coding**. Every design
-decision serves one goal: **agents produce consistent, high-quality output
-without drift.**
+Read `CLAUDE.md` for the full set of conventions: framework mindset, design
+principles, naming rules, the two-source-of-truth pattern (shadcn structure +
+Nuxt UI theming), and all code conventions.
 
-### Framework mindset — no one-offs
-
-This is a UI framework, not an application. In a normal project you might add
-a one-off Tailwind class or make a local exception. Here, every decision is a
-pattern. Before changing a class, a token, a prop name, or a structural pattern
-in one component, consider its impact on every other component in the system.
-If the change doesn't apply consistently, either make it consistent across all
-components or don't make it at all. When unsure, ask before introducing
-something that only applies to one place. Consistency is more important than
-any individual improvement.
-
-### Design principles
-
-1. **Props over composition for common patterns.** If 90% of usages look the
-   same (icon + title + description), the component should accept props and
-   handle the layout internally. Yield blocks remain for full override. Props
-   are the guardrails that keep agent output consistent.
-
-2. **Identical compound variant formulas across all colored components.** Badge,
-   Alert, Button — same 28 compound variants. Only base/layout classes change.
-   Copy from an existing component, never invent new formulas. See
-   `project/design-system.md`.
-
-3. **shadcn aesthetic, Nuxt UI theming.** shadcn/ui is the visual reference
-   (clean, minimal layout and spacing). Nuxt UI is the theming source of truth
-   (two-axis color × variant, semantic tokens, compound variant system). When
-   in doubt about styling, check the Nuxt UI theme file at
-   `vendor/nuxt-ui/src/theme/`. When in doubt about look and
-   feel, check shadcn at `vendor/shadcn-ui/`.
-
-4. **Spatial system from shadcn.** All spacing, typography, radius, and icon
-   sizing follows the scales extracted from shadcn/ui and documented in the
-   "Spatial System" section of `project/design-system.md`. Never use arbitrary
-   values (`text-[8px]`, `h-[1.15rem]`). Pick from the established scales.
-
-5. **Deterministic output.** Components should produce the same HTML structure
-   regardless of who (or what) writes the template. This means: standardized
-   prop names, consistent defaults, well-defined layout behavior. An agent
-   passing `title:` and `description:` should get the exact same result every
-   time.
-
-6. **Progressive enhancement.** Start with props-driven ERB (Phase 1). Add
-   Stimulus controllers only when native HTML5 can't handle it (Phase 2).
-   Never require JS for basic rendering.
-
-### What we take from each reference
-
-**From shadcn/ui — structure + naming + implementation (the skeleton):**
-- **Match names exactly.** Use the same component name and sub-part names
-  that shadcn uses. If shadcn calls it `empty`, we call it `empty` — not
-  `empty_state`. Check the shadcn source file name and exported component
-  names before naming anything.
-- **Match div-for-div, class-for-class.** Read the shadcn component at
-  `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/` and copy their
-  Tailwind utility classes for layout, spacing, typography, and structure.
-  Do not invent your own classes — use what shadcn uses.
-- Simple sub-parts (Title, Description, Action) as separate partials
-- Single `css_classes:` override — no multi-layer config system
-- ~30 semantic tokens is the right scope
-- Only deviate from shadcn where Kiso's variant system or semantic tokens
-  require it (e.g., replacing `border` with `ring ring-inset ring-border`
-  for the outline variant, or `bg-card` with `bg-background`).
-
-**From Nuxt UI — theming + variants (the paint):**
-- Two-axis `color:` × `variant:` compound variants
-- Pure CSS custom properties, zero `dark:` prefixes
-- The outline/soft/subtle variant system and compound variant formulas
-- Props-driven API that encapsulates common patterns (icon, title, description,
-  actions, close) — agents pass data, component handles layout
-- `opacity-90` for description text (relative to parent, not absolute)
-- Foreground pairing convention (every color has `-foreground`)
-- Nuxt UI token mapping (see `project/design-system.md`)
+Read `project/design-system.md` for compound variant formulas, spatial system,
+and the semantic token table.
 
 ## Mandatory reading before building any component
 
@@ -242,6 +172,9 @@ renders as literal code:
 
 ## Colored component template
 
+> Copy-paste template for agents. See `project/design-system.md` for the
+> authoritative formula table.
+
 **Every colored component uses this exact compound variant block.** Copy it
 verbatim. Only change the `base:` string and any additional variant axes
 (like `size:` for Badge).
@@ -304,6 +237,8 @@ end
 ```
 
 ## Partial patterns
+
+> ERB code templates for agents. See `CLAUDE.md` for the rules these implement.
 
 ### Props-driven with yield fallback
 
@@ -374,6 +309,9 @@ For composed usage via `kui(:component, :part)`:
 ```
 
 ## Code conventions
+
+> Quick reference. Full details in `CLAUDE.md`, `project/design-system.md`,
+> and `project/component-strategy.md`.
 
 | Convention | Rule |
 |------------|------|
