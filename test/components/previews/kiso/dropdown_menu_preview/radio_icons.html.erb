@@ -3,7 +3,7 @@
     <%= kui(:dropdown_menu, :trigger) do %>
       <%= kui(:button, variant: :outline) { "Payment Method" } %>
     <% end %>
-    <%= kui(:dropdown_menu, :content, css_classes: "min-w-56") do %>
+    <%= kui(:dropdown_menu, :content, css_classes: "w-64") do %>
       <%= kui(:dropdown_menu, :group) do %>
         <%= kui(:dropdown_menu, :label) { "Select Payment Method" } %>
         <%= kui(:dropdown_menu, :radio_group, value: "card") do %>
