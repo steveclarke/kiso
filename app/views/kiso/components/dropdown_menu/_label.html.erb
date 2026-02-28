@@ -1,5 +1,5 @@
 <%# locals: (inset: false, css_classes: "", **component_options) %>
-<%= content_tag :span,
+<%= content_tag :div,
     class: Kiso::Themes::DropdownMenuLabel.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dropdown-menu-label",
       inset: (inset ? "" : nil)),
