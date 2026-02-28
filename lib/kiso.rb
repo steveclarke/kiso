@@ -27,6 +27,7 @@ require "kiso/themes/toggle"
 require "kiso/themes/toggle_group"
 require "kiso/themes/select"
 require "kiso/themes/popover"
+require "kiso/themes/combobox"
 require "kiso/icons"
 
 module Kiso

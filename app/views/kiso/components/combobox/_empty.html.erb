@@ -1,0 +1,9 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::ComboboxEmpty.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "combobox-empty",
+      kiso__combobox_target: "empty"),
+    hidden: true,
+    **component_options do %>
+  <%= yield %>
+<% end %>

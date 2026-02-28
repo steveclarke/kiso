@@ -1,0 +1,19 @@
+<div class="text-foreground max-w-xs">
+  <%= kui(:field) do %>
+    <%= kui(:field, :label, for: :framework) { "Framework" } %>
+    <%= kui(:combobox, name: :framework) do %>
+      <%= kui(:combobox, :input, placeholder: "Search frameworks...") %>
+      <%= kui(:combobox, :content) do %>
+        <%= kui(:combobox, :list) do %>
+          <%= kui(:combobox, :item, value: "nextjs") { "Next.js" } %>
+          <%= kui(:combobox, :item, value: "sveltekit") { "SvelteKit" } %>
+          <%= kui(:combobox, :item, value: "nuxtjs") { "Nuxt.js" } %>
+          <%= kui(:combobox, :item, value: "remix") { "Remix" } %>
+          <%= kui(:combobox, :item, value: "astro") { "Astro" } %>
+          <%= kui(:combobox, :empty) { "No frameworks found." } %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= kui(:field, :description) { "Choose your favorite web framework." } %>
+  <% end %>
+</div>

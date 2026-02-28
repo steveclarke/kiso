@@ -1,0 +1,12 @@
+<%# locals: (name: nil, multiple: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::Combobox.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "combobox",
+      controller: "kiso--combobox",
+      kiso__combobox_multiple_value: multiple),
+    **component_options do %>
+  <%= yield %>
+  <% if name %>
+    <%= tag.input(type: "hidden", name: name, data: {kiso__combobox_target: "hiddenInput"}) %>
+  <% end %>
+<% end %>

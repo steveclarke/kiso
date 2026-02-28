@@ -1,0 +1,18 @@
+<div class="text-foreground max-w-xs">
+  <%= kui(:combobox, name: "frameworks[]", multiple: true) do %>
+    <%= kui(:combobox, :chips) do %>
+      <%= kui(:combobox, :chip, value: "nextjs") { "Next.js" } %>
+      <%= kui(:combobox, :chips_input, placeholder: "Add framework...") %>
+    <% end %>
+    <%= kui(:combobox, :content) do %>
+      <%= kui(:combobox, :list) do %>
+        <%= kui(:combobox, :item, value: "nextjs") { "Next.js" } %>
+        <%= kui(:combobox, :item, value: "sveltekit") { "SvelteKit" } %>
+        <%= kui(:combobox, :item, value: "nuxtjs") { "Nuxt.js" } %>
+        <%= kui(:combobox, :item, value: "remix") { "Remix" } %>
+        <%= kui(:combobox, :item, value: "astro") { "Astro" } %>
+        <%= kui(:combobox, :empty) { "No frameworks found." } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

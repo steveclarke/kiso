@@ -1,0 +1,31 @@
+<div class="text-foreground max-w-xs">
+  <%= kui(:combobox, name: :timezone) do %>
+    <%= kui(:combobox, :input, placeholder: "Select a timezone") %>
+    <%= kui(:combobox, :content) do %>
+      <%= kui(:combobox, :list) do %>
+        <%= kui(:combobox, :group) do %>
+          <%= kui(:combobox, :label) { "Americas" } %>
+          <%= kui(:combobox, :item, value: "gmt-5-new-york") { "(GMT-5) New York" } %>
+          <%= kui(:combobox, :item, value: "gmt-8-los-angeles") { "(GMT-8) Los Angeles" } %>
+          <%= kui(:combobox, :item, value: "gmt-6-chicago") { "(GMT-6) Chicago" } %>
+          <%= kui(:combobox, :item, value: "gmt-5-toronto") { "(GMT-5) Toronto" } %>
+        <% end %>
+        <%= kui(:combobox, :separator) %>
+        <%= kui(:combobox, :group) do %>
+          <%= kui(:combobox, :label) { "Europe" } %>
+          <%= kui(:combobox, :item, value: "gmt-0-london") { "(GMT+0) London" } %>
+          <%= kui(:combobox, :item, value: "gmt-1-paris") { "(GMT+1) Paris" } %>
+          <%= kui(:combobox, :item, value: "gmt-1-berlin") { "(GMT+1) Berlin" } %>
+        <% end %>
+        <%= kui(:combobox, :separator) %>
+        <%= kui(:combobox, :group) do %>
+          <%= kui(:combobox, :label) { "Asia/Pacific" } %>
+          <%= kui(:combobox, :item, value: "gmt-9-tokyo") { "(GMT+9) Tokyo" } %>
+          <%= kui(:combobox, :item, value: "gmt-8-shanghai") { "(GMT+8) Shanghai" } %>
+          <%= kui(:combobox, :item, value: "gmt-8-singapore") { "(GMT+8) Singapore" } %>
+        <% end %>
+        <%= kui(:combobox, :empty) { "No timezones found." } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

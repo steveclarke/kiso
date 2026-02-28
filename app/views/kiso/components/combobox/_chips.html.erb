@@ -1,0 +1,8 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::ComboboxChips.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "combobox-chips",
+      kiso__combobox_target: "chips"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

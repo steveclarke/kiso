@@ -1,0 +1,6 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= tag.div(
+    class: Kiso::Themes::ComboboxSeparator.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "combobox-separator"),
+    role: "separator",
+    **component_options) %>

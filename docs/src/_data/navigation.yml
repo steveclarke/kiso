@@ -58,6 +58,8 @@ docs:
     items:
       - title: Checkbox
         href: /components/checkbox
+      - title: Combobox
+        href: /components/combobox
       - title: Field
         href: /components/field
       - title: Input
