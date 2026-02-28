@@ -33,11 +33,15 @@ export default class extends Controller {
     this._highlightedIndex = -1
     this._handleOutsideClick = this._handleOutsideClick.bind(this)
     this._handleKeydown = this._handleKeydown.bind(this)
+    this._handleMouseover = this._handleMouseover.bind(this)
     this._closeSubTimeout = null
   }
 
   disconnect() {
     this._removeGlobalListeners()
+    if (this._closeSubTimeout) {
+      clearTimeout(this._closeSubTimeout)
+    }
   }
 
   toggle(event) {
@@ -59,6 +63,9 @@ export default class extends Controller {
     this._positionContent()
     this._addGlobalListeners()
     this._highlightIndex(0)
+
+    // Mouse hover highlighting via event delegation
+    this.contentTarget.addEventListener("mouseover", this._handleMouseover)
   }
 
   close() {
@@ -70,6 +77,13 @@ export default class extends Controller {
     this.triggerTarget.setAttribute("aria-expanded", "false")
     this._highlightIndex(-1)
     this._removeGlobalListeners()
+    this.contentTarget.removeEventListener("mouseover", this._handleMouseover)
+
+    if (this._closeSubTimeout) {
+      clearTimeout(this._closeSubTimeout)
+      this._closeSubTimeout = null
+    }
+
     // Focus the button inside the trigger wrapper, or the trigger itself
     const btn = this.triggerTarget.querySelector("button, [tabindex]")
     ;(btn || this.triggerTarget).focus()
@@ -231,17 +245,38 @@ export default class extends Controller {
     subContent.hidden = false
     subTrigger.setAttribute("data-state", "open")
     this._positionSubContent(subTrigger, subContent)
+
+    // Auto-close when mouse leaves sub-content (with delay for gap crossing)
+    subContent._enterHandler = () => {
+      if (this._closeSubTimeout) {
+        clearTimeout(this._closeSubTimeout)
+        this._closeSubTimeout = null
+      }
+    }
+    subContent._leaveHandler = () => {
+      this._closeSubTimeout = setTimeout(() => {
+        if (!subContent.hidden) {
+          this._closeSub(sub, subTrigger, subContent)
+        }
+      }, 150)
+    }
+    subContent.addEventListener("mouseenter", subContent._enterHandler)
+    subContent.addEventListener("mouseleave", subContent._leaveHandler)
   }
 
   _closeSub(sub, subTrigger, subContent) {
     subContent.hidden = true
     subTrigger.removeAttribute("data-state")
 
+    // Clean up hover listeners
+    this._removeSubContentListeners(subContent)
+
     // Close nested sub-menus recursively
     subContent
       .querySelectorAll("[data-slot='dropdown-menu-sub-content']")
       .forEach((nested) => {
         nested.hidden = true
+        this._removeSubContentListeners(nested)
       })
     subContent
       .querySelectorAll("[data-slot='dropdown-menu-sub-trigger']")
@@ -253,10 +288,22 @@ export default class extends Controller {
   _closeAllSubs() {
     this.subContentTargets.forEach((subContent) => {
       subContent.hidden = true
+      this._removeSubContentListeners(subContent)
     })
     this.subTriggerTargets.forEach((subTrigger) => {
       subTrigger.removeAttribute("data-state")
     })
+  }
+
+  _removeSubContentListeners(subContent) {
+    if (subContent._enterHandler) {
+      subContent.removeEventListener("mouseenter", subContent._enterHandler)
+      subContent._enterHandler = null
+    }
+    if (subContent._leaveHandler) {
+      subContent.removeEventListener("mouseleave", subContent._leaveHandler)
+      subContent._leaveHandler = null
+    }
   }
 
   _allMenuItems(container) {
@@ -348,10 +395,56 @@ export default class extends Controller {
     })
   }
 
-  _handleOutsideClick(event) {
-    if (!this.element.contains(event.target)) {
-      this.close()
+  _handleMouseover(event) {
+    const item = event.target.closest(
+      "[data-slot='dropdown-menu-item'], " +
+        "[data-slot='dropdown-menu-checkbox-item'], " +
+        "[data-slot='dropdown-menu-radio-item'], " +
+        "[data-slot='dropdown-menu-sub-trigger']"
+    )
+    if (!item || !this.element.contains(item)) return
+    if (item.hasAttribute("data-disabled")) return
+
+    this._clearAllHighlights()
+    item.setAttribute("data-highlighted", "")
+
+    // When hovering a regular item, close open subs at the same level
+    if (item.dataset.slot !== "dropdown-menu-sub-trigger") {
+      const parentContainer = item.closest(
+        "[data-slot='dropdown-menu-content'], [data-slot='dropdown-menu-sub-content']"
+      )
+      if (parentContainer) {
+        parentContainer
+          .querySelectorAll("[data-slot='dropdown-menu-sub']")
+          .forEach((sub) => {
+            // Only close subs whose nearest content ancestor is this container
+            if (
+              sub.closest(
+                "[data-slot='dropdown-menu-content'], [data-slot='dropdown-menu-sub-content']"
+              ) === parentContainer
+            ) {
+              const sc = sub.querySelector(
+                "[data-slot='dropdown-menu-sub-content']"
+              )
+              const st = sub.querySelector(
+                "[data-slot='dropdown-menu-sub-trigger']"
+              )
+              if (sc && !sc.hidden) {
+                this._closeSub(sub, st, sc)
+              }
+            }
+          })
+      }
     }
+  }
+
+  _handleOutsideClick(event) {
+    // Check both the root element and any open fixed-positioned sub-contents
+    if (this.element.contains(event.target)) return
+    for (const subContent of this.subContentTargets) {
+      if (!subContent.hidden && subContent.contains(event.target)) return
+    }
+    this.close()
   }
 
   _handleKeydown(event) {
