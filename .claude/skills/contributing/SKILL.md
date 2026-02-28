@@ -195,9 +195,11 @@ Progress:
 - [ ] 10. Update skills/kiso/references/components.md
 - [ ] 11. Write/update project/components/[NAME].md vision doc
 - [ ] 12. Create docs page AND add to docs/src/_data/navigation.yml (see "Documentation page" below)
-- [ ] 13. Run: bundle exec standardrb --fix
-- [ ] 14. Rebuild Tailwind: cd test/dummy && bin/rails tailwindcss:build
-- [ ] 15. Verify in Lookbook: http://localhost:4001/lookbook
+- [ ] 13. Write Playwright E2E tests (see project/TESTING_STRATEGY.md for tier)
+- [ ] 14. Run: bundle exec standardrb --fix
+- [ ] 15. Run: npm run lint && npm run fmt:check
+- [ ] 16. Run: npm run test:unit && npm run test:e2e
+- [ ] 17. Verify in Lookbook: http://localhost:4001/lookbook
 ```
 
 ### Documentation page
@@ -409,7 +411,8 @@ For composed usage via `kui(:component, :part)`:
 | Disabled attribute | Use `data-disabled="true"` (value-based). Check with `dataset.disabled === "true"`, not `hasAttribute("data-disabled")`. |
 | Event listener cleanup | Always bind named handlers in `connect()` and remove them in `disconnect()`. Never use anonymous arrow functions for event listeners that need cleanup. |
 | Scoped vs global listeners | Prefer scoped listeners (on the controller element). Only use `document.addEventListener` when truly needed (e.g., dialog keyboard shortcuts). Remove global listeners in `disconnect()`. |
-| Lint before commit | `bundle exec standardrb --fix` |
+| E2E tests | Every component gets a `test/e2e/components/{name}.spec.js`. See `project/TESTING_STRATEGY.md` for tier requirements. |
+| Lint before commit | `bundle exec standardrb --fix` + `npm run lint && npm run fmt:check` |
 
 ## Worktree workflow
 
@@ -457,8 +460,13 @@ bin/dev -- -l web,css           # Lookbook + Tailwind only (no docs)
 bin/worktree start              # Start on worktree-assigned port
 bin/worktree port               # Show port for current worktree
 overmind restart web            # Restart Lookbook server
-bundle exec rake test           # Run tests
+bundle exec rake test           # Run Ruby tests
+npm run test:unit               # Run JS unit tests (Vitest)
+npm run test:e2e                # Run Playwright E2E tests (needs bin/dev)
+npm run test:e2e:ui             # Open Playwright GUI
 bundle exec standardrb --fix    # Lint & auto-format Ruby
+npm run lint                    # Lint JS (oxlint)
+npm run fmt                     # Format JS (oxfmt)
 ```
 
 ## Available references

@@ -157,7 +157,35 @@ modules). Follow any existing component file as a template.
 Then add a row to the appropriate table in `skills/kiso/references/components.md`
 (Layout, Forms, or Element) linking to the new file.
 
-### 7. Start servers and verify
+### 7. Write Playwright E2E tests
+
+File: `test/e2e/components/{name}.spec.js`
+
+Read `project/TESTING_STRATEGY.md` to determine the component's tier, then
+write tests covering all required categories for that tier.
+
+```javascript
+import { test, expect } from "@playwright/test"
+import { checkA11y } from "../fixtures/axe-fixture.js"
+
+const BASE = "/preview/kiso/{name}"
+
+test.describe("{ComponentName} component", () => {
+  // Tier 1: Renders, Content, Variants, Composition, Accessibility
+  // Tier 2: + State, Disabled
+  // Tier 3: + Open/Close, Keyboard, Focus, ARIA state, Selection
+})
+```
+
+Rules:
+- Assert behavior, not CSS classes (`data-slot`, `aria-*`, visibility, text)
+- Use Lookbook playground + named scenarios via URL
+- Parameterize variant tests via query params when supported
+- Always include an axe WCAG 2.1 AA scan as the last test
+- For Stimulus components: test open/close, Escape, click outside, keyboard
+  nav (Arrow keys, Enter/Space), and ARIA state changes
+
+### 8. Start servers and verify
 
 Start Lookbook and docs on your worktree's assigned ports. This daemonizes
 (runs in background) and returns immediately:
@@ -185,11 +213,14 @@ DOCS_PORT=$(bin/worktree port docs)
 curl -s -o /dev/null -w "%{http_code}" http://localhost:$DOCS_PORT/components/{name}
 ```
 
-### 8. Lint and test
+### 9. Lint and test
 
 ```bash
 bundle exec standardrb --fix
+npm run lint && npm run fmt
 bundle exec rake test
+npm run test:unit
+npm run test:e2e
 ```
 
 ### 9. Commit (but do NOT push or create PR)
@@ -241,7 +272,8 @@ In your final text output, include:
 - [ ] Semantic tokens only (no raw palette shades, no `dark:` prefixes)
 - [ ] Default icons use `kiso_component_icon(:name)`, not `kiso_icon("name")` — new icons registered in `lib/kiso/configuration.rb`
 - [ ] No arbitrary Tailwind values
-- [ ] All files: theme, require in kiso.rb, partials, previews, docs page, nav entry, skills ref (new file in `components/` + index row)
+- [ ] E2E test file: `test/e2e/components/{name}.spec.js` covering correct tier (see `project/TESTING_STRATEGY.md`)
+- [ ] All files: theme, require in kiso.rb, partials, previews, E2E tests, docs page, nav entry, skills ref (new file in `components/` + index row)
 - [ ] `Closes #N` in PR body
 - [ ] Stimulus controllers have full JSDoc (class, methods, properties, events)
 - [ ] Lint passes

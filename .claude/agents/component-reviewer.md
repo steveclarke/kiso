@@ -156,9 +156,25 @@ After checking out the PR branch (`gh pr checkout {PR_NUMBER}`), run:
 ```bash
 bundle exec standardrb --check lib/kiso/themes/{name}.rb
 bundle exec rake test
+npm run lint && npm run fmt:check
+npm run test:unit
+npm run test:e2e
 ```
 
-#### Check 11: JSDoc on Stimulus controllers
+#### Check 11: E2E test file exists and covers correct tier
+
+Verify `test/e2e/components/{name}.spec.js` exists. Read
+`project/TESTING_STRATEGY.md` for the tier system, then verify:
+
+- **Tier 1 (static):** renders, content, variants, composition, a11y
+- **Tier 2 (native-interactive):** + state, disabled
+- **Tier 3 (Stimulus):** + open/close, keyboard, focus, ARIA state, selection
+
+The test file must cover ALL required categories for the component's tier.
+Stimulus components (Tier 3) are the most critical — check that open/close,
+Escape, click outside, and keyboard navigation are all tested.
+
+#### Check 12: JSDoc on Stimulus controllers
 
 If the component includes a Stimulus controller, verify it has full JSDoc:
 - Class-level: description, `@example` with HTML usage, `@property` for
@@ -188,7 +204,8 @@ Format your report as:
 | 8 | Closes #N in PR body | PASS/FAIL | details |
 | 9 | No arbitrary values | PASS/FAIL | details |
 | 10 | Lint and tests | PASS/FAIL | details |
-| 11 | JSDoc on Stimulus controllers | PASS/FAIL/N/A | details |
+| 11 | E2E tests cover correct tier | PASS/FAIL | details |
+| 12 | JSDoc on Stimulus controllers | PASS/FAIL/N/A | details |
 
 ### Verdict: PASS / NEEDS FIXES
 
