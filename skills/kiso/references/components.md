@@ -51,6 +51,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | Component | Key locals | Reference |
 |---|---|---|
 | `badge` | `color`, `variant` (solid/outline/soft/subtle), `size` (xs-xl) | [badge.md](components/badge.md) |
+| `kbd` | `size` (sm/md/lg). Sub-part: group | [kbd.md](components/kbd.md) |
 | `alert` | `color`, `variant` (solid/outline/soft/subtle) | [alert.md](components/alert.md) |
 | `button` | `color`, `variant` (solid/outline/soft/subtle/ghost/link), `size` (xs-xl) | [button.md](components/button.md) |
 | `toggle` | `variant` (default/outline), `size` (sm/default/lg), `pressed` | [toggle.md](components/toggle.md) |

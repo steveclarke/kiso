@@ -43,6 +43,8 @@ docs:
         href: /components/dropdown_menu
       - title: Empty
         href: /components/empty
+      - title: Kbd
+        href: /components/kbd
       - title: Pagination
         href: /components/pagination
       - title: Popover

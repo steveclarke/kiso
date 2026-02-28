@@ -1,0 +1,13 @@
+<div class="text-foreground flex flex-col items-center gap-4">
+  <%= kui(:kbd, :group) do %>
+    <%= kui(:kbd) { "⌘" } %>
+    <%= kui(:kbd) { "⇧" } %>
+    <%= kui(:kbd) { "⌥" } %>
+    <%= kui(:kbd) { "⌃" } %>
+  <% end %>
+  <%= kui(:kbd, :group) do %>
+    <%= kui(:kbd) { "Ctrl" } %>
+    <span>+</span>
+    <%= kui(:kbd) { "B" } %>
+  <% end %>
+</div>
