@@ -218,4 +218,6 @@ bin/deploy                    # Deploy both services to production (Kamal + 1Pas
 bin/deploy --only lookbook    # Deploy Lookbook only (lookbook.kisoui.com)
 bin/deploy --only docs        # Deploy docs only (kisoui.com)
 bin/release                   # Tag and release a new gem version
+bin/release --npm 0.1.1       # Release npm package kiso-ui
+bin/release 0.2.0 --npm 0.1.1 # Release both gem and npm
 ```
