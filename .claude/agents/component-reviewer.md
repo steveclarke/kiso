@@ -211,3 +211,16 @@ These are the most frequent issues found in reviews, in order of likelihood:
 9. **Using `block_given?` in ERB partials** — always true due to Rails
    internals. Must use `capture { yield }.presence` instead for
    default-with-override patterns. Flag any `block_given?` in ERB as a FAIL.
+10. **Hardcoded Tailwind classes in Stimulus controllers** — JS should never
+    contain class strings. Use `<template>` elements in ERB and clone in JS.
+11. **Inline SVG in JS** — never use `innerHTML` with SVG. Render icons
+    server-side with `kiso_component_icon()` and toggle `hidden` in JS.
+12. **Reimplemented positioning/highlighting** — use shared utilities from
+    `utils/positioning.js` and `utils/highlight.js` instead of writing inline.
+13. **Anonymous event listeners** — always bind named handlers and clean up
+    in `disconnect()`. Anonymous arrow functions leak.
+14. **Disabled attribute as presence** — use `dataset.disabled === "true"`,
+    not `hasAttribute("data-disabled")`.
+15. **Duplicated theme class strings** — check `Kiso::Themes::Shared` for
+    existing constants (`ITEM_SEPARATOR`, `MENU_LABEL`, `MENU_SHORTCUT`,
+    `CHECKABLE_ITEM`) before inlining identical class strings.

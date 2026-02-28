@@ -225,6 +225,45 @@ In your final output, clearly include:
 - [ ] Tests pass
 - [ ] All previews return 200
 
+## Stimulus controller conventions
+
+### Reuse shared utilities
+
+Before writing positioning, highlighting, or keyboard navigation code, check
+for existing utilities:
+
+- **`utils/positioning.js`** — `positionBelow(anchor, content, options)` for
+  dropdown/popover positioning. Supports `gap`, `align` (start/center/end),
+  and `container` options.
+- **`utils/highlight.js`** — `highlightItem(clearItems, items, index)` for
+  managing `data-highlighted` state with scroll-into-view.
+  `wrapIndex(current, direction, length)` for circular list navigation.
+
+Never reimplement these patterns inline.
+
+### No hardcoded classes or SVG in JavaScript
+
+- **Template cloning:** When JS needs to create DOM dynamically (e.g., chips,
+  tags), add a `<template>` element in the ERB partial with proper theme
+  classes and icons, then clone it in JS. Never hardcode Tailwind class
+  strings or inline SVG in controllers.
+- **Icon toggling:** Render icons server-side via `kiso_component_icon()`.
+  Toggle visibility in JS with `element.hidden = true/false`. Never set
+  `innerHTML` with SVG strings.
+
+### Event listener hygiene
+
+- Bind named handlers in `connect()` and remove them in `disconnect()`.
+- Never use anonymous arrow functions for listeners that need cleanup.
+- Prefer scoped listeners (on the controller element) over global
+  (`document.addEventListener`). Only use global listeners when truly
+  required (e.g., dialog keyboard shortcuts, outside-click dismissal).
+
+### Disabled attribute convention
+
+Use `data-disabled="true"` (value-based) consistently. Check with
+`dataset.disabled === "true"`, never `hasAttribute("data-disabled")`.
+
 ## Field preview integration
 
 If this component is a form control, check issue #11 for the Field preview

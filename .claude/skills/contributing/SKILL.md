@@ -400,6 +400,13 @@ For composed usage via `kui(:component, :part)`:
 | Lookbook dark mode | Preview wrapper `div`s must include `text-foreground` so text/icons are visible in dark mode. Lookbook doesn't set a base text color on the preview iframe. |
 | Update docs | `skills/kiso/references/components.md` + vision doc. |
 | JSDoc on all JS | Every Stimulus controller, method, property, and event must have JSDoc. `@example`, `@property`, `@fires`, `@param`, `@returns`, `@private`. |
+| Shared JS utils | Use `positionBelow()` from `utils/positioning.js` and `highlightItem()`/`wrapIndex()` from `utils/highlight.js`. Never reimplement positioning or list navigation. |
+| Shared theme constants | Use `Shared::ITEM_SEPARATOR`, `MENU_LABEL`, `MENU_SHORTCUT`, `CHECKABLE_ITEM` from `lib/kiso/themes/shared.rb` when class strings are byte-for-byte identical. Keep component-specific variations inline. |
+| Template cloning for dynamic DOM | When JS creates DOM (e.g., chips), use a `<template>` element in the ERB partial and clone it. Never hardcode Tailwind classes or inline SVG in Stimulus controllers. |
+| Icon system in JS | Never use `innerHTML` with SVG strings. Render icons server-side (via `kiso_component_icon`) and toggle `hidden` attribute in JS. |
+| Disabled attribute | Use `data-disabled="true"` (value-based). Check with `dataset.disabled === "true"`, not `hasAttribute("data-disabled")`. |
+| Event listener cleanup | Always bind named handlers in `connect()` and remove them in `disconnect()`. Never use anonymous arrow functions for event listeners that need cleanup. |
+| Scoped vs global listeners | Prefer scoped listeners (on the controller element). Only use `document.addEventListener` when truly needed (e.g., dialog keyboard shortcuts). Remove global listeners in `disconnect()`. |
 | Lint before commit | `bundle exec standardrb --fix` |
 
 ## Worktree workflow (parallel development)
