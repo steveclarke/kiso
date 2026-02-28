@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-
 import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
 
 /**

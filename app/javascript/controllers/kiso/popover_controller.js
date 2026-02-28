@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-
 import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
 import { positionBelow } from "kiso-ui/utils/positioning"
 
