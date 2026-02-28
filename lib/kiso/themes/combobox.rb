@@ -34,7 +34,7 @@ module Kiso
     #   max-h-[min(calc(--spacing(96)---spacing(9)),calc(var(--available-height)---spacing(9)))]
     #   scroll-py-1 overflow-y-auto p-1 data-empty:p-0
     ComboboxList = ClassVariants.build(
-      base: "max-h-72 scroll-py-1 overflow-y-auto p-1"
+      base: "scroll-py-1 overflow-y-auto p-1"
     )
 
     # shadcn ComboboxItem:
@@ -65,7 +65,7 @@ module Kiso
     # shadcn ComboboxLabel:
     #   text-muted-foreground px-2 py-1.5 text-xs
     ComboboxLabel = ClassVariants.build(
-      base: "text-muted-foreground px-2 py-1.5 text-xs font-medium"
+      base: "text-muted-foreground px-2 py-1.5 text-xs"
     )
 
     # shadcn ComboboxEmpty:
@@ -77,7 +77,7 @@ module Kiso
     # shadcn ComboboxSeparator:
     #   bg-border -mx-1 my-1 h-px
     ComboboxSeparator = ClassVariants.build(
-      base: "bg-border pointer-events-none -mx-1 my-1 h-px"
+      base: "bg-border -mx-1 my-1 h-px"
     )
 
     # shadcn ComboboxChips:

@@ -1,9 +1,10 @@
 <%# locals: (placeholder: nil, disabled: false, css_classes: "", **component_options) %>
-<input type="text"
-       class="<%= Kiso::Themes::ComboboxChipsInput.render(class: css_classes) %>"
-       placeholder="<%= placeholder %>"
-       autocomplete="off"
-       <% if disabled %>disabled<% end %>
-       data-slot="combobox-chips-input"
-       data-kiso--combobox-target="input"
-       data-action="input->kiso--combobox#filter focus->kiso--combobox#onInputFocus keydown->kiso--combobox#inputKeydown">
+<%= tag.input type: "text",
+    class: Kiso::Themes::ComboboxChipsInput.render(class: css_classes),
+    placeholder: placeholder,
+    autocomplete: "off",
+    disabled: (disabled || nil),
+    data: kiso_prepare_options(component_options, slot: "combobox-chip-input",
+      kiso__combobox_target: "input",
+      action: "input->kiso--combobox#filter focus->kiso--combobox#onInputFocus keydown->kiso--combobox#inputKeydown"),
+    **component_options %>

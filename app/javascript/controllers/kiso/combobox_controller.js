@@ -358,7 +358,7 @@ export default class extends Controller {
     chip.appendChild(removeBtn)
 
     // Insert chip before the input element
-    const input = this.chipsTarget.querySelector("[data-slot='combobox-chips-input']")
+    const input = this.chipsTarget.querySelector("[data-slot='combobox-chip-input']")
     if (input) {
       this.chipsTarget.insertBefore(chip, input)
     } else {

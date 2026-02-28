@@ -1,6 +1,8 @@
 <%# locals: (placeholder: nil, disabled: false, css_classes: "", **component_options) %>
-<div class="<%= Kiso::Themes::ComboboxInput.render(class: css_classes) %>"
-     data-slot="combobox-input">
+<%= content_tag :div,
+    class: Kiso::Themes::ComboboxInput.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "combobox-input"),
+    **component_options do %>
   <input type="text"
          placeholder="<%= placeholder %>"
          autocomplete="off"
@@ -18,4 +20,4 @@
       <%= kiso_component_icon(:chevron_down, class: "size-4 pointer-events-none") %>
     </button>
   </div>
-</div>
+<% end %>
