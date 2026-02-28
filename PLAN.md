@@ -45,6 +45,7 @@ Reference: `vendor/maquina_components/` (local checkout)
 - [x] Playwright E2E + Vitest unit test infrastructure (#73)
 - [x] 3-tier testing strategy (`project/testing-strategy.md`)
 - [x] Agentic component factory (builder + reviewer agents, worktree isolation)
+- [x] E2E tests for all 25 components (#74)
 
 ### Open Issues
 
@@ -59,7 +60,6 @@ Reference: `vendor/maquina_components/` (local checkout)
 **Batch 1 complete. Batch 2 complete. Batch 3 mostly complete** (Toast, Calendar,
 Date Picker remaining). Current priorities:
 
-- **#74** — Write Playwright E2E tests for all existing components
 - **#75** — Organize project documentation
 - Toast / Calendar / Date Picker — remaining Batch 3 components
 - Header deferred to Phase 2 (page-level layouts: Header, Sidebar, Page)

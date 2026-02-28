@@ -49,6 +49,9 @@ fetch the vendor repos.
 # Ruby
 bundle exec rake test
 
+# All JavaScript tests (unit + E2E — needs bin/dev running)
+npm run test
+
 # JavaScript unit tests (Vitest)
 npm run test:unit
 
