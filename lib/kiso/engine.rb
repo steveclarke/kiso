@@ -3,6 +3,7 @@ module Kiso
   #
   # Registers initializers for:
   # - ClassVariants merger (TailwindMerge for class deduplication)
+  # - Global theme overrides ({ThemeOverrides})
   # - View helpers ({ComponentHelper}, {IconHelper})
   # - Importmap and asset pipeline paths
   # - Lookbook preview path registration
@@ -17,6 +18,13 @@ module Kiso
         merger = TailwindMerge::Merger.new
         config.process_classes_with { |classes| merger.merge(classes) }
       end
+    end
+
+    # Applies global theme overrides from {Configuration#theme} to
+    # theme constants. Runs after app initializers so the host app's
+    # +config/initializers/kiso.rb+ has populated +config.theme+.
+    initializer "kiso.theme_overrides", after: :load_config_initializers do
+      Kiso::ThemeOverrides.apply!
     end
 
     # Makes {ComponentHelper} and {IconHelper} available in all views.

@@ -4,6 +4,7 @@ require "class_variants"
 require "tailwind_merge"
 require "kiso/version"
 require "kiso/configuration"
+require "kiso/theme_overrides"
 require "kiso/engine"
 require "kiso/themes/shared"
 require "kiso/themes/badge"
@@ -48,6 +49,12 @@ require "kiso/icons"
 # @example Configuring icons
 #   Kiso.configure do |config|
 #     config.icons[:chevron_right] = "heroicons:chevron-right"
+#   end
+#
+# @example Global theme overrides
+#   Kiso.configure do |config|
+#     config.theme[:button] = { base: "rounded-full", defaults: { variant: :outline } }
+#     config.theme[:card_header] = { base: "p-8 sm:p-10" }
 #   end
 #
 # @see ComponentHelper#kui

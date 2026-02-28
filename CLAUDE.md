@@ -42,6 +42,11 @@ Consistency is more important than any individual improvement.
 
 ## Key Conventions
 
+- **Global theme overrides** — host apps override component styles globally
+  via `Kiso.configure { |c| c.theme[:button] = { base: "rounded-full" } }`.
+  Overrides are applied once at boot via `ClassVariants::Instance#merge`.
+  Layer order: theme default < global config < per-instance `css_classes:`.
+  See `project/component-strategy.md` Override System section.
 - **Computed Tailwind classes in ERB** — theme modules define variant class
   strings, partials render them. No `@apply` in CSS. CSS files only for
   transitions, animations, pseudo-states that ERB can't express.

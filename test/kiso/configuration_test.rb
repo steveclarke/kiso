@@ -38,4 +38,13 @@ class Kiso::ConfigurationTest < ActiveSupport::TestCase
   ensure
     Kiso.instance_variable_set(:@configuration, nil)
   end
+
+  test "theme defaults to empty hash" do
+    assert_equal({}, @config.theme)
+  end
+
+  test "theme accepts component overrides" do
+    @config.theme[:button] = {base: "rounded-full"}
+    assert_equal({base: "rounded-full"}, @config.theme[:button])
+  end
 end

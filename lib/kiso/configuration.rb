@@ -8,6 +8,7 @@ module Kiso
   #   # config/initializers/kiso.rb
   #   Kiso.configure do |config|
   #     config.icons[:chevron_right] = "heroicons:chevron-right"
+  #     config.theme[:button] = { base: "rounded-full" }
   #   end
   class Configuration
     # @return [Hash{Symbol => String}] semantic icon name to icon identifier mapping.
@@ -15,8 +16,16 @@ module Kiso
     #   values are icon identifiers passed to +kiso_icon+ (e.g. +"heroicons:chevron-right"+).
     attr_reader :icons
 
+    # @return [Hash{Symbol => Hash}] global theme overrides keyed by component name.
+    #   Keys are snake_case component names (e.g. +:button+, +:card_header+),
+    #   values are hashes accepted by +ClassVariants::Instance#merge+:
+    #   +base:+, +variants:+, +compound_variants:+, +defaults:+.
+    #   Applied once at boot by {ThemeOverrides.apply!}.
+    attr_reader :theme
+
     def initialize
       @icons = default_icons
+      @theme = {}
     end
 
     private

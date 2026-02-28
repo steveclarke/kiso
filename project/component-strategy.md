@@ -389,16 +389,13 @@ defaults: color: primary, variant: solid, size: md
 
 ## Override System
 
-Kiso follows shadcn's simpler model: **two layers**, not four.
+Kiso uses **three layers**, inspired by Nuxt UI's `app.config.ts` pattern:
 
 ```
-Layer 1: Component theme default     (Kiso gem)
-Layer 2: Instance override           (css_classes param)
+Layer 1: Component theme default     (Kiso gem — ClassVariants.build)
+Layer 2: Global config override      (host app — Kiso.configure)
+Layer 3: Instance override           (call site — css_classes param)
 ```
-
-This mirrors shadcn's `className` prop. Nuxt UI's 4-layer system (theme <
-appConfig < context < prop) is powerful but over-engineered for ERB partials
-where there's no reactive context injection.
 
 ### How It Works
 
@@ -411,34 +408,50 @@ Kiso::Themes::Button = ClassVariants.build(
 )
 ```
 
-**Layer 2 — Instance Override** (at the call site):
+**Layer 2 — Global Config Override** (host app initializer):
+```ruby
+# config/initializers/kiso.rb
+Kiso.configure do |config|
+  config.theme[:button] = { base: "rounded-full", defaults: { variant: :outline } }
+  config.theme[:card_header] = { base: "p-8 sm:p-10" }
+end
+```
+
+Override hashes accept the same kwargs as `ClassVariants.build`: `base:`,
+`variants:`, `compound_variants:`, `defaults:`. Applied once at boot via
+`ClassVariants::Instance#merge` — zero per-render cost.
+
+Snake_case keys map to PascalCase constants: `:card_header` →
+`Kiso::Themes::CardHeader`.
+
+**Layer 3 — Instance Override** (at the call site):
 ```erb
-<%= render "components/button", css_classes: "rounded-full px-8" %>
+<%= kui(:button, css_classes: "rounded-full px-8") { "Click" } %>
 ```
 
 ### Merge Strategy
 
-The `css_classes` parameter is passed to `.render(class:)`, which feeds
-through tailwind-merge. Conflicting classes resolve — last wins:
+All three layers feed through tailwind-merge. Conflicting classes resolve —
+last wins:
 
 ```
 Theme:    "rounded-md px-2.5 py-1.5 font-medium"
-Instance: "rounded-full px-8"
+Global:   "rounded-full"
+Instance: "px-8"
 Result:   "rounded-full px-8 py-1.5 font-medium"
-           ^             ^
-           user wins      user wins
 ```
+
+**How merge works internally:**
+- `base:` — appended to the base class list (tailwind-merge deduplicates)
+- `variants:` — appended variant entries (tailwind-merge deduplicates)
+- `compound_variants:` — appended alongside existing compounds
+- `defaults:` — replaced via `Hash#merge!` (changes default variant selection)
 
 ### Why Not More Layers?
 
-- **No global config layer** — if the host app wants different button
-  defaults, they override the theme file. Kiso components are installed as
-  source (like shadcn), not consumed as sealed abstractions.
 - **No theme context wrapper** — ERB partials don't have Vue/React's
   provide/inject. You could build this with `content_for` or view locals, but
   the complexity isn't worth it for most apps.
-- **YAGNI** — start with two layers. If a real need for global overrides
-  emerges, add it then.
 
 ---
 
