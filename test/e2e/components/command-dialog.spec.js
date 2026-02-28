@@ -123,6 +123,18 @@ test.describe("CommandDialog component", () => {
     await expect(visibleItems.first()).toContainText("Billing")
   })
 
+  test("clicking backdrop closes dialog", async ({ page }) => {
+    await page.goto(`${BASE}/dialog`)
+    await waitForStimulus(page)
+    await page.keyboard.press("Meta+k")
+    const dialog = page.locator("[data-slot='command-dialog']")
+    await expect(dialog).toHaveAttribute("open", "")
+
+    // Click the backdrop area (top-left corner, outside the centered content)
+    await dialog.click({ position: { x: 5, y: 5 } })
+    await expect(dialog).not.toHaveAttribute("open")
+  })
+
   test("passes WCAG 2.1 AA when dialog is open", async ({ page }) => {
     await page.goto(`${BASE}/dialog`)
     await waitForStimulus(page)

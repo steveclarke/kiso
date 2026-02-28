@@ -95,6 +95,30 @@ test.describe("Select component", () => {
     await expect(indicator).not.toHaveAttribute("hidden", "")
   })
 
+  test("Space key opens the listbox", async ({ page }) => {
+    await page.goto(`${BASE}/playground`)
+    const trigger = page.locator("[data-slot='select-trigger']")
+    const content = page.locator("[data-slot='select-content']")
+
+    await trigger.focus()
+    await page.keyboard.press("Space")
+
+    await expect(content).toBeVisible()
+    await expect(trigger).toHaveAttribute("aria-expanded", "true")
+  })
+
+  test("Enter key opens the listbox", async ({ page }) => {
+    await page.goto(`${BASE}/playground`)
+    const trigger = page.locator("[data-slot='select-trigger']")
+    const content = page.locator("[data-slot='select-content']")
+
+    await trigger.focus()
+    await page.keyboard.press("Enter")
+
+    await expect(content).toBeVisible()
+    await expect(trigger).toHaveAttribute("aria-expanded", "true")
+  })
+
   test("ArrowDown on trigger opens the listbox", async ({ page }) => {
     await page.goto(`${BASE}/playground`)
     const trigger = page.locator("[data-slot='select-trigger']")

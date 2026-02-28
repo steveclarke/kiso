@@ -98,9 +98,12 @@ export default class extends Controller {
     }
   }
 
-  /** Opens the dropdown when the input receives focus. */
+  /**
+   * Opens the dropdown when the input receives focus.
+   * Skipped when focus is returned programmatically after selection.
+   */
   onInputFocus() {
-    if (!this._open) {
+    if (!this._open && !this._suppressFocusOpen) {
       this.open()
     }
   }
@@ -362,9 +365,11 @@ export default class extends Controller {
     this.close()
     this.dispatch("change", { detail: { value } })
 
-    // Focus the input after close
+    // Focus the input after close, suppressing the auto-open behavior
     if (this.hasInputTarget) {
+      this._suppressFocusOpen = true
       this.inputTarget.focus()
+      this._suppressFocusOpen = false
     }
   }
 

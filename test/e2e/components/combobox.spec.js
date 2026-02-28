@@ -163,14 +163,17 @@ test.describe("Combobox component", () => {
     await expect(input).toHaveValue("SvelteKit")
   })
 
-  test("clicking an item selects it", async ({ page }) => {
+  test("clicking an item selects it and closes dropdown", async ({ page }) => {
     await page.goto(`${BASE}/playground`)
     const input = page.locator("[data-slot='combobox-input'] input")
+    const content = page.locator("[data-slot='combobox-content']")
     await input.focus()
+    await expect(content).toBeVisible()
     const item = page.locator("[data-slot='combobox-item'][data-value='remix']")
     await item.click()
-    // Combobox re-opens after selection (focus returns to input triggering open)
+    await expect(content).toBeHidden()
     await expect(input).toHaveValue("Remix")
+    await expect(input).toBeFocused()
   })
 
   test("selected item gets aria-selected=true", async ({ page }) => {
@@ -179,8 +182,9 @@ test.describe("Combobox component", () => {
     await input.focus()
     const item = page.locator("[data-slot='combobox-item'][data-value='nuxtjs']")
     await item.click()
-    // Re-open to check the aria state
-    await input.focus()
+    // Re-open via trigger to check the aria state (input already focused after selection)
+    const trigger = page.locator("[data-slot='combobox-trigger']")
+    await trigger.click()
     await expect(item).toHaveAttribute("aria-selected", "true")
   })
 
@@ -190,8 +194,9 @@ test.describe("Combobox component", () => {
     await input.focus()
     const item = page.locator("[data-slot='combobox-item'][data-value='astro']")
     await item.click()
-    // Re-open to check indicator
-    await input.focus()
+    // Re-open via trigger to check indicator (input already focused after selection)
+    const trigger = page.locator("[data-slot='combobox-trigger']")
+    await trigger.click()
     const indicator = item.locator("[data-slot='combobox-item-indicator']")
     await expect(indicator).toBeVisible()
   })

@@ -124,6 +124,28 @@ test.describe("Popover component", () => {
     await expect(description).toContainText("Set the dimensions for the layer.")
   })
 
+  test("Space key opens popover", async ({ page }) => {
+    await page.goto(`${BASE}/basic`)
+    const button = page.locator("[data-slot='popover-trigger'] button")
+    const content = page.locator("[data-slot='popover-content']")
+
+    await button.focus()
+    await page.keyboard.press("Space")
+    await expect(content).toBeVisible()
+    await expect(button).toHaveAttribute("aria-expanded", "true")
+  })
+
+  test("Enter key opens popover", async ({ page }) => {
+    await page.goto(`${BASE}/basic`)
+    const button = page.locator("[data-slot='popover-trigger'] button")
+    const content = page.locator("[data-slot='popover-content']")
+
+    await button.focus()
+    await page.keyboard.press("Enter")
+    await expect(content).toBeVisible()
+    await expect(button).toHaveAttribute("aria-expanded", "true")
+  })
+
   test("accepts align parameter", async ({ page }) => {
     await page.goto(`${BASE}/playground?align=start`)
     const trigger = page.locator("[data-slot='popover-trigger']")

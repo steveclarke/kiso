@@ -67,12 +67,13 @@ module Kiso
 
     # The native +<dialog>+ element for modal command palette usage.
     CommandDialog = ClassVariants.build(
-      base: "bg-transparent p-0 backdrop:bg-black/50 max-w-lg w-full rounded-lg open:flex"
+      base: "fixed inset-0 z-50 m-0 h-full w-full max-w-none max-h-none bg-black/50 p-0 " \
+            "flex items-center justify-center backdrop:bg-transparent open:flex"
     )
 
     # Inner content wrapper inside the {CommandDialog}.
     CommandDialogContent = ClassVariants.build(
-      base: "bg-background text-foreground overflow-hidden rounded-lg ring ring-inset ring-border shadow-lg w-full"
+      base: "bg-background text-foreground overflow-hidden rounded-lg ring ring-inset ring-border shadow-lg w-full max-w-lg"
     )
   end
 end
