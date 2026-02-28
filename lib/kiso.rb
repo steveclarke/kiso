@@ -29,6 +29,7 @@ require "kiso/themes/select"
 require "kiso/themes/popover"
 require "kiso/themes/combobox"
 require "kiso/themes/command"
+require "kiso/themes/dropdown_menu"
 require "kiso/icons"
 
 module Kiso

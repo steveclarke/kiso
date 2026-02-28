@@ -1,0 +1,6 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= tag.div(
+    class: Kiso::Themes::DropdownMenuSeparator.render(class: css_classes),
+    role: "separator",
+    data: kiso_prepare_options(component_options, slot: "dropdown-menu-separator"),
+    **component_options) %>

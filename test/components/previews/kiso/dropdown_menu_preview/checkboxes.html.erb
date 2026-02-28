@@ -1,0 +1,21 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Open" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content, css_classes: "w-56") do %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :label) { "Appearance" } %>
+        <%= kui(:dropdown_menu, :checkbox_item, checked: true) do %>
+          Status Bar
+        <% end %>
+        <%= kui(:dropdown_menu, :checkbox_item, checked: false, disabled: true) do %>
+          Activity Bar
+        <% end %>
+        <%= kui(:dropdown_menu, :checkbox_item, checked: false) do %>
+          Panel
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

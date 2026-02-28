@@ -1,0 +1,17 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Open" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content, css_classes: "w-56") do %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :label) { "Panel Position" } %>
+        <%= kui(:dropdown_menu, :radio_group, value: "bottom") do %>
+          <%= kui(:dropdown_menu, :radio_item, value: "top") { "Top" } %>
+          <%= kui(:dropdown_menu, :radio_item, value: "bottom", checked: true) { "Bottom" } %>
+          <%= kui(:dropdown_menu, :radio_item, value: "right") { "Right" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

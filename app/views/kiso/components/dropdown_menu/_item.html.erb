@@ -1,0 +1,15 @@
+<%# locals: (variant: :default, inset: false, disabled: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::DropdownMenuItem.render(variant: variant, class: css_classes),
+    role: "menuitem",
+    tabindex: "-1",
+    data: kiso_prepare_options(component_options, slot: "dropdown-menu-item",
+      kiso__dropdown_menu_target: "item",
+      action: "click->kiso--dropdown-menu#selectItem",
+      inset: (inset ? "" : nil),
+      variant: (variant == :destructive ? "destructive" : nil),
+      disabled: (disabled ? "" : nil)),
+    aria: {disabled: (disabled || nil)},
+    **component_options do %>
+  <%= yield %>
+<% end %>

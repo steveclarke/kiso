@@ -1,0 +1,60 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :ghost, size: :icon) do %>
+        <span class="relative flex size-8 shrink-0 overflow-hidden rounded-full">
+          <span class="flex size-full items-center justify-center rounded-full bg-muted text-sm font-medium">SC</span>
+        </span>
+      <% end %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content, css_classes: "w-56") do %>
+      <%= kui(:dropdown_menu, :label) do %>
+        <div class="flex items-center gap-2">
+          <span class="relative flex size-8 shrink-0 overflow-hidden rounded-full">
+            <span class="flex size-full items-center justify-center rounded-full bg-muted text-sm font-medium">SC</span>
+          </span>
+          <div class="flex flex-col">
+            <span class="text-sm font-medium">Steve Clarke</span>
+            <span class="text-xs text-muted-foreground">steve@example.com</span>
+          </div>
+        </div>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("user") %>
+          Profile
+          <%= kui(:dropdown_menu, :shortcut) { "⇧⌘P" } %>
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("credit-card") %>
+          Billing
+          <%= kui(:dropdown_menu, :shortcut) { "⌘B" } %>
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("settings") %>
+          Settings
+          <%= kui(:dropdown_menu, :shortcut) { "⌘S" } %>
+        <% end %>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("users") %>
+          Team
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("plus") %>
+          New Team
+          <%= kui(:dropdown_menu, :shortcut) { "⌘+T" } %>
+        <% end %>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%= kui(:dropdown_menu, :item) do %>
+        <%= kiso_icon("log-out") %>
+        Log out
+        <%= kui(:dropdown_menu, :shortcut) { "⇧⌘Q" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

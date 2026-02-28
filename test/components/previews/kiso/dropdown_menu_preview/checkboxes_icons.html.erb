@@ -1,0 +1,24 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Notifications" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content, css_classes: "w-56") do %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :label) { "Notification Preferences" } %>
+        <%= kui(:dropdown_menu, :checkbox_item, checked: true) do %>
+          <%= kiso_icon("mail") %>
+          Email notifications
+        <% end %>
+        <%= kui(:dropdown_menu, :checkbox_item, checked: false) do %>
+          <%= kiso_icon("message-square") %>
+          SMS notifications
+        <% end %>
+        <%= kui(:dropdown_menu, :checkbox_item, checked: true) do %>
+          <%= kiso_icon("bell") %>
+          Push notifications
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

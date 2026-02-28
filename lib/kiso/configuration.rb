@@ -18,7 +18,8 @@ module Kiso
         check: "check",
         ellipsis: "ellipsis",
         x: "x",
-        search: "search"
+        search: "search",
+        circle: "circle"
       }
     end
   end
