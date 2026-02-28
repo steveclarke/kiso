@@ -1,0 +1,33 @@
+{
+  "name": "kiso-ui",
+  "version": "0.1.0",
+  "description": "Stimulus controllers for Kiso UI components",
+  "type": "module",
+  "main": "app/javascript/controllers/kiso/index.js",
+  "types": "app/javascript/controllers/kiso/index.d.ts",
+  "exports": {
+    ".": "./app/javascript/controllers/kiso/index.js",
+    "./controllers/*": "./app/javascript/controllers/kiso/*"
+  },
+  "files": [
+    "app/javascript/controllers/kiso",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": ["stimulus", "rails", "ui", "components"],
+  "author": "Steve Clarke",
+  "license": "MIT",
+  "peerDependencies": {
+    "@hotwired/stimulus": ">=3.0.0"
+  },
+  "devDependencies": {
+    "np": "^10.2.0"
+  },
+  "scripts": {
+    "release": "np"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/steveclarke/kiso.git"
+  }
+}

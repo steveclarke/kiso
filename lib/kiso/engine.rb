@@ -16,6 +16,19 @@ module Kiso
       end
     end
 
+    initializer "kiso.importmap", before: "importmap" do |app|
+      if app.config.respond_to?(:importmap)
+        app.config.importmap.paths << root.join("config/importmap.rb")
+        app.config.importmap.cache_sweepers << root.join("app/javascript")
+      end
+    end
+
+    initializer "kiso.assets" do |app|
+      if app.config.respond_to?(:assets)
+        app.config.assets.paths << root.join("app/javascript")
+      end
+    end
+
     initializer "kiso.lookbook", after: :load_config_initializers do
       if defined?(Lookbook)
         Lookbook.config.preview_paths << root.join("test/components/previews").to_s
