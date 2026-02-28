@@ -15,7 +15,11 @@
  * @param {"start"|"center"|"end"} [options.align="start"] - Horizontal alignment
  * @param {HTMLElement} [options.container] - Parent container for "end" alignment calculation
  */
-export function positionBelow(anchor, content, { gap = 4, align = "start", container = null } = {}) {
+export function positionBelow(
+  anchor,
+  content,
+  { gap = 4, align = "start", container = null } = {},
+) {
   const rect = anchor.getBoundingClientRect()
 
   content.style.position = "absolute"

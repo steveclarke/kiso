@@ -27,7 +27,7 @@ export default class extends Controller {
   static values = {
     type: { type: String, default: "single" },
     variant: { type: String, default: "default" },
-    size: { type: String, default: "default" }
+    size: { type: String, default: "default" },
   }
 
   /**
@@ -121,8 +121,8 @@ export default class extends Controller {
 
     this.dispatch("change", {
       detail: {
-        value: this.typeValue === "single" ? selectedValues[0] || null : selectedValues
-      }
+        value: this.typeValue === "single" ? selectedValues[0] || null : selectedValues,
+      },
     })
   }
 }

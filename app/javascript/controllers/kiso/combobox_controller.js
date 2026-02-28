@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
-import { positionBelow } from "./utils/positioning"
+
 import { highlightItem, wrapIndex } from "./utils/highlight"
+import { positionBelow } from "./utils/positioning"
 
 /**
  * Combobox autocomplete with keyboard navigation, filtering, and form integration.
@@ -46,7 +47,19 @@ import { highlightItem, wrapIndex } from "./utils/highlight"
  *   Detail: `{ value: string }` (single) or `{ value: string[] }` (multiple).
  */
 export default class extends Controller {
-  static targets = ["input", "content", "list", "item", "indicator", "empty", "hiddenInput", "trigger", "chips", "chip", "chipTemplate"]
+  static targets = [
+    "input",
+    "content",
+    "list",
+    "item",
+    "indicator",
+    "empty",
+    "hiddenInput",
+    "trigger",
+    "chips",
+    "chip",
+    "chipTemplate",
+  ]
   static values = { multiple: { type: Boolean, default: false } }
 
   connect() {
@@ -250,7 +263,9 @@ export default class extends Controller {
     this._addGlobalListeners()
 
     // Reset filter to show all items
-    this.itemTargets.forEach((item) => { item.hidden = false })
+    this.itemTargets.forEach((item) => {
+      item.hidden = false
+    })
     if (this.hasEmptyTarget) {
       this.emptyTarget.hidden = true
     }
@@ -259,7 +274,7 @@ export default class extends Controller {
     // Highlight the selected item (single mode) or first item
     if (!this.multipleValue) {
       const selectedIndex = this._visibleEnabledItems.findIndex(
-        (item) => item.getAttribute("aria-selected") === "true"
+        (item) => item.getAttribute("aria-selected") === "true",
       )
       this._highlightIndex(selectedIndex >= 0 ? selectedIndex : 0)
     } else {
@@ -496,9 +511,7 @@ export default class extends Controller {
    * @private
    */
   get _visibleEnabledItems() {
-    return this.itemTargets.filter(
-      (item) => !item.hidden && item.dataset.disabled !== "true"
-    )
+    return this.itemTargets.filter((item) => !item.hidden && item.dataset.disabled !== "true")
   }
 
   /**
@@ -562,7 +575,8 @@ export default class extends Controller {
     if (!this.hasContentTarget) return
 
     // Find the anchor — either the combobox-input wrapper, chips container, or the controller element
-    const anchor = this.element.querySelector("[data-slot='combobox-input']") ||
+    const anchor =
+      this.element.querySelector("[data-slot='combobox-input']") ||
       this.element.querySelector("[data-slot='combobox-chips']") ||
       this.element
 
