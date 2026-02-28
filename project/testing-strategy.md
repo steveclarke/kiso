@@ -145,6 +145,7 @@ rules — these are Lookbook preview layout issues, not component concerns.
 ## Running Tests
 
 ```bash
+npm run test               # All JS tests (unit + E2E)
 npm run test:unit          # Vitest (JS utils)
 npm run test:e2e           # Playwright (all browsers)
 npm run test:e2e:ui        # Playwright GUI

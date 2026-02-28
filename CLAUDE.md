@@ -247,7 +247,8 @@ bin/dev restart docs          # Restart docs server
 bin/dev status                # Show running processes
 bin/dev stop                  # Stop all services
 bin/dev -f                    # Start in foreground (for debugging)
-bundle exec rake test         # Run tests
+bundle exec rake test         # Run Ruby tests
+npm run test                  # Run all JS tests (unit + E2E)
 bundle exec standardrb --fix  # Lint & auto-format Ruby
 npm run lint                  # Lint JS (oxlint)
 npm run lint:fix              # Lint JS with auto-fix
