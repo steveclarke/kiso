@@ -1,0 +1,8 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: css_classes.presence,
+    data: kiso_prepare_options(component_options, slot: "popover-anchor",
+      kiso__popover_target: "anchor"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

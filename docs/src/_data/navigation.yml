@@ -41,6 +41,8 @@ docs:
         href: /components/empty
       - title: Pagination
         href: /components/pagination
+      - title: Popover
+        href: /components/popover
       - title: Separator
         href: /components/separator
       - title: Stats Card

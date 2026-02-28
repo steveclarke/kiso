@@ -48,6 +48,12 @@ All colored components use **identical compound variant formulas** — see `proj
 | `toggle` | `variant` (default/outline), `size` (sm/default/lg), `pressed` | [toggle.md](components/toggle.md) |
 | `toggle_group` | `type` (single/multiple), `variant`, `size`. Sub-part: item | [toggle_group.md](components/toggle_group.md) |
 
+## Overlay
+
+| Component | Key locals | Reference |
+|---|---|---|
+| `popover` | `align` (start/center/end) on content. Sub-parts: trigger, content, anchor, header, title, description. Stimulus: `kiso--popover` | [popover.md](components/popover.md) |
+
 ## Compound Variant Reference
 
 All colored components share these exact formulas (see `project/DESIGN_SYSTEM.md`):
