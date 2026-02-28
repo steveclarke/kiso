@@ -410,31 +410,11 @@ For composed usage via `kui(:component, :part)`:
 | Scoped vs global listeners | Prefer scoped listeners (on the controller element). Only use `document.addEventListener` when truly needed (e.g., dialog keyboard shortcuts). Remove global listeners in `disconnect()`. |
 | Lint before commit | `bundle exec standardrb --fix` |
 
-## Worktree workflow (parallel development)
+## Worktree workflow
 
-When working in a git worktree (e.g., spawned by the orchestrator for parallel
-component builds), use `bin/worktree` for port management:
-
-```bash
-# Get your unique Lookbook port (deterministic from worktree name)
-bin/worktree port              # → 4237
-
-# Start Lookbook + Tailwind on your assigned port (skips docs)
-bin/worktree start
-
-# Or manually:
-export LOOKBOOK_PORT=$(bin/worktree port)
-bin/dev -- -l web,css
-
-# Verify previews render
-curl -s -o /dev/null -w "%{http_code}" http://localhost:$LOOKBOOK_PORT/preview/kiso/{name}/playground
-
-# Stop when done
-bin/worktree stop
-```
-
-Port assignment is hash-based: main worktree → 4001, named worktrees → 4101–4600.
-Same name always gets the same port, no conflicts between parallel agents.
+See `.claude/skills/worktree/SKILL.md` for the full worktree lifecycle
+(create, start Lookbook, commit, push, PR, cleanup). Key command:
+`bin/worktree start` — starts Lookbook on a deterministic port (4101-4600).
 
 ## Pull request workflow
 
