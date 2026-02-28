@@ -261,7 +261,36 @@ bin/release 0.2.0 --npm 0.1.1   # both gem + npm
 
 Gem and npm version independently. npm releases use `npm-v*` tags.
 A GitHub Action (`.github/workflows/push_npm.yml`) publishes to npm
-when an `npm-v*` tag is pushed.
+when an `npm-v*` tag is pushed using OIDC trusted publishing:
+
+```yaml
+name: Push npm package
+on:
+  push:
+    tags:
+      - "npm-v*"
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@latest
+      - run: npm publish --provenance --access public
+```
+
+No tokens stored in the repo — uses the same OIDC pattern as the gem
+workflow. Requires npm 11.5.1+ (Node LTS bundles an older version, hence
+the `npm install -g npm@latest` step). Trusted publisher must be
+configured on npmjs.com (owner: `steveclarke`, repo: `kiso`, workflow:
+`push_npm.yml`).
 
 ---
 
@@ -284,8 +313,8 @@ npm install kiso-ui
 
 ```js
 // app/javascript/controllers/index.js
-import { registerKisoControllers } from "kiso-ui"
-registerKisoControllers(application)
+import KisoUi from "kiso-ui"
+KisoUi.start(application)
 ```
 
 ---

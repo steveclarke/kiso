@@ -45,6 +45,22 @@ Use the `kui()` helper to render components:
 Browse the available components in the sidebar, or see the full list on the
 [Components](/components) page.
 
+### Stimulus controllers for bundler apps
+
+If your app uses a JS bundler (esbuild, Vite, Bun), install the npm package
+for interactive components (Toggle, Select, etc.):
+
+```bash
+npm install kiso-ui
+```
+
+```js
+import KisoUi from "kiso-ui"
+KisoUi.start(application)
+```
+
+Importmap apps get Stimulus controllers automatically — no npm install needed.
+
 ## Architecture
 
 Kiso has two layers:

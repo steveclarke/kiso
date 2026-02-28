@@ -66,13 +66,36 @@ starts `kamal-proxy`.
 Images are built locally for `linux/amd64` and pushed to the local registry
 on the deploy host (`localhost:5555`) via an SSH tunnel.
 
-## Releasing the gem
+## Releasing
 
-See `bin/release` — tags a version, commits, and prints the push command to
-trigger the RubyGems publish via GitHub Actions.
+`bin/release` handles version bumps, tagging, and pushing. GitHub Actions
+publish the gem to RubyGems (`v*` tags) and the npm package to npmjs.com
+(`npm-v*` tags). Both use OIDC trusted publishing — no tokens required.
 
 ```bash
-bin/release          # interactive
-bin/release 0.2.0    # non-interactive
-bin/release --help   # all options
+bin/release 0.2.0                # gem only
+bin/release --npm 0.1.2          # npm only (kiso-ui package)
+bin/release 0.2.0 --npm 0.1.2   # both gem + npm
+bin/release --help               # all options
 ```
+
+### GitHub Actions setup
+
+| Workflow | Trigger | Publishes to |
+|----------|---------|--------------|
+| `.github/workflows/push_gem.yml` | `v*` tag | RubyGems |
+| `.github/workflows/push_npm.yml` | `npm-v*` tag | npm |
+
+Both workflows use OIDC trusted publishing (`id-token: write` permission).
+No secret tokens are stored in the repo.
+
+**npm trusted publisher** must be configured on npmjs.com:
+1. Go to npmjs.com → `kiso-ui` package → Settings → Publishing access
+2. Add trusted publisher: GitHub Actions
+3. Repository owner: `steveclarke`, Repository name: `kiso`, Workflow: `push_npm.yml`
+
+**RubyGems trusted publisher** is configured similarly at rubygems.org.
+
+**Note:** The npm workflow requires `npm install -g npm@latest` because the
+Node LTS bundled npm may not support OIDC trusted publishing (requires
+npm 11.5.1+).
