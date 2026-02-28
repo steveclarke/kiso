@@ -28,6 +28,18 @@ jobs:
       - run: npx oxlint --deny-warnings
       - run: npx oxfmt --check .
 
+  test-js:
+    name: Test JS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run
+
   test:
     name: Test (Ruby ${{ matrix.ruby-version }})
     runs-on: ubuntu-latest
