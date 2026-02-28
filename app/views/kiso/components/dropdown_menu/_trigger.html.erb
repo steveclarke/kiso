@@ -1,6 +1,5 @@
 <%# locals: (css_classes: "", **component_options) %>
-<%= content_tag :button,
-    type: "button",
+<%= content_tag :div,
     class: Kiso::Themes::DropdownMenuTrigger.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dropdown-menu-trigger",
       kiso__dropdown_menu_target: "trigger",
