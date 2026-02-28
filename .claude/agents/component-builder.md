@@ -184,6 +184,9 @@ Rules:
 - Always include an axe WCAG 2.1 AA scan as the last test
 - For Stimulus components: test open/close, Escape, click outside, keyboard
   nav (Arrow keys, Enter/Space), and ARIA state changes
+- **When tests discover component issues** (a11y violations, broken keyboard
+  nav, unexpected behavior): report them — never silently exclude rules or
+  remove failing tests. See `project/testing-strategy.md` for the full policy.
 
 ### 8. Start servers and verify
 

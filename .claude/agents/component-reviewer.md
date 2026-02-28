@@ -174,6 +174,10 @@ The test file must cover ALL required categories for the component's tier.
 Stimulus components (Tier 3) are the most critical — check that open/close,
 Escape, click outside, and keyboard navigation are all tested.
 
+**Check for silently suppressed issues.** If the test excludes axe rules or
+skips tests, verify each has a comment explaining why and a link to a tracking
+issue. Tests should never hide component bugs — they should document them.
+
 #### Check 12: JSDoc on Stimulus controllers
 
 If the component includes a Stimulus controller, verify it has full JSDoc:

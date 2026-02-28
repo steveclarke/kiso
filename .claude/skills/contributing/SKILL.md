@@ -350,6 +350,7 @@ For composed usage via `kui(:component, :part)`:
 | Event listener cleanup | Always bind named handlers in `connect()` and remove them in `disconnect()`. Never use anonymous arrow functions for event listeners that need cleanup. |
 | Scoped vs global listeners | Prefer scoped listeners (on the controller element). Only use `document.addEventListener` when truly needed (e.g., dialog keyboard shortcuts). Remove global listeners in `disconnect()`. |
 | E2E tests | Every component gets a `test/e2e/components/{name}.spec.js`. See `project/testing-strategy.md` for tier requirements. |
+| Test-discovered issues | When tests find a11y violations or behavioral bugs, **report them to the user** — never silently exclude axe rules or remove failing tests. See `project/testing-strategy.md` for the full policy. |
 | Lint before commit | `bundle exec standardrb --fix` + `npm run lint && npm run fmt:check` |
 
 ## Worktree workflow

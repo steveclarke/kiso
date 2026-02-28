@@ -142,6 +142,23 @@ Parameterized scenarios accept query params matching `@param` annotations:
 The shared `checkA11y()` fixture disables `document-title` and `html-has-lang`
 rules — these are Lookbook preview layout issues, not component concerns.
 
+`checkA11y()` accepts `{ exclude: [] }` to disable additional rules per
+component, but **this should only be used to document known issues, never to
+silently hide them.** When a test discovers a violation:
+
+1. **Try to fix the component first.** If the fix is straightforward, do it.
+2. **If the fix is non-trivial**, add the exclusion with a comment naming the
+   issue, and **report it to the user** — never silently suppress violations.
+3. **Open a GitHub issue** cataloging all discovered violations with the
+   component, element, axe rule ID, and root cause.
+4. **The exclusion is temporary.** Once the component is fixed, remove the
+   exclusion so the test enforces the fix going forward.
+
+The same principle applies to behavioral tests: if a component doesn't behave
+as expected (e.g., keyboard nav doesn't work), don't just remove the test.
+Either fix the component, or add the test as skipped (`test.skip`) with a
+comment explaining the issue and linking to a tracking issue.
+
 ## Running Tests
 
 ```bash
