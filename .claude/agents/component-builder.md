@@ -13,8 +13,8 @@ issue number, and you deliver a complete implementation with a pull request.
 
 Read these files in this exact order:
 
-1. `project/DESIGN_SYSTEM.md` — compound variant formulas, token table, spatial system
-2. `project/components/{COMPONENT}.md` — vision doc (if it exists)
+1. `project/design-system.md` — compound variant formulas, token table, spatial system
+2. `project/components/{component}.md` — vision doc (if it exists)
 3. `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx` — **structural source of truth**. Copy div-for-div, class-for-class.
 4. `vendor/shadcn-ui/apps/v4/content/docs/components/radix/{name}.mdx` — **docs page**. Lists all demos to replicate in Lookbook.
 5. `vendor/shadcn-ui/apps/v4/examples/radix/{name}-*.tsx` — **demo implementations**. Translate these to ERB for Lookbook previews. Use the same icons, text, and layout.
@@ -161,7 +161,7 @@ Then add a row to the appropriate table in `skills/kiso/references/components.md
 
 File: `test/e2e/components/{name}.spec.js`
 
-Read `project/TESTING_STRATEGY.md` to determine the component's tier, then
+Read `project/testing-strategy.md` to determine the component's tier, then
 write tests covering all required categories for that tier.
 
 ```javascript
@@ -272,7 +272,7 @@ In your final text output, include:
 - [ ] Semantic tokens only (no raw palette shades, no `dark:` prefixes)
 - [ ] Default icons use `kiso_component_icon(:name)`, not `kiso_icon("name")` — new icons registered in `lib/kiso/configuration.rb`
 - [ ] No arbitrary Tailwind values
-- [ ] E2E test file: `test/e2e/components/{name}.spec.js` covering correct tier (see `project/TESTING_STRATEGY.md`)
+- [ ] E2E test file: `test/e2e/components/{name}.spec.js` covering correct tier (see `project/testing-strategy.md`)
 - [ ] All files: theme, require in kiso.rb, partials, previews, E2E tests, docs page, nav entry, skills ref (new file in `components/` + index row)
 - [ ] `Closes #N` in PR body
 - [ ] Stimulus controllers have full JSDoc (class, methods, properties, events)
@@ -282,88 +282,26 @@ In your final text output, include:
 
 ## Stimulus controller conventions
 
-### Reuse shared utilities
+Follow all JS conventions in `CLAUDE.md` (bare specifier imports, JSDoc, event
+listener cleanup, disabled attributes, tag helpers for Stimulus data attrs).
 
-Before writing positioning, highlighting, or keyboard navigation code, check
-for existing utilities:
+### Shared utilities
 
-- **`kiso-ui/utils/positioning`** — `positionBelow(anchor, content, options)` for
-  dropdown/popover positioning. Supports `gap`, `align` (start/center/end),
-  and `container` options.
-- **`kiso-ui/utils/highlight`** — `highlightItem(clearItems, items, index)` for
-  managing `data-highlighted` state with scroll-into-view.
-  `wrapIndex(current, direction, length)` for circular list navigation.
-- **`kiso-ui/utils/focusable`** — `FOCUSABLE_SELECTOR` constant for querying
-  focusable elements (links, buttons, inputs, etc.). Use with
-  `querySelector`/`querySelectorAll` instead of inlining the selector string.
+Before writing positioning, highlighting, or keyboard navigation code, use
+existing utilities:
 
-Never reimplement these patterns inline.
+- **`kiso-ui/utils/positioning`** — `positionBelow(anchor, content, options)`
+- **`kiso-ui/utils/highlight`** — `highlightItem(clearItems, items, index)`,
+  `wrapIndex(current, direction, length)`
+- **`kiso-ui/utils/focusable`** — `FOCUSABLE_SELECTOR` constant
 
-### Bare specifier imports (CRITICAL)
-
-**Never use relative imports (`./utils/...`) for shared utilities.** Use bare
-specifiers matching the npm package name:
+Never reimplement these patterns inline. Import with bare specifiers:
 
 ```javascript
 import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
 import { positionBelow } from "kiso-ui/utils/positioning"
 import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
 ```
-
-Relative imports break importmaps because Propshaft serves fingerprinted
-filenames that relative URLs can't resolve. Bare specifiers resolve via
-importmap pins (`config/importmap.rb`) for Rails apps and via `package.json`
-`exports` for bundler apps. The same import path works in both worlds.
-
-When adding a **new** util file, just create it in
-`app/javascript/kiso/utils/`. Both `config/importmap.rb` (`pin_all_from`
-with `under: "kiso-ui/utils"`) and `package.json` (`"./utils/*"` export)
-use wildcards, so new files are picked up automatically — no config
-changes needed.
-
-### No hardcoded classes or SVG in JavaScript
-
-- **Template cloning:** When JS needs to create DOM dynamically (e.g., chips,
-  tags), add a `<template>` element in the ERB partial with proper theme
-  classes and icons, then clone it in JS. Never hardcode Tailwind class
-  strings or inline SVG in controllers.
-- **Icon toggling:** Render icons server-side via `kiso_component_icon()`.
-  Toggle visibility in JS with `element.hidden = true/false`. Never set
-  `innerHTML` with SVG strings.
-
-### Event listener hygiene
-
-- Bind named handlers in `connect()` and remove them in `disconnect()`.
-- Never use anonymous arrow functions for listeners that need cleanup.
-- Prefer scoped listeners (on the controller element) over global
-  (`document.addEventListener`). Only use global listeners when truly
-  required (e.g., dialog keyboard shortcuts, outside-click dismissal).
-
-### Disabled attribute convention
-
-Use `data-disabled="true"` (value-based) consistently. Check with
-`dataset.disabled === "true"`, never `hasAttribute("data-disabled")`.
-
-### Tag helpers for Stimulus data attributes
-
-Always use Rails `tag.*` helpers with `data:` hash for inner elements that
-need Stimulus attributes. Never write raw `data-kiso--*` attributes in HTML:
-
-```erb
-<%# CORRECT — uses tag helper with data: hash %>
-<%= tag.span data: { slot: "item-indicator", kiso__combobox_target: "indicator" },
-            hidden: true do %>
-  <%= kiso_component_icon(:check, class: "size-4") %>
-<% end %>
-
-<%# WRONG — raw HTML with data-kiso-- attribute %>
-<span data-slot="item-indicator"
-      data-kiso--combobox-target="indicator"
-      hidden>
-```
-
-Rails converts `kiso__combobox_target` (double underscore) to
-`data-kiso--combobox-target` (double dash) automatically.
 
 ## Field preview integration
 

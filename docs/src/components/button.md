@@ -169,7 +169,7 @@ Kiso::Themes::Button = ClassVariants.build(
   compound_variants: [
     # Core 4 variants: same formulas as Badge/Alert + hover/active/focus states.
     # Ghost + link: Button-only additions.
-    # See project/DESIGN_SYSTEM.md for base formulas.
+    # See project/design-system.md for base formulas.
   ],
   defaults: { color: :primary, variant: :solid, size: :md, block: false }
 )

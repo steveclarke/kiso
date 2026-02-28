@@ -34,7 +34,7 @@ vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx
 
 Read the design system rules:
 ```
-project/DESIGN_SYSTEM.md
+project/design-system.md
 ```
 
 ### 2. Run the checklist
@@ -84,7 +84,7 @@ using arbitrary values, changing spacing.
 #### Check 4: Compound variant formulas (colored components only)
 
 If the component has `color:` × `variant:` axes, verify the 28 compound
-variants match `project/DESIGN_SYSTEM.md` exactly:
+variants match `project/design-system.md` exactly:
 
 | Variant | Colored | Neutral |
 |---------|---------|---------|
@@ -164,7 +164,7 @@ npm run test:e2e
 #### Check 11: E2E test file exists and covers correct tier
 
 Verify `test/e2e/components/{name}.spec.js` exists. Read
-`project/TESTING_STRATEGY.md` for the tier system, then verify:
+`project/testing-strategy.md` for the tier system, then verify:
 
 - **Tier 1 (static):** renders, content, variants, composition, a11y
 - **Tier 2 (native-interactive):** + state, disabled

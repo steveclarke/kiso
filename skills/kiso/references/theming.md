@@ -68,4 +68,4 @@ Variant definitions live in Ruby theme modules (`lib/kiso/themes/`), not CSS fil
 - **Compound variants** — for color × variant matrix (Badge, Button, Alert)
 - **`css_classes:` override** — instance-level class override, deduped by tailwind_merge
 
-See `project/COMPONENT_STRATEGY.md` for the full architecture reference.
+See `project/component-strategy.md` for the full architecture reference.

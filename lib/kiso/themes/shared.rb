@@ -11,8 +11,8 @@ module Kiso
   # Compound components (Card, Table, Field, etc.) have multiple constants
   # for the root and each sub-part (e.g. +Card+, +CardHeader+, +CardTitle+).
   #
-  # @see project/DESIGN_SYSTEM.md for compound variant formulas and token mapping
-  # @see project/COMPONENT_STRATEGY.md for architecture patterns
+  # @see project/design-system.md for compound variant formulas and token mapping
+  # @see project/component-strategy.md for architecture patterns
   module Themes
     # Shared class strings for patterns that are identical across multiple
     # components. Using shared constants prevents drift when updating styles.

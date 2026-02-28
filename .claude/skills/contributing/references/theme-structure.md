@@ -31,7 +31,7 @@ end
 ## Colored Component (Compound Variants)
 
 For components with `color:` + `variant:` axes. **All colored components use
-the same compound variant formulas.** See `project/DESIGN_SYSTEM.md` for the
+the same compound variant formulas.** See `project/design-system.md` for the
 authoritative reference.
 
 ```ruby

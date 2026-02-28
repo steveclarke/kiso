@@ -6,8 +6,6 @@ Add one gem and get badges, buttons, cards, alerts, and more. They all work with
 
 No React. No extra build step. Just ERB with [class_variants](https://github.com/avo-hq/class_variants) for styling.
 
-Icons come from the [kiso-icons](https://github.com/steveclarke/kiso-icons) gem, which is bundled in.
-
 > [!WARNING]
 > Kiso is in early development and **not ready for production use**. The gem is published to reserve the name on RubyGems. APIs, component names, and theme tokens will change without notice. Watch the repo or check back in a few weeks.
 
@@ -45,7 +43,7 @@ Importmap apps get Stimulus controllers automatically — no npm install needed.
 Use the `kui()` helper to render components:
 
 ```erb
-<%= kui(:badge, variant: :primary) { "Active" } %>
+<%= kui(:badge, color: :primary) { "Active" } %>
 ```
 
 Components are made of small parts. A card has a header, title, content, and footer:
@@ -59,12 +57,6 @@ Components are made of small parts. A card has a header, title, content, and foo
     ...
   <% end %>
 <% end %>
-```
-
-Data attributes work on any HTML element too:
-
-```erb
-<%= f.submit "Save", data: { component: "button", variant: "primary" } %>
 ```
 
 ## How it works
@@ -103,11 +95,14 @@ This starts [Lookbook](https://lookbook.build) on port 4001 with a Tailwind watc
 
 Cloned without `--recurse-submodules`? Run `bin/vendor init` to fetch the vendor repos.
 
-Run tests:
+Run tests and lint:
 
 ```bash
-bundle exec rake test             # all tests
-bundle exec standardrb            # lint
+bundle exec rake test             # Ruby tests
+npm run test:unit                 # JS unit tests (Vitest)
+npm run test:e2e                  # E2E tests (Playwright, needs bin/dev)
+bundle exec standardrb            # Ruby lint
+npm run lint && npm run fmt:check # JS lint + format check
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to help out.
@@ -128,11 +123,11 @@ docs/                        Docs site (Bridgetown)
 
 - Ruby >= 3.3
 - Rails >= 8.0
-- [tailwindcss-rails](https://github.com/rails/tailwindcss-rails)
+- A Tailwind CSS build pipeline ([tailwindcss-rails](https://github.com/rails/tailwindcss-rails) or [cssbundling-rails](https://github.com/rails/cssbundling-rails))
 
 ## Status
 
-Early development. See [VISION.md](VISION.md) for the roadmap and full component list.
+Early development. See [PLAN.md](PLAN.md) for the roadmap and current status.
 
 ## License
 
