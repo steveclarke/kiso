@@ -16,7 +16,8 @@ module Kiso
         chevron_left: "chevron-left",
         chevron_down: "chevron-down",
         check: "check",
-        ellipsis: "ellipsis"
+        ellipsis: "ellipsis",
+        x: "x"
       }
     end
   end

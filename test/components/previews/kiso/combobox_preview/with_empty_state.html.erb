@@ -1,0 +1,13 @@
+<div class="text-foreground max-w-xs">
+  <%= kui(:combobox, name: :language) do %>
+    <%= kui(:combobox, :input, placeholder: "Search languages...") %>
+    <%= kui(:combobox, :content) do %>
+      <%= kui(:combobox, :list) do %>
+        <%= kui(:combobox, :item, value: "ruby") { "Ruby" } %>
+        <%= kui(:combobox, :item, value: "python") { "Python" } %>
+        <%= kui(:combobox, :item, value: "javascript") { "JavaScript" } %>
+        <%= kui(:combobox, :empty) { "No languages found." } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

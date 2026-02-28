@@ -1,0 +1,20 @@
+<%# locals: (value:, disabled: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::ComboboxItem.render(class: css_classes),
+    role: "option",
+    tabindex: "-1",
+    data: kiso_prepare_options(component_options, slot: "combobox-item",
+      kiso__combobox_target: "item",
+      action: "click->kiso--combobox#selectItem",
+      value: value,
+      disabled: (disabled ? "true" : nil)),
+    aria: {selected: false, disabled: (disabled || nil)},
+    **component_options do %>
+  <span data-slot="combobox-item-text"><%= yield %></span>
+  <span class="<%= Kiso::Themes::ComboboxItemIndicator.render %>"
+        data-slot="combobox-item-indicator"
+        data-kiso--combobox-target="indicator"
+        hidden>
+    <%= kiso_component_icon(:check, class: "size-4") %>
+  </span>
+<% end %>

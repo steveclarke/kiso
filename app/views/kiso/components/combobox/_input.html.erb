@@ -1,0 +1,23 @@
+<%# locals: (placeholder: nil, disabled: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::ComboboxInput.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "combobox-input"),
+    **component_options do %>
+  <input type="text"
+         placeholder="<%= placeholder %>"
+         autocomplete="off"
+         <% if disabled %>disabled<% end %>
+         data-kiso--combobox-target="input"
+         data-action="input->kiso--combobox#filter focus->kiso--combobox#onInputFocus keydown->kiso--combobox#inputKeydown">
+  <div class="flex items-center pe-2">
+    <button type="button"
+            class="flex size-6 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground"
+            <% if disabled %>disabled<% end %>
+            data-kiso--combobox-target="trigger"
+            data-action="click->kiso--combobox#toggle"
+            tabindex="-1"
+            data-slot="combobox-trigger">
+      <%= kiso_component_icon(:chevron_down, class: "size-4 pointer-events-none") %>
+    </button>
+  </div>
+<% end %>

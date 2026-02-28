@@ -1,0 +1,19 @@
+<%# locals: (value:, removable: true, css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::ComboboxChip.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "combobox-chip",
+      kiso__combobox_target: "chip",
+      value: value),
+    **component_options do %>
+  <span data-slot="combobox-chip-text"><%= yield %></span>
+  <% if removable %>
+    <button type="button"
+            class="flex size-4 items-center justify-center rounded-sm opacity-50 hover:opacity-100"
+            data-slot="combobox-chip-remove"
+            data-action="click->kiso--combobox#removeChip"
+            data-value="<%= value %>"
+            tabindex="-1">
+      <%= kiso_component_icon(:x, class: "size-3 pointer-events-none") %>
+    </button>
+  <% end %>
+<% end %>
