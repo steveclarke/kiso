@@ -251,19 +251,17 @@ controllers are added (same time as updating `index.js`).
 
 **File:** `bin/release`
 
-The release script already bumps `lib/kiso/version.rb`, commits, tags, and
-pushes. Add two things:
-
-1. **Version sync** — when bumping the gem version, also update the
-   `version` field in `package.json` to match. Both artifacts should
-   always be on the same version.
-
-2. **npm publish** — after the git tag + push, publish to npm:
+The release script supports three modes via `--npm [VERSION]`:
 
 ```bash
-step "Publishing npm package..."
-npm publish --access public
+bin/release 0.2.0                # gem only (backward compatible)
+bin/release --npm 0.1.1          # npm only
+bin/release 0.2.0 --npm 0.1.1   # both gem + npm
 ```
+
+Gem and npm version independently. npm releases use `npm-v*` tags.
+A GitHub Action (`.github/workflows/push_npm.yml`) publishes to npm
+when an `npm-v*` tag is pushed.
 
 ---
 

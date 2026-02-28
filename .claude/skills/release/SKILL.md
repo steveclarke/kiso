@@ -7,7 +7,21 @@ description: Guide through releasing a new version of kiso. Use when cutting a r
 
 The `bin/release` script handles all the mechanical steps. Your job is the advisory layer before it runs: reviewing what changed, confirming the CHANGELOG is good, and picking the right version.
 
-## Step 1 — Review unreleased changes
+The script supports three modes:
+
+```bash
+bin/release 0.2.0                # gem only
+bin/release --npm 0.1.1          # npm only (kiso-ui package)
+bin/release 0.2.0 --npm 0.1.1   # both gem + npm
+```
+
+Gem and npm package version independently. The gem uses `v*` tags, the npm package uses `npm-v*` tags. GitHub Actions publish both automatically on tag push.
+
+---
+
+## Gem release workflow
+
+### Step 1 — Review unreleased changes
 
 Read both files:
 - `CHANGELOG.md` — the `[Unreleased]` section
@@ -22,7 +36,7 @@ Summarise the unreleased changes for the user and recommend a semver bump type w
 | **patch** | Bug fixes, docs, internal changes only |
 | **x.y.z.pre** | Pre-stable release (current convention while < 1.0) |
 
-## Step 2 — Confirm CHANGELOG quality (manual step)
+### Step 2 — Confirm CHANGELOG quality (manual step)
 
 Show the `[Unreleased]` entries and ask the user to confirm they are complete and accurate before proceeding. Entries should be:
 
@@ -32,13 +46,13 @@ Show the `[Unreleased]` entries and ask the user to confirm they are complete an
 
 If entries are missing or need improvement, help the user edit `CHANGELOG.md` now — **before** running the release script. The script uses the CHANGELOG entries verbatim as the GitHub Release body.
 
-## Step 3 — Confirm version
+### Step 3 — Confirm version
 
 Propose a concrete version string based on the bump reasoning. Wait for the user to confirm or provide an alternative.
 
 The current convention while the gem is pre-stable: use `x.y.z.pre` (e.g. `0.2.0.pre`). Switch to `x.y.z` when declaring stable.
 
-## Step 4 — Dry run
+### Step 4 — Dry run
 
 Run the release script in dry-run mode with the confirmed version:
 
@@ -48,7 +62,7 @@ bin/release --dry-run <version>
 
 Show the full output. If any check fails (dirty tree, not on master, tests fail, no CHANGELOG entries, etc.), stop and help resolve the issue before proceeding.
 
-## Step 5 — Execute release
+### Step 5 — Execute release
 
 On user confirmation, run:
 
@@ -61,5 +75,50 @@ The script will:
 2. Bump version in `lib/kiso/version.rb`
 3. Move `[Unreleased]` → `[VERSION] - DATE` in `CHANGELOG.md`
 4. Verify the gem builds
-5. Commit, create annotated tag, push to origin
+5. Commit, create annotated tag (`v*`), push to origin
 6. Create a GitHub Release with the CHANGELOG section as release notes (auto-marked as prerelease for `pre`/`alpha`/`beta`/`rc` versions)
+7. GitHub Actions pushes the gem to RubyGems
+
+---
+
+## npm release workflow
+
+The npm package (`kiso-ui`) ships Stimulus controllers for bundler apps. It versions independently from the gem — JS controllers change less frequently than HTML/CSS.
+
+### Step 1 — Review what changed
+
+Read `package.json` for the current npm version and check what JS controller changes have been made since the last npm release.
+
+### Step 2 — Confirm version
+
+Propose a version bump. The npm package follows standard semver (no `.pre` suffix).
+
+### Step 3 — Dry run
+
+```bash
+bin/release --dry-run --npm <version>
+```
+
+### Step 4 — Execute release
+
+```bash
+bin/release --npm <version>
+```
+
+The script will:
+1. Preflight checks (clean tree, on master, synced)
+2. Bump version in `package.json`
+3. Commit, create annotated tag (`npm-v*`), push to origin
+4. GitHub Actions publishes to npm
+
+---
+
+## Combined release
+
+When releasing both gem and npm together:
+
+```bash
+bin/release <gem-version> --npm <npm-version>
+```
+
+Both version bumps go into a single commit with both tags.

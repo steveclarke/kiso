@@ -20,12 +20,6 @@
   "peerDependencies": {
     "@hotwired/stimulus": ">=3.0.0"
   },
-  "devDependencies": {
-    "np": "^10.2.0"
-  },
-  "scripts": {
-    "release": "np"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/steveclarke/kiso.git"
