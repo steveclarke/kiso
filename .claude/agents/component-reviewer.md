@@ -187,6 +187,15 @@ the issues directly:
 4. Push to the same branch
 5. Re-run the checklist to confirm all pass
 
+#### Check 11: JSDoc on Stimulus controllers
+
+If the component includes a Stimulus controller, verify it has full JSDoc:
+- Class-level: description, `@example` with HTML usage, `@property` for
+  targets and values, `@fires` for dispatched events
+- Public methods: `@param` and `@returns` where applicable
+- Private methods: `@private` tag, plus `@param`/`@returns` if non-trivial
+- Reference: `app/javascript/controllers/kiso/select_controller.js`
+
 ## Things that commonly go wrong
 
 These are the most frequent issues found in reviews, in order of likelihood:

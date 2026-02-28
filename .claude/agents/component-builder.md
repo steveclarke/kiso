@@ -220,6 +220,7 @@ In your final output, clearly include:
 - [ ] No arbitrary Tailwind values
 - [ ] All files: theme, require in kiso.rb, partials, previews, docs page, nav entry, skills ref (new file in `components/` + index row)
 - [ ] `Closes #N` in PR body
+- [ ] Stimulus controllers have full JSDoc (class, methods, properties, events)
 - [ ] Lint passes
 - [ ] Tests pass
 - [ ] All previews return 200

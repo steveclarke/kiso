@@ -1,22 +1,25 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Popover controller — toggle floating panel anchored to trigger.
-//
-// Targets:
-//   trigger: the button that opens/closes the popover
-//   content: the floating panel
-//   anchor: optional alternate positioning reference
-//
-// Usage:
-//   <div data-controller="kiso--popover" data-slot="popover">
-//     <button data-kiso--popover-target="trigger"
-//             data-action="click->kiso--popover#toggle keydown->kiso--popover#triggerKeydown">
-//       Open
-//     </button>
-//     <div data-kiso--popover-target="content" data-align="center" role="dialog" hidden>
-//       Content here
-//     </div>
-//   </div>
+/**
+ * Popover controller — toggles a floating panel anchored to a trigger element.
+ * Supports configurable alignment (start, center, end), focus trapping,
+ * and close-on-outside-click / Escape.
+ *
+ * @example
+ *   <div data-controller="kiso--popover" data-slot="popover">
+ *     <button data-kiso--popover-target="trigger"
+ *             data-action="click->kiso--popover#toggle keydown->kiso--popover#triggerKeydown">
+ *       Open
+ *     </button>
+ *     <div data-kiso--popover-target="content" data-align="center" role="dialog" hidden>
+ *       Content here
+ *     </div>
+ *   </div>
+ *
+ * @property {HTMLElement} triggerTarget - Button that opens/closes the popover
+ * @property {HTMLElement} contentTarget - The floating panel
+ * @property {HTMLElement} [anchorTarget] - Optional alternate positioning reference
+ */
 export default class extends Controller {
   static targets = ["trigger", "content", "anchor"]
 
@@ -30,6 +33,11 @@ export default class extends Controller {
     this._removeGlobalListeners()
   }
 
+  /**
+   * Toggles the popover open or closed.
+   *
+   * @param {Event} event
+   */
   toggle(event) {
     event.preventDefault()
     if (this._open) {
@@ -39,6 +47,10 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Opens the popover, positions it relative to the trigger (or anchor),
+   * and focuses the first focusable element inside.
+   */
   open() {
     this._open = true
     this.contentTarget.hidden = false
@@ -59,6 +71,10 @@ export default class extends Controller {
     })
   }
 
+  /**
+   * Closes the popover with a closing animation, then hides it.
+   * Returns focus to the trigger button.
+   */
   close() {
     this._open = false
     this.contentTarget.setAttribute("data-state", "closed")
@@ -85,6 +101,11 @@ export default class extends Controller {
     ;(btn || this.triggerTarget).focus()
   }
 
+  /**
+   * Opens the popover on ArrowDown, Space, or Enter when trigger is focused.
+   *
+   * @param {KeyboardEvent} event
+   */
   triggerKeydown(event) {
     switch (event.key) {
       case "ArrowDown":
@@ -100,6 +121,12 @@ export default class extends Controller {
 
   // --- Private ---
 
+  /**
+   * Positions the content panel below the reference element (trigger or anchor).
+   * Respects `data-align` on the content element: "start", "end", or "center" (default).
+   *
+   * @private
+   */
   _positionContent() {
     const reference = this.hasAnchorTarget ? this.anchorTarget : this.triggerTarget
     const content = this.contentTarget
@@ -127,12 +154,24 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Closes the popover when clicking outside the component.
+   *
+   * @param {MouseEvent} event
+   * @private
+   */
   _handleOutsideClick(event) {
     if (!this.element.contains(event.target)) {
       this.close()
     }
   }
 
+  /**
+   * Handles Escape to close and Tab to trap focus within the popover content.
+   *
+   * @param {KeyboardEvent} event
+   * @private
+   */
   _handleKeydown(event) {
     if (!this._open) return
 
@@ -169,11 +208,13 @@ export default class extends Controller {
     }
   }
 
+  /** @private */
   _addGlobalListeners() {
     document.addEventListener("click", this._handleOutsideClick, true)
     document.addEventListener("keydown", this._handleKeydown)
   }
 
+  /** @private */
   _removeGlobalListeners() {
     document.removeEventListener("click", this._handleOutsideClick, true)
     document.removeEventListener("keydown", this._handleKeydown)

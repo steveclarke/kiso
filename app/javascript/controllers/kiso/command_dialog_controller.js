@@ -1,19 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Command dialog controller. Opens with Cmd+K (configurable), closes with Escape.
-// Wraps the native <dialog> element.
-//
-// Values:
-//   shortcut: the key to pair with Cmd/Ctrl to open the dialog (default: "k")
-//
-// Usage:
-//   <dialog data-controller="kiso--command-dialog"
-//           data-kiso--command-dialog-shortcut-value="k"
-//           data-slot="command-dialog">
-//     <div>
-//       <div data-controller="kiso--command">...</div>
-//     </div>
-//   </dialog>
+/**
+ * Command dialog controller. Opens with a configurable keyboard shortcut
+ * (default: Cmd/Ctrl+K) and closes with Escape. Wraps the native `<dialog>` element.
+ *
+ * @example
+ *   <dialog data-controller="kiso--command-dialog"
+ *           data-kiso--command-dialog-shortcut-value="k"
+ *           data-slot="command-dialog">
+ *     <div>
+ *       <div data-controller="kiso--command">...</div>
+ *     </div>
+ *   </dialog>
+ *
+ * @property {string} shortcutValue - The key paired with Cmd/Ctrl to open the dialog (default: "k")
+ */
 export default class extends Controller {
   static values = {
     shortcut: { type: String, default: "k" }
@@ -38,6 +39,10 @@ export default class extends Controller {
     this.element.removeEventListener("command:escape", this._handleCommandEscape)
   }
 
+  /**
+   * Opens the dialog as a modal, focuses the command input,
+   * clears its value, and resets the filter.
+   */
   open() {
     this.element.showModal()
     // Focus the input inside the command palette
@@ -50,10 +55,18 @@ export default class extends Controller {
     }
   }
 
+  /** Closes the dialog. */
   close() {
     this.element.close()
   }
 
+  /**
+   * Handles the keyboard shortcut (Cmd/Ctrl + shortcutValue) to toggle
+   * the dialog, and Escape to close it.
+   *
+   * @param {KeyboardEvent} event
+   * @private
+   */
   _handleKeydown(event) {
     if (event.key === this.shortcutValue && (event.metaKey || event.ctrlKey)) {
       event.preventDefault()
@@ -71,6 +84,12 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Handles the custom "command:escape" event bubbled up from the
+   * command controller's input.
+   *
+   * @private
+   */
   _handleCommandEscape() {
     this.close()
   }

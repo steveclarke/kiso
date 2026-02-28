@@ -121,6 +121,11 @@ Consistency is more important than any individual improvement.
   `kui(:component_part)`. Files live in `component/_part.html.erb`. Data
   slots use kebab-case: `data-slot="alert-title"`, `data-slot="card-header"`.
 - **Strict locals on every partial** — `<%# locals: (color: :primary) %>`
+- **JSDoc on all JavaScript** — every Stimulus controller, method, property,
+  and event must have JSDoc comments. Class-level: `@example` with HTML usage,
+  `@property` for targets/values, `@fires` for dispatched events. Methods:
+  `@param`, `@returns`, `@private` as appropriate. See existing controllers
+  in `app/javascript/controllers/kiso/` for the expected format.
 
 ## Component Pattern
 

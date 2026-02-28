@@ -1,45 +1,47 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Combobox autocomplete with keyboard navigation, filtering, and form integration.
-// Supports single select and multi-select (with chips).
-//
-// Targets:
-//   input: the text input for searching/filtering
-//   content: the dropdown panel
-//   list: the scrollable list inside the dropdown
-//   item: each selectable option
-//   indicator: checkmark indicator inside each item
-//   empty: "no results" message
-//   hiddenInput: hidden input for form submission
-//   trigger: chevron button to toggle dropdown
-//   chips: multi-select chip container
-//   chip: individual chip elements
-//
-// Values:
-//   multiple: boolean (default false) — enables multi-select mode
-//
-// Usage:
-//   <div data-controller="kiso--combobox" data-kiso--combobox-multiple-value="false">
-//     <div data-slot="combobox-input">
-//       <input data-kiso--combobox-target="input"
-//              data-action="input->kiso--combobox#filter focus->kiso--combobox#onInputFocus
-//                           keydown->kiso--combobox#inputKeydown">
-//       <button data-kiso--combobox-target="trigger"
-//               data-action="click->kiso--combobox#toggle">
-//       </button>
-//     </div>
-//     <div data-kiso--combobox-target="content" hidden>
-//       <div data-kiso--combobox-target="list" role="listbox">
-//         <div data-kiso--combobox-target="item" data-value="rails"
-//              data-action="click->kiso--combobox#selectItem" role="option">
-//           <span data-slot="combobox-item-text">Rails</span>
-//           <span data-kiso--combobox-target="indicator" hidden>✓</span>
-//         </div>
-//       </div>
-//       <div data-kiso--combobox-target="empty" hidden>No results.</div>
-//     </div>
-//     <input type="hidden" data-kiso--combobox-target="hiddenInput" name="framework">
-//   </div>
+/**
+ * Combobox autocomplete with keyboard navigation, filtering, and form integration.
+ * Supports single-select and multi-select (with removable chips).
+ *
+ * @example
+ *   <div data-controller="kiso--combobox" data-kiso--combobox-multiple-value="false">
+ *     <div data-slot="combobox-input">
+ *       <input data-kiso--combobox-target="input"
+ *              data-action="input->kiso--combobox#filter focus->kiso--combobox#onInputFocus
+ *                           keydown->kiso--combobox#inputKeydown">
+ *       <button data-kiso--combobox-target="trigger"
+ *               data-action="click->kiso--combobox#toggle">
+ *       </button>
+ *     </div>
+ *     <div data-kiso--combobox-target="content" hidden>
+ *       <div data-kiso--combobox-target="list" role="listbox">
+ *         <div data-kiso--combobox-target="item" data-value="rails"
+ *              data-action="click->kiso--combobox#selectItem" role="option">
+ *           <span data-slot="combobox-item-text">Rails</span>
+ *           <span data-kiso--combobox-target="indicator" hidden>✓</span>
+ *         </div>
+ *       </div>
+ *       <div data-kiso--combobox-target="empty" hidden>No results.</div>
+ *     </div>
+ *     <input type="hidden" data-kiso--combobox-target="hiddenInput" name="framework">
+ *   </div>
+ *
+ * @property {HTMLInputElement} inputTarget - Text input for searching/filtering
+ * @property {HTMLElement} contentTarget - The dropdown panel
+ * @property {HTMLElement} listTarget - Scrollable list inside the dropdown
+ * @property {HTMLElement[]} itemTargets - Selectable option elements
+ * @property {HTMLElement[]} indicatorTargets - Checkmark indicators inside items
+ * @property {HTMLElement} emptyTarget - "No results" message element
+ * @property {HTMLInputElement} hiddenInputTarget - Hidden input for form submission
+ * @property {HTMLElement} triggerTarget - Chevron button to toggle dropdown
+ * @property {HTMLElement} chipsTarget - Multi-select chip container
+ * @property {HTMLElement[]} chipTargets - Individual chip elements
+ * @property {boolean} multipleValue - Enables multi-select mode when true
+ *
+ * @fires kiso--combobox:change - When selection changes.
+ *   Detail: `{ value: string }` (single) or `{ value: string[] }` (multiple).
+ */
 export default class extends Controller {
   static targets = ["input", "content", "list", "item", "indicator", "empty", "hiddenInput", "trigger", "chips", "chip"]
   static values = { multiple: { type: Boolean, default: false } }
@@ -68,6 +70,11 @@ export default class extends Controller {
 
   // --- Actions ---
 
+  /**
+   * Toggles the dropdown open or closed.
+   *
+   * @param {Event} event
+   */
   toggle(event) {
     event.preventDefault()
     if (this._open) {
@@ -77,12 +84,18 @@ export default class extends Controller {
     }
   }
 
+  /** Opens the dropdown when the input receives focus. */
   onInputFocus() {
     if (!this._open) {
       this.open()
     }
   }
 
+  /**
+   * Filters the item list based on the current input value.
+   * Hides non-matching items, updates the empty state, and auto-highlights
+   * the first visible item.
+   */
   filter() {
     const query = this.hasInputTarget ? this.inputTarget.value.toLowerCase().trim() : ""
     let visibleCount = 0
@@ -112,6 +125,13 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Handles keyboard events on the input field.
+   * Supports ArrowDown/Up, Enter, Escape, Backspace (remove last chip),
+   * Tab, Home, and End.
+   *
+   * @param {KeyboardEvent} event
+   */
   inputKeydown(event) {
     switch (event.key) {
       case "ArrowDown":
@@ -173,12 +193,23 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Selects an item when clicked.
+   *
+   * @param {Event} event - Click event from an item element
+   */
   selectItem(event) {
     const item = event.currentTarget
     if (item.dataset.disabled === "true") return
     this._doSelect(item)
   }
 
+  /**
+   * Removes a chip in multi-select mode.
+   * Deselects the value and removes the chip element from the DOM.
+   *
+   * @param {Event} event - Click event from a chip's remove button
+   */
   removeChip(event) {
     const value = event.currentTarget.dataset.value
     if (!value) return
@@ -201,6 +232,10 @@ export default class extends Controller {
 
   // --- Open / Close ---
 
+  /**
+   * Opens the dropdown, resets filtering, and highlights the selected
+   * item (single mode) or the first item (multi mode).
+   */
   open() {
     if (this._open) return
 
@@ -235,6 +270,9 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Closes the dropdown and clears the filter text (multi-select mode only).
+   */
   close() {
     if (!this._open) return
 
@@ -258,6 +296,12 @@ export default class extends Controller {
 
   // --- Private ---
 
+  /**
+   * Routes selection to single or multi-select handler.
+   *
+   * @param {HTMLElement} item - The item element to select
+   * @private
+   */
   _doSelect(item) {
     const value = item.dataset.value
     if (!value) return
@@ -269,6 +313,14 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Handles single-select: updates aria, indicators, hidden input,
+   * and closes the dropdown.
+   *
+   * @param {string} value - The selected value
+   * @param {HTMLElement} item - The selected item element
+   * @private
+   */
   _singleSelect(value, item) {
     const text = this._itemText(item)
 
@@ -300,6 +352,14 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Handles multi-select toggle: adds/removes from selection,
+   * creates/removes chips, and re-filters the list.
+   *
+   * @param {string} value - The toggled value
+   * @param {HTMLElement} item - The toggled item element
+   * @private
+   */
   _toggleMultiSelect(value, item) {
     if (this._selectedValues.has(value)) {
       // Deselect
@@ -332,6 +392,14 @@ export default class extends Controller {
     this.filter()
   }
 
+  /**
+   * Creates a chip element for a selected value in multi-select mode
+   * and inserts it before the input.
+   *
+   * @param {string} value - The selected value
+   * @param {string} text - The display text
+   * @private
+   */
   _createChip(value, text) {
     if (!this.hasChipsTarget) return
 
@@ -366,6 +434,12 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Removes the last chip in multi-select mode (triggered by Backspace
+   * when the input is empty).
+   *
+   * @private
+   */
   _removeLastChip() {
     const chips = this.chipTargets
     if (chips.length === 0) return
@@ -381,6 +455,11 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Syncs checkmark indicator visibility with current selection state.
+   *
+   * @private
+   */
   _syncIndicators() {
     this.itemTargets.forEach((item) => {
       const value = item.dataset.value
@@ -395,6 +474,12 @@ export default class extends Controller {
     })
   }
 
+  /**
+   * Syncs the hidden input value with the current selection.
+   * Multi-select joins values with commas.
+   *
+   * @private
+   */
   _syncHiddenInput() {
     if (!this.hasHiddenInputTarget) return
 
@@ -403,17 +488,37 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Extracts the display text from an item element.
+   *
+   * @param {HTMLElement} item
+   * @returns {string}
+   * @private
+   */
   _itemText(item) {
     const textEl = item.querySelector("[data-slot='combobox-item-text']")
     return textEl ? textEl.textContent.trim() : item.dataset.value || ""
   }
 
+  /**
+   * Returns visible, non-disabled items.
+   *
+   * @returns {HTMLElement[]}
+   * @private
+   */
   get _visibleEnabledItems() {
     return this.itemTargets.filter(
       (item) => !item.hidden && item.dataset.disabled !== "true"
     )
   }
 
+  /**
+   * Highlights an item at the given index and scrolls it into view.
+   * Pass -1 to clear all highlights.
+   *
+   * @param {number} index - Index within visible enabled items, or -1 to clear
+   * @private
+   */
   _highlightIndex(index) {
     // Remove highlight from all items
     this.itemTargets.forEach((item) => {
@@ -429,6 +534,12 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Moves the highlight by a given direction (+1 or -1), wrapping at boundaries.
+   *
+   * @param {number} direction - +1 for next, -1 for previous
+   * @private
+   */
   _moveHighlight(direction) {
     const items = this._visibleEnabledItems
     if (items.length === 0) return
@@ -440,6 +551,12 @@ export default class extends Controller {
     this._highlightIndex(newIndex)
   }
 
+  /**
+   * Shows/hides group labels and separators based on whether they
+   * contain any visible items.
+   *
+   * @private
+   */
   _updateGroupVisibility() {
     // Show/hide group labels based on whether they have visible items
     if (!this.hasListTarget) return
@@ -462,6 +579,11 @@ export default class extends Controller {
     })
   }
 
+  /**
+   * Positions the dropdown below the input/chips container with matching width.
+   *
+   * @private
+   */
   _positionContent() {
     if (!this.hasContentTarget) return
 
@@ -480,21 +602,35 @@ export default class extends Controller {
     content.style.minWidth = `${rect.width}px`
   }
 
+  /**
+   * Closes the dropdown when clicking outside the component.
+   *
+   * @param {MouseEvent} event
+   * @private
+   */
   _handleOutsideClick(event) {
     if (!this.element.contains(event.target)) {
       this.close()
     }
   }
 
-  _handleKeydown(event) {
+  /**
+   * Global keydown handler (safety net — primary handling is in inputKeydown).
+   *
+   * @param {KeyboardEvent} _event
+   * @private
+   */
+  _handleKeydown(_event) {
     // Global keydown handler is not needed — the inputKeydown action handles all keys.
     // This is a safety net for edge cases.
   }
 
+  /** @private */
   _addGlobalListeners() {
     document.addEventListener("click", this._handleOutsideClick, true)
   }
 
+  /** @private */
   _removeGlobalListeners() {
     document.removeEventListener("click", this._handleOutsideClick, true)
   }

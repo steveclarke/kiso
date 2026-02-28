@@ -399,6 +399,7 @@ For composed usage via `kui(:component, :part)`:
 | Lookbook previews | Playground first, then Colors, Variants, feature galleries. |
 | Lookbook dark mode | Preview wrapper `div`s must include `text-foreground` so text/icons are visible in dark mode. Lookbook doesn't set a base text color on the preview iframe. |
 | Update docs | `skills/kiso/references/components.md` + vision doc. |
+| JSDoc on all JS | Every Stimulus controller, method, property, and event must have JSDoc. `@example`, `@property`, `@fires`, `@param`, `@returns`, `@private`. |
 | Lint before commit | `bundle exec standardrb --fix` |
 
 ## Worktree workflow (parallel development)

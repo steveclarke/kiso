@@ -1,32 +1,36 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Custom select dropdown with keyboard navigation and form integration.
-//
-// Targets:
-//   trigger: the button that opens/closes the dropdown
-//   content: the dropdown panel (listbox)
-//   item: each selectable option
-//   indicator: checkmark indicator inside each item
-//   hiddenInput: hidden input for form submission
-//   valueDisplay: span showing the current selection text
-//
-// Usage:
-//   <div data-controller="kiso--select" data-slot="select">
-//     <button data-kiso--select-target="trigger"
-//             data-action="click->kiso--select#toggle keydown->kiso--select#triggerKeydown">
-//       <span data-kiso--select-target="valueDisplay" data-placeholder="Pick one...">
-//         <span class="text-muted-foreground">Pick one...</span>
-//       </span>
-//     </button>
-//     <div data-kiso--select-target="content" role="listbox" hidden>
-//       <div data-kiso--select-target="item" data-value="apple"
-//            data-action="click->kiso--select#selectItem" role="option">
-//         <span data-kiso--select-target="indicator" hidden>✓</span>
-//         <span>Apple</span>
-//       </div>
-//     </div>
-//     <input type="hidden" data-kiso--select-target="hiddenInput" name="fruit">
-//   </div>
+/**
+ * Custom select dropdown with keyboard navigation and form integration.
+ * Renders a trigger button, hidden listbox, and syncs selection to a hidden input.
+ *
+ * @example
+ *   <div data-controller="kiso--select" data-slot="select">
+ *     <button data-kiso--select-target="trigger"
+ *             data-action="click->kiso--select#toggle keydown->kiso--select#triggerKeydown">
+ *       <span data-kiso--select-target="valueDisplay" data-placeholder="Pick one...">
+ *         <span class="text-muted-foreground">Pick one...</span>
+ *       </span>
+ *     </button>
+ *     <div data-kiso--select-target="content" role="listbox" hidden>
+ *       <div data-kiso--select-target="item" data-value="apple"
+ *            data-action="click->kiso--select#selectItem" role="option">
+ *         <span data-kiso--select-target="indicator" hidden>✓</span>
+ *         <span>Apple</span>
+ *       </div>
+ *     </div>
+ *     <input type="hidden" data-kiso--select-target="hiddenInput" name="fruit">
+ *   </div>
+ *
+ * @property {HTMLElement} triggerTarget - Button that opens/closes the dropdown
+ * @property {HTMLElement} contentTarget - The dropdown panel (listbox)
+ * @property {HTMLElement[]} itemTargets - Selectable option elements
+ * @property {HTMLElement[]} indicatorTargets - Checkmark indicators inside items
+ * @property {HTMLInputElement} hiddenInputTarget - Hidden input for form submission
+ * @property {HTMLElement} valueDisplayTarget - Span showing the current selection text
+ *
+ * @fires kiso--select:change - When selection changes. Detail: `{ value: string }`.
+ */
 export default class extends Controller {
   static targets = ["trigger", "content", "item", "indicator", "hiddenInput", "valueDisplay"]
 
@@ -41,6 +45,11 @@ export default class extends Controller {
     this._removeGlobalListeners()
   }
 
+  /**
+   * Toggles the dropdown open or closed.
+   *
+   * @param {Event} event
+   */
   toggle(event) {
     event.preventDefault()
     if (this._open) {
@@ -50,6 +59,7 @@ export default class extends Controller {
     }
   }
 
+  /** Opens the dropdown, positions it, and highlights the selected or first item. */
   open() {
     if (this.triggerTarget.disabled) return
 
@@ -66,6 +76,7 @@ export default class extends Controller {
     this._highlightIndex(selectedIndex >= 0 ? selectedIndex : 0)
   }
 
+  /** Closes the dropdown and returns focus to the trigger. */
   close() {
     this._open = false
     this.contentTarget.hidden = true
@@ -75,6 +86,11 @@ export default class extends Controller {
     this.triggerTarget.focus()
   }
 
+  /**
+   * Selects an item when clicked.
+   *
+   * @param {Event} event - Click event from an item element
+   */
   selectItem(event) {
     const item = event.currentTarget
     if (item.dataset.disabled === "true") return
@@ -86,6 +102,11 @@ export default class extends Controller {
     this.close()
   }
 
+  /**
+   * Opens the dropdown on ArrowDown, ArrowUp, Space, or Enter when trigger is focused.
+   *
+   * @param {KeyboardEvent} event
+   */
   triggerKeydown(event) {
     switch (event.key) {
       case "ArrowDown":
@@ -102,6 +123,13 @@ export default class extends Controller {
 
   // --- Private ---
 
+  /**
+   * Updates the hidden input, display text, aria-selected states, and indicators.
+   *
+   * @param {string} value - The selected value
+   * @param {string} text - The display text for the selection
+   * @private
+   */
   _setValue(value, text) {
     // Update hidden input
     if (this.hasHiddenInputTarget) {
@@ -130,10 +158,23 @@ export default class extends Controller {
     this.dispatch("change", { detail: { value } })
   }
 
+  /**
+   * Returns items that are not disabled.
+   *
+   * @returns {HTMLElement[]}
+   * @private
+   */
   get _enabledItems() {
     return this.itemTargets.filter((item) => item.dataset.disabled !== "true")
   }
 
+  /**
+   * Highlights an item at the given index and scrolls it into view.
+   * Pass -1 to clear all highlights.
+   *
+   * @param {number} index - Index within enabled items, or -1 to clear
+   * @private
+   */
   _highlightIndex(index) {
     // Remove highlight from all items
     this.itemTargets.forEach((item) => {
@@ -149,6 +190,11 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Positions the dropdown below the trigger with matching width.
+   *
+   * @private
+   */
   _positionContent() {
     const trigger = this.triggerTarget
     const content = this.contentTarget
@@ -160,12 +206,25 @@ export default class extends Controller {
     content.style.minWidth = `${rect.width}px`
   }
 
+  /**
+   * Closes the dropdown when clicking outside the component.
+   *
+   * @param {MouseEvent} event
+   * @private
+   */
   _handleOutsideClick(event) {
     if (!this.element.contains(event.target)) {
       this.close()
     }
   }
 
+  /**
+   * Handles keyboard navigation while the dropdown is open.
+   * Supports ArrowDown/Up, Enter, Space, Escape, Home, End, Tab, and type-ahead.
+   *
+   * @param {KeyboardEvent} event
+   * @private
+   */
   _handleKeydown(event) {
     if (!this._open) return
 
@@ -238,11 +297,13 @@ export default class extends Controller {
     }
   }
 
+  /** @private */
   _addGlobalListeners() {
     document.addEventListener("click", this._handleOutsideClick, true)
     document.addEventListener("keydown", this._handleKeydown)
   }
 
+  /** @private */
   _removeGlobalListeners() {
     document.removeEventListener("click", this._handleOutsideClick, true)
     document.removeEventListener("keydown", this._handleKeydown)

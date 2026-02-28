@@ -1,25 +1,27 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Manages selection state for a group of toggle buttons.
-// Supports single (radio-like) and multiple (checkbox-like) selection modes.
-//
-// Values:
-//   type: "single" (default) or "multiple"
-//   variant: inherited variant for styling context
-//   size: inherited size for styling context
-//
-// Targets:
-//   item: each toggle button in the group
-//
-// Usage:
-//   <div data-controller="kiso--toggle-group"
-//        data-kiso--toggle-group-type-value="single">
-//     <button data-kiso--toggle-group-target="item"
-//             data-action="click->kiso--toggle-group#toggle"
-//             data-value="left" data-state="off" aria-pressed="false">
-//       Left
-//     </button>
-//   </div>
+/**
+ * Manages selection state for a group of toggle buttons.
+ * Supports single (radio-like) and multiple (checkbox-like) selection modes.
+ *
+ * @example
+ *   <div data-controller="kiso--toggle-group"
+ *        data-kiso--toggle-group-type-value="single">
+ *     <button data-kiso--toggle-group-target="item"
+ *             data-action="click->kiso--toggle-group#toggle"
+ *             data-value="left" data-state="off" aria-pressed="false">
+ *       Left
+ *     </button>
+ *   </div>
+ *
+ * @property {HTMLElement[]} itemTargets - Toggle buttons in the group
+ * @property {string} typeValue - Selection mode: "single" or "multiple"
+ * @property {string} variantValue - Inherited variant for styling context
+ * @property {string} sizeValue - Inherited size for styling context
+ *
+ * @fires kiso--toggle-group:change - When selection changes.
+ *   Detail: `{ value: string | null }` (single) or `{ value: string[] }` (multiple).
+ */
 export default class extends Controller {
   static targets = ["item"]
   static values = {
@@ -28,6 +30,13 @@ export default class extends Controller {
     size: { type: String, default: "default" }
   }
 
+  /**
+   * Handles a toggle click on one of the group items.
+   * In single mode, deselects all others first (allows deselect).
+   * In multiple mode, toggles the clicked item independently.
+   *
+   * @param {Event} event - The click event from a group item
+   */
   toggle(event) {
     const item = event.currentTarget
     const pressed = item.dataset.state === "on"
@@ -53,15 +62,22 @@ export default class extends Controller {
     this.#dispatchChange()
   }
 
-  // Keyboard navigation: arrow keys move focus between items
+  /** Sets up arrow-key navigation between items. */
   connect() {
     this.element.addEventListener("keydown", this.#handleKeydown)
   }
 
+  /** Tears down the keydown listener. */
   disconnect() {
     this.element.removeEventListener("keydown", this.#handleKeydown)
   }
 
+  /**
+   * Handles arrow key, Home, and End navigation between items.
+   * Wraps around at boundaries.
+   *
+   * @param {KeyboardEvent} event
+   */
   #handleKeydown = (event) => {
     const items = this.itemTargets.filter((item) => !item.disabled)
     const currentIndex = items.indexOf(document.activeElement)
@@ -93,6 +109,11 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Dispatches a "change" event with the currently selected value(s).
+   * Single mode emits `{ value: string | null }`,
+   * multiple mode emits `{ value: string[] }`.
+   */
   #dispatchChange() {
     const selectedValues = this.itemTargets
       .filter((item) => item.dataset.state === "on")

@@ -1,20 +1,38 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Dropdown menu with keyboard navigation, sub-menus, checkbox and radio items.
-//
-// Targets:
-//   trigger: the button that opens/closes the menu
-//   content: the dropdown panel (menu)
-//   item: standard menu items (role="menuitem")
-//   checkboxItem: checkbox toggle items (role="menuitemcheckbox")
-//   radioGroup: radio group container
-//   radioItem: radio selection items (role="menuitemradio")
-//   sub: sub-menu wrapper (contains subTrigger + subContent)
-//   subTrigger: opens a nested sub-menu
-//   subContent: nested sub-menu panel
-//
-// Usage:
-//   See app/views/kiso/components/_dropdown_menu.html.erb
+/**
+ * Dropdown menu with keyboard navigation, sub-menus, checkbox items, and radio items.
+ * Supports nested sub-menus with hover-to-open, type-ahead search, and full
+ * arrow-key navigation including ArrowRight/Left for sub-menu enter/exit.
+ *
+ * @example
+ *   <div data-controller="kiso--dropdown-menu" data-slot="dropdown-menu">
+ *     <div data-kiso--dropdown-menu-target="trigger"
+ *          data-action="click->kiso--dropdown-menu#toggle keydown->kiso--dropdown-menu#triggerKeydown">
+ *       <button>Open Menu</button>
+ *     </div>
+ *     <div data-kiso--dropdown-menu-target="content" role="menu" hidden>
+ *       <div data-kiso--dropdown-menu-target="item" data-slot="dropdown-menu-item"
+ *            data-action="click->kiso--dropdown-menu#selectItem" role="menuitem">
+ *         Profile
+ *       </div>
+ *     </div>
+ *   </div>
+ *
+ * @property {HTMLElement} triggerTarget - Button that opens/closes the menu
+ * @property {HTMLElement} contentTarget - The dropdown panel (menu)
+ * @property {HTMLElement[]} itemTargets - Standard menu items (role="menuitem")
+ * @property {HTMLElement[]} checkboxItemTargets - Checkbox toggle items (role="menuitemcheckbox")
+ * @property {HTMLElement[]} radioGroupTargets - Radio group containers
+ * @property {HTMLElement[]} radioItemTargets - Radio selection items (role="menuitemradio")
+ * @property {HTMLElement[]} subTargets - Sub-menu wrappers (contain subTrigger + subContent)
+ * @property {HTMLElement[]} subTriggerTargets - Elements that open nested sub-menus
+ * @property {HTMLElement[]} subContentTargets - Nested sub-menu panels
+ *
+ * @fires kiso--dropdown-menu:select - When a standard item is selected. Detail: `{ item: HTMLElement }`.
+ * @fires kiso--dropdown-menu:checkbox-change - When a checkbox item is toggled. Detail: `{ item: HTMLElement, checked: boolean }`.
+ * @fires kiso--dropdown-menu:radio-change - When a radio item is selected. Detail: `{ item: HTMLElement, value: string }`.
+ */
 export default class extends Controller {
   static targets = [
     "trigger",
@@ -44,6 +62,11 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Toggles the dropdown menu open or closed.
+   *
+   * @param {Event} event
+   */
   toggle(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -54,6 +77,10 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Opens the dropdown, positions it below the trigger, highlights the first
+   * item, and attaches mouse hover delegation.
+   */
   open() {
     if (this._open) return
 
@@ -68,6 +95,10 @@ export default class extends Controller {
     this.contentTarget.addEventListener("mouseover", this._handleMouseover)
   }
 
+  /**
+   * Closes the dropdown, all sub-menus, removes listeners,
+   * and returns focus to the trigger.
+   */
   close() {
     if (!this._open) return
 
@@ -89,6 +120,11 @@ export default class extends Controller {
     ;(btn || this.triggerTarget).focus()
   }
 
+  /**
+   * Dispatches a "select" event for a standard menu item and closes the menu.
+   *
+   * @param {Event} event - Click event from an item element
+   */
   selectItem(event) {
     const item = event.currentTarget
     if (item.hasAttribute("data-disabled")) return
@@ -97,6 +133,11 @@ export default class extends Controller {
     this.close()
   }
 
+  /**
+   * Toggles a checkbox menu item's checked state and updates its indicator icon.
+   *
+   * @param {Event} event - Click event from a checkbox item element
+   */
   toggleCheckboxItem(event) {
     const item = event.currentTarget
     if (item.hasAttribute("data-disabled")) return
@@ -127,6 +168,12 @@ export default class extends Controller {
     })
   }
 
+  /**
+   * Selects a radio item within its group, deselecting all siblings.
+   * Updates aria-checked and indicator icons.
+   *
+   * @param {Event} event - Click event from a radio item element
+   */
   selectRadioItem(event) {
     const item = event.currentTarget
     if (item.hasAttribute("data-disabled")) return
@@ -161,6 +208,11 @@ export default class extends Controller {
     this.dispatch("radio-change", { detail: { item, value } })
   }
 
+  /**
+   * Toggles a sub-menu open or closed when its trigger is clicked.
+   *
+   * @param {Event} event - Click event from a sub-trigger element
+   */
   toggleSub(event) {
     event.stopPropagation()
     const subTrigger = event.currentTarget
@@ -179,6 +231,12 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Opens a sub-menu on hover, closing sibling sub-menus first.
+   * Cancels any pending close timeout.
+   *
+   * @param {Event} event - Mouseenter event from a sub-trigger element
+   */
   openSubOnHover(event) {
     if (this._closeSubTimeout) {
       clearTimeout(this._closeSubTimeout)
@@ -217,6 +275,12 @@ export default class extends Controller {
     this._openSub(sub, subTrigger, subContent)
   }
 
+  /**
+   * Opens the dropdown on ArrowDown, Space, Enter, or ArrowUp when
+   * the trigger is focused. ArrowUp highlights the last item.
+   *
+   * @param {KeyboardEvent} event
+   */
   triggerKeydown(event) {
     switch (event.key) {
       case "ArrowDown":
@@ -241,6 +305,15 @@ export default class extends Controller {
 
   // --- Private ---
 
+  /**
+   * Opens a sub-menu, positions it, and attaches mouseenter/mouseleave
+   * listeners for auto-close with a delay for gap crossing.
+   *
+   * @param {HTMLElement} sub - The sub wrapper element
+   * @param {HTMLElement} subTrigger - The sub-trigger element
+   * @param {HTMLElement} subContent - The sub-content panel
+   * @private
+   */
   _openSub(sub, subTrigger, subContent) {
     subContent.hidden = false
     subTrigger.setAttribute("data-state", "open")
@@ -264,6 +337,15 @@ export default class extends Controller {
     subContent.addEventListener("mouseleave", subContent._leaveHandler)
   }
 
+  /**
+   * Closes a sub-menu, cleans up hover listeners, and recursively
+   * closes any nested sub-menus.
+   *
+   * @param {HTMLElement} sub - The sub wrapper element
+   * @param {HTMLElement} subTrigger - The sub-trigger element
+   * @param {HTMLElement} subContent - The sub-content panel
+   * @private
+   */
   _closeSub(sub, subTrigger, subContent) {
     subContent.hidden = true
     subTrigger.removeAttribute("data-state")
@@ -285,6 +367,11 @@ export default class extends Controller {
       })
   }
 
+  /**
+   * Closes all open sub-menus and cleans up their listeners.
+   *
+   * @private
+   */
   _closeAllSubs() {
     this.subContentTargets.forEach((subContent) => {
       subContent.hidden = true
@@ -295,6 +382,12 @@ export default class extends Controller {
     })
   }
 
+  /**
+   * Removes mouseenter/mouseleave handlers from a sub-content element.
+   *
+   * @param {HTMLElement} subContent
+   * @private
+   */
   _removeSubContentListeners(subContent) {
     if (subContent._enterHandler) {
       subContent.removeEventListener("mouseenter", subContent._enterHandler)
@@ -306,8 +399,15 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Collects all focusable menu items within a container, skipping hidden
+   * sub-content panels and disabled items. Walks the DOM tree recursively.
+   *
+   * @param {HTMLElement} container - The menu or sub-content container to search
+   * @returns {HTMLElement[]} Ordered list of focusable items
+   * @private
+   */
   _allMenuItems(container) {
-    // Get all focusable menu items within a container (not inside hidden sub-contents)
     const items = []
     const walk = (el) => {
       for (const child of el.children) {
@@ -339,8 +439,14 @@ export default class extends Controller {
     return items
   }
 
+  /**
+   * Highlights a menu item at the given index and scrolls it into view.
+   * Pass -1 to clear all highlights.
+   *
+   * @param {number} index - Index within all menu items, or -1 to clear
+   * @private
+   */
   _highlightIndex(index) {
-    // Remove highlight from all items in the content
     const allItems = this._allMenuItems(this.contentTarget)
     allItems.forEach((item) => {
       item.removeAttribute("data-highlighted")
@@ -354,6 +460,12 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Positions the dropdown content below the trigger with matching min-width
+   * and a dynamic max-height based on viewport space.
+   *
+   * @private
+   */
   _positionContent() {
     const trigger = this.triggerTarget
     const content = this.contentTarget
@@ -374,6 +486,15 @@ export default class extends Controller {
     })
   }
 
+  /**
+   * Positions a sub-content panel to the right of its trigger using
+   * fixed positioning. Flips horizontally or adjusts vertically
+   * if the panel overflows the viewport.
+   *
+   * @param {HTMLElement} subTrigger - The sub-trigger element
+   * @param {HTMLElement} subContent - The sub-content panel to position
+   * @private
+   */
   _positionSubContent(subTrigger, subContent) {
     // Use fixed positioning to escape parent overflow clipping
     const rect = subTrigger.getBoundingClientRect()
@@ -395,6 +516,14 @@ export default class extends Controller {
     })
   }
 
+  /**
+   * Handles mouseover events via delegation on the content panel.
+   * Highlights hovered items and closes sibling sub-menus when hovering
+   * non-sub-trigger items.
+   *
+   * @param {MouseEvent} event
+   * @private
+   */
   _handleMouseover(event) {
     const item = event.target.closest(
       "[data-slot='dropdown-menu-item'], " +
@@ -438,6 +567,13 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Closes the dropdown when clicking outside the component,
+   * including outside any open fixed-positioned sub-content.
+   *
+   * @param {MouseEvent} event
+   * @private
+   */
   _handleOutsideClick(event) {
     // Check both the root element and any open fixed-positioned sub-contents
     if (this.element.contains(event.target)) return
@@ -447,6 +583,15 @@ export default class extends Controller {
     this.close()
   }
 
+  /**
+   * Handles keyboard navigation while the dropdown is open.
+   * Operates on the deepest open sub-menu container.
+   * Supports ArrowDown/Up, ArrowRight (enter sub), ArrowLeft (exit sub),
+   * Enter/Space (activate), Escape, Home, End, Tab, and type-ahead.
+   *
+   * @param {KeyboardEvent} event
+   * @private
+   */
   _handleKeydown(event) {
     if (!this._open) return
 
@@ -596,26 +741,45 @@ export default class extends Controller {
     }
   }
 
+  /**
+   * Removes `data-highlighted` from all elements in the dropdown.
+   *
+   * @private
+   */
   _clearAllHighlights() {
     this.element
       .querySelectorAll("[data-highlighted]")
       .forEach((el) => el.removeAttribute("data-highlighted"))
   }
 
+  /** @private */
   _addGlobalListeners() {
     document.addEventListener("click", this._handleOutsideClick, true)
     document.addEventListener("keydown", this._handleKeydown)
   }
 
+  /** @private */
   _removeGlobalListeners() {
     document.removeEventListener("click", this._handleOutsideClick, true)
     document.removeEventListener("keydown", this._handleKeydown)
   }
 
+  /**
+   * Returns the SVG markup for a checkmark icon (used in checkbox items).
+   *
+   * @returns {string} SVG HTML string
+   * @private
+   */
   _checkIconSvg() {
     return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 size-4"><path d="M20 6 9 17l-5-5"/></svg>'
   }
 
+  /**
+   * Returns the SVG markup for a filled circle icon (used in radio items).
+   *
+   * @returns {string} SVG HTML string
+   * @private
+   */
   _circleIconSvg() {
     return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 size-2"><circle cx="12" cy="12" r="10"/></svg>'
   }
