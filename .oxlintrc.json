@@ -11,5 +11,15 @@
   "env": {
     "browser": true,
     "es2024": true
-  }
+  },
+  "overrides": [
+    {
+      "files": ["test/**", "vitest.config.js", "playwright.config.js"],
+      "env": {
+        "browser": true,
+        "node": true,
+        "es2024": true
+      }
+    }
+  ]
 }
