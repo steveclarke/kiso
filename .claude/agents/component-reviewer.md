@@ -14,9 +14,17 @@ missing files.
 
 ### 1. Gather context
 
+You review pull requests. You do NOT run in a worktree — use the `gh` CLI
+to read the PR diff, then check out the branch locally to run lint and tests.
+
 Read the PR diff to understand what was built:
 ```bash
 gh pr diff {PR_NUMBER}
+```
+
+Check out the PR branch to get a local copy for running checks:
+```bash
+gh pr checkout {PR_NUMBER}
 ```
 
 Identify the component name and find the shadcn source:
@@ -29,7 +37,7 @@ Read the design system rules:
 project/DESIGN_SYSTEM.md
 ```
 
-### 2. Run the 10-point checklist
+### 2. Run the checklist
 
 For each check, report PASS or FAIL with specific details.
 
@@ -143,10 +151,21 @@ Values like `text-[8px]`, `h-[1.15rem]`, `p-[3px]` are not.
 
 #### Check 10: Lint and tests
 
+After checking out the PR branch (`gh pr checkout {PR_NUMBER}`), run:
+
 ```bash
 bundle exec standardrb --check lib/kiso/themes/{name}.rb
 bundle exec rake test
 ```
+
+#### Check 11: JSDoc on Stimulus controllers
+
+If the component includes a Stimulus controller, verify it has full JSDoc:
+- Class-level: description, `@example` with HTML usage, `@property` for
+  targets and values, `@fires` for dispatched events
+- Public methods: `@param` and `@returns` where applicable
+- Private methods: `@private` tag, plus `@param`/`@returns` if non-trivial
+- Reference: `app/javascript/controllers/kiso/select_controller.js`
 
 ### 3. Report findings
 
@@ -169,6 +188,7 @@ Format your report as:
 | 8 | Closes #N in PR body | PASS/FAIL | details |
 | 9 | No arbitrary values | PASS/FAIL | details |
 | 10 | Lint and tests | PASS/FAIL | details |
+| 11 | JSDoc on Stimulus controllers | PASS/FAIL/N/A | details |
 
 ### Verdict: PASS / NEEDS FIXES
 
@@ -179,22 +199,14 @@ Format your report as:
 
 ### 4. Fix issues (if empowered to do so)
 
-If you have write access (running in the same worktree as the builder), fix
-the issues directly:
+After checking out the PR branch with `gh pr checkout`, you have a local
+copy. If you have write access, fix issues directly:
+
 1. Make the changes
 2. Run lint and tests
 3. Commit with: `fix: address review feedback for {ComponentName}`
-4. Push to the same branch
+4. Push to the same branch: `git push`
 5. Re-run the checklist to confirm all pass
-
-#### Check 11: JSDoc on Stimulus controllers
-
-If the component includes a Stimulus controller, verify it has full JSDoc:
-- Class-level: description, `@example` with HTML usage, `@property` for
-  targets and values, `@fires` for dispatched events
-- Public methods: `@param` and `@returns` where applicable
-- Private methods: `@private` tag, plus `@param`/`@returns` if non-trivial
-- Reference: `app/javascript/controllers/kiso/select_controller.js`
 
 ## Things that commonly go wrong
 

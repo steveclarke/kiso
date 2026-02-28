@@ -159,17 +159,25 @@ Then add a row to the appropriate table in `skills/kiso/references/components.md
 
 ### 7. Start Lookbook and verify
 
+Start Lookbook on your worktree's assigned port. This daemonizes (runs in
+background) and returns immediately:
+
 ```bash
-export LOOKBOOK_PORT=$(bin/worktree port)
-bin/dev -- -l web,css
+bin/worktree start
 ```
 
-Wait for startup, then verify every preview returns 200:
+The port is printed to stdout. Wait a few seconds for startup, then verify
+every preview returns 200:
+
 ```bash
-curl -s -o /dev/null -w "%{http_code}" http://localhost:$LOOKBOOK_PORT/preview/kiso/{name}/{scenario}
+PORT=$(bin/worktree port)
+curl -s -o /dev/null -w "%{http_code}" http://localhost:$PORT/lookbook/preview/kiso/{name}/{scenario}
 ```
 
-If any return 500, read the error and fix it.
+If any return 500, read the full response to see the error and fix it:
+```bash
+curl -s http://localhost:$PORT/lookbook/preview/kiso/{name}/{scenario}
+```
 
 ### 8. Lint and test
 
@@ -180,15 +188,16 @@ bundle exec rake test
 
 ### 9. Commit (but do NOT push or create PR)
 
+The worktree already has its own branch (created by the orchestrator's
+`isolation: "worktree"`). Commit to the current branch:
+
 ```bash
-git checkout -b feat/{name}-component
 git add [specific files]
 git commit -m "feat: ComponentName component (#N)"
 ```
 
 **Do NOT run `git push` or `gh pr create`.** The factory orchestrator handles
-push and PR creation after you return. You may not have push permissions from
-a worktree context.
+push and PR creation after you return.
 
 ### 10. Leave Lookbook running
 
@@ -197,13 +206,17 @@ give the user a preview URL. The orchestrator will stop services when done.
 
 ### 11. Report your results
 
-In your final output, clearly include:
-- **Worktree path** (the directory you're working in)
-- **Branch name** (e.g., `feat/breadcrumb-component`)
-- **Lookbook port** (from `bin/worktree port`)
-- **Preview URLs** for each Lookbook scenario
-- **Summary** of all files created
-- The **PR body** text (title, summary, `Closes #N`) so the orchestrator can create it
+The orchestrator automatically receives your worktree path and branch from
+the Agent tool. It derives the Lookbook port via `bin/worktree port`.
+
+In your final text output, include:
+
+- **Component name** (e.g., `breadcrumb`)
+- **PR title** (e.g., `feat: Breadcrumb component`)
+- **PR body** — full markdown body including `Closes #N`, summary bullets,
+  and test plan checklist
+- **Files created** — list of all files added or modified
+- **Status** — whether all previews return 200, lint passes, tests pass
 
 ## Quality checklist (verify before creating PR)
 

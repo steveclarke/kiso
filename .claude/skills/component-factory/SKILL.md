@@ -9,60 +9,116 @@ Build components in parallel using the builder and reviewer agents.
 
 ## Instructions
 
-1. Parse the issue numbers from the user's input. They will be provided as `#N` arguments (e.g., `/factory #47 #48`).
+### 1. Parse issues
 
-2. For each issue number, spawn a builder agent in parallel:
+Parse the issue numbers from the user's input (e.g., `/factory #47 #48`).
+For each issue, read it with `gh issue view N` to get the component name.
+
+### 2. Spawn builders in parallel
+
+For each issue, spawn a builder agent in a worktree:
 
 ```
-Task(
+Agent(
   subagent_type: "component-builder",
   isolation: "worktree",
   mode: "bypassPermissions",
-  prompt: "Build the component for issue #N. Read the issue for requirements. Follow .claude/agents/component-builder.md exactly."
+  prompt: "Build the component for issue #N. Run `gh issue view N` for requirements."
 )
 ```
 
-3. As each builder completes, **handle its deliverables immediately** (don't wait for all builders):
+Spawn all builders in parallel (one Agent call per issue, all in the same
+message).
 
-   a. **Push and create the PR** from the worktree branch. The builder commits locally but may not be able to push. Run from the worktree directory:
-   ```bash
-   cd <worktree_path>
-   git push -u origin <branch_name>
-   gh pr create --title "..." --body "..."
-   ```
+### 3. Handle each builder's result
 
-   b. **Start Lookbook** in the worktree so the user can preview the component:
-   ```bash
-   cd <worktree_path>
-   bin/worktree start
-   ```
-   This assigns a deterministic port via `bin/worktree port` and starts Lookbook + Tailwind. The port is printed to stdout.
+When a builder completes, you receive:
 
-   c. **Give the user the Lookbook URL** immediately:
-   ```
-   Breadcrumb Lookbook → http://localhost:<port>/lookbook/inspect/kiso/<name>/playground
-   ```
+- **`worktree_path`** and **`branch`** — returned automatically by the Agent
+  tool's worktree isolation. These are in the structured tool result, not the
+  text output.
+- **Text output** — the builder's summary including component name, files
+  created, PR title/body text, and pass/fail status for previews/lint/tests.
 
-   d. **Spawn the reviewer** on the worktree branch (in background).
+Derive the Lookbook port (the builder left Lookbook running):
 
-4. For each completed builder, spawn a reviewer agent:
+```bash
+cd <worktree_path> && bin/worktree port
+```
+
+### 4. Push and create PR
+
+From the worktree, push the branch and create the PR:
+
+```bash
+cd <worktree_path> && git push -u origin <branch>
+```
+
+Then create the PR using the title and body from the builder's output.
+The body MUST include `Closes #N`:
+
+```bash
+cd <worktree_path> && gh pr create --title "<title>" --body "$(cat <<'EOF'
+<body from builder output>
+EOF
+)"
+```
+
+### 5. Show Lookbook preview URLs
+
+Print the Lookbook URLs clearly so the user can click to review each
+component visually. Format:
 
 ```
-Task(
+Lookbook ready:
+- ComponentA → http://localhost:<port_a>/lookbook/inspect/kiso/<name_a>/playground
+- ComponentB → http://localhost:<port_b>/lookbook/inspect/kiso/<name_b>/playground
+```
+
+### 6. Spawn reviewers
+
+For each PR created, spawn a reviewer agent. The reviewer does NOT need
+worktree isolation — it reads the PR diff via `gh`:
+
+```
+Agent(
   subagent_type: "component-reviewer",
-  isolation: "worktree",
   mode: "bypassPermissions",
-  prompt: "Review the PR #N for the component. Follow .claude/agents/component-reviewer.md exactly."
+  prompt: "Review PR #<pr_number> for the <ComponentName> component. Use `gh pr diff <pr_number>` to read the changes."
 )
 ```
 
-5. Report results — which components passed review, which need fixes. Include Lookbook URLs for each component.
+Spawn reviewers in the background so the user can start reviewing in
+Lookbook while reviews run.
 
-## Important: Lookbook stays running
+### 7. Report results
 
-The builder agents stop Lookbook before they return (step 11 in builder instructions). This is correct — they clean up after themselves. **The factory orchestrator is responsible for restarting Lookbook** in each worktree using `bin/worktree start` so the user can preview components without merging.
+Summarize for each component:
+- PR link
+- Lookbook URL
+- Reviewer verdict (pass/needs fixes)
+- Any issues found
 
-Each worktree gets a deterministic port (4101–4600) based on its directory name. No port conflicts. The user can open all components side-by-side.
+### 8. Cleanup
+
+After the user is done reviewing and all PRs are merged or closed, stop
+Lookbook in each worktree:
+
+```bash
+cd <worktree_path> && bin/worktree stop
+```
+
+## Lookbook lifecycle
+
+The **builder** starts Lookbook in its worktree (`bin/worktree start`) and
+**leaves it running**. The factory does NOT restart it. Instead:
+
+1. Derive the port: `cd <worktree_path> && bin/worktree port`
+2. Print the URL for the user to review
+3. Stop it during cleanup (step 8) when the user is done
+
+Each worktree gets a deterministic port (4101-4600) based on its directory
+name. No port conflicts. The user can open all components side-by-side.
 
 ## Example usage
 
