@@ -1,5 +1,9 @@
 module Kiso
   module Themes
+    Select = ClassVariants.build(
+      base: "relative text-foreground"
+    )
+
     # shadcn SelectTrigger:
     #   border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground
     #   focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20
@@ -19,7 +23,8 @@ module Kiso
             "focus-visible:ring-2 focus-visible:ring-primary " \
             "aria-invalid:ring-error aria-invalid:focus-visible:ring-error " \
             "disabled:cursor-not-allowed disabled:opacity-50 " \
-            "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+            "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " \
+            "[&_svg:not([class*='text-'])]:text-muted-foreground",
       variants: {
         size: {
           sm: "h-8",
@@ -40,8 +45,8 @@ module Kiso
     #   bg-popover text-popover-foreground relative z-50 max-h-(--radix-select-content-available-height)
     #   min-w-[8rem] overflow-x-hidden overflow-y-auto rounded-md border shadow-md p-1
     SelectContent = ClassVariants.build(
-      base: "bg-background text-foreground z-50 max-h-60 min-w-32 " \
-            "overflow-y-auto rounded-md shadow-md ring ring-inset ring-border p-1"
+      base: "relative bg-background text-foreground z-50 max-h-60 min-w-32 " \
+            "overflow-x-hidden overflow-y-auto rounded-md shadow-md ring ring-inset ring-border p-1"
     )
 
     # shadcn SelectGroup: (no specific classes, just a wrapper)
@@ -51,7 +56,7 @@ module Kiso
 
     # shadcn SelectLabel: text-muted-foreground px-2 py-1.5 text-xs
     SelectLabel = ClassVariants.build(
-      base: "text-muted-foreground px-2 py-1.5 text-xs font-medium"
+      base: "text-muted-foreground px-2 py-1.5 text-xs"
     )
 
     # shadcn SelectItem:
@@ -64,7 +69,8 @@ module Kiso
             "py-1.5 pr-8 pl-2 text-sm outline-none select-none " \
             "data-[highlighted]:bg-elevated data-[highlighted]:text-foreground " \
             "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 " \
-            "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+            "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " \
+            "[&_svg:not([class*='text-'])]:text-muted-foreground"
     )
 
     # shadcn SelectItemIndicator:
