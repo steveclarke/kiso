@@ -20,7 +20,7 @@ Stimulus.
   theming, override system, dark mode.
 - `.claude/skills/contributing/SKILL.md` — component creation workflow and checklist
 - `skills/kiso/` — AI skill with component reference (update when adding components)
-- `VISION.md` — full roadmap, component catalog, phased rollout
+- `VISION.md` — why Kiso exists, design principles
 
 ## Architecture
 

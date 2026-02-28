@@ -20,7 +20,7 @@ Reference: `vendor/maquina_components/` (local checkout)
 ### What's Done
 
 - [x] Gem skeleton (Rails engine, isolate_namespace, engine_name)
-- [x] test/dummy/ app (Lookbook, Tailwind v4, Propshaft, port 4001)
+- [x] lookbook/ app (Lookbook, Tailwind v4, Propshaft, port 4001)
 - [x] Core helpers: `kui()`, `kiso_prepare_options()` in ComponentHelper
 - [x] class_variants + tailwind_merge integration
 - [x] Theme CSS: 7 semantic palettes + surface tokens + dark mode
@@ -36,9 +36,15 @@ Reference: `vendor/maquina_components/` (local checkout)
 - [x] bin/kiso CLI (`make component NAME` scaffolds all files)
 - [x] AI skills (usage + contributing)
 - [x] Docs site (Bridgetown 2.1, Tailwind v4, sidebar nav, dark mode)
-- [x] Docs pages for Badge, Alert, Button, Card, Separator
+- [x] Docs pages for all shipped components
 - [x] Overmind dev setup (root bin/dev, daemonized, Lookbook + CSS + docs)
 - [x] Lookbook preview layout with default padding
+- [x] Batch 2: Form inputs (Field, Label, Input, Textarea, Checkbox, Radio Group, Switch, Select, Input Group, Field Group, Field Set)
+- [x] Batch 3: Stimulus components (Toggle, Toggle Group, Breadcrumb, Popover, Dropdown Menu, Combobox, Command, Select)
+- [x] Kbd, Pagination components
+- [x] Playwright E2E + Vitest unit test infrastructure (#73)
+- [x] 3-tier testing strategy (`project/testing-strategy.md`)
+- [x] Agentic component factory (builder + reviewer agents, worktree isolation)
 
 ### Open Issues
 
@@ -49,15 +55,15 @@ Reference: `vendor/maquina_components/` (local checkout)
 - **#8** — Live component previews in documentation pages
 - **#9** — Polish component documentation to match Nuxt UI quality
 
-### What's Next / Up Next
+### What's Next
 
-- **#47** — Breadcrumb (7 sub-parts, no JS)
-- **#48** — Toggle + ToggleGroup (3 sub-parts, Stimulus)
-- **#49** — Popover (7 sub-parts, Stimulus, foundation for DropdownMenu/Combobox/DatePicker)
+**Batch 1 complete. Batch 2 complete. Batch 3 mostly complete** (Toast, Calendar,
+Date Picker remaining). Current priorities:
 
-**Batch 1 complete. Batch 2 complete.** Next: Batch 3 (Stimulus components).
-See `project/plans/batch-3-stimulus.md` for the full breakdown.
-Header deferred to Phase 2 (page-level layouts: Header, Sidebar, Page).
+- **#74** — Write Playwright E2E tests for all existing components
+- **#75** — Organize project documentation
+- Toast / Calendar / Date Picker — remaining Batch 3 components
+- Header deferred to Phase 2 (page-level layouts: Header, Sidebar, Page)
 
 ## Phase 1: Maquina Parity
 
@@ -98,27 +104,33 @@ below exists in maquina_components.
 Kiso uses `kui(:input)` partials with class_variants themes and
 `data-slot` identity attributes (shadcn v4 convention).
 
-| Component | Type | Maquina Notes |
-|-----------|------|---------------|
-| Label | simple | Form field label, required indicator |
-| Input | simple | Text input styling |
-| Textarea | simple | Text area styling |
-| Select | simple | Native select styling |
-| Checkbox | simple | Custom styled checkbox |
-| Radio | simple | Custom styled radio |
-| Switch | simple | Toggle switch |
+| Component | Type | Status | Notes |
+|-----------|------|--------|-------|
+| Label | simple | done | Form field label, required indicator |
+| Input | simple | done | Text input styling |
+| Textarea | simple | done | Text area styling |
+| Select | simple | done | Native select styling (+ Stimulus select) |
+| Checkbox | simple | done | Custom styled checkbox |
+| Radio Group | simple | done | Custom styled radio group |
+| Switch | simple | done | Toggle switch |
+| Field | simple | done | Composable form field wrapper |
+| Input Group | simple | done | Inline prefix/suffix addons |
 
 **Batch 3 — With Stimulus controllers:**
 
-| Component | Type | Maquina Notes |
-|-----------|------|---------------|
-| Toast / Toaster | colored | Auto-dismiss, flash integration, positioning |
-| Toggle Group | colored | Single/multi select, keyboard nav |
-| Dropdown Menu | simple | Popover-based, keyboard nav, click outside |
-| Combobox | simple | Search + select, keyboard nav, form integration |
-| Breadcrumbs | simple | Responsive collapse, separator sub-part |
-| Calendar | simple | Date grid, range mode, min/max, disabled dates |
-| Date Picker | simple | Calendar + popover trigger, form integration |
+| Component | Type | Status | Notes |
+|-----------|------|--------|-------|
+| Toggle | simple | done | Stimulus toggle, aria-pressed |
+| Toggle Group | colored | done | Single/multi select, keyboard nav |
+| Breadcrumb | simple | done | 7 sub-parts, responsive collapse |
+| Popover | simple | done | Stimulus, anchor/trigger/content |
+| Dropdown Menu | simple | done | Stimulus, keyboard nav, sub-menus |
+| Combobox | simple | done | Stimulus, search + select, multi-select |
+| Command | simple | done | Stimulus, keyboard nav, dialog variant |
+| Select | simple | done | Stimulus, keyboard nav, form integration |
+| Toast / Toaster | colored | | Auto-dismiss, flash integration |
+| Calendar | simple | | Date grid, range mode, min/max |
+| Date Picker | simple | | Calendar + popover trigger |
 
 ### Also Needed for Phase 1
 
@@ -173,11 +185,14 @@ New components not in maquina. Build these after Ninjanizr is on Kiso.
 ## Dev Environment
 
 ```bash
-bin/dev                       # All services via Overmind (Lookbook :4001 + docs :4000)
-overmind restart web          # Restart Lookbook server
-overmind restart docs         # Restart docs server
-bundle exec rake test         # Run tests
-bundle exec standardrb --fix  # Lint & auto-format Ruby
+bin/dev                         # All services via Overmind (Lookbook :4001 + docs :4000)
+bin/dev restart web             # Restart Lookbook server
+bin/dev restart docs            # Restart docs server
+bundle exec rake test           # Ruby tests
+npm run test:unit               # JS unit tests (Vitest)
+npm run test:e2e                # E2E tests (Playwright, needs bin/dev)
+bundle exec standardrb --fix    # Ruby lint
+npm run lint && npm run fmt     # JS lint + format
 ```
 
 ## Reference
