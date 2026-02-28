@@ -1,3 +1,3 @@
 web: cd lookbook && bin/rails server -p ${LOOKBOOK_PORT:-4001}
 css: cd lookbook && bin/rails tailwindcss:watch
-docs: cd docs && bin/bridgetown start
+docs: cd docs && bin/bridgetown start -P ${DOCS_PORT:-4000}

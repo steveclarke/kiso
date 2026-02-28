@@ -40,10 +40,11 @@ When a builder completes, you receive:
 - **Text output** — the builder's summary including component name, files
   created, PR title/body text, and pass/fail status for previews/lint/tests.
 
-Derive the Lookbook port (the builder left Lookbook running):
+Derive the ports (the builder left servers running):
 
 ```bash
-cd <worktree_path> && bin/worktree port
+cd <worktree_path> && bin/worktree port lookbook
+cd <worktree_path> && bin/worktree port docs
 ```
 
 ### 4. Push and create PR
@@ -64,15 +65,19 @@ EOF
 )"
 ```
 
-### 5. Show Lookbook preview URLs
+### 5. Show preview URLs
 
-Print the Lookbook URLs clearly so the user can click to review each
+Print the Lookbook and docs URLs clearly so the user can click to review each
 component visually. Format:
 
 ```
-Lookbook ready:
-- ComponentA → http://localhost:<port_a>/lookbook/inspect/kiso/<name_a>/playground
-- ComponentB → http://localhost:<port_b>/lookbook/inspect/kiso/<name_b>/playground
+Preview servers ready:
+- ComponentA
+  Lookbook → http://localhost:<lb_port_a>/lookbook/inspect/kiso/<name_a>/playground
+  Docs     → http://localhost:<docs_port_a>/components/<name_a>
+- ComponentB
+  Lookbook → http://localhost:<lb_port_b>/lookbook/inspect/kiso/<name_b>/playground
+  Docs     → http://localhost:<docs_port_b>/components/<name_b>
 ```
 
 ### 6. Spawn reviewers
@@ -96,6 +101,7 @@ Lookbook while reviews run.
 Summarize for each component:
 - PR link
 - Lookbook URL
+- Docs URL
 - Reviewer verdict (pass/needs fixes)
 - Any issues found
 
@@ -108,17 +114,18 @@ Lookbook in each worktree:
 cd <worktree_path> && bin/worktree stop
 ```
 
-## Lookbook lifecycle
+## Server lifecycle
 
-The **builder** starts Lookbook in its worktree (`bin/worktree start`) and
-**leaves it running**. The factory does NOT restart it. Instead:
+The **builder** starts Lookbook and docs in its worktree (`bin/worktree start`)
+and **leaves them running**. The factory does NOT restart them. Instead:
 
-1. Derive the port: `cd <worktree_path> && bin/worktree port`
-2. Print the URL for the user to review
-3. Stop it during cleanup (step 8) when the user is done
+1. Derive ports: `cd <worktree_path> && bin/worktree port lookbook` and `bin/worktree port docs`
+2. Print both URLs for the user to review
+3. Stop them during cleanup (step 8) when the user is done
 
-Each worktree gets a deterministic port (4101-4600) based on its directory
-name. No port conflicts. The user can open all components side-by-side.
+Each worktree gets deterministic ports (Lookbook 4101-4600, docs 4601-5100)
+based on its directory name. No port conflicts. The user can open all
+components side-by-side.
 
 ## Example usage
 

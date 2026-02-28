@@ -5,28 +5,29 @@ set -euo pipefail
 # bin/worktree — Worktree port management for parallel development
 ################################################################################
 #
-# Assigns deterministic Lookbook ports to git worktrees so multiple agents
-# can develop components in parallel without port conflicts.
+# Assigns deterministic Lookbook and docs ports to git worktrees so multiple
+# agents can develop components in parallel without port conflicts.
 #
 # USAGE
 # -----
-#   bin/worktree port             Port for current worktree
-#   bin/worktree port <name>      Port for named worktree
-#   bin/worktree env              Export line for current worktree
-#   bin/worktree start            Start Lookbook + Tailwind on assigned port
+#   bin/worktree port             Ports for current worktree
+#   bin/worktree port <name>      Ports for named worktree
+#   bin/worktree env              Export lines for current worktree
+#   bin/worktree start            Start Lookbook + Tailwind + docs on assigned ports
+#   bin/worktree start --no-docs  Start Lookbook + Tailwind only (skip docs)
 #   bin/worktree stop             Stop services in current worktree
 #   bin/worktree status           Show running services
 #
 # PORT FORMULA
 # ------------
-# Main worktree → 4001 (default)
-# Named worktrees → 4101–4600 (MD5 hash of directory name)
+# Main worktree → Lookbook 4001, docs 4000 (defaults)
+# Named worktrees → Lookbook 4101–4600, docs 4601–5100 (MD5 hash)
 #
 # INTEGRATION
 # -----------
-# Agents use this to start isolated Lookbook instances:
+# Agents use this to start isolated instances:
 #
-#   export LOOKBOOK_PORT=$(bin/worktree port)
+#   eval $(bin/worktree env)
 #   bin/dev -- -l web,css
 #
 # Or simply:
@@ -35,8 +36,10 @@ set -euo pipefail
 #
 ################################################################################
 
-MAIN_PORT=4001
-PORT_BASE=4101
+LOOKBOOK_MAIN_PORT=4001
+LOOKBOOK_PORT_BASE=4101
+DOCS_MAIN_PORT=4000
+DOCS_PORT_BASE=4601
 PORT_RANGE=500
 
 ################################################################################
@@ -64,21 +67,36 @@ worktree_name() {
   fi
 }
 
-# Deterministic port from worktree name using MD5 hash
-# Main worktree always gets MAIN_PORT
-calculate_port() {
+# Deterministic port offset from worktree name using MD5 hash
+hash_offset() {
+  local name="$1"
+  local hash
+  hash=$(echo -n "$name" | md5 -q 2>/dev/null || echo -n "$name" | md5sum | cut -d' ' -f1)
+  echo $(( 16#${hash:0:8} % PORT_RANGE ))
+}
+
+# Calculate Lookbook port for a worktree
+lookbook_port() {
   local name
   name=$(worktree_name "${1:-}")
 
   if [ "$name" = "main" ]; then
-    echo "$MAIN_PORT"
-    return
+    echo "$LOOKBOOK_MAIN_PORT"
+  else
+    echo $(( LOOKBOOK_PORT_BASE + $(hash_offset "$name") ))
   fi
+}
 
-  local hash
-  hash=$(echo -n "$name" | md5 -q 2>/dev/null || echo -n "$name" | md5sum | cut -d' ' -f1)
-  local offset=$(( 16#${hash:0:8} % PORT_RANGE ))
-  echo $(( PORT_BASE + offset ))
+# Calculate docs port for a worktree
+docs_port() {
+  local name
+  name=$(worktree_name "${1:-}")
+
+  if [ "$name" = "main" ]; then
+    echo "$DOCS_MAIN_PORT"
+  else
+    echo $(( DOCS_PORT_BASE + $(hash_offset "$name") ))
+  fi
 }
 
 ################################################################################
@@ -86,20 +104,43 @@ calculate_port() {
 ################################################################################
 
 cmd_port() {
-  calculate_port "${1:-}"
+  local filter="${1:-}"
+
+  case "$filter" in
+    lookbook) lookbook_port "${2:-}" ;;
+    docs)     docs_port "${2:-}" ;;
+    *)
+      local lb_port docs_p
+      lb_port=$(lookbook_port "${filter}")
+      docs_p=$(docs_port "${filter}")
+      echo "Lookbook: $lb_port"
+      echo "Docs:     $docs_p"
+      ;;
+  esac
 }
 
 cmd_env() {
-  local port
-  port=$(calculate_port "${1:-}")
-  echo "export LOOKBOOK_PORT=$port"
+  local lb_port docs_p
+  lb_port=$(lookbook_port "${1:-}")
+  docs_p=$(docs_port "${1:-}")
+  echo "export LOOKBOOK_PORT=$lb_port"
+  echo "export DOCS_PORT=$docs_p"
 }
 
 cmd_start() {
-  local port
-  port=$(calculate_port)
-  echo "Starting Lookbook on port $port..."
-  LOOKBOOK_PORT=$port exec bin/dev -- -l web,css
+  local lb_port docs_p
+  lb_port=$(lookbook_port)
+  docs_p=$(docs_port)
+
+  local services="web,css,docs"
+  if [ "${1:-}" = "--no-docs" ]; then
+    services="web,css"
+    echo "Starting Lookbook on port $lb_port..."
+  else
+    echo "Starting Lookbook on port $lb_port, docs on port $docs_p..."
+  fi
+
+  LOOKBOOK_PORT=$lb_port DOCS_PORT=$docs_p exec bin/dev -- -l "$services"
 }
 
 cmd_stop() {
@@ -115,18 +156,24 @@ cmd_help() {
 Usage: bin/worktree <command> [name]
 
 Commands:
-  port [name]   Show Lookbook port for current or named worktree
-  env [name]    Print export line for shell eval
-  start         Start Lookbook + Tailwind on assigned port
-  stop          Stop services
-  status        Show running services
-  help          Show this help
+  port [name]          Show both ports for current or named worktree
+  port lookbook [name] Show Lookbook port only (for scripting)
+  port docs [name]     Show docs port only (for scripting)
+  env [name]           Print export lines for shell eval
+  start                Start Lookbook + Tailwind + docs on assigned ports
+  start --no-docs      Start Lookbook + Tailwind only (skip docs)
+  stop                 Stop services
+  status               Show running services
+  help                 Show this help
 
 Examples:
-  bin/worktree port                    # → 4001 (main)
-  bin/worktree port feat-input         # → 4237 (deterministic)
-  eval \$(bin/worktree env)             # Export LOOKBOOK_PORT
-  bin/worktree start                   # Start on assigned port
+  bin/worktree port                    # → Lookbook: 4001, Docs: 4000 (main)
+  bin/worktree port feat-input         # → Lookbook: 4237, Docs: 4737 (deterministic)
+  bin/worktree port lookbook           # → 4001 (just the number, for scripting)
+  bin/worktree port docs               # → 4000
+  eval \$(bin/worktree env)             # Export LOOKBOOK_PORT + DOCS_PORT
+  bin/worktree start                   # Start all on assigned ports
+  bin/worktree start --no-docs         # Start Lookbook only
 EOF
 }
 
@@ -135,9 +182,9 @@ EOF
 ################################################################################
 
 case "${1:-help}" in
-  port)    shift; cmd_port "${1:-}" ;;
+  port)    shift; cmd_port "${1:-}" "${2:-}" ;;
   env)     shift; cmd_env "${1:-}" ;;
-  start)   cmd_start ;;
+  start)   shift 2>/dev/null || true; cmd_start "${1:-}" ;;
   stop)    cmd_stop ;;
   status)  cmd_status ;;
   help|-h|--help) cmd_help ;;

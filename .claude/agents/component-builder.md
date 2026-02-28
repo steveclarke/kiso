@@ -157,26 +157,32 @@ modules). Follow any existing component file as a template.
 Then add a row to the appropriate table in `skills/kiso/references/components.md`
 (Layout, Forms, or Element) linking to the new file.
 
-### 7. Start Lookbook and verify
+### 7. Start servers and verify
 
-Start Lookbook on your worktree's assigned port. This daemonizes (runs in
-background) and returns immediately:
+Start Lookbook and docs on your worktree's assigned ports. This daemonizes
+(runs in background) and returns immediately:
 
 ```bash
 bin/worktree start
 ```
 
-The port is printed to stdout. Wait a few seconds for startup, then verify
-every preview returns 200:
+The ports are printed to stdout. Wait a few seconds for startup, then verify
+every Lookbook preview returns 200:
 
 ```bash
-PORT=$(bin/worktree port)
-curl -s -o /dev/null -w "%{http_code}" http://localhost:$PORT/lookbook/preview/kiso/{name}/{scenario}
+LB_PORT=$(bin/worktree port lookbook)
+curl -s -o /dev/null -w "%{http_code}" http://localhost:$LB_PORT/lookbook/preview/kiso/{name}/{scenario}
 ```
 
 If any return 500, read the full response to see the error and fix it:
 ```bash
-curl -s http://localhost:$PORT/lookbook/preview/kiso/{name}/{scenario}
+curl -s http://localhost:$LB_PORT/lookbook/preview/kiso/{name}/{scenario}
+```
+
+Also verify the docs page loads:
+```bash
+DOCS_PORT=$(bin/worktree port docs)
+curl -s -o /dev/null -w "%{http_code}" http://localhost:$DOCS_PORT/components/{name}
 ```
 
 ### 8. Lint and test
@@ -199,15 +205,17 @@ git commit -m "feat: ComponentName component (#N)"
 **Do NOT run `git push` or `gh pr create`.** The factory orchestrator handles
 push and PR creation after you return.
 
-### 10. Leave Lookbook running
+### 10. Leave servers running
 
-**Do NOT stop Lookbook.** Leave it running so the factory orchestrator can
-give the user a preview URL. The orchestrator will stop services when done.
+**Do NOT stop Lookbook or docs.** Leave them running so the factory
+orchestrator can give the user preview URLs. The orchestrator will stop
+services when done.
 
 ### 11. Report your results
 
 The orchestrator automatically receives your worktree path and branch from
-the Agent tool. It derives the Lookbook port via `bin/worktree port`.
+the Agent tool. It derives ports via `bin/worktree port lookbook` and
+`bin/worktree port docs`.
 
 In your final text output, include:
 
@@ -216,7 +224,9 @@ In your final text output, include:
 - **PR body** — full markdown body including `Closes #N`, summary bullets,
   and test plan checklist
 - **Files created** — list of all files added or modified
-- **Status** — whether all previews return 200, lint passes, tests pass
+- **Lookbook port** — the Lookbook port number (from `bin/worktree port lookbook`)
+- **Docs port** — the docs port number (from `bin/worktree port docs`)
+- **Status** — whether all previews return 200, docs page loads, lint passes, tests pass
 
 ## Quality checklist (verify before creating PR)
 

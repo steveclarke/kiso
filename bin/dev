@@ -131,7 +131,7 @@ cmd_start() {
     overmind status
     echo ""
     echo "  Lookbook → http://localhost:${LOOKBOOK_PORT:-4001}"
-    echo "  Docs     → http://localhost:4000"
+    echo "  Docs     → http://localhost:${DOCS_PORT:-4000}"
     return
   fi
 
@@ -143,7 +143,7 @@ cmd_start() {
     overmind status
     echo ""
     echo "  Lookbook → http://localhost:${LOOKBOOK_PORT:-4001}"
-    echo "  Docs     → http://localhost:4000"
+    echo "  Docs     → http://localhost:${DOCS_PORT:-4000}"
   fi
 }
 
