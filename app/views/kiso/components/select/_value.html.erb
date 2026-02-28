@@ -1,0 +1,11 @@
+<%# locals: (placeholder: nil, css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::SelectValue.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "select-value",
+      kiso__select_target: "valueDisplay",
+      placeholder: placeholder),
+    **component_options do %>
+  <% if placeholder %>
+    <span class="text-muted-foreground"><%= placeholder %></span>
+  <% end %>
+<% end %>

@@ -29,6 +29,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | `input_group` | Wraps input + addons with shared ring | [input_group.md](components/input_group.md) |
 | `checkbox` | `color` (7 colors), `checked` | [checkbox.md](components/checkbox.md) |
 | `radio_group` | `color` (7 colors). Sub-part: item | [radio_group.md](components/radio_group.md) |
+| `select` | `name`, `size` (sm/md). Sub-parts: trigger, value, content, group, label, item, separator. Stimulus: `kiso--select` | [select.md](components/select.md) |
 | `switch` | `color` (7 colors), `size` (sm/md), `checked` | [switch.md](components/switch.md) |
 
 ## Navigation

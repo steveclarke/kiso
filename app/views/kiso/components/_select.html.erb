@@ -1,0 +1,8 @@
+<%# locals: (name: nil, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::Select.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "select", controller: "kiso--select"),
+    **component_options do %>
+  <%= yield %>
+  <%= tag.input(type: "hidden", name: name, data: {kiso__select_target: "hiddenInput"}) %>
+<% end %>

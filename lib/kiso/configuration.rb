@@ -14,6 +14,8 @@ module Kiso
       {
         chevron_right: "chevron-right",
         chevron_left: "chevron-left",
+        chevron_down: "chevron-down",
+        check: "check",
         ellipsis: "ellipsis"
       }
     end

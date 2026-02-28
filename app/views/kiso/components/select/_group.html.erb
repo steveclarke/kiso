@@ -1,0 +1,8 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::SelectGroup.render(class: css_classes),
+    role: "group",
+    data: kiso_prepare_options(component_options, slot: "select-group"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

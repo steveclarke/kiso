@@ -1,14 +1,19 @@
 <div class="max-w-sm">
   <%= kui(:field) do %>
     <%= kui(:field, :label, for: :department) { "Department" } %>
-    <select id="department" name="department"
-      class="flex h-9 w-full appearance-none rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-      <option value="" disabled selected>Select a department</option>
-      <option value="engineering">Engineering</option>
-      <option value="design">Design</option>
-      <option value="marketing">Marketing</option>
-      <option value="sales">Sales</option>
-    </select>
+    <%= kui(:select, name: :department) do %>
+      <%= kui(:select, :trigger) do %>
+        <%= kui(:select, :value, placeholder: "Select a department") %>
+      <% end %>
+      <%= kui(:select, :content) do %>
+        <%= kui(:select, :group) do %>
+          <%= kui(:select, :item, value: "engineering") { "Engineering" } %>
+          <%= kui(:select, :item, value: "design") { "Design" } %>
+          <%= kui(:select, :item, value: "marketing") { "Marketing" } %>
+          <%= kui(:select, :item, value: "sales") { "Sales" } %>
+        <% end %>
+      <% end %>
+    <% end %>
     <%= kui(:field, :description) { "This determines your team assignment and access level." } %>
   <% end %>
 </div>

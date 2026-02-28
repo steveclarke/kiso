@@ -1,0 +1,51 @@
+<div class="text-foreground max-w-64">
+  <%= kui(:select, name: :timezone) do %>
+    <%= kui(:select, :trigger) do %>
+      <%= kui(:select, :value, placeholder: "Select a timezone") %>
+    <% end %>
+    <%= kui(:select, :content) do %>
+      <%= kui(:select, :group) do %>
+        <%= kui(:select, :label) { "North America" } %>
+        <%= kui(:select, :item, value: "est") { "Eastern Standard Time" } %>
+        <%= kui(:select, :item, value: "cst") { "Central Standard Time" } %>
+        <%= kui(:select, :item, value: "mst") { "Mountain Standard Time" } %>
+        <%= kui(:select, :item, value: "pst") { "Pacific Standard Time" } %>
+        <%= kui(:select, :item, value: "akst") { "Alaska Standard Time" } %>
+        <%= kui(:select, :item, value: "hst") { "Hawaii Standard Time" } %>
+      <% end %>
+      <%= kui(:select, :group) do %>
+        <%= kui(:select, :label) { "Europe & Africa" } %>
+        <%= kui(:select, :item, value: "gmt") { "Greenwich Mean Time" } %>
+        <%= kui(:select, :item, value: "cet") { "Central European Time" } %>
+        <%= kui(:select, :item, value: "eet") { "Eastern European Time" } %>
+        <%= kui(:select, :item, value: "west") { "Western European Summer Time" } %>
+        <%= kui(:select, :item, value: "cat") { "Central Africa Time" } %>
+        <%= kui(:select, :item, value: "eat") { "East Africa Time" } %>
+      <% end %>
+      <%= kui(:select, :group) do %>
+        <%= kui(:select, :label) { "Asia" } %>
+        <%= kui(:select, :item, value: "msk") { "Moscow Time" } %>
+        <%= kui(:select, :item, value: "ist") { "India Standard Time" } %>
+        <%= kui(:select, :item, value: "cst_china") { "China Standard Time" } %>
+        <%= kui(:select, :item, value: "jst") { "Japan Standard Time" } %>
+        <%= kui(:select, :item, value: "kst") { "Korea Standard Time" } %>
+        <%= kui(:select, :item, value: "ist_indonesia") { "Indonesia Central Standard Time" } %>
+      <% end %>
+      <%= kui(:select, :group) do %>
+        <%= kui(:select, :label) { "Australia & Pacific" } %>
+        <%= kui(:select, :item, value: "awst") { "Australian Western Standard Time" } %>
+        <%= kui(:select, :item, value: "acst") { "Australian Central Standard Time" } %>
+        <%= kui(:select, :item, value: "aest") { "Australian Eastern Standard Time" } %>
+        <%= kui(:select, :item, value: "nzst") { "New Zealand Standard Time" } %>
+        <%= kui(:select, :item, value: "fjt") { "Fiji Time" } %>
+      <% end %>
+      <%= kui(:select, :group) do %>
+        <%= kui(:select, :label) { "South America" } %>
+        <%= kui(:select, :item, value: "art") { "Argentina Time" } %>
+        <%= kui(:select, :item, value: "bot") { "Bolivia Time" } %>
+        <%= kui(:select, :item, value: "brt") { "Brasilia Time" } %>
+        <%= kui(:select, :item, value: "clt") { "Chile Standard Time" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
