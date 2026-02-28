@@ -64,7 +64,7 @@ export default class extends Controller {
 
   /** Opens the dropdown, positions it, and highlights the selected or first item. */
   open() {
-    if (this.triggerTarget.disabled) return
+    if (this._open || this.triggerTarget.disabled) return
 
     this._open = true
     this.contentTarget.hidden = false
@@ -81,6 +81,8 @@ export default class extends Controller {
 
   /** Closes the dropdown and returns focus to the trigger. */
   close() {
+    if (!this._open) return
+
     this._open = false
     this.contentTarget.hidden = true
     this.triggerTarget.setAttribute("aria-expanded", "false")
@@ -141,7 +143,6 @@ export default class extends Controller {
 
     // Update displayed value
     if (this.hasValueDisplayTarget) {
-      this.valueDisplayTarget.innerHTML = ""
       this.valueDisplayTarget.textContent = text
     }
 

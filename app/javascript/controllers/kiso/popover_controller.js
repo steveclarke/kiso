@@ -33,6 +33,7 @@ export default class extends Controller {
   }
 
   disconnect() {
+    this._clearCloseTimers()
     this._removeGlobalListeners()
   }
 
@@ -55,6 +56,9 @@ export default class extends Controller {
    * and focuses the first focusable element inside.
    */
   open() {
+    if (this._open) return
+
+    this._clearCloseTimers()
     this._open = true
     this.contentTarget.hidden = false
     this.contentTarget.setAttribute("data-state", "open")
@@ -64,7 +68,7 @@ export default class extends Controller {
     this._addGlobalListeners()
 
     // Focus the first focusable element inside the content
-    requestAnimationFrame(() => {
+    this._focusRaf = requestAnimationFrame(() => {
       const focusable = this.contentTarget.querySelector(FOCUSABLE_SELECTOR)
       if (focusable) {
         focusable.focus()
@@ -77,20 +81,23 @@ export default class extends Controller {
    * Returns focus to the trigger button.
    */
   close() {
+    if (!this._open) return
+
+    this._clearCloseTimers()
     this._open = false
     this.contentTarget.setAttribute("data-state", "closed")
     this.triggerTarget.setAttribute("aria-expanded", "false")
     this.triggerTarget.setAttribute("data-state", "closed")
 
     // Hide after animation completes
-    const onEnd = () => {
+    this._animationEndHandler = () => {
       this.contentTarget.hidden = true
-      this.contentTarget.removeEventListener("animationend", onEnd)
+      this.contentTarget.removeEventListener("animationend", this._animationEndHandler)
     }
-    this.contentTarget.addEventListener("animationend", onEnd)
+    this.contentTarget.addEventListener("animationend", this._animationEndHandler)
 
     // Fallback: if no animation, hide immediately
-    setTimeout(() => {
+    this._closeTimeout = setTimeout(() => {
       if (this.contentTarget.getAttribute("data-state") === "closed") {
         this.contentTarget.hidden = true
       }
@@ -121,6 +128,26 @@ export default class extends Controller {
   }
 
   // --- Private ---
+
+  /**
+   * Cancels any pending close timers and animation handlers.
+   *
+   * @private
+   */
+  _clearCloseTimers() {
+    if (this._closeTimeout) {
+      clearTimeout(this._closeTimeout)
+      this._closeTimeout = null
+    }
+    if (this._focusRaf) {
+      cancelAnimationFrame(this._focusRaf)
+      this._focusRaf = null
+    }
+    if (this._animationEndHandler) {
+      this.contentTarget.removeEventListener("animationend", this._animationEndHandler)
+      this._animationEndHandler = null
+    }
+  }
 
   /**
    * Positions the content panel below the reference element (trigger or anchor).

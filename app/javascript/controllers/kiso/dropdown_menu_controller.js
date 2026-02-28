@@ -3,6 +3,9 @@ import { Controller } from "@hotwired/stimulus"
 import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
 import { positionBelow } from "kiso-ui/utils/positioning"
 
+/** @type {WeakMap<HTMLElement, {enterHandler: Function, leaveHandler: Function}>} */
+const _subHandlers = new WeakMap()
+
 /**
  * Dropdown menu with keyboard navigation, sub-menus, checkbox items, and radio items.
  * Supports nested sub-menus with hover-to-open, type-ahead search, and full
@@ -51,7 +54,6 @@ export default class extends Controller {
 
   connect() {
     this._open = false
-    this._highlightedIndex = -1
     this._handleOutsideClick = this._handleOutsideClick.bind(this)
     this._handleKeydown = this._handleKeydown.bind(this)
     this._handleMouseover = this._handleMouseover.bind(this)
@@ -59,6 +61,7 @@ export default class extends Controller {
   }
 
   disconnect() {
+    this._closeAllSubs()
     this._removeGlobalListeners()
     if (this._closeSubTimeout) {
       clearTimeout(this._closeSubTimeout)
@@ -106,6 +109,7 @@ export default class extends Controller {
     if (!this._open) return
 
     this._open = false
+    this._lastHoveredItem = null
     this._closeAllSubs()
     this.contentTarget.hidden = true
     this.triggerTarget.setAttribute("aria-expanded", "false")
@@ -296,21 +300,22 @@ export default class extends Controller {
     this._positionSubContent(subTrigger, subContent)
 
     // Auto-close when mouse leaves sub-content (with delay for gap crossing)
-    subContent._enterHandler = () => {
+    const enterHandler = () => {
       if (this._closeSubTimeout) {
         clearTimeout(this._closeSubTimeout)
         this._closeSubTimeout = null
       }
     }
-    subContent._leaveHandler = () => {
+    const leaveHandler = () => {
       this._closeSubTimeout = setTimeout(() => {
         if (!subContent.hidden) {
           this._closeSub(sub, subTrigger, subContent)
         }
       }, 150)
     }
-    subContent.addEventListener("mouseenter", subContent._enterHandler)
-    subContent.addEventListener("mouseleave", subContent._leaveHandler)
+    _subHandlers.set(subContent, { enterHandler, leaveHandler })
+    subContent.addEventListener("mouseenter", enterHandler)
+    subContent.addEventListener("mouseleave", leaveHandler)
   }
 
   /**
@@ -361,13 +366,11 @@ export default class extends Controller {
    * @private
    */
   _removeSubContentListeners(subContent) {
-    if (subContent._enterHandler) {
-      subContent.removeEventListener("mouseenter", subContent._enterHandler)
-      subContent._enterHandler = null
-    }
-    if (subContent._leaveHandler) {
-      subContent.removeEventListener("mouseleave", subContent._leaveHandler)
-      subContent._leaveHandler = null
+    const handlers = _subHandlers.get(subContent)
+    if (handlers) {
+      subContent.removeEventListener("mouseenter", handlers.enterHandler)
+      subContent.removeEventListener("mouseleave", handlers.leaveHandler)
+      _subHandlers.delete(subContent)
     }
   }
 
@@ -417,7 +420,6 @@ export default class extends Controller {
    */
   _highlightIndex(index) {
     const allItems = this._allMenuItems(this.contentTarget)
-    this._highlightedIndex = index
     highlightItem(allItems, allItems, index)
   }
 
@@ -488,6 +490,8 @@ export default class extends Controller {
     )
     if (!item || !this.element.contains(item)) return
     if (item.dataset.disabled === "true") return
+    if (item === this._lastHoveredItem) return
+    this._lastHoveredItem = item
 
     this._clearAllHighlights()
     item.setAttribute("data-highlighted", "")
@@ -626,17 +630,11 @@ export default class extends Controller {
         break
       case "Home":
         event.preventDefault()
-        this._clearAllHighlights()
-        if (items[0]) {
-          items[0].setAttribute("data-highlighted", "")
-        }
+        highlightItem(items, items, 0)
         break
       case "End":
         event.preventDefault()
-        this._clearAllHighlights()
-        if (items[items.length - 1]) {
-          items[items.length - 1].setAttribute("data-highlighted", "")
-        }
+        highlightItem(items, items, items.length - 1)
         break
       case "Tab":
         this.close()

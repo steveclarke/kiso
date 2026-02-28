@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-import { wrapIndex } from "kiso-ui/utils/highlight"
+import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
 
 /**
  * Command palette with search filtering, keyboard navigation, and item selection.
@@ -74,16 +74,14 @@ export default class extends Controller {
       case "Home":
         event.preventDefault()
         this._selectedIndex = 0
-        this._clearSelection()
-        this._applySelection(this._visibleEnabledItems)
+        highlightItem(this.itemTargets, this._visibleEnabledItems, 0, { attr: "data-selected" })
         break
       case "End":
         event.preventDefault()
         {
           const items = this._visibleEnabledItems
           this._selectedIndex = items.length - 1
-          this._clearSelection()
-          this._applySelection(items)
+          highlightItem(this.itemTargets, items, this._selectedIndex, { attr: "data-selected" })
         }
         break
     }
@@ -143,13 +141,8 @@ export default class extends Controller {
     }
 
     // Reset selection to first visible enabled item
-    this._clearSelection()
-    if (enabledItems.length > 0) {
-      this._selectedIndex = 0
-      this._applySelection(enabledItems)
-    } else {
-      this._selectedIndex = -1
-    }
+    this._selectedIndex = enabledItems.length > 0 ? 0 : -1
+    highlightItem(this.itemTargets, enabledItems, this._selectedIndex, { attr: "data-selected" })
   }
 
   /**
@@ -163,8 +156,7 @@ export default class extends Controller {
     if (items.length === 0) return
 
     this._selectedIndex = wrapIndex(this._selectedIndex, direction, items.length)
-    this._clearSelection()
-    this._applySelection(items)
+    highlightItem(this.itemTargets, items, this._selectedIndex, { attr: "data-selected" })
   }
 
   /**
@@ -178,31 +170,6 @@ export default class extends Controller {
       const item = items[this._selectedIndex]
       const value = item.dataset.value
       this.dispatch("select", { detail: { value, item } })
-    }
-  }
-
-  /**
-   * Removes `data-selected` from all items.
-   *
-   * @private
-   */
-  _clearSelection() {
-    this.itemTargets.forEach((item) => {
-      item.removeAttribute("data-selected")
-    })
-  }
-
-  /**
-   * Applies `data-selected` to the item at `_selectedIndex` and scrolls it into view.
-   *
-   * @param {HTMLElement[]} items - The visible enabled items list
-   * @private
-   */
-  _applySelection(items) {
-    if (this._selectedIndex >= 0 && this._selectedIndex < items.length) {
-      const selected = items[this._selectedIndex]
-      selected.setAttribute("data-selected", "true")
-      selected.scrollIntoView({ block: "nearest" })
     }
   }
 
