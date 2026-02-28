@@ -209,9 +209,14 @@ gh project item-edit --project-id PVT_kwHNBRnOAUCSOg --id PVTI_xxx --field-id PV
 - **Dev server**: `bin/dev` runs Overmind daemonized. Start it if not
   running, restart services as needed (`overmind restart web`).
 
-## Linting
+## Linting & Formatting
 
-- **standardrb** — run `bundle exec standardrb --fix` before committing.
+- **Ruby**: `bundle exec standardrb --fix` before committing.
+- **JS lint**: `npm run lint` (oxlint). Config: `.oxlintrc.json`.
+- **JS format**: `npm run fmt` (oxfmt). Config: `.oxfmtrc.json`.
+- Run both checks before committing JS changes: `npm run lint && npm run fmt:check`
+- oxfmt uses no semicolons, double quotes, trailing commas, and sorts
+  imports + Tailwind classes automatically.
 
 ## Commands
 
@@ -224,6 +229,10 @@ bin/dev stop                  # Stop all services
 bin/dev -f                    # Start in foreground (for debugging)
 bundle exec rake test         # Run tests
 bundle exec standardrb --fix  # Lint & auto-format Ruby
+npm run lint                  # Lint JS (oxlint)
+npm run lint:fix              # Lint JS with auto-fix
+npm run fmt                   # Format JS (oxfmt)
+npm run fmt:check             # Check JS formatting (CI)
 bin/deploy                    # Deploy both services to production (Kamal + 1Password)
 bin/deploy --only lookbook    # Deploy Lookbook only (lookbook.kisoui.com)
 bin/deploy --only docs        # Deploy docs only (kisoui.com)

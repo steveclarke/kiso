@@ -11,6 +11,9 @@ FileUtils.chdir APP_ROOT do
   puts "== Installing dependencies =="
   system("bundle check") || system!("bundle install")
 
+  puts "\n== Installing JS tooling (oxlint, oxfmt) =="
+  system!("npm install")
+
   puts "\n== Installing docs site dependencies =="
   system("bundle check --gemfile docs/Gemfile") || system!("bundle install --gemfile docs/Gemfile")
   system!("npm install --prefix docs")
