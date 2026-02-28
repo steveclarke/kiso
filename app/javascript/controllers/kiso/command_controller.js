@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-import { highlightItem, wrapIndex } from "./utils/highlight"
+
+import { wrapIndex } from "./utils/highlight"
 
 /**
  * Command palette with search filtering, keyboard navigation, and item selection.
@@ -212,9 +213,6 @@ export default class extends Controller {
    * @private
    */
   get _visibleEnabledItems() {
-    return this.itemTargets.filter(
-      (item) => !item.hidden && item.dataset.disabled !== "true"
-    )
+    return this.itemTargets.filter((item) => !item.hidden && item.dataset.disabled !== "true")
   }
-
 }

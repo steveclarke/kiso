@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
-import { positionBelow } from "./utils/positioning"
+
 import { highlightItem, wrapIndex } from "./utils/highlight"
+import { positionBelow } from "./utils/positioning"
 
 /**
  * Dropdown menu with keyboard navigation, sub-menus, checkbox items, and radio items.
@@ -45,7 +46,7 @@ export default class extends Controller {
     "radioItem",
     "sub",
     "subTrigger",
-    "subContent"
+    "subContent",
   ]
 
   connect() {
@@ -155,7 +156,7 @@ export default class extends Controller {
     }
 
     this.dispatch("checkbox-change", {
-      detail: { item, checked: newChecked }
+      detail: { item, checked: newChecked },
     })
   }
 
@@ -174,9 +175,7 @@ export default class extends Controller {
 
     if (group) {
       // Deselect all radio items in this group
-      const radioItems = group.querySelectorAll(
-        "[data-slot='dropdown-menu-radio-item']"
-      )
+      const radioItems = group.querySelectorAll("[data-slot='dropdown-menu-radio-item']")
       radioItems.forEach((radio) => {
         radio.setAttribute("aria-checked", "false")
         const indicator = radio.querySelector("[data-slot='dropdown-menu-item-indicator']")
@@ -206,9 +205,7 @@ export default class extends Controller {
     const sub = subTrigger.closest("[data-slot='dropdown-menu-sub']")
     if (!sub) return
 
-    const subContent = sub.querySelector(
-      "[data-slot='dropdown-menu-sub-content']"
-    )
+    const subContent = sub.querySelector("[data-slot='dropdown-menu-sub-content']")
     if (!subContent) return
 
     if (subContent.hidden) {
@@ -234,29 +231,21 @@ export default class extends Controller {
     const sub = subTrigger.closest("[data-slot='dropdown-menu-sub']")
     if (!sub) return
 
-    const subContent = sub.querySelector(
-      "[data-slot='dropdown-menu-sub-content']"
-    )
+    const subContent = sub.querySelector("[data-slot='dropdown-menu-sub-content']")
     if (!subContent || !subContent.hidden) return
 
     // Close any other open sub-menus at the same level
     const parent = sub.parentElement
     if (parent) {
-      parent
-        .querySelectorAll(":scope > [data-slot='dropdown-menu-sub']")
-        .forEach((otherSub) => {
-          if (otherSub !== sub) {
-            const otherContent = otherSub.querySelector(
-              "[data-slot='dropdown-menu-sub-content']"
-            )
-            const otherTrigger = otherSub.querySelector(
-              "[data-slot='dropdown-menu-sub-trigger']"
-            )
-            if (otherContent && !otherContent.hidden) {
-              this._closeSub(otherSub, otherTrigger, otherContent)
-            }
+      parent.querySelectorAll(":scope > [data-slot='dropdown-menu-sub']").forEach((otherSub) => {
+        if (otherSub !== sub) {
+          const otherContent = otherSub.querySelector("[data-slot='dropdown-menu-sub-content']")
+          const otherTrigger = otherSub.querySelector("[data-slot='dropdown-menu-sub-trigger']")
+          if (otherContent && !otherContent.hidden) {
+            this._closeSub(otherSub, otherTrigger, otherContent)
           }
-        })
+        }
+      })
     }
 
     this._openSub(sub, subTrigger, subContent)
@@ -341,17 +330,13 @@ export default class extends Controller {
     this._removeSubContentListeners(subContent)
 
     // Close nested sub-menus recursively
-    subContent
-      .querySelectorAll("[data-slot='dropdown-menu-sub-content']")
-      .forEach((nested) => {
-        nested.hidden = true
-        this._removeSubContentListeners(nested)
-      })
-    subContent
-      .querySelectorAll("[data-slot='dropdown-menu-sub-trigger']")
-      .forEach((nested) => {
-        nested.removeAttribute("data-state")
-      })
+    subContent.querySelectorAll("[data-slot='dropdown-menu-sub-content']").forEach((nested) => {
+      nested.hidden = true
+      this._removeSubContentListeners(nested)
+    })
+    subContent.querySelectorAll("[data-slot='dropdown-menu-sub-trigger']").forEach((nested) => {
+      nested.removeAttribute("data-state")
+    })
   }
 
   /**
@@ -400,10 +385,7 @@ export default class extends Controller {
       for (const child of el.children) {
         const slot = child.dataset?.slot
         // Skip hidden sub-content
-        if (
-          slot === "dropdown-menu-sub-content" &&
-          child.hidden
-        ) {
+        if (slot === "dropdown-menu-sub-content" && child.hidden) {
           continue
         }
         if (
@@ -502,7 +484,7 @@ export default class extends Controller {
       "[data-slot='dropdown-menu-item'], " +
         "[data-slot='dropdown-menu-checkbox-item'], " +
         "[data-slot='dropdown-menu-radio-item'], " +
-        "[data-slot='dropdown-menu-sub-trigger']"
+        "[data-slot='dropdown-menu-sub-trigger']",
     )
     if (!item || !this.element.contains(item)) return
     if (item.dataset.disabled === "true") return
@@ -513,29 +495,23 @@ export default class extends Controller {
     // When hovering a regular item, close open subs at the same level
     if (item.dataset.slot !== "dropdown-menu-sub-trigger") {
       const parentContainer = item.closest(
-        "[data-slot='dropdown-menu-content'], [data-slot='dropdown-menu-sub-content']"
+        "[data-slot='dropdown-menu-content'], [data-slot='dropdown-menu-sub-content']",
       )
       if (parentContainer) {
-        parentContainer
-          .querySelectorAll("[data-slot='dropdown-menu-sub']")
-          .forEach((sub) => {
-            // Only close subs whose nearest content ancestor is this container
-            if (
-              sub.closest(
-                "[data-slot='dropdown-menu-content'], [data-slot='dropdown-menu-sub-content']"
-              ) === parentContainer
-            ) {
-              const sc = sub.querySelector(
-                "[data-slot='dropdown-menu-sub-content']"
-              )
-              const st = sub.querySelector(
-                "[data-slot='dropdown-menu-sub-trigger']"
-              )
-              if (sc && !sc.hidden) {
-                this._closeSub(sub, st, sc)
-              }
+        parentContainer.querySelectorAll("[data-slot='dropdown-menu-sub']").forEach((sub) => {
+          // Only close subs whose nearest content ancestor is this container
+          if (
+            sub.closest(
+              "[data-slot='dropdown-menu-content'], [data-slot='dropdown-menu-sub-content']",
+            ) === parentContainer
+          ) {
+            const sc = sub.querySelector("[data-slot='dropdown-menu-sub-content']")
+            const st = sub.querySelector("[data-slot='dropdown-menu-sub-trigger']")
+            if (sc && !sc.hidden) {
+              this._closeSub(sub, st, sc)
             }
-          })
+          }
+        })
       }
     }
   }
@@ -571,9 +547,7 @@ export default class extends Controller {
     // Find the currently active sub-content (deepest open sub)
     let activeContainer = this.contentTarget
     const openSubs = Array.from(
-      this.element.querySelectorAll(
-        "[data-slot='dropdown-menu-sub-content']:not([hidden])"
-      )
+      this.element.querySelectorAll("[data-slot='dropdown-menu-sub-content']:not([hidden])"),
     )
     if (openSubs.length > 0) {
       activeContainer = openSubs[openSubs.length - 1]
@@ -582,9 +556,7 @@ export default class extends Controller {
     const items = this._allMenuItems(activeContainer)
 
     // Find current highlighted in active container
-    let currentIndex = items.findIndex((item) =>
-      item.hasAttribute("data-highlighted")
-    )
+    let currentIndex = items.findIndex((item) => item.hasAttribute("data-highlighted"))
 
     switch (event.key) {
       case "ArrowDown":
@@ -602,9 +574,7 @@ export default class extends Controller {
           const current = items[currentIndex]
           if (current.dataset.slot === "dropdown-menu-sub-trigger") {
             const sub = current.closest("[data-slot='dropdown-menu-sub']")
-            const subContent = sub?.querySelector(
-              "[data-slot='dropdown-menu-sub-content']"
-            )
+            const subContent = sub?.querySelector("[data-slot='dropdown-menu-sub-content']")
             if (sub && subContent && subContent.hidden) {
               this._openSub(sub, current, subContent)
               // Highlight first item in sub
@@ -621,12 +591,8 @@ export default class extends Controller {
         event.preventDefault()
         // Close the current sub-menu if we're in one
         if (activeContainer !== this.contentTarget) {
-          const sub = activeContainer.closest(
-            "[data-slot='dropdown-menu-sub']"
-          )
-          const subTrigger = sub?.querySelector(
-            "[data-slot='dropdown-menu-sub-trigger']"
-          )
+          const sub = activeContainer.closest("[data-slot='dropdown-menu-sub']")
+          const subTrigger = sub?.querySelector("[data-slot='dropdown-menu-sub-trigger']")
           if (sub && subTrigger) {
             this._closeSub(sub, subTrigger, activeContainer)
             this._clearAllHighlights()
@@ -647,12 +613,8 @@ export default class extends Controller {
         event.preventDefault()
         // If in a sub-menu, close just that sub
         if (activeContainer !== this.contentTarget) {
-          const sub = activeContainer.closest(
-            "[data-slot='dropdown-menu-sub']"
-          )
-          const subTrigger = sub?.querySelector(
-            "[data-slot='dropdown-menu-sub-trigger']"
-          )
+          const sub = activeContainer.closest("[data-slot='dropdown-menu-sub']")
+          const subTrigger = sub?.querySelector("[data-slot='dropdown-menu-sub-trigger']")
           if (sub && subTrigger) {
             this._closeSub(sub, subTrigger, activeContainer)
             this._clearAllHighlights()
@@ -721,5 +683,4 @@ export default class extends Controller {
     document.removeEventListener("click", this._handleOutsideClick, true)
     document.removeEventListener("keydown", this._handleKeydown)
   }
-
 }

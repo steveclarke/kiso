@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+
 import { FOCUSABLE_SELECTOR } from "./utils/focusable"
 import { positionBelow } from "./utils/positioning"
 
@@ -133,7 +134,7 @@ export default class extends Controller {
 
     positionBelow(reference, this.contentTarget, {
       align,
-      container: this.element
+      container: this.element,
     })
   }
 

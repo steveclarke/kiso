@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "no-unused-vars": ["error", { "args": "after-used" }],
+    "no-console": "warn"
+  },
+  "env": {
+    "browser": true,
+    "es2024": true
+  }
+}

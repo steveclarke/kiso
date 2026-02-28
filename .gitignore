@@ -16,5 +16,6 @@ Gemfile.lock
 /lookbook/config/master.key
 /lookbook/log/
 /lookbook/tmp/
+node_modules/
 .playwright-mcp/
 .claude/worktrees/

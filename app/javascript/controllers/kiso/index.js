@@ -17,8 +17,17 @@ const KisoUi = {
     application.register("kiso--select", KisoSelectController)
     application.register("kiso--toggle", KisoToggleController)
     application.register("kiso--toggle-group", KisoToggleGroupController)
-  }
+  },
 }
 
 export default KisoUi
-export { KisoComboboxController, KisoCommandController, KisoCommandDialogController, KisoDropdownMenuController, KisoPopoverController, KisoSelectController, KisoToggleController, KisoToggleGroupController }
+export {
+  KisoComboboxController,
+  KisoCommandController,
+  KisoCommandDialogController,
+  KisoDropdownMenuController,
+  KisoPopoverController,
+  KisoSelectController,
+  KisoToggleController,
+  KisoToggleGroupController,
+}

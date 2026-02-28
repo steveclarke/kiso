@@ -17,7 +17,7 @@ import { Controller } from "@hotwired/stimulus"
  */
 export default class extends Controller {
   static values = {
-    shortcut: { type: String, default: "k" }
+    shortcut: { type: String, default: "k" },
   }
 
   connect() {

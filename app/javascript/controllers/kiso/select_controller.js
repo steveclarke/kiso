@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
-import { positionBelow } from "./utils/positioning"
+
 import { highlightItem, wrapIndex } from "./utils/highlight"
+import { positionBelow } from "./utils/positioning"
 
 /**
  * Custom select dropdown with keyboard navigation and form integration.
@@ -73,7 +74,7 @@ export default class extends Controller {
 
     // Highlight the currently selected item, or the first item
     const selectedIndex = this._enabledItems.findIndex(
-      (item) => item.getAttribute("aria-selected") === "true"
+      (item) => item.getAttribute("aria-selected") === "true",
     )
     this._highlightIndex(selectedIndex >= 0 ? selectedIndex : 0)
   }
@@ -145,7 +146,7 @@ export default class extends Controller {
     }
 
     // Update aria-selected on items and show/hide indicators
-    this.itemTargets.forEach((item, index) => {
+    this.itemTargets.forEach((item) => {
       const isSelected = item.dataset.value === value
       item.setAttribute("aria-selected", isSelected)
 
@@ -231,7 +232,8 @@ export default class extends Controller {
           const item = items[this._highlightedIndex]
           if (item.dataset.disabled !== "true") {
             const value = item.dataset.value
-            const text = item.querySelector("[data-slot='select-item-text']")?.textContent?.trim() || value
+            const text =
+              item.querySelector("[data-slot='select-item-text']")?.textContent?.trim() || value
             this._setValue(value, text)
             this.close()
           }
