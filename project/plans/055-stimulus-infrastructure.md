@@ -196,31 +196,30 @@ serves both the gem and the npm package.
 
 **New file:** `app/javascript/controllers/kiso/index.js`
 
-Exports individual controllers AND a one-call registration function:
+Default export is `KisoUi` with a `.start()` method. Individual controllers
+are also available as named exports for cherry-picking or extending:
 
 ```js
 import KisoToggleController from "./toggle_controller.js"
 import KisoToggleGroupController from "./toggle_group_controller.js"
 
-// Register all Kiso controllers with one call
-function registerKisoControllers(application) {
-  application.register("kiso--toggle", KisoToggleController)
-  application.register("kiso--toggle-group", KisoToggleGroupController)
+const KisoUi = {
+  start(application) {
+    application.register("kiso--toggle", KisoToggleController)
+    application.register("kiso--toggle-group", KisoToggleGroupController)
+  }
 }
 
-export {
-  registerKisoControllers,
-  KisoToggleController,
-  KisoToggleGroupController
-}
+export default KisoUi
+export { KisoToggleController, KisoToggleGroupController }
 ```
 
-Bundler users get the cleanest possible DX — one import, one call:
+Bundler users get the cleanest possible DX:
 
 ```js
 // app/javascript/controllers/index.js
-import { registerKisoControllers } from "kiso-ui"
-registerKisoControllers(application)
+import KisoUi from "kiso-ui"
+KisoUi.start(application)
 ```
 
 As Kiso adds controllers (Dialog, Popover, Select...), the user's code
@@ -234,8 +233,11 @@ to cherry-pick or extend a controller.
 ```ts
 import { type Application, Controller } from "@hotwired/stimulus"
 
-export function registerKisoControllers(application: Application): void
+declare const KisoUi: {
+  start(application: Application): void
+}
 
+export default KisoUi
 export const KisoToggleController: typeof Controller
 export const KisoToggleGroupController: typeof Controller
 ```
