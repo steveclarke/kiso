@@ -1,9 +1,19 @@
 module Kiso
   module Themes
-    # Stats card — specialized Card layout for dashboard metrics.
-    # Same variant axis as Card (outline/soft/subtle) with tighter spacing.
-    # shadcn ref: section-cards.tsx (Card + CardDescription + CardTitle + CardAction)
-    # Maquina ref: stats/_stats_card.html.erb
+    # Compact card for displaying a single dashboard metric.
+    #
+    # Same variant axis as {Card} (outline/soft/subtle) with tighter spacing.
+    #
+    # @example
+    #   StatsCard.render(variant: :outline)
+    #
+    # Variants:
+    # - +variant+ — :outline (default), :soft, :subtle
+    #
+    # Sub-parts: {StatsCardHeader}, {StatsCardLabel}, {StatsCardValue},
+    # {StatsCardDescription}
+    #
+    # Related: {StatsGrid} for responsive grid layout of multiple stats cards.
     StatsCard = ClassVariants.build(
       base: "flex flex-col gap-2 rounded-xl p-4 text-foreground",
       variants: {
@@ -16,32 +26,34 @@ module Kiso
       defaults: {variant: :outline}
     )
 
-    # shadcn: CardHeader with CardDescription + CardAction in a row
-    # Flex row for label on left, optional icon/badge on right.
+    # Header row with label on the left and optional icon/badge on the right.
     StatsCardHeader = ClassVariants.build(
       base: "flex items-center justify-between gap-2"
     )
 
-    # shadcn: CardDescription — text-sm text-muted-foreground
-    # The metric name ("Total Revenue", "New Customers").
+    # The metric name (e.g. "Total Revenue", "New Customers").
     StatsCardLabel = ClassVariants.build(
       base: "text-sm font-medium text-muted-foreground"
     )
 
-    # shadcn: CardTitle overridden to text-2xl font-semibold tabular-nums
-    # The big metric number ("$1,250.00", "45,678").
+    # The prominent metric number (e.g. "$1,250.00", "45,678").
+    # Uses +tabular-nums+ for aligned digits.
     StatsCardValue = ClassVariants.build(
       base: "text-2xl font-semibold tabular-nums"
     )
 
-    # shadcn: CardFooter description — text-xs text-muted-foreground
-    # Trend text, subtitle, or additional context.
+    # Supplementary text below the value (e.g. trend info, subtitle).
     StatsCardDescription = ClassVariants.build(
       base: "text-xs text-muted-foreground"
     )
 
-    # Responsive grid wrapper for stats cards.
-    # Maquina ref: stats/_stats_grid.html.erb
+    # Responsive grid layout for arranging multiple {StatsCard} instances.
+    #
+    # @example
+    #   StatsGrid.render(columns: 4)
+    #
+    # Variants:
+    # - +columns+ — 2, 3, 4 (default)
     StatsGrid = ClassVariants.build(
       base: "grid grid-cols-1 gap-4",
       variants: {

@@ -1,9 +1,11 @@
 module Kiso
   module Themes
-    # shadcn ToggleGroup:
-    #   group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md
-    #   data-[spacing=default]:data-[variant=outline]:shadow-xs
-
+    # Container for a set of mutually exclusive {ToggleGroupItem} buttons.
+    #
+    # @example
+    #   ToggleGroup.render
+    #
+    # Sub-parts: {ToggleGroupItem}
     ToggleGroup = ClassVariants.build(
       base: "flex w-fit items-center rounded-md text-foreground"
     )

@@ -1,5 +1,18 @@
 module Kiso
   module Themes
+    # Contextual alert banner with optional icon, title, and description.
+    #
+    # Uses CSS Grid with +has-[>svg]+ to auto-allocate a column for the icon
+    # when an SVG is present as a direct child.
+    #
+    # @example
+    #   Alert.render(color: :error, variant: :soft)
+    #
+    # Variants:
+    # - +color+ — :primary (default), :secondary, :success, :info, :warning, :error, :neutral
+    # - +variant+ — :solid, :outline, :soft (default), :subtle
+    #
+    # Sub-parts: {AlertTitle}, {AlertDescription}
     Alert = ClassVariants.build(
       base: "relative w-full rounded-lg px-4 py-3 text-sm " \
             "grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] " \
@@ -54,10 +67,12 @@ module Kiso
       defaults: {color: :primary, variant: :soft}
     )
 
+    # Alert title text. Rendered in the second grid column (after the icon column).
     AlertTitle = ClassVariants.build(
       base: "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight"
     )
 
+    # Alert body text. Uses +opacity-90+ for relative dimming on colored backgrounds.
     AlertDescription = ClassVariants.build(
       base: "col-start-2 grid justify-items-start gap-1 text-sm opacity-90 [&_p]:leading-relaxed"
     )

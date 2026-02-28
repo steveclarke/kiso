@@ -1,19 +1,17 @@
 module Kiso
   module Themes
-    # shadcn track: inline-flex shrink-0 items-center rounded-full border border-transparent
-    #               shadow-xs transition-all outline-none
-    #               data-[state=checked]:bg-primary data-[state=unchecked]:bg-input
-    #               focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]
-    #               disabled:cursor-not-allowed disabled:opacity-50
+    # Toggle switch built with a native +<input type="checkbox">+ inside a
+    # +<label>+ that acts as the track. The +has-[:checked]:+ selector drives
+    # track color and +peer-checked:+ drives thumb translation.
     #
-    # shadcn thumb: bg-background pointer-events-none block rounded-full ring-0 transition-transform
-    #               data-[state=checked]:translate-x-[calc(100%-2px)]
-    #               data-[state=unchecked]:translate-x-0
+    # @example
+    #   SwitchTrack.render(color: :primary, size: :md)
     #
-    # Kiso: uses native <input type="checkbox"> inside a <label> that doubles as
-    # the track. has-[:checked]: drives track color, peer-checked: drives thumb
-    # translation. The <label> wraps: sr-only input + thumb <span>.
-
+    # Variants:
+    # - +color+ — :primary (default), :secondary, :success, :info, :warning, :error, :neutral
+    # - +size+ — :sm, :md (default)
+    #
+    # Sub-parts: {SwitchThumb}
     SwitchTrack = ClassVariants.build(
       base: "relative inline-flex shrink-0 cursor-pointer items-center rounded-full " \
             "border-2 border-transparent shadow-xs outline-none bg-accented " \
@@ -39,6 +37,10 @@ module Kiso
       defaults: {color: :primary, size: :md}
     )
 
+    # Sliding circle indicator inside the {SwitchTrack}.
+    #
+    # Variants:
+    # - +size+ — :sm, :md (default)
     SwitchThumb = ClassVariants.build(
       base: "pointer-events-none block rounded-full bg-background shadow-lg ring-0 " \
             "transition-transform translate-x-0.5",

@@ -1,5 +1,18 @@
 module Kiso
   module Themes
+    # Clickable button with color, variant, and size axes.
+    #
+    # Renders as a +<button>+ by default; the partial switches to +<a>+ when
+    # +href:+ is provided (smart tag).
+    #
+    # @example
+    #   Button.render(color: :primary, variant: :solid, size: :md)
+    #
+    # Variants:
+    # - +color+ — :primary (default), :secondary, :success, :info, :warning, :error, :neutral
+    # - +variant+ — :solid (default), :outline, :soft, :subtle, :ghost, :link
+    # - +size+ — :xs, :sm, :md (default), :lg, :xl
+    # - +block+ — +true+ for full-width, +false+ (default)
     Button = ClassVariants.build(
       base: "inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap shrink-0 " \
             "transition-all " \

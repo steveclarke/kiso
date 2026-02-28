@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "class_variants"
 require "tailwind_merge"
 require "kiso/version"
@@ -34,13 +36,34 @@ require "kiso/themes/dropdown_menu"
 require "kiso/themes/kbd"
 require "kiso/icons"
 
+# Kiso — a Rails engine providing UI components inspired by shadcn/ui and Nuxt UI.
+#
+# Components are rendered via ERB partials with computed Tailwind classes
+# from theme modules ({Themes}). Use the {ComponentHelper#kui kui} helper
+# to render components in views.
+#
+# @example Rendering a badge
+#   kui(:badge, color: :success, variant: :soft) { "Active" }
+#
+# @example Configuring icons
+#   Kiso.configure do |config|
+#     config.icons[:chevron_right] = "heroicons:chevron-right"
+#   end
+#
+# @see ComponentHelper#kui
+# @see Themes
 module Kiso
   class << self
+    # @return [Configuration] the global configuration instance
     def configuration
       @configuration ||= Configuration.new
     end
     alias_method :config, :configuration
 
+    # Yields the global {Configuration} for modification.
+    #
+    # @yieldparam config [Configuration]
+    # @return [void]
     def configure
       yield(configuration)
     end

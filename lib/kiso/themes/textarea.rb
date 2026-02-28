@@ -1,5 +1,13 @@
 module Kiso
   module Themes
+    # Multi-line text input with auto-sizing via +field-sizing-content+.
+    #
+    # @example
+    #   Textarea.render(variant: :outline, size: :md)
+    #
+    # Variants:
+    # - +variant+ — :outline (default), :soft, :ghost
+    # - +size+ — :sm, :md (default), :lg
     Textarea = ClassVariants.build(
       base: "text-foreground w-full rounded-md outline-none transition-[color,box-shadow] " \
             "min-h-16 field-sizing-content " \

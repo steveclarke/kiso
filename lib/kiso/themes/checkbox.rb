@@ -1,5 +1,13 @@
 module Kiso
   module Themes
+    # Native +<input type="checkbox">+ styled with +appearance-none+ and
+    # semantic color tokens.
+    #
+    # @example
+    #   Checkbox.render(color: :primary)
+    #
+    # Variants:
+    # - +color+ — :primary (default), :secondary, :success, :info, :warning, :error, :neutral
     Checkbox = ClassVariants.build(
       base: "appearance-none size-4 shrink-0 rounded-[4px] " \
             "ring ring-inset ring-accented shadow-xs " \

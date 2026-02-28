@@ -1,35 +1,35 @@
 module Kiso
   module Themes
-    # Root wrapper — just provides relative positioning for the dropdown
+    # Context menu or action menu triggered by a button click.
+    #
+    # @example
+    #   DropdownMenu.render
+    #
+    # Sub-parts: {DropdownMenuTrigger}, {DropdownMenuContent}, {DropdownMenuItem},
+    # {DropdownMenuCheckboxItem}, {DropdownMenuRadioGroup}, {DropdownMenuRadioItem},
+    # {DropdownMenuLabel}, {DropdownMenuSeparator}, {DropdownMenuShortcut},
+    # {DropdownMenuGroup}, {DropdownMenuSub}, {DropdownMenuSubTrigger},
+    # {DropdownMenuSubContent}
     DropdownMenu = ClassVariants.build(
       base: "relative inline-block text-foreground"
     )
 
-    # shadcn: (no specific classes on trigger — it wraps the child button as-is)
+    # Wrapper for the button that opens the menu.
     DropdownMenuTrigger = ClassVariants.build(
       base: "inline-flex"
     )
 
-    # shadcn: bg-popover text-popover-foreground z-50 max-h-(--radix-dropdown-menu-content-available-height)
-    #   min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin)
-    #   overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md
-    #   data-[state=open]:animate-in data-[state=closed]:animate-out ...
+    # The dropdown panel containing menu items.
     DropdownMenuContent = ClassVariants.build(
       base: "bg-background text-foreground z-50 min-w-32 " \
             "overflow-x-hidden overflow-y-auto rounded-md ring ring-inset ring-border p-1 shadow-md"
     )
 
-    # shadcn: focus:bg-accent focus:text-accent-foreground
-    #   data-[variant=destructive]:text-destructive
-    #   data-[variant=destructive]:focus:bg-destructive/10
-    #   data-[variant=destructive]:focus:text-destructive
-    #   [&_svg:not([class*='text-'])]:text-muted-foreground
-    #   relative flex cursor-default items-center gap-2 rounded-sm
-    #   px-2 py-1.5 text-sm outline-hidden select-none
-    #   data-[disabled]:pointer-events-none data-[disabled]:opacity-50
-    #   data-[inset]:pl-8
-    #   [&_svg]:pointer-events-none [&_svg]:shrink-0
-    #   [&_svg:not([class*='size-'])]:size-4
+    # Clickable menu action. Supports a +destructive+ variant for
+    # dangerous actions (delete, remove, etc.).
+    #
+    # Variants:
+    # - +variant+ — :default, :destructive
     DropdownMenuItem = ClassVariants.build(
       base: "relative flex cursor-default items-center gap-2 rounded-sm " \
             "px-2 py-1.5 text-sm outline-none select-none " \
@@ -48,59 +48,47 @@ module Kiso
       defaults: {variant: :default}
     )
 
-    # shadcn: focus:bg-accent focus:text-accent-foreground
-    #   relative flex cursor-default items-center gap-2 rounded-sm
-    #   py-1.5 pr-2 pl-8 text-sm outline-hidden select-none
-    #   data-[disabled]:pointer-events-none data-[disabled]:opacity-50
-    #   [&_svg]:pointer-events-none [&_svg]:shrink-0
-    #   [&_svg:not([class*='size-'])]:size-4
+    # Menu item with a checkbox indicator. Uses {Shared::CHECKABLE_ITEM} base.
     DropdownMenuCheckboxItem = ClassVariants.build(
       base: Shared::CHECKABLE_ITEM
     )
 
-    # shadcn: (no specific classes — just a wrapper div for grouping radio items)
+    # Wrapper for a set of mutually exclusive {DropdownMenuRadioItem} elements.
     DropdownMenuRadioGroup = ClassVariants.build(
       base: ""
     )
 
-    # shadcn: same base as CheckboxItem — identical layout and interactive states
+    # Menu item with a radio indicator. Uses {Shared::CHECKABLE_ITEM} base.
     DropdownMenuRadioItem = ClassVariants.build(
       base: Shared::CHECKABLE_ITEM
     )
 
-    # shadcn: px-2 py-1.5 text-sm font-medium data-[inset]:pl-8
+    # Non-interactive heading within the menu.
     DropdownMenuLabel = ClassVariants.build(
       base: "px-2 py-1.5 text-sm font-medium data-[inset]:pl-8"
     )
 
-    # shadcn: bg-border -mx-1 my-1 h-px
+    # Horizontal divider between menu sections.
     DropdownMenuSeparator = ClassVariants.build(
       base: Shared::ITEM_SEPARATOR
     )
 
-    # shadcn: text-muted-foreground ml-auto text-xs tracking-widest
+    # Keyboard shortcut hint on the right side of a {DropdownMenuItem}.
     DropdownMenuShortcut = ClassVariants.build(
       base: Shared::MENU_SHORTCUT
     )
 
-    # shadcn: (no specific classes — semantic grouping wrapper)
+    # Semantic grouping wrapper for related menu items.
     DropdownMenuGroup = ClassVariants.build(
       base: ""
     )
 
-    # shadcn: (no specific classes — wrapper for sub-menu trigger + content)
+    # Wrapper for a nested sub-menu (trigger + content pair).
     DropdownMenuSub = ClassVariants.build(
       base: "relative"
     )
 
-    # shadcn: focus:bg-accent focus:text-accent-foreground
-    #   data-[state=open]:bg-accent data-[state=open]:text-accent-foreground
-    #   [&_svg:not([class*='text-'])]:text-muted-foreground
-    #   flex cursor-default items-center gap-2 rounded-sm
-    #   px-2 py-1.5 text-sm outline-hidden select-none
-    #   data-[inset]:pl-8
-    #   [&_svg]:pointer-events-none [&_svg]:shrink-0
-    #   [&_svg:not([class*='size-'])]:size-4
+    # Menu item that opens a nested {DropdownMenuSubContent} on hover.
     DropdownMenuSubTrigger = ClassVariants.build(
       base: "flex cursor-default items-center gap-2 rounded-sm " \
             "px-2 py-1.5 text-sm outline-none select-none " \
@@ -111,7 +99,7 @@ module Kiso
             "[&_svg:not([class*='text-'])]:text-muted-foreground"
     )
 
-    # shadcn: same as Content but shadow-lg instead of shadow-md
+    # Panel for nested sub-menu items (same as {DropdownMenuContent} but +shadow-lg+).
     DropdownMenuSubContent = ClassVariants.build(
       base: "bg-background text-foreground z-50 min-w-32 " \
             "overflow-hidden rounded-md ring ring-inset ring-border p-1 shadow-lg"

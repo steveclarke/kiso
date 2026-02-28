@@ -1,5 +1,16 @@
 module Kiso
   module Themes
+    # Container card with header, content, and footer sections.
+    #
+    # @example
+    #   Card.render(variant: :outline)
+    #
+    # Variants:
+    # - +variant+ — :outline (default), :soft, :subtle
+    #
+    # Sub-parts: {CardHeader}, {CardTitle}, {CardDescription}, {CardAction},
+    # {CardContent}, {CardFooter}
+    #
     # shadcn base: bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm
     # We use variant: instead of hardcoded border + shadow, and our semantic tokens.
     Card = ClassVariants.build(

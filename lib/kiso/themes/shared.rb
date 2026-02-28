@@ -1,11 +1,25 @@
 module Kiso
+  # Theme definitions for all Kiso components.
+  #
+  # Each constant is a +ClassVariants+ instance that maps variant options
+  # to Tailwind CSS class strings. Call +.render+ with variant options to
+  # get the resolved class string:
+  #
+  #   Kiso::Themes::Badge.render(color: :success, variant: :soft, size: :md)
+  #   # => "inline-flex items-center ... bg-success/10 text-success ..."
+  #
+  # Compound components (Card, Table, Field, etc.) have multiple constants
+  # for the root and each sub-part (e.g. +Card+, +CardHeader+, +CardTitle+).
+  #
+  # @see project/DESIGN_SYSTEM.md for compound variant formulas and token mapping
+  # @see project/COMPONENT_STRATEGY.md for architecture patterns
   module Themes
     # Shared class strings for patterns that are identical across multiple
     # components. Using shared constants prevents drift when updating styles.
     #
     # Only extract constants that are byte-for-byte identical across components.
-    # Component-specific variations (e.g., CommandSeparator missing my-1,
-    # SelectSeparator with pointer-events-none) should remain inline to
+    # Component-specific variations (e.g., CommandSeparator missing +my-1+,
+    # SelectSeparator with +pointer-events-none+) should remain inline to
     # preserve shadcn fidelity.
     module Shared
       # Used by: Button, Toggle, ToggleGroupItem, SelectTrigger, SelectItem,

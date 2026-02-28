@@ -1,7 +1,17 @@
 module Kiso
   module Themes
+    # @return [Array<Symbol>] the seven semantic colors available to all colored components
     COLORS = %i[primary secondary success info warning error neutral].freeze
 
+    # Inline badge for status labels, counts, and tags.
+    #
+    # @example
+    #   Badge.render(color: :success, variant: :soft, size: :md)
+    #
+    # Variants:
+    # - +color+ — :primary (default), :secondary, :success, :info, :warning, :error, :neutral
+    # - +variant+ — :solid, :outline, :soft (default), :subtle
+    # - +size+ — :xs, :sm, :md (default), :lg, :xl
     Badge = ClassVariants.build(
       base: "inline-flex items-center justify-center font-medium whitespace-nowrap shrink-0 overflow-hidden " \
             "transition-[color,box-shadow] " \

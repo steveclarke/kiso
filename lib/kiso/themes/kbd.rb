@@ -1,9 +1,14 @@
 module Kiso
   module Themes
-    # shadcn Kbd:
-    #   bg-muted text-muted-foreground pointer-events-none inline-flex h-5 w-fit min-w-5
-    #   items-center justify-center gap-1 rounded-sm px-1 font-sans text-xs font-medium select-none
-    #   [&_svg:not([class*='size-'])]:size-3
+    # Keyboard shortcut indicator (e.g. +Ctrl+K+, +Cmd+S+).
+    #
+    # @example
+    #   Kbd.render(size: :md)
+    #
+    # Variants:
+    # - +size+ — :sm, :md (default), :lg
+    #
+    # Sub-parts: {KbdGroup}
     Kbd = ClassVariants.build(
       base: "bg-muted text-muted-foreground pointer-events-none inline-flex items-center " \
             "justify-center gap-1 rounded-sm font-sans font-medium select-none " \
@@ -18,7 +23,7 @@ module Kiso
       defaults: {size: :md}
     )
 
-    # shadcn KbdGroup: inline-flex items-center gap-1
+    # Inline container for multiple {Kbd} elements (e.g. +Ctrl+ + +K+).
     KbdGroup = ClassVariants.build(
       base: "inline-flex items-center gap-1"
     )
