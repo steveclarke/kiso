@@ -95,7 +95,6 @@ usage() {
     6. Verify gem builds
     7. Commit version bump and create annotated tag
     8. Push to origin and create GitHub Release
-    9. Publish kiso-ui npm package
 
   $(gum style --foreground "$FLAMINGO" --bold 'Examples:')
     bin/release 0.1.0       # release version 0.1.0
@@ -260,10 +259,6 @@ gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Updating li
   bash -c "sed -i '' \"s/VERSION = \\\".*\\\"/VERSION = \\\"${NEW_VERSION}\\\"/\" lib/kiso/version.rb"
 gum style --foreground "$GREEN" "✓ Updated lib/kiso/version.rb"
 
-gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Updating package.json...")" -- \
-  bash -c "sed -i '' \"s/\\\"version\\\": \\\".*\\\"/\\\"version\\\": \\\"${NEW_VERSION}\\\"/\" package.json"
-gum style --foreground "$GREEN" "✓ Updated package.json"
-
 # ---------------------------------------------------------------------------
 # Update CHANGELOG
 # ---------------------------------------------------------------------------
@@ -291,7 +286,7 @@ gum style --foreground "$GREEN" "✓ Gem builds successfully"
 # ---------------------------------------------------------------------------
 
 gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Committing release...")" -- \
-  bash -c "git add lib/kiso/version.rb package.json CHANGELOG.md && git commit -m 'Release v${NEW_VERSION}'"
+  bash -c "git add lib/kiso/version.rb CHANGELOG.md && git commit -m 'Release v${NEW_VERSION}'"
 gum style --foreground "$GREEN" "✓ Committed release"
 
 gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Tagging ${TAG}...")" -- \
@@ -320,16 +315,6 @@ fi
 gum style --foreground "$GREEN" "✓ GitHub Release created"
 
 # ---------------------------------------------------------------------------
-# Publish npm package
-# ---------------------------------------------------------------------------
-
-gum style --foreground "$LAVENDER" --bold "\nPublishing npm package"
-
-gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Publishing kiso-ui to npm...")" -- \
-  npm publish --access public
-gum style --foreground "$GREEN" "✓ Published kiso-ui@${NEW_VERSION} to npm"
-
-# ---------------------------------------------------------------------------
 # Summary
 # ---------------------------------------------------------------------------
 
@@ -344,5 +329,4 @@ $(gum style --foreground "$BLUE" "Commit:  $(gum style --bold "$SHORT_SHA")")
 $(gum style --foreground "$BLUE" "Release: ${REPO_URL}/releases/tag/${TAG}")
 
 GitHub Actions will push the gem to RubyGems.
-npm package kiso-ui@${NEW_VERSION} has been published.
 "
