@@ -1,0 +1,14 @@
+<%# locals: (heading: nil, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::CommandGroup.render(class: css_classes),
+    role: "group",
+    data: kiso_prepare_options(component_options, slot: "command-group",
+      kiso__command_target: "group"),
+    **component_options do %>
+  <% if heading.present? %>
+    <div class="<%= Kiso::Themes::CommandGroupHeading.render %>"
+         data-slot="command-group-heading"
+         role="presentation"><%= heading %></div>
+  <% end %>
+  <%= yield %>
+<% end %>

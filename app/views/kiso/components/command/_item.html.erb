@@ -1,0 +1,13 @@
+<%# locals: (value: nil, disabled: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::CommandItem.render(class: css_classes),
+    role: "option",
+    data: kiso_prepare_options(component_options, slot: "command-item",
+      kiso__command_target: "item",
+      action: "click->kiso--command#selectItem",
+      value: value,
+      disabled: (disabled ? "true" : nil)),
+    aria: {selected: false, disabled: (disabled || nil)},
+    **component_options do %>
+  <%= yield %>
+<% end %>
