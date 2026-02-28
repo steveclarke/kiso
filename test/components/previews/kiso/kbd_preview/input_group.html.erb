@@ -1,0 +1,12 @@
+<div class="text-foreground flex w-full max-w-xs flex-col gap-6">
+  <%= kui(:input_group) do %>
+    <%= kui(:input_group, :addon) do %>
+      <%= kiso_icon("search", class: "size-4") %>
+    <% end %>
+    <%= kui(:input, placeholder: "Search...") %>
+    <%= kui(:input_group, :addon, align: :end) do %>
+      <%= kui(:kbd) { "⌘" } %>
+      <%= kui(:kbd) { "K" } %>
+    <% end %>
+  <% end %>
+</div>
