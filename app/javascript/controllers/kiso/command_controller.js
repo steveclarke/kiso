@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { highlightItem, wrapIndex } from "./utils/highlight"
 
 /**
  * Command palette with search filtering, keyboard navigation, and item selection.
@@ -160,14 +161,7 @@ export default class extends Controller {
     const items = this._visibleEnabledItems
     if (items.length === 0) return
 
-    this._selectedIndex += direction
-
-    if (this._selectedIndex < 0) {
-      this._selectedIndex = items.length - 1
-    } else if (this._selectedIndex >= items.length) {
-      this._selectedIndex = 0
-    }
-
+    this._selectedIndex = wrapIndex(this._selectedIndex, direction, items.length)
     this._clearSelection()
     this._applySelection(items)
   }

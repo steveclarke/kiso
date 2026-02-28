@@ -64,7 +64,7 @@ module Kiso
 
     # shadcn CommandShortcut: text-muted-foreground ml-auto text-xs tracking-widest
     CommandShortcut = ClassVariants.build(
-      base: "text-muted-foreground ml-auto text-xs tracking-widest"
+      base: Shared::MENU_SHORTCUT
     )
 
     # shadcn CommandDialog (the <dialog> element):

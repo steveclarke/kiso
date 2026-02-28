@@ -1,4 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
+import { positionBelow } from "./utils/positioning"
+import { highlightItem, wrapIndex } from "./utils/highlight"
 
 /**
  * Dropdown menu with keyboard navigation, sub-menus, checkbox items, and radio items.
@@ -433,16 +435,8 @@ export default class extends Controller {
    */
   _highlightIndex(index) {
     const allItems = this._allMenuItems(this.contentTarget)
-    allItems.forEach((item) => {
-      item.removeAttribute("data-highlighted")
-    })
-
     this._highlightedIndex = index
-
-    if (index >= 0 && index < allItems.length) {
-      allItems[index].setAttribute("data-highlighted", "")
-      allItems[index].scrollIntoView({ block: "nearest" })
-    }
+    highlightItem(allItems, allItems, index)
   }
 
   /**
@@ -452,14 +446,8 @@ export default class extends Controller {
    * @private
    */
   _positionContent() {
-    const trigger = this.triggerTarget
     const content = this.contentTarget
-    const rect = trigger.getBoundingClientRect()
-
-    content.style.position = "absolute"
-    content.style.top = `${trigger.offsetHeight + 4}px`
-    content.style.left = "0"
-    content.style.minWidth = `${rect.width}px`
+    positionBelow(this.triggerTarget, content)
 
     // Dynamic max-height based on available viewport space
     requestAnimationFrame(() => {
@@ -601,26 +589,11 @@ export default class extends Controller {
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault()
-        {
-          const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0
-          // Clear all highlights then set
-          this._clearAllHighlights()
-          if (items[nextIndex]) {
-            items[nextIndex].setAttribute("data-highlighted", "")
-            items[nextIndex].scrollIntoView({ block: "nearest" })
-          }
-        }
+        highlightItem(items, items, wrapIndex(currentIndex, 1, items.length))
         break
       case "ArrowUp":
         event.preventDefault()
-        {
-          const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1
-          this._clearAllHighlights()
-          if (items[prevIndex]) {
-            items[prevIndex].setAttribute("data-highlighted", "")
-            items[prevIndex].scrollIntoView({ block: "nearest" })
-          }
-        }
+        highlightItem(items, items, wrapIndex(currentIndex, -1, items.length))
         break
       case "ArrowRight":
         event.preventDefault()

@@ -56,12 +56,7 @@ module Kiso
     #   [&_svg]:pointer-events-none [&_svg]:shrink-0
     #   [&_svg:not([class*='size-'])]:size-4
     DropdownMenuCheckboxItem = ClassVariants.build(
-      base: "relative flex cursor-default items-center gap-2 rounded-sm " \
-            "py-1.5 pr-2 pl-8 text-sm outline-none select-none " \
-            "data-[highlighted]:bg-elevated data-[highlighted]:text-foreground " \
-            "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 " \
-            "[&_svg]:pointer-events-none [&_svg]:shrink-0 " \
-            "[&_svg:not([class*='size-'])]:size-4"
+      base: Shared::CHECKABLE_ITEM
     )
 
     # shadcn: (no specific classes — just a wrapper div for grouping radio items)
@@ -69,19 +64,9 @@ module Kiso
       base: ""
     )
 
-    # shadcn: focus:bg-accent focus:text-accent-foreground
-    #   relative flex cursor-default items-center gap-2 rounded-sm
-    #   py-1.5 pr-2 pl-8 text-sm outline-hidden select-none
-    #   data-[disabled]:pointer-events-none data-[disabled]:opacity-50
-    #   [&_svg]:pointer-events-none [&_svg]:shrink-0
-    #   [&_svg:not([class*='size-'])]:size-4
+    # shadcn: same base as CheckboxItem — identical layout and interactive states
     DropdownMenuRadioItem = ClassVariants.build(
-      base: "relative flex cursor-default items-center gap-2 rounded-sm " \
-            "py-1.5 pr-2 pl-8 text-sm outline-none select-none " \
-            "data-[highlighted]:bg-elevated data-[highlighted]:text-foreground " \
-            "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 " \
-            "[&_svg]:pointer-events-none [&_svg]:shrink-0 " \
-            "[&_svg:not([class*='size-'])]:size-4"
+      base: Shared::CHECKABLE_ITEM
     )
 
     # shadcn: px-2 py-1.5 text-sm font-medium data-[inset]:pl-8
@@ -91,12 +76,12 @@ module Kiso
 
     # shadcn: bg-border -mx-1 my-1 h-px
     DropdownMenuSeparator = ClassVariants.build(
-      base: "bg-border -mx-1 my-1 h-px"
+      base: Shared::ITEM_SEPARATOR
     )
 
     # shadcn: text-muted-foreground ml-auto text-xs tracking-widest
     DropdownMenuShortcut = ClassVariants.build(
-      base: "text-muted-foreground ml-auto text-xs tracking-widest"
+      base: Shared::MENU_SHORTCUT
     )
 
     # shadcn: (no specific classes — semantic grouping wrapper)

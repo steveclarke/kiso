@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { positionBelow } from "./utils/positioning"
 
 /**
  * Popover controller — toggles a floating panel anchored to a trigger element.
@@ -129,29 +130,12 @@ export default class extends Controller {
    */
   _positionContent() {
     const reference = this.hasAnchorTarget ? this.anchorTarget : this.triggerTarget
-    const content = this.contentTarget
-    const align = content.dataset.align || "center"
+    const align = this.contentTarget.dataset.align || "center"
 
-    content.style.position = "absolute"
-    content.style.top = `${reference.offsetTop + reference.offsetHeight + 4}px`
-
-    switch (align) {
-      case "start":
-        content.style.left = `${reference.offsetLeft}px`
-        content.style.right = "auto"
-        break
-      case "end":
-        content.style.right = `${this.element.offsetWidth - reference.offsetLeft - reference.offsetWidth}px`
-        content.style.left = "auto"
-        break
-      case "center":
-      default:
-        const contentWidth = content.offsetWidth
-        const triggerCenter = reference.offsetLeft + reference.offsetWidth / 2
-        content.style.left = `${triggerCenter - contentWidth / 2}px`
-        content.style.right = "auto"
-        break
-    }
+    positionBelow(reference, this.contentTarget, {
+      align,
+      container: this.element
+    })
   }
 
   /**
