@@ -1,0 +1,10 @@
+<%# locals: (value: nil, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::DropdownMenuRadioGroup.render(class: css_classes),
+    role: "group",
+    data: kiso_prepare_options(component_options, slot: "dropdown-menu-radio-group",
+      kiso__dropdown_menu_target: "radioGroup",
+      value: value),
+    **component_options do %>
+  <%= yield %>
+<% end %>

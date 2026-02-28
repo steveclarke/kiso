@@ -1,0 +1,26 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Actions" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content) do %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("pencil") %>
+          Edit
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("share") %>
+          Share
+        <% end %>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :item, variant: :destructive) do %>
+          <%= kiso_icon("trash") %>
+          Delete
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

@@ -39,6 +39,8 @@ docs:
         href: /components/card
       - title: Command
         href: /components/command
+      - title: DropdownMenu
+        href: /components/dropdown_menu
       - title: Empty
         href: /components/empty
       - title: Pagination

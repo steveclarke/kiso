@@ -1,0 +1,134 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Complex Menu" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content, css_classes: "w-44") do %>
+      <%# File section %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :label) { "File" } %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("file") %>
+          New File
+          <%= kui(:dropdown_menu, :shortcut) { "⌘N" } %>
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("folder") %>
+          New Folder
+          <%= kui(:dropdown_menu, :shortcut) { "⇧⌘N" } %>
+        <% end %>
+        <%= kui(:dropdown_menu, :sub) do %>
+          <%= kui(:dropdown_menu, :sub_trigger) do %>
+            <%= kiso_icon("folder-open") %>
+            Open Recent
+          <% end %>
+          <%= kui(:dropdown_menu, :sub_content) do %>
+            <%= kui(:dropdown_menu, :group) do %>
+              <%= kui(:dropdown_menu, :label) { "Recent Projects" } %>
+              <%= kui(:dropdown_menu, :item) do %>
+                <%= kiso_icon("file-code") %>
+                Project Alpha
+              <% end %>
+              <%= kui(:dropdown_menu, :item) do %>
+                <%= kiso_icon("file-code") %>
+                Project Beta
+              <% end %>
+            <% end %>
+            <%= kui(:dropdown_menu, :separator) %>
+            <%= kui(:dropdown_menu, :group) do %>
+              <%= kui(:dropdown_menu, :item) do %>
+                <%= kiso_icon("folder-search") %>
+                Browse...
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= kui(:dropdown_menu, :separator) %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("save") %>
+          Save
+          <%= kui(:dropdown_menu, :shortcut) { "⌘S" } %>
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("download") %>
+          Export
+          <%= kui(:dropdown_menu, :shortcut) { "⇧⌘E" } %>
+        <% end %>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%# View section %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :label) { "View" } %>
+        <%= kui(:dropdown_menu, :checkbox_item, checked: true) do %>
+          <%= kiso_icon("eye") %>
+          Show Sidebar
+        <% end %>
+        <%= kui(:dropdown_menu, :checkbox_item, checked: false) do %>
+          <%= kiso_icon("layout") %>
+          Show Status Bar
+        <% end %>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%# Account section %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :label) { "Account" } %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("user") %>
+          Profile
+          <%= kui(:dropdown_menu, :shortcut) { "⇧⌘P" } %>
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("credit-card") %>
+          Billing
+        <% end %>
+        <%= kui(:dropdown_menu, :sub) do %>
+          <%= kui(:dropdown_menu, :sub_trigger) do %>
+            <%= kiso_icon("settings") %>
+            Settings
+          <% end %>
+          <%= kui(:dropdown_menu, :sub_content) do %>
+            <%= kui(:dropdown_menu, :group) do %>
+              <%= kui(:dropdown_menu, :label) { "Preferences" } %>
+              <%= kui(:dropdown_menu, :item) do %>
+                <%= kiso_icon("keyboard") %>
+                Keyboard Shortcuts
+              <% end %>
+              <%= kui(:dropdown_menu, :item) do %>
+                <%= kiso_icon("languages") %>
+                Language
+              <% end %>
+            <% end %>
+            <%= kui(:dropdown_menu, :separator) %>
+            <%= kui(:dropdown_menu, :group) do %>
+              <%= kui(:dropdown_menu, :item) do %>
+                <%= kiso_icon("shield") %>
+                Privacy & Security
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%# Help section %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("help-circle") %>
+          Help & Support
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          <%= kiso_icon("file-text") %>
+          Documentation
+        <% end %>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%# Sign out %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :item, variant: :destructive) do %>
+          <%= kiso_icon("log-out") %>
+          Sign Out
+          <%= kui(:dropdown_menu, :shortcut) { "⇧⌘Q" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

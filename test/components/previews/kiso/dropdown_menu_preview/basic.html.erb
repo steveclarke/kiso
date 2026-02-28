@@ -1,0 +1,19 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Open" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content) do %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :label) { "My Account" } %>
+        <%= kui(:dropdown_menu, :item) { "Profile" } %>
+        <%= kui(:dropdown_menu, :item) { "Billing" } %>
+        <%= kui(:dropdown_menu, :item) { "Settings" } %>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%= kui(:dropdown_menu, :item) { "GitHub" } %>
+      <%= kui(:dropdown_menu, :item) { "Support" } %>
+      <%= kui(:dropdown_menu, :item, disabled: true) { "API" } %>
+    <% end %>
+  <% end %>
+</div>

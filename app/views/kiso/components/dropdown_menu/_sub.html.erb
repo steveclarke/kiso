@@ -1,0 +1,8 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::DropdownMenuSub.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "dropdown-menu-sub",
+      kiso__dropdown_menu_target: "sub"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

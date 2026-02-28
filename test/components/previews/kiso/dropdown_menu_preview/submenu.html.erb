@@ -1,0 +1,34 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Open" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content) do %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :item) { "Team" } %>
+        <%= kui(:dropdown_menu, :sub) do %>
+          <%= kui(:dropdown_menu, :sub_trigger) { "Invite users" } %>
+          <%= kui(:dropdown_menu, :sub_content) do %>
+            <%= kui(:dropdown_menu, :item) { "Email" } %>
+            <%= kui(:dropdown_menu, :item) { "Message" } %>
+            <%= kui(:dropdown_menu, :sub) do %>
+              <%= kui(:dropdown_menu, :sub_trigger) { "More options" } %>
+              <%= kui(:dropdown_menu, :sub_content) do %>
+                <%= kui(:dropdown_menu, :item) { "Calendly" } %>
+                <%= kui(:dropdown_menu, :item) { "Slack" } %>
+                <%= kui(:dropdown_menu, :separator) %>
+                <%= kui(:dropdown_menu, :item) { "Webhook" } %>
+              <% end %>
+            <% end %>
+            <%= kui(:dropdown_menu, :separator) %>
+            <%= kui(:dropdown_menu, :item) { "Advanced..." } %>
+          <% end %>
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          New Team
+          <%= kui(:dropdown_menu, :shortcut) { "⌘+T" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

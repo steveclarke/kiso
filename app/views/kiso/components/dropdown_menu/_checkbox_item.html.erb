@@ -1,0 +1,18 @@
+<%# locals: (checked: false, disabled: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::DropdownMenuCheckboxItem.render(class: css_classes),
+    role: "menuitemcheckbox",
+    tabindex: "-1",
+    data: kiso_prepare_options(component_options, slot: "dropdown-menu-checkbox-item",
+      kiso__dropdown_menu_target: "checkboxItem",
+      action: "click->kiso--dropdown-menu#toggleCheckboxItem",
+      disabled: (disabled ? "" : nil)),
+    aria: {checked: checked, disabled: (disabled || nil)},
+    **component_options do %>
+  <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+    <% if checked %>
+      <%= kiso_component_icon(:check, class: "size-4") %>
+    <% end %>
+  </span>
+  <%= yield %>
+<% end %>

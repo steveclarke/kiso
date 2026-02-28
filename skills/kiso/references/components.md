@@ -33,6 +33,12 @@ All colored components use **identical compound variant formulas** — see `proj
 | `select` | `name`, `size` (sm/md). Sub-parts: trigger, value, content, group, label, item, separator. Stimulus: `kiso--select` | [select.md](components/select.md) |
 | `switch` | `color` (7 colors), `size` (sm/md), `checked` | [switch.md](components/switch.md) |
 
+## Overlay
+
+| Component | Key locals | Reference |
+|---|---|---|
+| `dropdown_menu` | 13 sub-parts: trigger, content, item, checkbox_item, radio_group, radio_item, label, separator, shortcut, group, sub, sub_trigger, sub_content. Item `variant` (default/destructive). Stimulus: `kiso--dropdown-menu` | [dropdown_menu.md](components/dropdown_menu.md) |
+
 ## Navigation
 
 | Component | Key locals | Reference |

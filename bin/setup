@@ -18,18 +18,16 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Installing overmind =="
   if system("command -v overmind > /dev/null 2>&1")
     puts "overmind already installed."
+  elsif /darwin/i.match?(RUBY_PLATFORM)
+    system! "brew install overmind"
+  elsif /linux/i.match?(RUBY_PLATFORM)
+    puts "Install overmind: https://github.com/DarthSim/overmind#installation"
+    puts "  Ubuntu/Debian: sudo snap install overmind"
+    puts "  Or download from GitHub releases."
+    exit 1
   else
-    if /darwin/i.match?(RUBY_PLATFORM)
-      system! "brew install overmind"
-    elsif /linux/i.match?(RUBY_PLATFORM)
-      puts "Install overmind: https://github.com/DarthSim/overmind#installation"
-      puts "  Ubuntu/Debian: sudo snap install overmind"
-      puts "  Or download from GitHub releases."
-      exit 1
-    else
-      puts "Please install overmind manually: https://github.com/DarthSim/overmind#installation"
-      exit 1
-    end
+    puts "Please install overmind manually: https://github.com/DarthSim/overmind#installation"
+    exit 1
   end
 
   puts "\n== Done! Run bin/dev to start. =="

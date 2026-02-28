@@ -1,0 +1,29 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Open" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content) do %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :label) { "My Account" } %>
+        <%= kui(:dropdown_menu, :item) do %>
+          Profile
+          <%= kui(:dropdown_menu, :shortcut) { "⇧⌘P" } %>
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          Billing
+          <%= kui(:dropdown_menu, :shortcut) { "⌘B" } %>
+        <% end %>
+        <%= kui(:dropdown_menu, :item) do %>
+          Settings
+          <%= kui(:dropdown_menu, :shortcut) { "⌘S" } %>
+        <% end %>
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%= kui(:dropdown_menu, :item) do %>
+        Log out
+        <%= kui(:dropdown_menu, :shortcut) { "⇧⌘Q" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

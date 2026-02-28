@@ -1,0 +1,12 @@
+<%# locals: (inset: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::DropdownMenuSubTrigger.render(class: css_classes),
+    tabindex: "-1",
+    data: kiso_prepare_options(component_options, slot: "dropdown-menu-sub-trigger",
+      kiso__dropdown_menu_target: "subTrigger",
+      action: "click->kiso--dropdown-menu#toggleSub mouseenter->kiso--dropdown-menu#openSubOnHover",
+      inset: (inset ? "" : nil)),
+    **component_options do %>
+  <%= yield %>
+  <%= kiso_component_icon(:chevron_right, class: "ml-auto size-4") %>
+<% end %>

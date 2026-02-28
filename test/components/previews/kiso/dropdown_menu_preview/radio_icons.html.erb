@@ -1,0 +1,26 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Payment Method" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content, css_classes: "min-w-56") do %>
+      <%= kui(:dropdown_menu, :group) do %>
+        <%= kui(:dropdown_menu, :label) { "Select Payment Method" } %>
+        <%= kui(:dropdown_menu, :radio_group, value: "card") do %>
+          <%= kui(:dropdown_menu, :radio_item, value: "card", checked: true) do %>
+            <%= kiso_icon("credit-card") %>
+            Credit Card
+          <% end %>
+          <%= kui(:dropdown_menu, :radio_item, value: "paypal") do %>
+            <%= kiso_icon("wallet") %>
+            PayPal
+          <% end %>
+          <%= kui(:dropdown_menu, :radio_item, value: "bank") do %>
+            <%= kiso_icon("building-2") %>
+            Bank Transfer
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
