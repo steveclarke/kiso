@@ -3,7 +3,7 @@
     <%= kui(:dropdown_menu, :trigger) do %>
       <%= kui(:button, variant: :outline) { "Open" } %>
     <% end %>
-    <%= kui(:dropdown_menu, :content) do %>
+    <%= kui(:dropdown_menu, :content, css_classes: "w-56") do %>
       <%= kui(:dropdown_menu, :item) do %>
         <%= kiso_icon("user") %>
         Profile

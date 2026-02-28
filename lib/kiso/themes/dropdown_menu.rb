@@ -15,7 +15,7 @@ module Kiso
     #   overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md
     #   data-[state=open]:animate-in data-[state=closed]:animate-out ...
     DropdownMenuContent = ClassVariants.build(
-      base: "bg-background text-foreground z-50 min-w-32 max-h-80 " \
+      base: "bg-background text-foreground z-50 min-w-32 " \
             "overflow-x-hidden overflow-y-auto rounded-md ring ring-inset ring-border p-1 shadow-md"
     )
 

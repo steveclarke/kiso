@@ -55,5 +55,10 @@ module Kiso
     def complex
       render_with_template
     end
+
+    # @label Profile
+    def profile
+      render_with_template
+    end
   end
 end

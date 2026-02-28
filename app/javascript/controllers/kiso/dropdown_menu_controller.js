@@ -70,7 +70,9 @@ export default class extends Controller {
     this.triggerTarget.setAttribute("aria-expanded", "false")
     this._highlightIndex(-1)
     this._removeGlobalListeners()
-    this.triggerTarget.focus()
+    // Focus the button inside the trigger wrapper, or the trigger itself
+    const btn = this.triggerTarget.querySelector("button, [tabindex]")
+    ;(btn || this.triggerTarget).focus()
   }
 
   selectItem(event) {
@@ -314,12 +316,36 @@ export default class extends Controller {
     content.style.top = `${trigger.offsetHeight + 4}px`
     content.style.left = "0"
     content.style.minWidth = `${rect.width}px`
+
+    // Dynamic max-height based on available viewport space
+    requestAnimationFrame(() => {
+      const contentRect = content.getBoundingClientRect()
+      const availableHeight = window.innerHeight - contentRect.top - 8
+      if (availableHeight > 0) {
+        content.style.maxHeight = `${availableHeight}px`
+      }
+    })
   }
 
   _positionSubContent(subTrigger, subContent) {
-    subContent.style.position = "absolute"
-    subContent.style.top = "0"
-    subContent.style.left = `${subTrigger.offsetWidth + 4}px`
+    // Use fixed positioning to escape parent overflow clipping
+    const rect = subTrigger.getBoundingClientRect()
+    subContent.style.position = "fixed"
+    subContent.style.top = `${rect.top}px`
+    subContent.style.left = `${rect.right + 4}px`
+
+    // Check viewport bounds after rendering
+    requestAnimationFrame(() => {
+      const subRect = subContent.getBoundingClientRect()
+      // Flip horizontally if overflowing right edge
+      if (subRect.right > window.innerWidth) {
+        subContent.style.left = `${rect.left - subRect.width - 4}px`
+      }
+      // Adjust vertically if overflowing bottom edge
+      if (subRect.bottom > window.innerHeight) {
+        subContent.style.top = `${window.innerHeight - subRect.height - 8}px`
+      }
+    })
   }
 
   _handleOutsideClick(event) {
