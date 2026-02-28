@@ -224,3 +224,7 @@ These are the most frequent issues found in reviews, in order of likelihood:
 15. **Duplicated theme class strings** — check `Kiso::Themes::Shared` for
     existing constants (`ITEM_SEPARATOR`, `MENU_LABEL`, `MENU_SHORTCUT`,
     `CHECKABLE_ITEM`) before inlining identical class strings.
+16. **Raw `data-kiso--*` attributes in HTML** — must use Rails `tag.*` helpers
+    with `data:` hash (`data: { kiso__combobox_target: "input" }`). Never
+    write raw `data-kiso--` attributes in ERB. Search for `data-kiso--` in
+    ERB files to catch violations.

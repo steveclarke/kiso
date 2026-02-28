@@ -393,6 +393,7 @@ For composed usage via `kui(:component, :part)`:
 | Sub-part naming | `kui(:alert, :title)` — **never** `kui(:alert_title)`. Files live in `alert/_title.html.erb`. Slot: `data-slot="alert-title"`. |
 | Default icons | Use `kiso_component_icon(:semantic_name)` for built-in icons in partials. Never hardcode `kiso_icon("name")`. Add new names to `lib/kiso/configuration.rb`. |
 | No `block_given?` in ERB | Rails makes `block_given?` always true in partials. Use `capture { yield }.presence` for default-with-override. |
+| Tag helpers for data attrs | Always use `tag.*` helpers with `data:` hash for Stimulus attributes. `data: { kiso__combobox_target: "input" }` produces `data-kiso--combobox-target="input"`. Never write raw `data-kiso--*` attributes in HTML. |
 | Strict locals | Every partial: `<%# locals: (color: :primary, ...) %>` |
 | Data slot | `data-slot="alert"` for identity (shadcn v4 convention). Kebab-case. Can be used as CSS selectors (`has-[[data-slot=...]]`). |
 | `css_classes:` override | Single override point, merged via tailwind_merge. |

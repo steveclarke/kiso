@@ -264,6 +264,27 @@ Never reimplement these patterns inline.
 Use `data-disabled="true"` (value-based) consistently. Check with
 `dataset.disabled === "true"`, never `hasAttribute("data-disabled")`.
 
+### Tag helpers for Stimulus data attributes
+
+Always use Rails `tag.*` helpers with `data:` hash for inner elements that
+need Stimulus attributes. Never write raw `data-kiso--*` attributes in HTML:
+
+```erb
+<%# CORRECT — uses tag helper with data: hash %>
+<%= tag.span data: { slot: "item-indicator", kiso__combobox_target: "indicator" },
+            hidden: true do %>
+  <%= kiso_component_icon(:check, class: "size-4") %>
+<% end %>
+
+<%# WRONG — raw HTML with data-kiso-- attribute %>
+<span data-slot="item-indicator"
+      data-kiso--combobox-target="indicator"
+      hidden>
+```
+
+Rails converts `kiso__combobox_target` (double underscore) to
+`data-kiso--combobox-target` (double dash) automatically.
+
 ## Field preview integration
 
 If this component is a form control, check issue #11 for the Field preview

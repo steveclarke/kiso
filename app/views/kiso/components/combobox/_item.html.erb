@@ -10,11 +10,10 @@
       disabled: (disabled ? "true" : nil)),
     aria: {selected: false, disabled: (disabled || nil)},
     **component_options do %>
-  <span data-slot="combobox-item-text"><%= yield %></span>
-  <span class="<%= Kiso::Themes::ComboboxItemIndicator.render %>"
-        data-slot="combobox-item-indicator"
-        data-kiso--combobox-target="indicator"
-        hidden>
+  <%= tag.span yield, data: { slot: "combobox-item-text" } %>
+  <%= tag.span class: Kiso::Themes::ComboboxItemIndicator.render,
+              data: { slot: "combobox-item-indicator", kiso__combobox_target: "indicator" },
+              hidden: true do %>
     <%= kiso_component_icon(:check, class: "size-4") %>
-  </span>
+  <% end %>
 <% end %>
