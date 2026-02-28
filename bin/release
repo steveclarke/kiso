@@ -392,11 +392,15 @@ fi
 # ---------------------------------------------------------------------------
 
 if [ "$NPM_RELEASE" = true ]; then
-  gum style --foreground "$LAVENDER" --bold "\nBumping npm version to ${NPM_VERSION}"
+  if [ "$NPM_VERSION" != "$CURRENT_NPM_VERSION" ]; then
+    gum style --foreground "$LAVENDER" --bold "\nBumping npm version to ${NPM_VERSION}"
 
-  gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Updating package.json...")" -- \
-    npm version "$NPM_VERSION" --no-git-tag-version
-  gum style --foreground "$GREEN" "✓ Updated package.json"
+    gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Updating package.json...")" -- \
+      npm version "$NPM_VERSION" --no-git-tag-version
+    gum style --foreground "$GREEN" "✓ Updated package.json"
+  else
+    gum style --foreground "$GREEN" "✓ package.json already at ${NPM_VERSION}"
+  fi
 fi
 
 # ---------------------------------------------------------------------------
@@ -418,9 +422,12 @@ else
   COMMIT_MSG="Release kiso-ui npm-v${NPM_VERSION}"
 fi
 
-gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Committing release...")" -- \
-  bash -c "git add ${GIT_ADD_FILES} && git commit -m '${COMMIT_MSG}'"
-gum style --foreground "$GREEN" "✓ Committed release"
+# Only commit if there are staged changes (e.g., npm-only at same version has nothing to commit)
+if [ -n "$(git status --porcelain)" ]; then
+  gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Committing release...")" -- \
+    bash -c "git add ${GIT_ADD_FILES} && git commit -m '${COMMIT_MSG}'"
+  gum style --foreground "$GREEN" "✓ Committed release"
+fi
 
 # Create tags
 if [ "$GEM_RELEASE" = true ]; then
