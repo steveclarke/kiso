@@ -9,7 +9,9 @@ No React. No extra build step. Just ERB with [class_variants](https://github.com
 > [!WARNING]
 > Kiso is in early development and **not ready for production use**. The gem is published to reserve the name on RubyGems. APIs, component names, and theme tokens will change without notice. Watch the repo or check back in a few weeks.
 
-## Installation
+## Getting started
+
+Add the gem to your Gemfile and bundle:
 
 ```ruby
 # Gemfile
@@ -18,13 +20,22 @@ gem "kiso"
 
 ```bash
 bundle install
-bin/rails generate kiso:install
 ```
 
-### Stimulus controllers for bundler apps
+Then add one import to your Tailwind CSS entrypoint:
 
-If your app uses a JS bundler (esbuild, Vite, Bun), install the npm package
-for interactive components:
+```css
+/* app/assets/tailwind/application.css */
+@import "../builds/tailwind/kiso.css";
+```
+
+That's it. Helpers, importmap pins, asset paths, and dark mode tokens are all
+wired up automatically by the engine.
+
+### Bundler apps (esbuild, Vite, Bun)
+
+If your app uses a JS bundler instead of importmaps, also install the npm
+package for Stimulus controllers:
 
 ```bash
 npm install kiso-ui

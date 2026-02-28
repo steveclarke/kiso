@@ -74,13 +74,31 @@ Override brand colors in your app's CSS:
 }
 ```
 
-## Customizing Instances
+## Customizing Components
+
+### Global overrides
+
+Override all instances of a component via `Kiso.configure` in an initializer:
+
+```ruby
+# config/initializers/kiso.rb
+Kiso.configure do |config|
+  config.theme[:button] = { base: "rounded-full", defaults: { variant: :outline } }
+  config.theme[:card_header] = { base: "p-8 sm:p-10" }
+end
+```
+
+Override hashes accept `base:`, `variants:`, `compound_variants:`, `defaults:`. Applied once at boot — zero per-render cost.
+
+### Per-instance overrides
 
 Pass `css_classes:` to override styles on a specific instance. Conflicting classes are resolved automatically via tailwind_merge:
 
 ```erb
 <%= kui(:badge, color: :primary, css_classes: "rounded-full px-4") { "Custom" } %>
 ```
+
+Layer order: theme default < global config < per-instance `css_classes:`.
 
 ## Additional references
 

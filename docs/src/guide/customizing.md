@@ -42,6 +42,30 @@ This is the same pattern as wrapping a shadcn component in your own React
 component to bake in project defaults. The Kiso component handles styling and
 structure; your wrapper handles your app's conventions.
 
+## Override styles globally
+
+If you want *all* instances of a component to look different, use
+`Kiso.configure` in an initializer instead of repeating `css_classes:` on
+every call site:
+
+```ruby
+# config/initializers/kiso.rb
+Kiso.configure do |config|
+  config.theme[:button] = { base: "rounded-full" }
+  config.theme[:card_header] = { base: "p-8 sm:p-10" }
+  config.theme[:badge] = { defaults: { variant: :outline } }
+end
+```
+
+Override hashes accept `base:`, `variants:`, `compound_variants:`, and
+`defaults:` — the same structure as the component's theme definition.
+Overrides are applied once at boot via `ClassVariants::Instance#merge`, so
+there's zero per-render cost. Changes require a server restart.
+
+**Layer order:** theme default &lt; global config &lt; per-instance `css_classes:`.
+Global config wins over the gem defaults, but `css_classes:` on a specific
+instance still wins over everything.
+
 ## Theme your app with CSS variables
 
 Kiso's semantic tokens (`bg-primary`, `text-foreground`, etc.) resolve to CSS

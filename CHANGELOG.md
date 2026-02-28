@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Global theme overrides via `Kiso.configure { |c| c.theme[:button] = { base: "rounded-full" } }` ([#66])
+
+[#66]: https://github.com/steveclarke/kiso/issues/66
+
 ## [0.1.0.pre] - 2026-02-25
 
 ### Added
