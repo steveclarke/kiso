@@ -50,8 +50,7 @@ test.describe("Pagination component", () => {
 
   test("passes WCAG 2.1 AA", async ({ page }) => {
     await page.goto(`${BASE}/default`)
-    // Exclude list: pagination has direct <a> children in <ul> (known structure)
-    const results = await checkA11y(page, { exclude: ["list"] })
+    const results = await checkA11y(page)
     expect(results.violations).toEqual([])
   })
 })

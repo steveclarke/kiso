@@ -11,11 +11,11 @@ test.describe("DropdownMenu component", () => {
     await expect(menu).toBeVisible()
   })
 
-  test("trigger has aria-haspopup=menu and aria-expanded=false", async ({ page }) => {
+  test("trigger button has aria-haspopup=menu and aria-expanded=false", async ({ page }) => {
     await page.goto(`${BASE}/basic`)
-    const trigger = page.locator("[data-slot='dropdown-menu-trigger']")
-    await expect(trigger).toHaveAttribute("aria-haspopup", "menu")
-    await expect(trigger).toHaveAttribute("aria-expanded", "false")
+    const button = page.locator("[data-slot='dropdown-menu-trigger'] button")
+    await expect(button).toHaveAttribute("aria-haspopup", "menu")
+    await expect(button).toHaveAttribute("aria-expanded", "false")
   })
 
   test("content is hidden by default", async ({ page }) => {
@@ -31,7 +31,8 @@ test.describe("DropdownMenu component", () => {
 
     await trigger.click()
     await expect(content).toBeVisible()
-    await expect(trigger).toHaveAttribute("aria-expanded", "true")
+    const button = page.locator("[data-slot='dropdown-menu-trigger'] button")
+    await expect(button).toHaveAttribute("aria-expanded", "true")
   })
 
   test("click trigger again closes menu", async ({ page }) => {
@@ -44,7 +45,8 @@ test.describe("DropdownMenu component", () => {
 
     await trigger.click()
     await expect(content).toBeHidden()
-    await expect(trigger).toHaveAttribute("aria-expanded", "false")
+    const button = page.locator("[data-slot='dropdown-menu-trigger'] button")
+    await expect(button).toHaveAttribute("aria-expanded", "false")
   })
 
   test("Escape closes menu and returns focus to trigger", async ({ page }) => {
@@ -303,9 +305,7 @@ test.describe("DropdownMenu component", () => {
 
   test("passes WCAG 2.1 AA", async ({ page }) => {
     await page.goto(`${BASE}/basic`)
-    // Scan closed state — open state has aria-expanded on div (known issue)
-    // Exclude aria-allowed-attr: separator has aria-orientation which axe flags
-    const results = await checkA11y(page, { exclude: ["aria-allowed-attr"] })
+    const results = await checkA11y(page)
     expect(results.violations).toEqual([])
   })
 })

@@ -29,6 +29,12 @@ export default class extends Controller {
     this._open = false
     this._handleOutsideClick = this._handleOutsideClick.bind(this)
     this._handleKeydown = this._handleKeydown.bind(this)
+
+    // Set ARIA attrs on the interactive element inside the trigger wrapper
+    this._triggerButton =
+      this.triggerTarget.querySelector("button, [tabindex]") || this.triggerTarget
+    this._triggerButton.setAttribute("aria-haspopup", "dialog")
+    this._triggerButton.setAttribute("aria-expanded", "false")
   }
 
   disconnect() {
@@ -61,7 +67,7 @@ export default class extends Controller {
     this._open = true
     this.contentTarget.hidden = false
     this.contentTarget.setAttribute("data-state", "open")
-    this.triggerTarget.setAttribute("aria-expanded", "true")
+    this._triggerButton.setAttribute("aria-expanded", "true")
     this.triggerTarget.setAttribute("data-state", "open")
     this._positionContent()
     this._addGlobalListeners()
@@ -85,7 +91,7 @@ export default class extends Controller {
     this._clearCloseTimers()
     this._open = false
     this.contentTarget.setAttribute("data-state", "closed")
-    this.triggerTarget.setAttribute("aria-expanded", "false")
+    this._triggerButton.setAttribute("aria-expanded", "false")
     this.triggerTarget.setAttribute("data-state", "closed")
 
     // Hide after animation completes

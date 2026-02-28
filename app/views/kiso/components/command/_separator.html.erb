@@ -1,7 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::CommandSeparator.render(class: css_classes),
-    role: "separator",
+    role: "none",
     data: kiso_prepare_options(component_options, slot: "command-separator"),
     **component_options do %>
 <% end %>

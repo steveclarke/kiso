@@ -14,6 +14,7 @@
                    class: "flex size-6 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground",
                    disabled: (disabled || nil),
                    tabindex: "-1",
+                   aria: { label: "Toggle" },
                    data: { slot: "combobox-trigger", kiso__combobox_target: "trigger",
                            action: "click->kiso--combobox#toggle" } do %>
       <%= kiso_component_icon(:chevron_down, class: "size-4 pointer-events-none") %>

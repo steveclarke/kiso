@@ -129,10 +129,7 @@ test.describe("CommandDialog component", () => {
     await page.keyboard.press("Meta+k")
     const dialog = page.locator("[data-slot='command-dialog']")
     await expect(dialog).toHaveAttribute("open", "")
-    // Known a11y issues: input/list lack labels, listbox contains separator
-    const results = await checkA11y(page, {
-      exclude: ["label", "aria-input-field-name", "aria-required-children"],
-    })
+    const results = await checkA11y(page)
     expect(results.violations).toEqual([])
   })
 })

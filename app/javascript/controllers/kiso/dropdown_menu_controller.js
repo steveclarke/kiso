@@ -57,6 +57,12 @@ export default class extends Controller {
     this._handleKeydown = this._handleKeydown.bind(this)
     this._handleMouseover = this._handleMouseover.bind(this)
     this._closeSubTimeout = null
+
+    // Set ARIA attrs on the interactive element inside the trigger wrapper
+    this._triggerButton =
+      this.triggerTarget.querySelector("button, [tabindex]") || this.triggerTarget
+    this._triggerButton.setAttribute("aria-haspopup", "menu")
+    this._triggerButton.setAttribute("aria-expanded", "false")
   }
 
   disconnect() {
@@ -91,7 +97,7 @@ export default class extends Controller {
 
     this._open = true
     this.contentTarget.hidden = false
-    this.triggerTarget.setAttribute("aria-expanded", "true")
+    this._triggerButton.setAttribute("aria-expanded", "true")
     this._positionContent()
     this._addGlobalListeners()
     this._highlightIndex(0)
@@ -111,7 +117,7 @@ export default class extends Controller {
     this._lastHoveredItem = null
     this._closeAllSubs()
     this.contentTarget.hidden = true
-    this.triggerTarget.setAttribute("aria-expanded", "false")
+    this._triggerButton.setAttribute("aria-expanded", "false")
     this._highlightIndex(-1)
     this._removeGlobalListeners()
     this.contentTarget.removeEventListener("mouseover", this._handleMouseover)

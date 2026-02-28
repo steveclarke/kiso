@@ -266,7 +266,7 @@ test.describe("Combobox component", () => {
 
   test("passes WCAG 2.1 AA", async ({ page }) => {
     await page.goto(`${BASE}/with_field`)
-    const results = await checkA11y(page, { exclude: ["button-name"] })
+    const results = await checkA11y(page)
     expect(results.violations).toEqual([])
   })
 })

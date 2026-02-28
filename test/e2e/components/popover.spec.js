@@ -11,11 +11,11 @@ test.describe("Popover component", () => {
     await expect(popover).toBeVisible()
   })
 
-  test("trigger has aria-haspopup=dialog and aria-expanded=false", async ({ page }) => {
+  test("trigger button has aria-haspopup=dialog and aria-expanded=false", async ({ page }) => {
     await page.goto(`${BASE}/basic`)
-    const trigger = page.locator("[data-slot='popover-trigger']")
-    await expect(trigger).toHaveAttribute("aria-haspopup", "dialog")
-    await expect(trigger).toHaveAttribute("aria-expanded", "false")
+    const button = page.locator("[data-slot='popover-trigger'] button")
+    await expect(button).toHaveAttribute("aria-haspopup", "dialog")
+    await expect(button).toHaveAttribute("aria-expanded", "false")
   })
 
   test("content is hidden by default", async ({ page }) => {
@@ -37,7 +37,8 @@ test.describe("Popover component", () => {
 
     await trigger.click()
     await expect(content).toBeVisible()
-    await expect(trigger).toHaveAttribute("aria-expanded", "true")
+    const button = page.locator("[data-slot='popover-trigger'] button")
+    await expect(button).toHaveAttribute("aria-expanded", "true")
     await expect(content).toHaveAttribute("data-state", "open")
   })
 
@@ -51,7 +52,8 @@ test.describe("Popover component", () => {
 
     await trigger.click()
     await expect(content).toBeHidden()
-    await expect(trigger).toHaveAttribute("aria-expanded", "false")
+    const button = page.locator("[data-slot='popover-trigger'] button")
+    await expect(button).toHaveAttribute("aria-expanded", "false")
   })
 
   test("Escape closes popover and returns focus to trigger", async ({ page }) => {
@@ -134,8 +136,7 @@ test.describe("Popover component", () => {
 
   test("passes WCAG 2.1 AA", async ({ page }) => {
     await page.goto(`${BASE}/basic`)
-    // Exclude aria-allowed-attr: trigger div has aria-expanded (known issue)
-    const results = await checkA11y(page, { exclude: ["aria-allowed-attr"] })
+    const results = await checkA11y(page)
     expect(results.violations).toEqual([])
   })
 })

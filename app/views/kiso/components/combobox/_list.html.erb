@@ -1,7 +1,8 @@
-<%# locals: (css_classes: "", **component_options) %>
+<%# locals: (label: "Options", css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::ComboboxList.render(class: css_classes),
     role: "listbox",
+    aria: { label: label },
     data: kiso_prepare_options(component_options, slot: "combobox-list",
       kiso__combobox_target: "list"),
     **component_options do %>

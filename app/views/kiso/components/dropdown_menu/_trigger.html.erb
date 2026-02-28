@@ -4,7 +4,6 @@
     data: kiso_prepare_options(component_options, slot: "dropdown-menu-trigger",
       kiso__dropdown_menu_target: "trigger",
       action: "click->kiso--dropdown-menu#toggle keydown->kiso--dropdown-menu#triggerKeydown"),
-    aria: {haspopup: "menu", expanded: false},
     **component_options do %>
   <%= yield %>
 <% end %>

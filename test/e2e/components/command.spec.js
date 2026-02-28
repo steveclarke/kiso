@@ -193,10 +193,7 @@ test.describe("Command component", () => {
 
   test("passes WCAG 2.1 AA", async ({ page }) => {
     await page.goto(`${BASE}/playground`)
-    // Known a11y issues: input/list lack labels, listbox contains separator
-    const results = await checkA11y(page, {
-      exclude: ["label", "aria-input-field-name", "aria-required-children"],
-    })
+    const results = await checkA11y(page)
     expect(results.violations).toEqual([])
   })
 })

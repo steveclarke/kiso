@@ -1,6 +1,9 @@
 <div class="max-w-sm">
-  <%= kui(:input_group) do %>
-    <%= kui(:input_group, :addon) { "https://" } %>
-    <%= kui(:input, type: :text, placeholder: "example.com") %>
+  <%= kui(:field) do %>
+    <%= kui(:field, :label, for: :url) { "URL" } %>
+    <%= kui(:input_group) do %>
+      <%= kui(:input_group, :addon) { "https://" } %>
+      <%= kui(:input, type: :text, id: :url, placeholder: "example.com") %>
+    <% end %>
   <% end %>
 </div>

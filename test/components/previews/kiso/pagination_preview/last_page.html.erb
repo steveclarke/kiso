@@ -1,12 +1,12 @@
 <%# Last page: 1 ... 8 9 [10] — no next link %>
 <%= kui(:pagination) do %>
   <%= kui(:pagination, :content) do %>
-    <%= kui(:pagination, :previous, href: "#") %>
+    <%= kui(:pagination, :item) { kui(:pagination, :previous, href: "#") } %>
     <%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "1" } } %>
     <%= kui(:pagination, :item) { kui(:pagination, :ellipsis) } %>
     <%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "8" } } %>
     <%= kui(:pagination, :item) { kui(:pagination, :link, href: "#") { "9" } } %>
     <%= kui(:pagination, :item) { kui(:pagination, :link, href: "#", active: true) { "10" } } %>
-    <%= kui(:pagination, :next, href: nil) %>
+    <%= kui(:pagination, :item) { kui(:pagination, :next, href: nil) } %>
   <% end %>
 <% end %>

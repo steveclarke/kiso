@@ -15,7 +15,7 @@
 %>
 <%= kui(:pagination) do %>
   <%= kui(:pagination, :content) do %>
-    <%= kui(:pagination, :previous, href: current_page > 1 ? "#" : nil) %>
+    <%= kui(:pagination, :item) { kui(:pagination, :previous, href: current_page > 1 ? "#" : nil) } %>
     <% series.each do |item| %>
       <% if item == :gap %>
         <%= kui(:pagination, :item) { kui(:pagination, :ellipsis) } %>
@@ -25,6 +25,6 @@
         <% end %>
       <% end %>
     <% end %>
-    <%= kui(:pagination, :next, href: current_page < total_pages ? "#" : nil) %>
+    <%= kui(:pagination, :item) { kui(:pagination, :next, href: current_page < total_pages ? "#" : nil) } %>
   <% end %>
 <% end %>

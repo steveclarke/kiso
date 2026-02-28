@@ -4,7 +4,6 @@
     data: kiso_prepare_options(component_options, slot: "popover-trigger",
       kiso__popover_target: "trigger",
       action: "click->kiso--popover#toggle keydown->kiso--popover#triggerKeydown"),
-    aria: {haspopup: "dialog", expanded: false},
     **component_options do %>
   <%= yield %>
 <% end %>

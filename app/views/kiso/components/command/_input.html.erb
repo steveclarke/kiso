@@ -1,4 +1,4 @@
-<%# locals: (placeholder: nil, css_classes: "", **component_options) %>
+<%# locals: (placeholder: nil, label: "Search", css_classes: "", **component_options) %>
 <div class="<%= Kiso::Themes::CommandInputWrapper.render %>"
      data-slot="command-input-wrapper">
   <%= kiso_component_icon(:search, class: "size-4 shrink-0 opacity-50") %>
@@ -7,6 +7,7 @@
     class: Kiso::Themes::CommandInput.render(class: css_classes),
     placeholder: placeholder,
     autocomplete: "off",
+    aria: { label: label },
     data: kiso_prepare_options(component_options, slot: "command-input",
       kiso__command_target: "input",
       action: "input->kiso--command#filter keydown->kiso--command#inputKeydown"),

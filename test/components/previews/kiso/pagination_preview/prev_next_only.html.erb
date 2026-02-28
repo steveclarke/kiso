@@ -1,7 +1,7 @@
 <%# Prev/Next only — no page numbers — developer builds a wrapper component like this %>
 <%= kui(:pagination) do %>
   <%= kui(:pagination, :content) do %>
-    <%= kui(:pagination, :previous, href: "#") %>
-    <%= kui(:pagination, :next, href: "#") %>
+    <%= kui(:pagination, :item) { kui(:pagination, :previous, href: "#") } %>
+    <%= kui(:pagination, :item) { kui(:pagination, :next, href: "#") } %>
   <% end %>
 <% end %>
