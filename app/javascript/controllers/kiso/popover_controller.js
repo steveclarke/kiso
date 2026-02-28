@@ -80,7 +80,9 @@ export default class extends Controller {
     }, 200)
 
     this._removeGlobalListeners()
-    this.triggerTarget.focus()
+    // Focus the button inside the trigger wrapper, or the trigger itself
+    const btn = this.triggerTarget.querySelector("button, [tabindex]")
+    ;(btn || this.triggerTarget).focus()
   }
 
   triggerKeydown(event) {
@@ -102,7 +104,6 @@ export default class extends Controller {
     const reference = this.hasAnchorTarget ? this.anchorTarget : this.triggerTarget
     const content = this.contentTarget
     const align = content.dataset.align || "center"
-    const rect = reference.getBoundingClientRect()
 
     content.style.position = "absolute"
     content.style.top = `${reference.offsetTop + reference.offsetHeight + 4}px`
