@@ -66,6 +66,27 @@ Variant definitions live in Ruby theme modules (`lib/kiso/themes/`), not CSS fil
 
 - **Flat variants** — for single-axis components (Label, Separator)
 - **Compound variants** — for color × variant matrix (Badge, Button, Alert)
-- **`css_classes:` override** — instance-level class override, deduped by tailwind_merge
+
+## Global theme overrides
+
+Host apps override component styles globally in an initializer:
+
+```ruby
+# config/initializers/kiso.rb
+Kiso.configure do |config|
+  config.theme[:button] = { base: "rounded-full", defaults: { variant: :outline } }
+  config.theme[:card_header] = { base: "p-8 sm:p-10" }
+end
+```
+
+Override hashes accept `base:`, `variants:`, `compound_variants:`, `defaults:`. Applied once at boot — zero per-render cost. Snake_case keys map to PascalCase constants (`:card_header` → `Kiso::Themes::CardHeader`).
+
+## Override layers
+
+Three layers, each wins over the previous:
+
+1. **Theme default** — `Kiso::Themes::Button` (gem code)
+2. **Global config** — `Kiso.configure { |c| c.theme[:button] = ... }` (host app initializer)
+3. **Instance override** — `css_classes:` (per call site, deduped by tailwind_merge)
 
 See `project/component-strategy.md` for the full architecture reference.

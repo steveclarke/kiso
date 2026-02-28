@@ -130,3 +130,30 @@ Always use semantic tokens, never Tailwind palette colors:
 ```
 
 The `class:` keyword on `.render()` appends user classes and tailwind_merge deduplicates conflicts.
+
+## Global Theme Overrides
+
+Host apps can override any theme constant globally via `Kiso.configure`:
+
+```ruby
+# config/initializers/kiso.rb
+Kiso.configure do |config|
+  config.theme[:button] = { base: "rounded-full", defaults: { variant: :outline } }
+  config.theme[:card_header] = { base: "p-8 sm:p-10" }
+end
+```
+
+Override hashes accept the same kwargs as `ClassVariants.build`: `base:`,
+`variants:`, `compound_variants:`, `defaults:`.
+
+Snake_case keys map to PascalCase constants: `:card_header` →
+`Kiso::Themes::CardHeader`.
+
+Overrides are applied once at boot via `ClassVariants::Instance#merge` (zero
+per-render cost). The merge is additive — `base:` and `variants:` classes
+are appended, and tailwind_merge resolves conflicts at render time. `defaults:`
+replaces via `Hash#merge!`.
+
+**Layer order:** theme default < global config < per-instance `css_classes:`.
+
+See `project/component-strategy.md` Override System section for full details.

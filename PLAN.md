@@ -48,7 +48,6 @@ Reference: `vendor/maquina_components/` (local checkout)
 
 ### Open Issues
 
-- **#2** — Theme override architecture for host apps
 - **#4** — Icon system (standalone Ruby gem for Iconify icon sets)
 - **#6** — Deploy docs site to GitHub Pages
 - **#7** — Publish Lookbook and link from docs site
