@@ -1,5 +1,8 @@
 {
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "always"
+  },
   "oxc.lint.enable": true
 }
