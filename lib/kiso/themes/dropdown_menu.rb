@@ -36,8 +36,7 @@ module Kiso
             "data-[highlighted]:bg-elevated data-[highlighted]:text-foreground " \
             "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 " \
             "data-[inset]:pl-8 " \
-            "[&_svg]:pointer-events-none [&_svg]:shrink-0 " \
-            "[&_svg:not([class*='size-'])]:size-4 " \
+            "#{Shared::SVG_BASE} " \
             "[&_svg:not([class*='text-'])]:text-muted-foreground",
       variants: {
         variant: {
@@ -108,8 +107,7 @@ module Kiso
             "data-[highlighted]:bg-elevated data-[highlighted]:text-foreground " \
             "data-[state=open]:bg-elevated data-[state=open]:text-foreground " \
             "data-[inset]:pl-8 " \
-            "[&_svg]:pointer-events-none [&_svg]:shrink-0 " \
-            "[&_svg:not([class*='size-'])]:size-4 " \
+            "#{Shared::SVG_BASE} " \
             "[&_svg:not([class*='text-'])]:text-muted-foreground"
     )
 

@@ -251,6 +251,9 @@ for existing utilities:
 - **`utils/highlight.js`** — `highlightItem(clearItems, items, index)` for
   managing `data-highlighted` state with scroll-into-view.
   `wrapIndex(current, direction, length)` for circular list navigation.
+- **`utils/focusable.js`** — `FOCUSABLE_SELECTOR` constant for querying
+  focusable elements (links, buttons, inputs, etc.). Use with
+  `querySelector`/`querySelectorAll` instead of inlining the selector string.
 
 Never reimplement these patterns inline.
 

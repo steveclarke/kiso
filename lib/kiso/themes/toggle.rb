@@ -27,7 +27,7 @@ module Kiso
             "hover:bg-muted hover:text-muted-foreground " \
             "disabled:pointer-events-none disabled:opacity-50 " \
             "data-[state=on]:bg-muted data-[state=on]:text-foreground " \
-            "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 " \
+            "#{Shared::SVG_BASE} " \
             "focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none " \
             "transition-[color,box-shadow] " \
             "whitespace-nowrap",
@@ -65,7 +65,7 @@ module Kiso
             "hover:bg-muted hover:text-muted-foreground " \
             "disabled:pointer-events-none disabled:opacity-50 " \
             "data-[state=on]:bg-muted data-[state=on]:text-foreground " \
-            "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 " \
+            "#{Shared::SVG_BASE} " \
             "focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none " \
             "transition-[color,box-shadow] " \
             "whitespace-nowrap " \

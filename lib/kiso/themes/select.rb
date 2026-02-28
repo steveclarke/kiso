@@ -23,7 +23,7 @@ module Kiso
             "focus-visible:ring-2 focus-visible:ring-primary " \
             "aria-invalid:ring-error aria-invalid:focus-visible:ring-error " \
             "disabled:cursor-not-allowed disabled:opacity-50 " \
-            "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " \
+            "#{Shared::SVG_BASE} " \
             "[&_svg:not([class*='text-'])]:text-muted-foreground",
       variants: {
         size: {
@@ -69,7 +69,7 @@ module Kiso
             "py-1.5 pr-8 pl-2 text-sm outline-none select-none " \
             "data-[highlighted]:bg-elevated data-[highlighted]:text-foreground " \
             "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 " \
-            "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 " \
+            "#{Shared::SVG_BASE} " \
             "[&_svg:not([class*='text-'])]:text-muted-foreground"
     )
 

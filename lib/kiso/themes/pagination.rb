@@ -7,7 +7,7 @@ module Kiso
                            "focus-visible:outline-2 focus-visible:outline-offset-2 " \
                            "disabled:pointer-events-none disabled:opacity-50 " \
                            "aria-disabled:cursor-not-allowed aria-disabled:opacity-50 " \
-                           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+                           "#{Shared::SVG_BASE}"
 
     # active: true  → outline neutral (ring, bg-background)
     # active: false → ghost neutral (transparent until hover)

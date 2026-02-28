@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { FOCUSABLE_SELECTOR } from "./utils/focusable"
 import { positionBelow } from "./utils/positioning"
 
 /**
@@ -63,9 +64,7 @@ export default class extends Controller {
 
     // Focus the first focusable element inside the content
     requestAnimationFrame(() => {
-      const focusable = this.contentTarget.querySelector(
-        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
+      const focusable = this.contentTarget.querySelector(FOCUSABLE_SELECTOR)
       if (focusable) {
         focusable.focus()
       }
@@ -166,9 +165,7 @@ export default class extends Controller {
 
     // Trap focus inside content
     if (event.key === "Tab") {
-      const focusableElements = this.contentTarget.querySelectorAll(
-        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
+      const focusableElements = this.contentTarget.querySelectorAll(FOCUSABLE_SELECTOR)
 
       if (focusableElements.length === 0) {
         event.preventDefault()

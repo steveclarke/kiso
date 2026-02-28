@@ -227,15 +227,16 @@ These are the most frequent issues found in reviews, in order of likelihood:
     contain class strings. Use `<template>` elements in ERB and clone in JS.
 11. **Inline SVG in JS** — never use `innerHTML` with SVG. Render icons
     server-side with `kiso_component_icon()` and toggle `hidden` in JS.
-12. **Reimplemented positioning/highlighting** — use shared utilities from
-    `utils/positioning.js` and `utils/highlight.js` instead of writing inline.
+12. **Reimplemented positioning/highlighting/focusable queries** — use shared
+    utilities from `utils/positioning.js`, `utils/highlight.js`, and
+    `FOCUSABLE_SELECTOR` from `utils/focusable.js` instead of writing inline.
 13. **Anonymous event listeners** — always bind named handlers and clean up
     in `disconnect()`. Anonymous arrow functions leak.
 14. **Disabled attribute as presence** — use `dataset.disabled === "true"`,
     not `hasAttribute("data-disabled")`.
 15. **Duplicated theme class strings** — check `Kiso::Themes::Shared` for
-    existing constants (`ITEM_SEPARATOR`, `MENU_LABEL`, `MENU_SHORTCUT`,
-    `CHECKABLE_ITEM`) before inlining identical class strings.
+    existing constants (`SVG_BASE`, `ITEM_SEPARATOR`, `MENU_LABEL`,
+    `MENU_SHORTCUT`, `CHECKABLE_ITEM`) before inlining identical class strings.
 16. **Raw `data-kiso--*` attributes in HTML** — must use Rails `tag.*` helpers
     with `data:` hash (`data: { kiso__combobox_target: "input" }`). Never
     write raw `data-kiso--` attributes in ERB. Search for `data-kiso--` in
