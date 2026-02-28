@@ -1,0 +1,28 @@
+<div class="text-foreground flex items-center justify-center gap-6 p-8">
+  <%= kui(:popover) do %>
+    <%= kui(:popover, :trigger) do %>
+      <%= kui(:button, variant: :outline, size: :sm) { "Start" } %>
+    <% end %>
+    <%= kui(:popover, :content, align: :start, css_classes: "w-40") do %>
+      Aligned to start
+    <% end %>
+  <% end %>
+
+  <%= kui(:popover) do %>
+    <%= kui(:popover, :trigger) do %>
+      <%= kui(:button, variant: :outline, size: :sm) { "Center" } %>
+    <% end %>
+    <%= kui(:popover, :content, align: :center, css_classes: "w-40") do %>
+      Aligned to center
+    <% end %>
+  <% end %>
+
+  <%= kui(:popover) do %>
+    <%= kui(:popover, :trigger) do %>
+      <%= kui(:button, variant: :outline, size: :sm) { "End" } %>
+    <% end %>
+    <%= kui(:popover, :content, align: :end, css_classes: "w-40") do %>
+      Aligned to end
+    <% end %>
+  <% end %>
+</div>

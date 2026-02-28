@@ -1,0 +1,23 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:popover) do %>
+    <%= kui(:popover, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Open Popover" } %>
+    <% end %>
+    <%= kui(:popover, :content, css_classes: "w-64", align: :start) do %>
+      <%= kui(:popover, :header) do %>
+        <%= kui(:popover, :title) { "Dimensions" } %>
+        <%= kui(:popover, :description) { "Set the dimensions for the layer." } %>
+      <% end %>
+      <div class="mt-4 grid gap-4">
+        <%= kui(:field, orientation: :horizontal) do %>
+          <%= kui(:field, :label, for: "pop-width", css_classes: "w-1/2") { "Width" } %>
+          <%= kui(:input, id: "pop-width", value: "100%") %>
+        <% end %>
+        <%= kui(:field, orientation: :horizontal) do %>
+          <%= kui(:field, :label, for: "pop-height", css_classes: "w-1/2") { "Height" } %>
+          <%= kui(:input, id: "pop-height", value: "25px") %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

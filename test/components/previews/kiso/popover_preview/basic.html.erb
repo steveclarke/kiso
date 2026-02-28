@@ -1,0 +1,13 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:popover) do %>
+    <%= kui(:popover, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Open Popover" } %>
+    <% end %>
+    <%= kui(:popover, :content, align: :start) do %>
+      <%= kui(:popover, :header) do %>
+        <%= kui(:popover, :title) { "Dimensions" } %>
+        <%= kui(:popover, :description) { "Set the dimensions for the layer." } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

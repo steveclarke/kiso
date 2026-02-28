@@ -1,0 +1,35 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:popover) do %>
+    <%= kui(:popover, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Open popover" } %>
+    <% end %>
+    <%= kui(:popover, :content, align: align, css_classes: "w-80") do %>
+      <div class="grid gap-4">
+        <div class="space-y-2">
+          <h4 class="leading-none font-medium">Dimensions</h4>
+          <p class="text-muted-foreground text-sm">
+            Set the dimensions for the layer.
+          </p>
+        </div>
+        <div class="grid gap-2">
+          <div class="grid grid-cols-3 items-center gap-4">
+            <%= kui(:label, for: "width") { "Width" } %>
+            <%= kui(:input, id: "width", value: "100%", css_classes: "col-span-2 h-8") %>
+          </div>
+          <div class="grid grid-cols-3 items-center gap-4">
+            <%= kui(:label, for: "maxWidth") { "Max. width" } %>
+            <%= kui(:input, id: "maxWidth", value: "300px", css_classes: "col-span-2 h-8") %>
+          </div>
+          <div class="grid grid-cols-3 items-center gap-4">
+            <%= kui(:label, for: "height") { "Height" } %>
+            <%= kui(:input, id: "height", value: "25px", css_classes: "col-span-2 h-8") %>
+          </div>
+          <div class="grid grid-cols-3 items-center gap-4">
+            <%= kui(:label, for: "maxHeight") { "Max. height" } %>
+            <%= kui(:input, id: "maxHeight", value: "none", css_classes: "col-span-2 h-8") %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,11 @@
+<%# locals: (align: :center, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::PopoverContent.render(class: css_classes),
+    role: "dialog",
+    data: kiso_prepare_options(component_options, slot: "popover-content",
+      kiso__popover_target: "content",
+      align: align),
+    hidden: true,
+    **component_options do %>
+  <%= yield %>
+<% end %>
