@@ -8,7 +8,7 @@
       action: "click->kiso--dropdown-menu#selectItem",
       inset: (inset ? "" : nil),
       variant: (variant == :destructive ? "destructive" : nil),
-      disabled: (disabled ? "" : nil)),
+      disabled: (disabled ? "true" : nil)),
     aria: {disabled: (disabled || nil)},
     **component_options do %>
   <%= yield %>

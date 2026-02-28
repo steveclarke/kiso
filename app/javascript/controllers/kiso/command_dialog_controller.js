@@ -23,20 +23,16 @@ export default class extends Controller {
   connect() {
     this._handleKeydown = this._handleKeydown.bind(this)
     this._handleCommandEscape = this._handleCommandEscape.bind(this)
+    this._handleBackdropClick = this._handleBackdropClick.bind(this)
     document.addEventListener("keydown", this._handleKeydown)
     this.element.addEventListener("command:escape", this._handleCommandEscape)
-
-    // Close on click outside the dialog content (on the backdrop)
-    this.element.addEventListener("click", (event) => {
-      if (event.target === this.element) {
-        this.close()
-      }
-    })
+    this.element.addEventListener("click", this._handleBackdropClick)
   }
 
   disconnect() {
     document.removeEventListener("keydown", this._handleKeydown)
     this.element.removeEventListener("command:escape", this._handleCommandEscape)
+    this.element.removeEventListener("click", this._handleBackdropClick)
   }
 
   /**
@@ -92,5 +88,17 @@ export default class extends Controller {
    */
   _handleCommandEscape() {
     this.close()
+  }
+
+  /**
+   * Closes the dialog when clicking the backdrop (the `<dialog>` element itself).
+   *
+   * @param {MouseEvent} event
+   * @private
+   */
+  _handleBackdropClick(event) {
+    if (event.target === this.element) {
+      this.close()
+    }
   }
 }

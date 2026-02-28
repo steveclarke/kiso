@@ -127,7 +127,7 @@ export default class extends Controller {
    */
   selectItem(event) {
     const item = event.currentTarget
-    if (item.hasAttribute("data-disabled")) return
+    if (item.dataset.disabled === "true") return
 
     this.dispatch("select", { detail: { item } })
     this.close()
@@ -140,27 +140,16 @@ export default class extends Controller {
    */
   toggleCheckboxItem(event) {
     const item = event.currentTarget
-    if (item.hasAttribute("data-disabled")) return
+    if (item.dataset.disabled === "true") return
 
     const currentChecked = item.getAttribute("aria-checked") === "true"
     const newChecked = !currentChecked
     item.setAttribute("aria-checked", newChecked)
 
-    // Toggle the check icon
-    const indicator = item.querySelector(
-      "[data-slot='dropdown-menu-checkbox-item'] > span:first-child, span.pointer-events-none"
-    )
-    // Find the indicator span (first child span)
-    const indicatorSpan = item.children[0]
-    if (indicatorSpan) {
-      if (newChecked) {
-        // Add check icon if not present
-        if (!indicatorSpan.querySelector("svg")) {
-          indicatorSpan.innerHTML = this._checkIconSvg()
-        }
-      } else {
-        indicatorSpan.innerHTML = ""
-      }
+    // Toggle the indicator visibility
+    const indicator = item.querySelector("[data-slot='dropdown-menu-item-indicator']")
+    if (indicator) {
+      indicator.hidden = !newChecked
     }
 
     this.dispatch("checkbox-change", {
@@ -176,7 +165,7 @@ export default class extends Controller {
    */
   selectRadioItem(event) {
     const item = event.currentTarget
-    if (item.hasAttribute("data-disabled")) return
+    if (item.dataset.disabled === "true") return
 
     const value = item.dataset.value
     const group = item.closest("[data-slot='dropdown-menu-radio-group']")
@@ -188,18 +177,14 @@ export default class extends Controller {
       )
       radioItems.forEach((radio) => {
         radio.setAttribute("aria-checked", "false")
-        const indicatorSpan = radio.children[0]
-        if (indicatorSpan) {
-          indicatorSpan.innerHTML = ""
-        }
+        const indicator = radio.querySelector("[data-slot='dropdown-menu-item-indicator']")
+        if (indicator) indicator.hidden = true
       })
 
       // Select the clicked item
       item.setAttribute("aria-checked", "true")
-      const indicatorSpan = item.children[0]
-      if (indicatorSpan) {
-        indicatorSpan.innerHTML = this._circleIconSvg()
-      }
+      const indicator = item.querySelector("[data-slot='dropdown-menu-item-indicator']")
+      if (indicator) indicator.hidden = false
 
       // Update group value
       group.dataset.value = value
@@ -425,7 +410,7 @@ export default class extends Controller {
           slot === "dropdown-menu-radio-item" ||
           slot === "dropdown-menu-sub-trigger"
         ) {
-          if (!child.hasAttribute("data-disabled")) {
+          if (child.dataset.disabled !== "true") {
             items.push(child)
           }
         }
@@ -532,7 +517,7 @@ export default class extends Controller {
         "[data-slot='dropdown-menu-sub-trigger']"
     )
     if (!item || !this.element.contains(item)) return
-    if (item.hasAttribute("data-disabled")) return
+    if (item.dataset.disabled === "true") return
 
     this._clearAllHighlights()
     item.setAttribute("data-highlighted", "")
@@ -764,23 +749,4 @@ export default class extends Controller {
     document.removeEventListener("keydown", this._handleKeydown)
   }
 
-  /**
-   * Returns the SVG markup for a checkmark icon (used in checkbox items).
-   *
-   * @returns {string} SVG HTML string
-   * @private
-   */
-  _checkIconSvg() {
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 size-4"><path d="M20 6 9 17l-5-5"/></svg>'
-  }
-
-  /**
-   * Returns the SVG markup for a filled circle icon (used in radio items).
-   *
-   * @returns {string} SVG HTML string
-   * @private
-   */
-  _circleIconSvg() {
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 size-2"><circle cx="12" cy="12" r="10"/></svg>'
-  }
 }

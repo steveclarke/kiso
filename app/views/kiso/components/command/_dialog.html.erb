@@ -1,11 +1,11 @@
 <%# locals: (shortcut: "k", css_classes: "", **component_options) %>
 <%= content_tag :dialog,
-    class: "bg-transparent p-0 backdrop:bg-black/50 max-w-lg w-full rounded-lg open:flex",
+    class: Kiso::Themes::CommandDialog.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "command-dialog",
       controller: "kiso--command-dialog",
       kiso__command_dialog_shortcut_value: shortcut),
     **component_options do %>
-  <div class="bg-background text-foreground overflow-hidden rounded-lg ring ring-inset ring-border shadow-lg w-full">
+  <div class="<%= Kiso::Themes::CommandDialogContent.render %>">
     <%= yield %>
   </div>
 <% end %>

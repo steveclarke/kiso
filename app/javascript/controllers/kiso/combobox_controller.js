@@ -51,7 +51,6 @@ export default class extends Controller {
     this._highlightedIndex = -1
     this._selectedValues = new Set()
     this._handleOutsideClick = this._handleOutsideClick.bind(this)
-    this._handleKeydown = this._handleKeydown.bind(this)
 
     // Initialize selected state from pre-rendered chips (multi-select)
     if (this.multipleValue && this.hasChipTarget) {
@@ -612,17 +611,6 @@ export default class extends Controller {
     if (!this.element.contains(event.target)) {
       this.close()
     }
-  }
-
-  /**
-   * Global keydown handler (safety net — primary handling is in inputKeydown).
-   *
-   * @param {KeyboardEvent} _event
-   * @private
-   */
-  _handleKeydown(_event) {
-    // Global keydown handler is not needed — the inputKeydown action handles all keys.
-    // This is a safety net for edge cases.
   }
 
   /** @private */

@@ -34,15 +34,9 @@ export default class extends Controller {
 
   connect() {
     this._selectedIndex = -1
-    this._handleKeydown = this._handleKeydown.bind(this)
-    document.addEventListener("keydown", this._handleKeydown)
 
     // Initialize: show all items, select first
     this._updateVisibility()
-  }
-
-  disconnect() {
-    document.removeEventListener("keydown", this._handleKeydown)
   }
 
   /** Filters visible items based on the current input value. */
@@ -74,6 +68,21 @@ export default class extends Controller {
         event.preventDefault()
         // Let it bubble up for dialog to handle
         this.element.dispatchEvent(new CustomEvent("command:escape", { bubbles: true }))
+        break
+      case "Home":
+        event.preventDefault()
+        this._selectedIndex = 0
+        this._clearSelection()
+        this._applySelection(this._visibleEnabledItems)
+        break
+      case "End":
+        event.preventDefault()
+        {
+          const items = this._visibleEnabledItems
+          this._selectedIndex = items.length - 1
+          this._clearSelection()
+          this._applySelection(items)
+        }
         break
     }
   }
@@ -214,31 +223,4 @@ export default class extends Controller {
     )
   }
 
-  /**
-   * Global keydown handler for Home/End navigation when the command
-   * palette has focus.
-   *
-   * @param {KeyboardEvent} event
-   * @private
-   */
-  _handleKeydown(event) {
-    // Only handle events when the command palette is focused or has focus within
-    if (!this.element.contains(document.activeElement)) return
-
-    switch (event.key) {
-      case "Home":
-        event.preventDefault()
-        this._selectedIndex = 0
-        this._clearSelection()
-        this._applySelection(this._visibleEnabledItems)
-        break
-      case "End":
-        event.preventDefault()
-        const items = this._visibleEnabledItems
-        this._selectedIndex = items.length - 1
-        this._clearSelection()
-        this._applySelection(items)
-        break
-    }
-  }
 }
