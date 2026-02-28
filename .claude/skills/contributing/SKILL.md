@@ -34,7 +34,7 @@ any individual improvement.
 2. **Identical compound variant formulas across all colored components.** Badge,
    Alert, Button — same 28 compound variants. Only base/layout classes change.
    Copy from an existing component, never invent new formulas. See
-   `project/DESIGN_SYSTEM.md`.
+   `project/design-system.md`.
 
 3. **shadcn aesthetic, Nuxt UI theming.** shadcn/ui is the visual reference
    (clean, minimal layout and spacing). Nuxt UI is the theming source of truth
@@ -45,7 +45,7 @@ any individual improvement.
 
 4. **Spatial system from shadcn.** All spacing, typography, radius, and icon
    sizing follows the scales extracted from shadcn/ui and documented in the
-   "Spatial System" section of `project/DESIGN_SYSTEM.md`. Never use arbitrary
+   "Spatial System" section of `project/design-system.md`. Never use arbitrary
    values (`text-[8px]`, `h-[1.15rem]`). Pick from the established scales.
 
 5. **Deterministic output.** Components should produce the same HTML structure
@@ -84,13 +84,13 @@ any individual improvement.
   actions, close) — agents pass data, component handles layout
 - `opacity-90` for description text (relative to parent, not absolute)
 - Foreground pairing convention (every color has `-foreground`)
-- Nuxt UI token mapping (see `project/DESIGN_SYSTEM.md`)
+- Nuxt UI token mapping (see `project/design-system.md`)
 
 ## Mandatory reading before building any component
 
-1. `project/DESIGN_SYSTEM.md` — compound variant formulas, token table, spatial
+1. `project/design-system.md` — compound variant formulas, token table, spatial
    system (heights, padding, gaps, typography, radius, icon sizing), rules
-2. `project/components/COMPONENT.md` — vision doc for the specific component
+2. `project/components/{component}.md` — vision doc for the specific component
    (if it exists)
 3. The shadcn component at `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/`
    — read and copy the Tailwind classes for structure, spacing, and layout
@@ -117,8 +117,8 @@ test/
 ├── components/previews/kiso/  # Lookbook previews + templates
 skills/kiso/                   # AI skill (update when adding components)
 project/
-├── DESIGN_SYSTEM.md           # Strict compound variant rules + token map
-├── COMPONENT_STRATEGY.md      # Architecture, recipes, patterns
+├── design-system.md           # Strict compound variant rules + token map
+├── component-strategy.md      # Architecture, recipes, patterns
 └── components/                # Per-component vision docs
 docs/                          # Bridgetown docs site (published documentation)
 lookbook/                      # Dev Rails app (Lookbook on :4001)
@@ -161,10 +161,10 @@ engine file and adds Lookbook-specific source paths:
 
 ### Before writing code
 
-1. Check if a vision doc exists at `project/components/COMPONENT.md`. If not,
+1. Check if a vision doc exists at `project/components/{component}.md`. If not,
    create one following the Badge/Alert pattern (Current API → Target API →
    Dependencies → Migration).
-2. Read `project/DESIGN_SYSTEM.md` for the compound variant formulas.
+2. Read `project/design-system.md` for the compound variant formulas.
 3. **Read the shadcn component** at
    `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx` — this is
    the structural source of truth. Copy their Tailwind classes div-for-div.
@@ -181,7 +181,7 @@ engine file and adds Lookbook-specific source paths:
 ```
 Component: [name]
 Progress:
-- [ ] 1. Read project/DESIGN_SYSTEM.md and project/components/[NAME].md
+- [ ] 1. Read project/design-system.md and project/components/{name}.md
 - [ ] 2. Verify component name matches shadcn exactly (check file name + exports)
 - [ ] 3. Read Nuxt UI theme file for this component
 - [ ] 4. Create theme module in lib/kiso/themes/
@@ -193,9 +193,9 @@ Progress:
 - [ ] 8. Create Lookbook previews mirroring shadcn demos (read examples/radix/{name}-*.tsx)
 - [ ] 9. Add CSS file if needed (transitions/animations only)
 - [ ] 10. Update skills/kiso/references/components.md
-- [ ] 11. Write/update project/components/[NAME].md vision doc
+- [ ] 11. Write/update project/components/{name}.md vision doc
 - [ ] 12. Create docs page AND add to docs/src/_data/navigation.yml (see "Documentation page" below)
-- [ ] 13. Write Playwright E2E tests (see project/TESTING_STRATEGY.md for tier)
+- [ ] 13. Write Playwright E2E tests (see project/testing-strategy.md for tier)
 - [ ] 14. Run: bundle exec standardrb --fix
 - [ ] 15. Run: npm run lint && npm run fmt:check
 - [ ] 16. Run: npm run test:unit && npm run test:e2e
@@ -205,7 +205,7 @@ Progress:
 ### Documentation page
 
 Every component needs a docs page in the Bridgetown site. Follow the template
-at `project/COMPONENT_DOC_TEMPLATE.md` for content structure and guidelines.
+at `project/component-doc-template.md` for content structure and guidelines.
 
 **Create the page** at `docs/src/components/{component_name}.md` with this
 frontmatter:
@@ -411,7 +411,7 @@ For composed usage via `kui(:component, :part)`:
 | Disabled attribute | Use `data-disabled="true"` (value-based). Check with `dataset.disabled === "true"`, not `hasAttribute("data-disabled")`. |
 | Event listener cleanup | Always bind named handlers in `connect()` and remove them in `disconnect()`. Never use anonymous arrow functions for event listeners that need cleanup. |
 | Scoped vs global listeners | Prefer scoped listeners (on the controller element). Only use `document.addEventListener` when truly needed (e.g., dialog keyboard shortcuts). Remove global listeners in `disconnect()`. |
-| E2E tests | Every component gets a `test/e2e/components/{name}.spec.js`. See `project/TESTING_STRATEGY.md` for tier requirements. |
+| E2E tests | Every component gets a `test/e2e/components/{name}.spec.js`. See `project/testing-strategy.md` for tier requirements. |
 | Lint before commit | `bundle exec standardrb --fix` + `npm run lint && npm run fmt:check` |
 
 ## Worktree workflow

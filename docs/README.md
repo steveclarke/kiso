@@ -43,7 +43,7 @@ bin/deploy               # deploy both docs + Lookbook
 bin/deploy --only docs   # deploy docs only
 ```
 
-See [project/DEPLOYING.md](../project/DEPLOYING.md) for the full ops runbook.
+See [project/deploying.md](../project/deploying.md) for the full ops runbook.
 
 ## Building
 

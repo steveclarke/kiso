@@ -199,7 +199,7 @@ The contributing skill (`.claude/skills/contributing/SKILL.md`) is ~400
 lines of precise instructions: philosophy, mandatory reading list, 15-step
 checklist, code templates, 24 convention rules. Not guidelines — rules.
 
-The design system doc (`project/DESIGN_SYSTEM.md`) defines exact compound
+The design system doc (`project/design-system.md`) defines exact compound
 variant formulas that are identical across all colored components. Agents
 copy from Badge, never invent.
 
@@ -247,7 +247,7 @@ per component), which git auto-merges cleanly.
 | `.claude/agents/component-reviewer.md` | Quality gate checklist | ~150 lines |
 | `skills/kiso/references/components/` | Per-component reference files | 1 file each |
 | `.claude/skills/contributing/SKILL.md` | Contributing workflow + conventions | ~400 lines |
-| `project/DESIGN_SYSTEM.md` | Compound variant formulas + spatial system | ~300 lines |
+| `project/design-system.md` | Compound variant formulas + spatial system | ~300 lines |
 
 ## What Made This Possible
 

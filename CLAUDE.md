@@ -10,13 +10,13 @@ Stimulus.
 
 - `PLAN.md` — **read first**. Current status, what's done, what to build next,
   priority-ordered component list with batches.
-- `project/DESIGN_SYSTEM.md` — **read before building any component**. Strict
+- `project/design-system.md` — **read before building any component**. Strict
   compound variant formulas, semantic token table, Nuxt UI token mapping,
   and **spatial system** (heights, padding, gaps, typography, radius, icon
   sizing — all extracted from shadcn/ui). Every colored component uses
   identical formulas — no exceptions. Every component uses spatial values
   from the established scales — no arbitrary values.
-- `project/COMPONENT_STRATEGY.md` — class_variants patterns, compound variants,
+- `project/component-strategy.md` — class_variants patterns, compound variants,
   theming, override system, dark mode.
 - `.claude/skills/contributing/SKILL.md` — component creation workflow and checklist
 - `skills/kiso/` — AI skill with component reference (update when adding components)
@@ -50,7 +50,7 @@ Consistency is more important than any individual improvement.
   secondary, success, info, warning, error, neutral. Variants: solid,
   outline, soft, subtle. **Compound variant formulas are identical across
   all colored components** — copy from an existing component (Badge), never
-  invent new formulas. See `project/DESIGN_SYSTEM.md`.
+  invent new formulas. See `project/design-system.md`.
 - **Semantic tokens** — `bg-primary`, `text-foreground`, `bg-muted`, etc.
   Components never use raw palette shades or `dark:` prefixes.
 - **`text-foreground` on container components** — Kiso uses CSS variable
@@ -118,7 +118,7 @@ Consistency is more important than any individual improvement.
   ```erb
   <% content = capture { yield }.presence %>
   ```
-- **Component vision docs** — `project/components/COMPONENT.md` defines the
+- **Component vision docs** — `project/components/{component}.md` defines the
   target API for each component. Read before building or extending.
 - **Composition over configuration** — Card = Header + Title + Content + Footer.
   Small partials, flexibly combined.

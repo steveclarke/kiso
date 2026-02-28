@@ -13,8 +13,8 @@ issue number, and you deliver a complete implementation with a pull request.
 
 Read these files in this exact order:
 
-1. `project/DESIGN_SYSTEM.md` — compound variant formulas, token table, spatial system
-2. `project/components/{COMPONENT}.md` — vision doc (if it exists)
+1. `project/design-system.md` — compound variant formulas, token table, spatial system
+2. `project/components/{component}.md` — vision doc (if it exists)
 3. `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx` — **structural source of truth**. Copy div-for-div, class-for-class.
 4. `vendor/shadcn-ui/apps/v4/content/docs/components/radix/{name}.mdx` — **docs page**. Lists all demos to replicate in Lookbook.
 5. `vendor/shadcn-ui/apps/v4/examples/radix/{name}-*.tsx` — **demo implementations**. Translate these to ERB for Lookbook previews. Use the same icons, text, and layout.
@@ -161,7 +161,7 @@ Then add a row to the appropriate table in `skills/kiso/references/components.md
 
 File: `test/e2e/components/{name}.spec.js`
 
-Read `project/TESTING_STRATEGY.md` to determine the component's tier, then
+Read `project/testing-strategy.md` to determine the component's tier, then
 write tests covering all required categories for that tier.
 
 ```javascript
@@ -272,7 +272,7 @@ In your final text output, include:
 - [ ] Semantic tokens only (no raw palette shades, no `dark:` prefixes)
 - [ ] Default icons use `kiso_component_icon(:name)`, not `kiso_icon("name")` — new icons registered in `lib/kiso/configuration.rb`
 - [ ] No arbitrary Tailwind values
-- [ ] E2E test file: `test/e2e/components/{name}.spec.js` covering correct tier (see `project/TESTING_STRATEGY.md`)
+- [ ] E2E test file: `test/e2e/components/{name}.spec.js` covering correct tier (see `project/testing-strategy.md`)
 - [ ] All files: theme, require in kiso.rb, partials, previews, E2E tests, docs page, nav entry, skills ref (new file in `components/` + index row)
 - [ ] `Closes #N` in PR body
 - [ ] Stimulus controllers have full JSDoc (class, methods, properties, events)

@@ -121,7 +121,7 @@ Kiso::Themes::Badge = ClassVariants.build(
     color: COLORS.index_with { "" }
   },
   compound_variants: [
-    # See project/DESIGN_SYSTEM.md for the full formula table.
+    # See project/design-system.md for the full formula table.
     # All colored components use identical compound variants.
   ],
   defaults: { color: :primary, variant: :soft, size: :md }

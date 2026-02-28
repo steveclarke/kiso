@@ -11,7 +11,7 @@ the line into a new conversation.
 ---
 
 I need you to implement the `kiso-icons` gem extraction described in
-`project/plans/ICON_GEM.md`. Read that file thoroughly before starting — it
+`project/plans/icon-gem.md`. Read that file thoroughly before starting — it
 contains every architectural decision, file structure, code sample, and
 implementation step.
 
@@ -29,7 +29,7 @@ Architecture" section in the plan for the full rendering stack.
 
 **What to do:**
 
-1. Read `project/plans/ICON_GEM.md` completely — it has the file structure,
+1. Read `project/plans/icon-gem.md` completely — it has the file structure,
    every code sample, gemspec, railtie, helper, CLI, and the 7 implementation
    steps in order.
 
@@ -39,7 +39,7 @@ Architecture" section in the plan for the full rendering stack.
    - `lib/kiso/cli/icons.rb`
    - `data/lucide.json.gz`
 
-3. Read `project/ICON_SIZING.md` for the two-layer architecture (renderer vs
+3. Read `project/icon-sizing.md` for the two-layer architecture (renderer vs
    helper) and how parent components control icon sizing via CSS selectors.
 
 4. Read the actual importmap-rails gem on disk for structural reference:
@@ -57,7 +57,7 @@ Architecture" section in the plan for the full rendering stack.
 - `require "kiso/icons"` must work (both the gem entry and Kiso's existing
   require statement load the same thing).
 - The renderer outputs raw SVG with `width="1em" height="1em"` — no Tailwind.
-  This was already refactored and is documented in `project/ICON_SIZING.md`.
+  This was already refactored and is documented in `project/icon-sizing.md`.
 - The CLI's `start(ARGV)` goes in the binstub, NOT in `commands.rb` — so the
   Commands class can be required by Kiso's CLI without triggering execution.
 - Run `bundle exec standardrb --fix` before committing.
@@ -612,7 +612,7 @@ kiso_icon("check", size: :md)          # Kiso helper (Tailwind)
     → Kiso::Icons::Renderer.render()   # SVG generation
 ```
 
-See `project/ICON_SIZING.md` for documentation on how parent components
+See `project/icon-sizing.md` for documentation on how parent components
 (Button, Alert, Badge) control icon sizing via CSS child selectors.
 
 ## Implementation Steps

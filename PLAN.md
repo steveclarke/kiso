@@ -7,8 +7,8 @@ new session.
 
 Read these files in order:
 1. `CLAUDE.md` — conventions, architecture, component pattern
-2. `project/COMPONENT_STRATEGY.md` — theming recipes, class_variants patterns
-3. `.claude/skills/contributing/SKILL.md` — component creation workflow
+2. `project/component-strategy.md` — theming recipes, class_variants patterns
+3. `.claude/skills/contributing/SKILL.md` — component creation workflow and checklist
 
 ## Current Status
 

@@ -113,7 +113,7 @@ Kiso::Themes::Alert = ClassVariants.build(
     color: COLORS.index_with { "" }
   },
   compound_variants: [
-    # Same formulas as Badge — see project/DESIGN_SYSTEM.md
+    # Same formulas as Badge — see project/design-system.md
   ],
   defaults: { color: :primary, variant: :soft }
 )
