@@ -1,5 +1,13 @@
 module Kiso
   module Themes
+    # Wrapper that combines an input with leading/trailing addons (icons, text, buttons).
+    #
+    # Resets the inner input's ring/shadow so the group ring applies uniformly.
+    #
+    # @example
+    #   InputGroup.render
+    #
+    # Sub-parts: {InputGroupAddon}
     InputGroup = ClassVariants.build(
       base: "relative flex w-full items-center rounded-md text-foreground " \
             "ring ring-inset ring-accented shadow-xs " \
@@ -12,6 +20,10 @@ module Kiso
       defaults: {}
     )
 
+    # Leading or trailing addon element (icon, text, button) inside an {InputGroup}.
+    #
+    # Variants:
+    # - +align+ — :start (default, left side), :end (right side)
     InputGroupAddon = ClassVariants.build(
       base: "text-muted-foreground flex items-center justify-center gap-2 py-1.5 text-sm font-medium select-none " \
             "[&_svg:not([class*='size-'])]:size-4",

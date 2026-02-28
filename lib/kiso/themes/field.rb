@@ -1,7 +1,15 @@
 module Kiso
   module Themes
-    # shadcn: group/field flex w-full gap-3 data-[invalid=true]:text-destructive
-    #         + orientation variants (vertical/horizontal/responsive)
+    # Form field wrapper that groups a label, input, description, and error message.
+    #
+    # @example
+    #   Field.render(orientation: :vertical)
+    #
+    # Variants:
+    # - +orientation+ — :vertical (default), :horizontal, :responsive
+    #
+    # Sub-parts: {FieldContent}, {FieldLabel}, {FieldTitle}, {FieldDescription},
+    # {FieldError}, {FieldSeparator}, {FieldSeparatorText}
     Field = ClassVariants.build(
       base: "group/field flex w-full gap-3 text-foreground data-[invalid=true]:text-error",
       variants: {
@@ -21,14 +29,13 @@ module Kiso
       defaults: {orientation: :vertical}
     )
 
-    # shadcn: group/field-content flex flex-1 flex-col gap-1.5 leading-snug
+    # Wrapper for the input element plus description/error text within a {Field}.
     FieldContent = ClassVariants.build(
       base: "group/field-content flex flex-1 flex-col gap-1.5 leading-snug"
     )
 
-    # shadcn: group/field-label peer/field-label flex w-fit gap-2 leading-snug
-    #         group-data-[disabled=true]/field:opacity-50
-    #         + checkbox/radio container classes (dormant until those components exist)
+    # Label container within a {Field}. Supports nested field layouts for
+    # checkbox/radio card patterns.
     FieldLabel = ClassVariants.build(
       base: "group/field-label peer/field-label flex w-fit gap-2 leading-snug " \
             "group-data-[disabled=true]/field:opacity-50 " \
@@ -37,15 +44,13 @@ module Kiso
             "[&>*[data-slot=field]]:p-4"
     )
 
-    # shadcn: flex w-fit items-center gap-2 text-sm leading-snug font-medium
-    #         group-data-[disabled=true]/field:opacity-50
+    # Title text within a {FieldLabel}.
     FieldTitle = ClassVariants.build(
       base: "flex w-fit items-center gap-2 text-sm leading-snug font-medium " \
             "group-data-[disabled=true]/field:opacity-50"
     )
 
-    # shadcn: text-muted-foreground text-sm leading-normal font-normal
-    #         + horizontal text-balance, spacing adjustments, link styling
+    # Help text below the input. Includes automatic link styling.
     FieldDescription = ClassVariants.build(
       base: "text-muted-foreground text-sm leading-normal font-normal " \
             "group-has-[[data-orientation=horizontal]]/field:text-balance " \
@@ -53,17 +58,17 @@ module Kiso
             "[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4"
     )
 
-    # shadcn: text-destructive text-sm font-normal
+    # Validation error message displayed below the input.
     FieldError = ClassVariants.build(
       base: "text-error text-sm font-normal"
     )
 
-    # shadcn: relative -my-2 h-5 text-sm
+    # Horizontal rule between fields (e.g. "or" divider).
     FieldSeparator = ClassVariants.build(
       base: "relative -my-2 h-5 text-sm"
     )
 
-    # shadcn: bg-background text-muted-foreground relative mx-auto block w-fit px-2
+    # Text label centered on the {FieldSeparator} line.
     FieldSeparatorText = ClassVariants.build(
       base: "bg-background text-muted-foreground relative mx-auto block w-fit px-2"
     )

@@ -1,8 +1,14 @@
 module Kiso
   module Themes
+    # Visual divider between content sections.
+    #
+    # @example
+    #   Separator.render(orientation: :horizontal)
+    #
+    # Variants:
+    # - +orientation+ — :horizontal (default), :vertical
+    #
     # shadcn base: bg-border shrink-0
-    # Horizontal: h-px w-full
-    # Vertical: h-full w-px
     Separator = ClassVariants.build(
       base: "bg-border shrink-0",
       variants: {

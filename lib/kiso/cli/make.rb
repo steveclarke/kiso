@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# Generates scaffolding for new Kiso components.
+#
+# Creates theme module, ERB partial, Lookbook preview, and updates
+# the require list and skill reference docs.
+#
+# @example
+#   $ bin/kiso make component alert
+#   $ bin/kiso make component toggle_group --no-colored
 class Kiso::Cli::Make < Kiso::Cli::Base
   desc "component NAME", "Generate a new Kiso component"
   long_desc <<~DESC

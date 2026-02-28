@@ -1,26 +1,17 @@
 module Kiso
   module Themes
-    # shadcn toggleVariants:
-    #   base: inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium
-    #         hover:bg-muted hover:text-muted-foreground
-    #         disabled:pointer-events-none disabled:opacity-50
-    #         data-[state=on]:bg-accent data-[state=on]:text-accent-foreground
-    #         [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0
-    #         focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]
-    #         outline-none transition-[color,box-shadow] whitespace-nowrap
-    #   variant default: bg-transparent
-    #   variant outline: border border-input bg-transparent shadow-xs
-    #                    hover:bg-accent hover:text-accent-foreground
-    #   size default: h-9 px-2 min-w-9
-    #   size sm: h-8 px-1.5 min-w-8
-    #   size lg: h-10 px-2.5 min-w-10
+    # Two-state toggle button (on/off). Uses +data-[state=on]+ for the
+    # pressed state.
     #
-    # Kiso adaptations:
-    #   - bg-accent/text-accent-foreground -> bg-muted/text-foreground (semantic tokens)
-    #   - border -> ring ring-inset ring-border (Kiso convention)
-    #   - data-[state=on] for pressed state
-    #   - text-foreground on root for dark mode
-
+    # @example
+    #   Toggle.render(variant: :default, size: :default)
+    #
+    # Variants:
+    # - +variant+ — :default, :outline
+    # - +size+ — :sm, :default, :lg
+    #
+    # See also: {ToggleGroup} for grouped toggle buttons, {ToggleGroupItem}
+    # for items within a group.
     Toggle = ClassVariants.build(
       base: "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-foreground " \
             "bg-transparent " \
@@ -45,19 +36,12 @@ module Kiso
       defaults: {variant: :default, size: :default}
     )
 
-    # ToggleGroupItem extends Toggle base with group-specific overrides.
-    # shadcn ToggleGroupItem adds:
-    #   w-auto min-w-0 shrink-0 px-3 focus:z-10 focus-visible:z-10
-    #   data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none
-    #   data-[spacing=0]:first:rounded-l-md data-[spacing=0]:last:rounded-r-md
-    #   data-[spacing=0]:data-[variant=outline]:border-l-0
-    #   data-[spacing=0]:data-[variant=outline]:first:border-l
+    # Individual item within a {ToggleGroup}. Renders flush (no gap) with
+    # rounded corners on the first and last items for a joined pill appearance.
     #
-    # Kiso: uses ring instead of border for outline variant, so the
-    # border-l-0/first:border-l rules adapt to ring-based approach.
-    # Default spacing is 0 (items flush), so joined pill appearance is
-    # applied directly: rounded-none + first/last rounding.
-
+    # Variants:
+    # - +variant+ — :default, :outline
+    # - +size+ — :sm, :default, :lg
     ToggleGroupItem = ClassVariants.build(
       base: "inline-flex items-center justify-center gap-2 text-sm font-medium text-foreground " \
             "bg-transparent min-w-0 " \

@@ -1,20 +1,23 @@
 module Kiso
   module Themes
-    # shadcn RadioGroup: grid gap-3
+    # Grid container for a set of {RadioGroupItem} elements.
+    #
+    # @example
+    #   RadioGroup.render
+    #
+    # Sub-parts: {RadioGroupItem}
     RadioGroup = ClassVariants.build(
       base: "grid gap-3"
     )
 
-    # shadcn RadioGroupItem:
-    #   border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50
-    #   aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40
-    #   aria-invalid:border-destructive dark:bg-input/30
-    #   aspect-square size-4 shrink-0 rounded-full border shadow-xs
-    #   transition-[color,box-shadow] outline-none focus-visible:ring-[3px]
-    #   disabled:cursor-not-allowed disabled:opacity-50
+    # Native +<input type="radio">+ styled with +appearance-none+ and semantic
+    # color tokens. Uses the same color compound variant pattern as {Checkbox}.
     #
-    # Kiso adaptation: native <input type="radio"> with ring instead of border,
-    # semantic tokens, and color compound variants matching Checkbox pattern.
+    # @example
+    #   RadioGroupItem.render(color: :primary)
+    #
+    # Variants:
+    # - +color+ — :primary (default), :secondary, :success, :info, :warning, :error, :neutral
     RadioGroupItem = ClassVariants.build(
       base: "appearance-none aspect-square size-4 shrink-0 rounded-full " \
             "ring ring-inset ring-accented shadow-xs " \

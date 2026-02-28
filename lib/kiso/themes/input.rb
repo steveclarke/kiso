@@ -1,5 +1,13 @@
 module Kiso
   module Themes
+    # Single-line text input field.
+    #
+    # @example
+    #   Input.render(variant: :outline, size: :md)
+    #
+    # Variants:
+    # - +variant+ — :outline (default), :soft, :ghost
+    # - +size+ — :sm, :md (default), :lg
     Input = ClassVariants.build(
       base: "text-foreground w-full min-w-0 rounded-md outline-none transition-[color,box-shadow] " \
             "placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground " \
