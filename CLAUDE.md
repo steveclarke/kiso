@@ -178,7 +178,7 @@ app/views/kiso/components/ ERB partials (rendered via kui() helper)
 app/assets/stylesheets/    Component CSS (thin — transitions/pseudo-states only)
 app/helpers/kiso/          kui(), kiso_prepare_options() helpers
 test/components/previews/  Lookbook preview classes + templates
-test/dummy/                Development Rails app (bin/dev → port 4001)
+lookbook/                  Lookbook dev app (bin/dev → port 4001)
 skills/kiso/               AI skill (component reference, theming guide)
 project/                   Architecture docs, design system, component vision docs
 docs/                      Bridgetown docs site (published documentation)
