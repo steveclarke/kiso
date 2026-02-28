@@ -64,7 +64,19 @@ module Kiso
 
     # shadcn CommandShortcut: text-muted-foreground ml-auto text-xs tracking-widest
     CommandShortcut = ClassVariants.build(
-      base: "text-muted-foreground ml-auto text-xs tracking-widest"
+      base: Shared::MENU_SHORTCUT
+    )
+
+    # shadcn CommandDialog (the <dialog> element):
+    #   bg-transparent p-0 ... max-w-lg w-full rounded-lg
+    CommandDialog = ClassVariants.build(
+      base: "bg-transparent p-0 backdrop:bg-black/50 max-w-lg w-full rounded-lg open:flex"
+    )
+
+    # shadcn CommandDialogContent (inner wrapper):
+    #   bg-popover text-popover-foreground overflow-hidden rounded-lg ... shadow-lg
+    CommandDialogContent = ClassVariants.build(
+      base: "bg-background text-foreground overflow-hidden rounded-lg ring ring-inset ring-border shadow-lg w-full"
     )
   end
 end

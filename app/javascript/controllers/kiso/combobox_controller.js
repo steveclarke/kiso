@@ -1,4 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
+import { positionBelow } from "./utils/positioning"
+import { highlightItem, wrapIndex } from "./utils/highlight"
 
 /**
  * Combobox autocomplete with keyboard navigation, filtering, and form integration.
@@ -37,13 +39,14 @@ import { Controller } from "@hotwired/stimulus"
  * @property {HTMLElement} triggerTarget - Chevron button to toggle dropdown
  * @property {HTMLElement} chipsTarget - Multi-select chip container
  * @property {HTMLElement[]} chipTargets - Individual chip elements
+ * @property {HTMLTemplateElement} chipTemplateTarget - Template for cloning new chips
  * @property {boolean} multipleValue - Enables multi-select mode when true
  *
  * @fires kiso--combobox:change - When selection changes.
  *   Detail: `{ value: string }` (single) or `{ value: string[] }` (multiple).
  */
 export default class extends Controller {
-  static targets = ["input", "content", "list", "item", "indicator", "empty", "hiddenInput", "trigger", "chips", "chip"]
+  static targets = ["input", "content", "list", "item", "indicator", "empty", "hiddenInput", "trigger", "chips", "chip", "chipTemplate"]
   static values = { multiple: { type: Boolean, default: false } }
 
   connect() {
@@ -51,7 +54,6 @@ export default class extends Controller {
     this._highlightedIndex = -1
     this._selectedValues = new Set()
     this._handleOutsideClick = this._handleOutsideClick.bind(this)
-    this._handleKeydown = this._handleKeydown.bind(this)
 
     // Initialize selected state from pre-rendered chips (multi-select)
     if (this.multipleValue && this.hasChipTarget) {
@@ -394,36 +396,23 @@ export default class extends Controller {
 
   /**
    * Creates a chip element for a selected value in multi-select mode
-   * and inserts it before the input.
+   * by cloning the server-rendered `<template>` and inserting it before the input.
    *
    * @param {string} value - The selected value
    * @param {string} text - The display text
    * @private
    */
   _createChip(value, text) {
-    if (!this.hasChipsTarget) return
+    if (!this.hasChipsTarget || !this.hasChipTemplateTarget) return
 
-    const chip = document.createElement("span")
-    chip.className = "bg-muted text-foreground flex h-5.5 w-fit items-center justify-center gap-1 rounded-sm px-1.5 text-xs font-medium whitespace-nowrap"
-    chip.setAttribute("data-slot", "combobox-chip")
-    chip.setAttribute("data-kiso--combobox-target", "chip")
-    chip.setAttribute("data-value", value)
+    const chip = this.chipTemplateTarget.content.firstElementChild.cloneNode(true)
+    chip.dataset.value = value
 
-    const textSpan = document.createElement("span")
-    textSpan.setAttribute("data-slot", "combobox-chip-text")
-    textSpan.textContent = text
+    const textEl = chip.querySelector("[data-slot='combobox-chip-text']")
+    if (textEl) textEl.textContent = text
 
-    const removeBtn = document.createElement("button")
-    removeBtn.type = "button"
-    removeBtn.className = "flex size-4 items-center justify-center rounded-sm opacity-50 hover:opacity-100"
-    removeBtn.setAttribute("data-slot", "combobox-chip-remove")
-    removeBtn.setAttribute("data-action", "click->kiso--combobox#removeChip")
-    removeBtn.setAttribute("data-value", value)
-    removeBtn.tabIndex = -1
-    removeBtn.innerHTML = '<svg class="shrink-0 size-3 pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>'
-
-    chip.appendChild(textSpan)
-    chip.appendChild(removeBtn)
+    const removeBtn = chip.querySelector("[data-slot='combobox-chip-remove']")
+    if (removeBtn) removeBtn.dataset.value = value
 
     // Insert chip before the input element
     const input = this.chipsTarget.querySelector("[data-slot='combobox-chip-input']")
@@ -520,18 +509,8 @@ export default class extends Controller {
    * @private
    */
   _highlightIndex(index) {
-    // Remove highlight from all items
-    this.itemTargets.forEach((item) => {
-      item.removeAttribute("data-highlighted")
-    })
-
     this._highlightedIndex = index
-    const items = this._visibleEnabledItems
-
-    if (index >= 0 && index < items.length) {
-      items[index].setAttribute("data-highlighted", "")
-      items[index].scrollIntoView({ block: "nearest" })
-    }
+    highlightItem(this.itemTargets, this._visibleEnabledItems, index)
   }
 
   /**
@@ -543,12 +522,7 @@ export default class extends Controller {
   _moveHighlight(direction) {
     const items = this._visibleEnabledItems
     if (items.length === 0) return
-
-    let newIndex = this._highlightedIndex + direction
-    if (newIndex < 0) newIndex = items.length - 1
-    if (newIndex >= items.length) newIndex = 0
-
-    this._highlightIndex(newIndex)
+    this._highlightIndex(wrapIndex(this._highlightedIndex, direction, items.length))
   }
 
   /**
@@ -587,19 +561,12 @@ export default class extends Controller {
   _positionContent() {
     if (!this.hasContentTarget) return
 
-    const content = this.contentTarget
-
     // Find the anchor — either the combobox-input wrapper, chips container, or the controller element
     const anchor = this.element.querySelector("[data-slot='combobox-input']") ||
       this.element.querySelector("[data-slot='combobox-chips']") ||
       this.element
 
-    const rect = anchor.getBoundingClientRect()
-
-    content.style.position = "absolute"
-    content.style.top = `${anchor.offsetTop + anchor.offsetHeight + 4}px`
-    content.style.left = `${anchor.offsetLeft}px`
-    content.style.minWidth = `${rect.width}px`
+    positionBelow(anchor, this.contentTarget)
   }
 
   /**
@@ -612,17 +579,6 @@ export default class extends Controller {
     if (!this.element.contains(event.target)) {
       this.close()
     }
-  }
-
-  /**
-   * Global keydown handler (safety net — primary handling is in inputKeydown).
-   *
-   * @param {KeyboardEvent} _event
-   * @private
-   */
-  _handleKeydown(_event) {
-    // Global keydown handler is not needed — the inputKeydown action handles all keys.
-    // This is a safety net for edge cases.
   }
 
   /** @private */

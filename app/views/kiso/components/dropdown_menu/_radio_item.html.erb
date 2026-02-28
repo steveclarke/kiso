@@ -7,13 +7,13 @@
       kiso__dropdown_menu_target: "radioItem",
       action: "click->kiso--dropdown-menu#selectRadioItem",
       value: value,
-      disabled: (disabled ? "" : nil)),
+      disabled: (disabled ? "true" : nil)),
     aria: {checked: checked, disabled: (disabled || nil)},
     **component_options do %>
-  <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
-    <% if checked %>
-      <%= kiso_component_icon(:circle, class: "size-2 fill-current") %>
-    <% end %>
+  <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"
+        data-slot="dropdown-menu-item-indicator"
+        <% unless checked %>hidden<% end %>>
+    <%= kiso_component_icon(:circle, class: "size-2 fill-current") %>
   </span>
   <%= yield %>
 <% end %>

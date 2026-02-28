@@ -56,7 +56,7 @@ module Kiso
 
     # shadcn SelectLabel: text-muted-foreground px-2 py-1.5 text-xs
     SelectLabel = ClassVariants.build(
-      base: "text-muted-foreground px-2 py-1.5 text-xs"
+      base: Shared::MENU_LABEL
     )
 
     # shadcn SelectItem:

@@ -1,4 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
+import { positionBelow } from "./utils/positioning"
+import { highlightItem, wrapIndex } from "./utils/highlight"
 
 /**
  * Dropdown menu with keyboard navigation, sub-menus, checkbox items, and radio items.
@@ -127,7 +129,7 @@ export default class extends Controller {
    */
   selectItem(event) {
     const item = event.currentTarget
-    if (item.hasAttribute("data-disabled")) return
+    if (item.dataset.disabled === "true") return
 
     this.dispatch("select", { detail: { item } })
     this.close()
@@ -140,27 +142,16 @@ export default class extends Controller {
    */
   toggleCheckboxItem(event) {
     const item = event.currentTarget
-    if (item.hasAttribute("data-disabled")) return
+    if (item.dataset.disabled === "true") return
 
     const currentChecked = item.getAttribute("aria-checked") === "true"
     const newChecked = !currentChecked
     item.setAttribute("aria-checked", newChecked)
 
-    // Toggle the check icon
-    const indicator = item.querySelector(
-      "[data-slot='dropdown-menu-checkbox-item'] > span:first-child, span.pointer-events-none"
-    )
-    // Find the indicator span (first child span)
-    const indicatorSpan = item.children[0]
-    if (indicatorSpan) {
-      if (newChecked) {
-        // Add check icon if not present
-        if (!indicatorSpan.querySelector("svg")) {
-          indicatorSpan.innerHTML = this._checkIconSvg()
-        }
-      } else {
-        indicatorSpan.innerHTML = ""
-      }
+    // Toggle the indicator visibility
+    const indicator = item.querySelector("[data-slot='dropdown-menu-item-indicator']")
+    if (indicator) {
+      indicator.hidden = !newChecked
     }
 
     this.dispatch("checkbox-change", {
@@ -176,7 +167,7 @@ export default class extends Controller {
    */
   selectRadioItem(event) {
     const item = event.currentTarget
-    if (item.hasAttribute("data-disabled")) return
+    if (item.dataset.disabled === "true") return
 
     const value = item.dataset.value
     const group = item.closest("[data-slot='dropdown-menu-radio-group']")
@@ -188,18 +179,14 @@ export default class extends Controller {
       )
       radioItems.forEach((radio) => {
         radio.setAttribute("aria-checked", "false")
-        const indicatorSpan = radio.children[0]
-        if (indicatorSpan) {
-          indicatorSpan.innerHTML = ""
-        }
+        const indicator = radio.querySelector("[data-slot='dropdown-menu-item-indicator']")
+        if (indicator) indicator.hidden = true
       })
 
       // Select the clicked item
       item.setAttribute("aria-checked", "true")
-      const indicatorSpan = item.children[0]
-      if (indicatorSpan) {
-        indicatorSpan.innerHTML = this._circleIconSvg()
-      }
+      const indicator = item.querySelector("[data-slot='dropdown-menu-item-indicator']")
+      if (indicator) indicator.hidden = false
 
       // Update group value
       group.dataset.value = value
@@ -425,7 +412,7 @@ export default class extends Controller {
           slot === "dropdown-menu-radio-item" ||
           slot === "dropdown-menu-sub-trigger"
         ) {
-          if (!child.hasAttribute("data-disabled")) {
+          if (child.dataset.disabled !== "true") {
             items.push(child)
           }
         }
@@ -448,16 +435,8 @@ export default class extends Controller {
    */
   _highlightIndex(index) {
     const allItems = this._allMenuItems(this.contentTarget)
-    allItems.forEach((item) => {
-      item.removeAttribute("data-highlighted")
-    })
-
     this._highlightedIndex = index
-
-    if (index >= 0 && index < allItems.length) {
-      allItems[index].setAttribute("data-highlighted", "")
-      allItems[index].scrollIntoView({ block: "nearest" })
-    }
+    highlightItem(allItems, allItems, index)
   }
 
   /**
@@ -467,14 +446,8 @@ export default class extends Controller {
    * @private
    */
   _positionContent() {
-    const trigger = this.triggerTarget
     const content = this.contentTarget
-    const rect = trigger.getBoundingClientRect()
-
-    content.style.position = "absolute"
-    content.style.top = `${trigger.offsetHeight + 4}px`
-    content.style.left = "0"
-    content.style.minWidth = `${rect.width}px`
+    positionBelow(this.triggerTarget, content)
 
     // Dynamic max-height based on available viewport space
     requestAnimationFrame(() => {
@@ -532,7 +505,7 @@ export default class extends Controller {
         "[data-slot='dropdown-menu-sub-trigger']"
     )
     if (!item || !this.element.contains(item)) return
-    if (item.hasAttribute("data-disabled")) return
+    if (item.dataset.disabled === "true") return
 
     this._clearAllHighlights()
     item.setAttribute("data-highlighted", "")
@@ -616,26 +589,11 @@ export default class extends Controller {
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault()
-        {
-          const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0
-          // Clear all highlights then set
-          this._clearAllHighlights()
-          if (items[nextIndex]) {
-            items[nextIndex].setAttribute("data-highlighted", "")
-            items[nextIndex].scrollIntoView({ block: "nearest" })
-          }
-        }
+        highlightItem(items, items, wrapIndex(currentIndex, 1, items.length))
         break
       case "ArrowUp":
         event.preventDefault()
-        {
-          const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1
-          this._clearAllHighlights()
-          if (items[prevIndex]) {
-            items[prevIndex].setAttribute("data-highlighted", "")
-            items[prevIndex].scrollIntoView({ block: "nearest" })
-          }
-        }
+        highlightItem(items, items, wrapIndex(currentIndex, -1, items.length))
         break
       case "ArrowRight":
         event.preventDefault()
@@ -764,23 +722,4 @@ export default class extends Controller {
     document.removeEventListener("keydown", this._handleKeydown)
   }
 
-  /**
-   * Returns the SVG markup for a checkmark icon (used in checkbox items).
-   *
-   * @returns {string} SVG HTML string
-   * @private
-   */
-  _checkIconSvg() {
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 size-4"><path d="M20 6 9 17l-5-5"/></svg>'
-  }
-
-  /**
-   * Returns the SVG markup for a filled circle icon (used in radio items).
-   *
-   * @returns {string} SVG HTML string
-   * @private
-   */
-  _circleIconSvg() {
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 size-2"><circle cx="12" cy="12" r="10"/></svg>'
-  }
 }

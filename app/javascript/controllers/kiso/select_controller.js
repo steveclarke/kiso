@@ -1,4 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
+import { positionBelow } from "./utils/positioning"
+import { highlightItem, wrapIndex } from "./utils/highlight"
 
 /**
  * Custom select dropdown with keyboard navigation and form integration.
@@ -176,18 +178,8 @@ export default class extends Controller {
    * @private
    */
   _highlightIndex(index) {
-    // Remove highlight from all items
-    this.itemTargets.forEach((item) => {
-      item.removeAttribute("data-highlighted")
-    })
-
     this._highlightedIndex = index
-    const items = this._enabledItems
-
-    if (index >= 0 && index < items.length) {
-      items[index].setAttribute("data-highlighted", "")
-      items[index].scrollIntoView({ block: "nearest" })
-    }
+    highlightItem(this.itemTargets, this._enabledItems, index)
   }
 
   /**
@@ -196,14 +188,7 @@ export default class extends Controller {
    * @private
    */
   _positionContent() {
-    const trigger = this.triggerTarget
-    const content = this.contentTarget
-    const rect = trigger.getBoundingClientRect()
-
-    content.style.position = "absolute"
-    content.style.top = `${trigger.offsetHeight + 4}px`
-    content.style.left = "0"
-    content.style.minWidth = `${rect.width}px`
+    positionBelow(this.triggerTarget, this.contentTarget)
   }
 
   /**
@@ -233,19 +218,11 @@ export default class extends Controller {
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault()
-        this._highlightIndex(
-          this._highlightedIndex < items.length - 1
-            ? this._highlightedIndex + 1
-            : 0
-        )
+        this._highlightIndex(wrapIndex(this._highlightedIndex, 1, items.length))
         break
       case "ArrowUp":
         event.preventDefault()
-        this._highlightIndex(
-          this._highlightedIndex > 0
-            ? this._highlightedIndex - 1
-            : items.length - 1
-        )
+        this._highlightIndex(wrapIndex(this._highlightedIndex, -1, items.length))
         break
       case "Enter":
       case " ":

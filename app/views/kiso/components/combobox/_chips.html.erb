@@ -5,4 +5,16 @@
       kiso__combobox_target: "chips"),
     **component_options do %>
   <%= yield %>
+  <%= tag.template data: { kiso__combobox_target: "chipTemplate" } do %>
+    <%= tag.span class: Kiso::Themes::ComboboxChip.render,
+                data: { slot: "combobox-chip", kiso__combobox_target: "chip" } do %>
+      <%= tag.span data: { slot: "combobox-chip-text" } %>
+      <%= tag.button type: "button",
+                     class: "flex size-4 items-center justify-center rounded-sm opacity-50 hover:opacity-100",
+                     tabindex: "-1",
+                     data: { slot: "combobox-chip-remove", action: "click->kiso--combobox#removeChip" } do %>
+        <%= kiso_component_icon(:x, class: "size-3 pointer-events-none") %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

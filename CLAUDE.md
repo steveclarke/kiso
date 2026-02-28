@@ -102,6 +102,11 @@ Consistency is more important than any individual improvement.
   `Kiso.config.icons[:semantic_name] = "heroicons:chevron-right"`. See
   `lib/kiso/configuration.rb` for the registry of semantic icon names.
   `kiso_icon("name")` is still used for user-specified icons in app code.
+- **Tag helpers for Stimulus data attributes** — always use `tag.*` helpers
+  with `data:` hash for inner elements that need Stimulus attributes. Rails
+  converts double underscores to double dashes:
+  `data: { kiso__combobox_target: "input" }` → `data-kiso--combobox-target`.
+  Never write raw `data-kiso--*` attributes in HTML.
 - **Never use `block_given?` in ERB partials** — Rails wraps every partial
   in a block internally, so `block_given?` is always `true` regardless of
   whether the caller passed a block. For "default content with optional

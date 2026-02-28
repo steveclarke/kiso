@@ -65,7 +65,7 @@ module Kiso
     # shadcn ComboboxLabel:
     #   text-muted-foreground px-2 py-1.5 text-xs
     ComboboxLabel = ClassVariants.build(
-      base: "text-muted-foreground px-2 py-1.5 text-xs"
+      base: Shared::MENU_LABEL
     )
 
     # shadcn ComboboxEmpty:
@@ -77,7 +77,7 @@ module Kiso
     # shadcn ComboboxSeparator:
     #   bg-border -mx-1 my-1 h-px
     ComboboxSeparator = ClassVariants.build(
-      base: "bg-border -mx-1 my-1 h-px"
+      base: Shared::ITEM_SEPARATOR
     )
 
     # shadcn ComboboxChips:

@@ -6,13 +6,13 @@
     data: kiso_prepare_options(component_options, slot: "dropdown-menu-checkbox-item",
       kiso__dropdown_menu_target: "checkboxItem",
       action: "click->kiso--dropdown-menu#toggleCheckboxItem",
-      disabled: (disabled ? "" : nil)),
+      disabled: (disabled ? "true" : nil)),
     aria: {checked: checked, disabled: (disabled || nil)},
     **component_options do %>
-  <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
-    <% if checked %>
-      <%= kiso_component_icon(:check, class: "size-4") %>
-    <% end %>
+  <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"
+        data-slot="dropdown-menu-item-indicator"
+        <% unless checked %>hidden<% end %>>
+    <%= kiso_component_icon(:check, class: "size-4") %>
   </span>
   <%= yield %>
 <% end %>
