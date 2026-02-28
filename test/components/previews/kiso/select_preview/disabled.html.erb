@@ -1,0 +1,16 @@
+<div class="text-foreground max-w-48">
+  <%= kui(:select, name: :fruit) do %>
+    <%= kui(:select, :trigger, disabled: true) do %>
+      <%= kui(:select, :value, placeholder: "Select a fruit") %>
+    <% end %>
+    <%= kui(:select, :content) do %>
+      <%= kui(:select, :group) do %>
+        <%= kui(:select, :item, value: "apple") { "Apple" } %>
+        <%= kui(:select, :item, value: "banana") { "Banana" } %>
+        <%= kui(:select, :item, value: "blueberry") { "Blueberry" } %>
+        <%= kui(:select, :item, value: "grapes", disabled: true) { "Grapes" } %>
+        <%= kui(:select, :item, value: "pineapple") { "Pineapple" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

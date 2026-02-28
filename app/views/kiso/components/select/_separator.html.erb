@@ -1,0 +1,6 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= tag.div(
+    class: Kiso::Themes::SelectSeparator.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "select-separator"),
+    role: "separator",
+    **component_options) %>

@@ -1,0 +1,22 @@
+<div class="text-foreground max-w-48">
+  <%= kui(:select, name: :food) do %>
+    <%= kui(:select, :trigger) do %>
+      <%= kui(:select, :value, placeholder: "Select a fruit") %>
+    <% end %>
+    <%= kui(:select, :content) do %>
+      <%= kui(:select, :group) do %>
+        <%= kui(:select, :label) { "Fruits" } %>
+        <%= kui(:select, :item, value: "apple") { "Apple" } %>
+        <%= kui(:select, :item, value: "banana") { "Banana" } %>
+        <%= kui(:select, :item, value: "blueberry") { "Blueberry" } %>
+      <% end %>
+      <%= kui(:select, :separator) %>
+      <%= kui(:select, :group) do %>
+        <%= kui(:select, :label) { "Vegetables" } %>
+        <%= kui(:select, :item, value: "carrot") { "Carrot" } %>
+        <%= kui(:select, :item, value: "broccoli") { "Broccoli" } %>
+        <%= kui(:select, :item, value: "spinach") { "Spinach" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

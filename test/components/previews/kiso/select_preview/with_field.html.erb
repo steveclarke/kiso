@@ -1,0 +1,37 @@
+<div class="text-foreground max-w-48 space-y-8">
+  <%# Basic select with field %>
+  <%= kui(:field) do %>
+    <%= kui(:field, :label, for: :fruit) { "Fruit" } %>
+    <%= kui(:select, name: :fruit) do %>
+      <%= kui(:select, :trigger) do %>
+        <%= kui(:select, :value, placeholder: "Select a fruit") %>
+      <% end %>
+      <%= kui(:select, :content) do %>
+        <%= kui(:select, :group) do %>
+          <%= kui(:select, :item, value: "apple") { "Apple" } %>
+          <%= kui(:select, :item, value: "banana") { "Banana" } %>
+          <%= kui(:select, :item, value: "blueberry") { "Blueberry" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= kui(:field, :description) { "Choose your favorite fruit." } %>
+  <% end %>
+
+  <%# Select with validation error %>
+  <%= kui(:field, invalid: true) do %>
+    <%= kui(:field, :label, for: :language) { "Language" } %>
+    <%= kui(:select, name: :language) do %>
+      <%= kui(:select, :trigger, "aria-invalid": true) do %>
+        <%= kui(:select, :value, placeholder: "Select a language") %>
+      <% end %>
+      <%= kui(:select, :content) do %>
+        <%= kui(:select, :group) do %>
+          <%= kui(:select, :item, value: "ruby") { "Ruby" } %>
+          <%= kui(:select, :item, value: "python") { "Python" } %>
+          <%= kui(:select, :item, value: "go") { "Go" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= kui(:field, :error, errors: ["Please select a language."]) %>
+  <% end %>
+</div>

@@ -1,0 +1,20 @@
+<%# locals: (value:, disabled: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::SelectItem.render(class: css_classes),
+    role: "option",
+    tabindex: "-1",
+    data: kiso_prepare_options(component_options, slot: "select-item",
+      kiso__select_target: "item",
+      action: "click->kiso--select#selectItem",
+      value: value,
+      disabled: (disabled ? "true" : nil)),
+    aria: {selected: false, disabled: (disabled || nil)},
+    **component_options do %>
+  <span class="<%= Kiso::Themes::SelectItemIndicator.render %>"
+        data-slot="select-item-indicator"
+        data-kiso--select-target="indicator"
+        hidden>
+    <%= kiso_component_icon(:check, class: "size-4") %>
+  </span>
+  <span data-slot="select-item-text"><%= yield %></span>
+<% end %>

@@ -1,0 +1,13 @@
+<%# locals: (size: :md, disabled: false, css_classes: "", **component_options) %>
+<% component_options[:disabled] = true if disabled %>
+<%= content_tag :button,
+    type: "button",
+    class: Kiso::Themes::SelectTrigger.render(size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "select-trigger",
+      kiso__select_target: "trigger",
+      action: "click->kiso--select#toggle keydown->kiso--select#triggerKeydown"),
+    aria: {haspopup: "listbox", expanded: false},
+    **component_options do %>
+  <%= yield %>
+  <%= kiso_component_icon(:chevron_down, class: "size-4 opacity-50") %>
+<% end %>

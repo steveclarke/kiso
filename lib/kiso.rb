@@ -25,6 +25,7 @@ require "kiso/themes/switch"
 require "kiso/themes/breadcrumb"
 require "kiso/themes/toggle"
 require "kiso/themes/toggle_group"
+require "kiso/themes/select"
 require "kiso/icons"
 
 module Kiso

@@ -1,0 +1,10 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::SelectContent.render(class: css_classes),
+    role: "listbox",
+    data: kiso_prepare_options(component_options, slot: "select-content",
+      kiso__select_target: "content"),
+    hidden: true,
+    **component_options do %>
+  <%= yield %>
+<% end %>
