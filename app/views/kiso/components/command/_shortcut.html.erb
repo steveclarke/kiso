@@ -1,0 +1,7 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::CommandShortcut.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "command-shortcut"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

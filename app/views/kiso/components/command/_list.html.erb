@@ -1,0 +1,9 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::CommandList.render(class: css_classes),
+    role: "listbox",
+    data: kiso_prepare_options(component_options, slot: "command-list",
+      kiso__command_target: "list"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

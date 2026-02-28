@@ -38,6 +38,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | Component | Key locals | Reference |
 |---|---|---|
 | `breadcrumb` | 7 sub-parts: list, item, link, page, separator, ellipsis | [breadcrumb.md](components/breadcrumb.md) |
+| `command` | 8 sub-parts: input, list, empty, group, item, separator, shortcut, dialog. Stimulus: `kiso--command`, `kiso--command-dialog` | [command.md](components/command.md) |
 
 ## Element
 

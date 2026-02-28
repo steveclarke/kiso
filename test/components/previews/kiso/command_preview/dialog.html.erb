@@ -1,0 +1,48 @@
+<div class="text-foreground">
+  <p class="text-muted-foreground text-sm">
+    Press
+    <kbd class="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border border-border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
+      <span class="text-xs">⌘</span>K
+    </kbd>
+  </p>
+  <%= kui(:command, :dialog) do %>
+    <%= kui(:command) do %>
+      <%= kui(:command, :input, placeholder: "Type a command or search...") %>
+      <%= kui(:command, :list) do %>
+        <%= kui(:command, :empty) { "No results found." } %>
+        <%= kui(:command, :group, heading: "Suggestions") do %>
+          <%= kui(:command, :item, value: "calendar") do %>
+            <%= kiso_icon("calendar") %>
+            <span>Calendar</span>
+          <% end %>
+          <%= kui(:command, :item, value: "search-emoji") do %>
+            <%= kiso_icon("smile") %>
+            <span>Search Emoji</span>
+          <% end %>
+          <%= kui(:command, :item, value: "calculator") do %>
+            <%= kiso_icon("calculator") %>
+            <span>Calculator</span>
+          <% end %>
+        <% end %>
+        <%= kui(:command, :separator) %>
+        <%= kui(:command, :group, heading: "Settings") do %>
+          <%= kui(:command, :item, value: "profile") do %>
+            <%= kiso_icon("user") %>
+            <span>Profile</span>
+            <%= kui(:command, :shortcut) { "⌘P" } %>
+          <% end %>
+          <%= kui(:command, :item, value: "billing") do %>
+            <%= kiso_icon("credit-card") %>
+            <span>Billing</span>
+            <%= kui(:command, :shortcut) { "⌘B" } %>
+          <% end %>
+          <%= kui(:command, :item, value: "settings") do %>
+            <%= kiso_icon("settings") %>
+            <span>Settings</span>
+            <%= kui(:command, :shortcut) { "⌘S" } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

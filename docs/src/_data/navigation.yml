@@ -37,6 +37,8 @@ docs:
         href: /components/button
       - title: Card
         href: /components/card
+      - title: Command
+        href: /components/command
       - title: Empty
         href: /components/empty
       - title: Pagination

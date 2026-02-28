@@ -1,0 +1,25 @@
+<div class="text-foreground">
+  <%= kui(:command, css_classes: "max-w-sm rounded-lg ring ring-inset ring-border") do %>
+    <%= kui(:command, :input, placeholder: "Type a command or search...") %>
+    <%= kui(:command, :list) do %>
+      <%= kui(:command, :empty) { "No results found." } %>
+      <%= kui(:command, :group, heading: "Settings") do %>
+        <%= kui(:command, :item, value: "profile") do %>
+          <%= kiso_icon("user") %>
+          <span>Profile</span>
+          <%= kui(:command, :shortcut) { "⌘P" } %>
+        <% end %>
+        <%= kui(:command, :item, value: "billing") do %>
+          <%= kiso_icon("credit-card") %>
+          <span>Billing</span>
+          <%= kui(:command, :shortcut) { "⌘B" } %>
+        <% end %>
+        <%= kui(:command, :item, value: "settings") do %>
+          <%= kiso_icon("settings") %>
+          <span>Settings</span>
+          <%= kui(:command, :shortcut) { "⌘S" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
