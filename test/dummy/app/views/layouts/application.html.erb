@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Kiso Dummy</title>
+    <title><%= content_for(:title).presence || "Kiso Dummy" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
-  <body>
+  <body class="bg-background text-foreground antialiased">
     <%= yield %>
   </body>
 </html>

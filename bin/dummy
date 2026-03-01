@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+################################################################################
+# bin/dummy — Start the test/dummy Rails app
+################################################################################
+#
+# USAGE
+#   bin/dummy                  Start on port 3000 (daemonized)
+#   bin/dummy -f               Start in foreground
+#   bin/dummy stop             Stop the running instance
+#   DUMMY_PORT=3001 bin/dummy  Start on a custom port
+#
+################################################################################
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DUMMY_DIR="${SCRIPT_DIR}/../test/dummy"
+SOCKET="${DUMMY_DIR}/tmp/overmind.sock"
+PROCFILE="${DUMMY_DIR}/Procfile.dev"
+PORT="${DUMMY_PORT:-5000}"
+
+require_overmind() {
+  command -v overmind > /dev/null 2>&1 \
+    || { echo "Error: overmind is not installed." >&2; exit 1; }
+}
+
+is_running() {
+  [ -e "$SOCKET" ] && overmind status -s "$SOCKET" > /dev/null 2>&1
+}
+
+main() {
+  require_overmind
+  mkdir -p "${DUMMY_DIR}/tmp"
+
+  case "${1:-start}" in
+    start)
+      if is_running; then
+        echo "Dummy app is already running."
+        overmind status -s "$SOCKET"
+        echo ""
+        echo "  Dummy app → http://localhost:${PORT}"
+        return
+      fi
+      echo "Starting dummy app..."
+      cd "$DUMMY_DIR"
+      overmind start -f "$PROCFILE" -D -s "$SOCKET"
+      sleep 1
+      overmind status -s "$SOCKET"
+      echo ""
+      echo "  Dummy app → http://localhost:${PORT}"
+      ;;
+    -f)
+      cd "$DUMMY_DIR"
+      exec overmind start -f "$PROCFILE" -s "$SOCKET"
+      ;;
+    stop)
+      if ! is_running; then
+        [ -e "$SOCKET" ] && rm -f "$SOCKET"
+        echo "Dummy app is not running."
+        return
+      fi
+      overmind quit -s "$SOCKET" 2>/dev/null || rm -f "$SOCKET"
+      echo "Dummy app stopped."
+      ;;
+    *)
+      echo "Usage: bin/dummy [start|-f|stop]"
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"

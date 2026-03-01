@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   if defined?(Lookbook)
     mount Lookbook::Engine, at: "/lookbook"
   end
+
+  root "pages#home"
 end
