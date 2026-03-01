@@ -1,0 +1,49 @@
+<%# Dashboard with sidebar closed — shows the collapsed state %>
+<div class="w-full overflow-hidden rounded-lg border border-border" style="height: 480px;">
+  <%= kui(:dashboard_group, sidebar_open: false) do %>
+    <%= kui(:dashboard_navbar) do %>
+      <%= kui(:dashboard_navbar, :toggle) %>
+      <span class="text-sm font-semibold text-foreground">Dashboard</span>
+      <div class="ml-auto flex items-center gap-2">
+        <button class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
+          SC
+        </button>
+      </div>
+    <% end %>
+
+    <%= kui(:dashboard_sidebar) do %>
+      <div class="flex items-center gap-2.5 px-4 shrink-0 border-b border-[--sidebar-border]"
+           style="height: var(--topbar-height)">
+        <span class="font-semibold text-sm text-[--sidebar-foreground] truncate">Kiso App</span>
+      </div>
+      <div class="flex-1 py-3 px-2 space-y-1">
+        <a href="#" data-slot="nav-item"
+           class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium
+                  text-[--sidebar-foreground] bg-[--sidebar-accent] text-primary">
+          <span class="truncate">Dashboard</span>
+        </a>
+      </div>
+    <% end %>
+
+    <%= kui(:dashboard_panel) do %>
+      <div class="p-6 space-y-4">
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">Overview</h1>
+          <p class="text-muted-foreground text-sm mt-0.5">Sidebar is collapsed.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <%= kui(:stats_card) do %>
+            <%= kui(:stats_card, :header) { kui(:stats_card, :label) { "Revenue" } } %>
+            <%= kui(:stats_card, :value) { "$47,821" } %>
+            <%= kui(:stats_card, :description) { "↑ 12.5% from last month" } %>
+          <% end %>
+          <%= kui(:stats_card) do %>
+            <%= kui(:stats_card, :header) { kui(:stats_card, :label) { "Users" } } %>
+            <%= kui(:stats_card, :value) { "2,847" } %>
+            <%= kui(:stats_card, :description) { "↑ 8.2% from last month" } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

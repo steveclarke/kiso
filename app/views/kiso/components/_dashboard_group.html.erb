@@ -1,0 +1,12 @@
+<%# locals: (sidebar_open: true, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::DashboardGroup.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "dashboard-group",
+                               controller: "kiso--sidebar",
+                               sidebar_open: sidebar_open) do %>
+  <%= yield %>
+  <div data-slot="dashboard-scrim"
+       data-kiso--sidebar-target="scrim"
+       data-action="click->kiso--sidebar#closeOnMobile"
+       aria-hidden="true"></div>
+<% end %>

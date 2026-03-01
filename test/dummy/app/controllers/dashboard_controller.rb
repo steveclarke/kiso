@@ -1,7 +1,8 @@
 class DashboardController < ApplicationController
-  include Kiso::DashboardConcern
+  layout "dashboard"
 
-  layout "kiso/dashboard"
+  before_action { @sidebar_open = cookies[:sidebar_open] != "false" }
+  before_action { @dark_mode = cookies[:theme] == "dark" }
 
   def index
   end

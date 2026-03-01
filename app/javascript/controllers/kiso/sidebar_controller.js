@@ -4,7 +4,7 @@ import { Controller } from "@hotwired/stimulus"
  * Kiso sidebar toggle controller.
  *
  * Manages the dashboard sidebar open/closed state via a single
- * `data-sidebar-open` attribute on the body element. CSS cascade
+ * `data-sidebar-open` attribute on the controller element. CSS cascade
  * handles all visual changes — this controller only manages the
  * boolean attribute and persists the preference to a cookie for
  * FOUC-free server-side restoration on the next page load.
@@ -12,27 +12,28 @@ import { Controller } from "@hotwired/stimulus"
  * Register as `kiso--sidebar` (the engine index does this automatically).
  *
  * @example
- * <body data-controller="kiso--sidebar" data-sidebar-open="true">
- *   <button data-kiso--sidebar-target="trigger"
- *           data-action="click->kiso--sidebar#toggle"
- *           aria-expanded="true"
- *           aria-controls="sidebar-panel">
- *     Toggle sidebar
- *   </button>
- *   <aside class="sidebar-rail" id="sidebar-panel">
- *     <nav class="sidebar-nav">
+ * <div data-slot="dashboard-group"
+ *      data-controller="kiso--sidebar"
+ *      data-sidebar-open="true">
+ *   <header data-slot="dashboard-navbar">
+ *     <button data-kiso--sidebar-target="trigger"
+ *             data-action="click->kiso--sidebar#toggle"
+ *             aria-expanded="true"
+ *             aria-controls="dashboard-sidebar">
+ *       <!-- hamburger icon -->
+ *     </button>
+ *   </header>
+ *   <aside data-slot="dashboard-sidebar" id="dashboard-sidebar">
+ *     <div data-slot="dashboard-sidebar-inner">
  *       <!-- sidebar content -->
- *       <button data-action="click->kiso--sidebar#toggle"
- *               class="md:hidden"
- *               aria-label="Close sidebar">
- *         <!-- X icon -->
- *       </button>
- *     </nav>
+ *     </div>
  *   </aside>
- *   <div class="sidebar-scrim"
+ *   <main data-slot="dashboard-panel"><!-- page content --></main>
+ *   <div data-slot="dashboard-scrim"
  *        data-kiso--sidebar-target="scrim"
- *        data-action="click->kiso--sidebar#closeOnMobile"></div>
- * </body>
+ *        data-action="click->kiso--sidebar#closeOnMobile"
+ *        aria-hidden="true"></div>
+ * </div>
  *
  * @property {Element} triggerTarget - The topbar toggle button
  * @property {Element} scrimTarget   - The mobile overlay scrim

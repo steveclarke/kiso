@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" class="<%= "dark" if @dark_mode %>">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <title><%= content_for(:title).presence || "Dashboard" %></title>
+    <%= stylesheet_link_tag "tailwind", data: { turbo_track: "reload" } %>
+    <%= javascript_importmap_tags %>
+    <%= yield :head %>
+  </head>
+
+  <body>
+    <%= kui(:dashboard_group, sidebar_open: @sidebar_open) do %>
+      <%= kui(:dashboard_navbar) do %>
+        <%= kui(:dashboard_navbar, :toggle) %>
+        <%= yield :topbar %>
+      <% end %>
+
+      <%= kui(:dashboard_sidebar) do %>
+        <%= yield :sidebar %>
+      <% end %>
+
+      <%= kui(:dashboard_panel) do %>
+        <%= yield %>
+      <% end %>
+    <% end %>
+  </body>
+</html>

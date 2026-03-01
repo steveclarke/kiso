@@ -43,41 +43,61 @@
 /* ── Layout mechanics ─────────────────────────────────────────────────────── */
 
 @layer components {
-  /* Drive --sidebar-current-width from body attribute set by sidebar controller */
-  body[data-sidebar-open="true"]  { --sidebar-current-width: var(--sidebar-width); }
-  body[data-sidebar-open="false"] { --sidebar-current-width: 0rem; }
+  /* Drive --sidebar-current-width from the data attribute set by sidebar controller */
+  [data-sidebar-open="true"]  { --sidebar-current-width: var(--sidebar-width); }
+  [data-sidebar-open="false"] { --sidebar-current-width: 0rem; }
+
+  /* Flat 2×2 grid: topbar row + sidebar/panel row */
+  [data-slot="dashboard-group"] {
+    grid-template-rows: var(--topbar-height) 1fr;
+    grid-template-columns: var(--sidebar-current-width) 1fr;
+    transition: grid-template-columns var(--sidebar-duration) var(--ease-out-expo);
+  }
+
+  /* Topbar spans both columns */
+  [data-slot="dashboard-navbar"] {
+    grid-column: 1 / -1;
+  }
 
   /*
-    Sidebar rail: the clipping element.
-    Width transitions on desktop; switches to position:fixed overlay on mobile.
+    Sidebar: clips the always-full-width inner nav.
     background-color and border-right-color are set here (not via Tailwind
     arbitrary classes) because bg-[--css-var] classes don't generate reliably.
   */
-  .sidebar-rail {
+  [data-slot="dashboard-sidebar"] {
     overflow: hidden;
-    width: var(--sidebar-current-width);
-    transition: width var(--sidebar-duration) var(--ease-out-expo);
     background-color: var(--sidebar-background);
     border-right-color: var(--sidebar-border);
   }
 
-  /* Inner nav: always full sidebar-width so content never squashes on close */
-  .sidebar-nav {
+  /* Inner nav: always sidebar-width, scrolls independently */
+  [data-slot="dashboard-sidebar-inner"] {
     width: var(--sidebar-width);
     height: 100%;
     overflow-y: auto;
     overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* Scrim: hidden on desktop, shown on mobile when sidebar is open */
-  .sidebar-scrim {
-    display: none;
+  /* Panel: row 2, col 2 */
+  [data-slot="dashboard-panel"] {
+    grid-column: 2;
+    grid-row: 2;
   }
+
+  /* Scrim: hidden on desktop */
+  [data-slot="dashboard-scrim"] { display: none; }
 
   /* ── Mobile: sidebar becomes a fixed full-width overlay ───────────────── */
   @media (max-width: 767px) {
-    /* Rail switches from grid column to fixed overlay */
-    .sidebar-rail {
+    /* Collapse sidebar column to 0 on mobile */
+    [data-slot="dashboard-group"] {
+      grid-template-columns: 0 1fr;
+    }
+
+    /* Sidebar switches from grid column to fixed overlay */
+    [data-slot="dashboard-sidebar"] {
       position: fixed;
       inset-block: 0;
       inset-inline-start: 0;
@@ -87,22 +107,22 @@
       transition: transform var(--sidebar-duration) var(--ease-out-expo);
     }
 
-    body[data-sidebar-open="true"] .sidebar-rail {
+    [data-sidebar-open="true"] [data-slot="dashboard-sidebar"] {
       transform: translateX(0);
     }
 
-    /* Nav fills the full-width rail on mobile */
-    .sidebar-nav {
+    /* Inner nav fills the full-width sidebar on mobile */
+    [data-slot="dashboard-sidebar-inner"] {
       width: 100dvw;
     }
 
-    /* Content grid: sidebar track is 0 on mobile — content fills viewport */
-    .content-grid {
-      grid-template-columns: 0 1fr;
+    /* Panel explicitly in col 2 — stays full-width when sidebar is position:fixed */
+    [data-slot="dashboard-panel"] {
+      grid-column: 2;
     }
 
     /* Scrim: appears behind the sidebar overlay on mobile */
-    body[data-sidebar-open="true"] .sidebar-scrim {
+    [data-sidebar-open="true"] [data-slot="dashboard-scrim"] {
       display: block;
       position: fixed;
       inset: 0;
