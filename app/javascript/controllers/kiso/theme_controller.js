@@ -1,16 +1,21 @@
 import { Controller } from "@hotwired/stimulus"
 
 /**
- * Dark mode toggle controller.
+ * Kiso theme toggle controller.
  *
  * Toggles the `.dark` class on `<html>` and persists the preference
  * to both `localStorage` and a cookie. The cookie enables server-side
- * FOUC prevention — the server reads it and renders `<html class="dark">`
- * before JavaScript runs, so the correct theme is painted immediately.
+ * FOUC prevention — include `Kiso::DashboardConcern` in your controller
+ * to read it and render `<html class="dark">` before JavaScript runs,
+ * so the correct theme is painted on the first frame.
+ *
+ * Register as `kiso--theme` (the engine index does this automatically).
  *
  * @example
- * <button data-controller="theme" data-action="click->theme#toggle">
- *   Toggle dark mode
+ * <button data-controller="kiso--theme"
+ *         data-action="click->kiso--theme#toggle"
+ *         aria-label="Toggle dark mode">
+ *   <!-- sun / moon icon -->
  * </button>
  */
 export default class extends Controller {

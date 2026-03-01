@@ -20,6 +20,13 @@
   </div>
 <% end %>
 
+<%# ── Topbar end — avatar goes rightmost, after theme toggle ──────────────── %>
+<% content_for :topbar_end do %>
+  <button aria-label="Account menu" class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
+    SC
+  </button>
+<% end %>
+
 <%# ── Main content ─────────────────────────────────────────────────────────── %>
 <div class="p-6 space-y-6">
 

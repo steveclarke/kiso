@@ -1,0 +1,113 @@
+/* ── Kiso Dashboard Layout ────────────────────────────────────────────────────
+   Tokens and mechanics for the full-screen sidebar + topbar dashboard shell.
+   Import this file in your application CSS after engine.css to opt in.
+
+   Host apps can override any token in their own @theme block:
+     @theme { --sidebar-width: 18rem; }
+ */
+
+/* ── Tokens ──────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Sidebar geometry */
+  --sidebar-width:             16rem;
+
+  /* Layout heights */
+  --topbar-height:             3.5rem;
+
+  /* Sidebar surface tokens (light mode defaults) */
+  --sidebar-background:        var(--color-white);
+  --sidebar-foreground:        var(--color-zinc-900);
+  --sidebar-border:            var(--color-zinc-200);
+  --sidebar-accent:            var(--color-zinc-100);
+  --sidebar-accent-foreground: var(--color-zinc-700);
+
+  /* Animation */
+  --sidebar-duration:          220ms;
+  --ease-out-expo:             cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Z-index stack */
+  --z-topbar:  30;
+  --z-sidebar: 40;
+}
+
+/* Dark mode sidebar token overrides */
+.dark {
+  --sidebar-background:        var(--color-zinc-950);
+  --sidebar-foreground:        var(--color-zinc-100);
+  --sidebar-border:            var(--color-zinc-800);
+  --sidebar-accent:            var(--color-zinc-800);
+  --sidebar-accent-foreground: var(--color-zinc-300);
+}
+
+/* ── Layout mechanics ─────────────────────────────────────────────────────── */
+
+@layer components {
+  /* Drive --sidebar-current-width from body attribute set by sidebar controller */
+  body[data-sidebar-open="true"]  { --sidebar-current-width: var(--sidebar-width); }
+  body[data-sidebar-open="false"] { --sidebar-current-width: 0rem; }
+
+  /*
+    Sidebar rail: the clipping element.
+    Width transitions on desktop; switches to position:fixed overlay on mobile.
+    background-color and border-right-color are set here (not via Tailwind
+    arbitrary classes) because bg-[--css-var] classes don't generate reliably.
+  */
+  .sidebar-rail {
+    overflow: hidden;
+    width: var(--sidebar-current-width);
+    transition: width var(--sidebar-duration) var(--ease-out-expo);
+    background-color: var(--sidebar-background);
+    border-right-color: var(--sidebar-border);
+  }
+
+  /* Inner nav: always full sidebar-width so content never squashes on close */
+  .sidebar-nav {
+    width: var(--sidebar-width);
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Scrim: hidden on desktop, shown on mobile when sidebar is open */
+  .sidebar-scrim {
+    display: none;
+  }
+
+  /* ── Mobile: sidebar becomes a fixed full-width overlay ───────────────── */
+  @media (max-width: 767px) {
+    /* Rail switches from grid column to fixed overlay */
+    .sidebar-rail {
+      position: fixed;
+      inset-block: 0;
+      inset-inline-start: 0;
+      z-index: var(--z-sidebar);
+      width: 100dvw;
+      transform: translateX(-100dvw);
+      transition: transform var(--sidebar-duration) var(--ease-out-expo);
+    }
+
+    body[data-sidebar-open="true"] .sidebar-rail {
+      transform: translateX(0);
+    }
+
+    /* Nav fills the full-width rail on mobile */
+    .sidebar-nav {
+      width: 100dvw;
+    }
+
+    /* Content grid: sidebar track is 0 on mobile — content fills viewport */
+    .content-grid {
+      grid-template-columns: 0 1fr;
+    }
+
+    /* Scrim: appears behind the sidebar overlay on mobile */
+    body[data-sidebar-open="true"] .sidebar-scrim {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: calc(var(--z-sidebar) - 1);
+      background: oklch(0% 0 0 / 40%);
+    }
+  }
+}

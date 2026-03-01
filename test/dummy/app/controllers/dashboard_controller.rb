@@ -1,5 +1,7 @@
 class DashboardController < ApplicationController
-  layout "dashboard"
+  include Kiso::DashboardConcern
+
+  layout "kiso/dashboard"
 
   def index
   end

@@ -13,26 +13,28 @@
 
   <%#
     The <body> is the sidebar state machine.
-    data-controller="sidebar" attaches the Stimulus controller.
+    data-controller="kiso--sidebar" attaches the Stimulus controller.
     data-sidebar-open is set by the server from a cookie — zero FOUC.
-    CSS reads this attribute to drive --sidebar-current-width and mobile overlay.
+    CSS reads this attribute to drive --sidebar-current-width and the
+    mobile overlay via .sidebar-rail, .sidebar-nav, .sidebar-scrim rules.
   %>
   <body class="grid grid-rows-[var(--topbar-height)_1fr] h-dvh overflow-hidden bg-background text-foreground antialiased"
-        data-controller="sidebar"
+        data-controller="kiso--sidebar"
         data-sidebar-open="<%= @sidebar_open %>">
 
     <%#
       Topbar: spans both grid columns (col-span-full).
       Fixed height via --topbar-height. Sits in row 1.
+      Views fill :topbar with breadcrumbs, page title, and action buttons.
     %>
     <header class="col-span-full flex items-center gap-3 px-4 border-b border-border bg-background shrink-0 z-[--z-topbar]">
 
       <%# Sidebar toggle button %>
-      <button data-sidebar-target="trigger"
-              data-action="click->sidebar#toggle"
+      <button data-kiso--sidebar-target="trigger"
+              data-action="click->kiso--sidebar#toggle"
               aria-label="Toggle sidebar"
               aria-expanded="<%= @sidebar_open %>"
-              aria-controls="sidebar-panel"
+              aria-controls="kiso-sidebar-panel"
               class="flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="4" x2="20" y1="12" y2="12"/>
@@ -45,8 +47,8 @@
       <%= yield :topbar %>
 
       <%# Theme toggle — always in topbar, right side %>
-      <button data-controller="theme"
-              data-action="click->theme#toggle"
+      <button data-controller="kiso--theme"
+              data-action="click->kiso--theme#toggle"
               aria-label="Toggle dark mode"
               class="flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -54,10 +56,8 @@
         </svg>
       </button>
 
-      <%# User avatar — always rightmost %>
-      <button aria-label="Account menu" class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
-        SC
-      </button>
+      <%# Views fill this slot with a user avatar, account menu, etc. %>
+      <%= yield :topbar_end %>
     </header>
 
     <%#
@@ -72,13 +72,13 @@
         Desktop: width transitions via --sidebar-current-width.
         Mobile: position:fixed, transform-based slide (CSS handles both).
       %>
-      <aside id="sidebar-panel"
+      <aside id="kiso-sidebar-panel"
              class="sidebar-rail border-r border-[--sidebar-border] bg-[--sidebar-background]"
              aria-label="Sidebar navigation">
 
         <%#
           Inner nav: always var(--sidebar-width) wide — never squashes.
-          The rail clips it. This prevents text from compressing on close.
+          The rail clips it. Scrolls independently.
         %>
         <nav class="sidebar-nav flex flex-col">
           <%= yield :sidebar %>
@@ -87,9 +87,12 @@
 
       <%#
         Main content: min-w-0 prevents 1fr column overflow.
+        col-start-2 is critical on mobile: when .sidebar-rail switches to
+        position:fixed (out of grid flow), auto-placement would put main
+        into the 0-width column 1 without this explicit placement.
         overflow-y-auto is the page scroll container.
       %>
-      <main class="col-start-2 min-w-0 overflow-y-auto bg-background" id="main-content">
+      <main class="col-start-2 min-w-0 overflow-y-auto bg-background" id="kiso-main-content">
         <%= yield %>
       </main>
 
@@ -98,8 +101,8 @@
         Hidden on desktop via CSS. Appears on mobile when sidebar is open.
       %>
       <div class="sidebar-scrim"
-           data-sidebar-target="scrim"
-           data-action="click->sidebar#closeOnMobile"
+           data-kiso--sidebar-target="scrim"
+           data-action="click->kiso--sidebar#closeOnMobile"
            aria-hidden="true"></div>
     </div>
   </body>

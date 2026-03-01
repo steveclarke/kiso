@@ -1,29 +1,41 @@
 import { Controller } from "@hotwired/stimulus"
 
 /**
- * Sidebar toggle controller.
+ * Kiso sidebar toggle controller.
  *
  * Manages the dashboard sidebar open/closed state via a single
  * `data-sidebar-open` attribute on the body element. CSS cascade
  * handles all visual changes — this controller only manages the
  * boolean attribute and persists the preference to a cookie for
- * FOUC-free server-side restoration on the next Turbo navigation.
+ * FOUC-free server-side restoration on the next page load.
+ *
+ * Register as `kiso--sidebar` (the engine index does this automatically).
  *
  * @example
- * <body data-controller="sidebar" data-sidebar-open="true">
- *   <button data-sidebar-target="trigger"
- *           data-action="click->sidebar#toggle"
- *           aria-expanded="true">
- *     Toggle
+ * <body data-controller="kiso--sidebar" data-sidebar-open="true">
+ *   <button data-kiso--sidebar-target="trigger"
+ *           data-action="click->kiso--sidebar#toggle"
+ *           aria-expanded="true"
+ *           aria-controls="sidebar-panel">
+ *     Toggle sidebar
  *   </button>
- *   <aside class="sidebar-rail">...</aside>
+ *   <aside class="sidebar-rail" id="sidebar-panel">
+ *     <nav class="sidebar-nav">
+ *       <!-- sidebar content -->
+ *       <button data-action="click->kiso--sidebar#toggle"
+ *               class="md:hidden"
+ *               aria-label="Close sidebar">
+ *         <!-- X icon -->
+ *       </button>
+ *     </nav>
+ *   </aside>
  *   <div class="sidebar-scrim"
- *        data-sidebar-target="scrim"
- *        data-action="click->sidebar#closeOnMobile"></div>
+ *        data-kiso--sidebar-target="scrim"
+ *        data-action="click->kiso--sidebar#closeOnMobile"></div>
  * </body>
  *
- * @property {Element} triggerTarget - The toggle button element
- * @property {Element} scrimTarget   - The mobile overlay scrim element
+ * @property {Element} triggerTarget - The topbar toggle button
+ * @property {Element} scrimTarget   - The mobile overlay scrim
  */
 export default class extends Controller {
   static targets = ["trigger", "scrim"]
@@ -31,9 +43,9 @@ export default class extends Controller {
   /**
    * Toggles the sidebar open/closed state.
    *
-   * Flips `data-sidebar-open` on the controller element, updates
-   * `aria-expanded` on the trigger target, and writes the new state
-   * to a one-year cookie for server-side FOUC prevention.
+   * Flips `data-sidebar-open` on the controller element, syncs
+   * `aria-expanded` on the trigger target, and persists the new
+   * state to a one-year cookie for FOUC-free server-side restoration.
    */
   toggle() {
     const isOpen = this.element.dataset.sidebarOpen !== "false"
