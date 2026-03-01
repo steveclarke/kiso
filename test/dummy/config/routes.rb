@@ -5,5 +5,7 @@ Rails.application.routes.draw do
     mount Lookbook::Engine, at: "/lookbook"
   end
 
-  root "pages#home"
+  get "dashboard", to: "dashboard#index"
+
+  root "dashboard#index"
 end

@@ -1,0 +1,161 @@
+<% content_for :title, "Dashboard" %>
+
+<%# ── Sidebar ──────────────────────────────────────────────────────────────── %>
+<% content_for :sidebar do %>
+  <%= render "shared/sidebar_nav" %>
+<% end %>
+
+<%# ── Topbar ───────────────────────────────────────────────────────────────── %>
+<% content_for :topbar do %>
+  <%= kui(:breadcrumb) do %>
+    <%= kui(:breadcrumb, :list) do %>
+      <%= kui(:breadcrumb, :item) do %>
+        <%= kui(:breadcrumb, :link, href: "/") { "Home" } %>
+      <% end %>
+      <%= kui(:breadcrumb, :separator) %>
+      <%= kui(:breadcrumb, :item) do %>
+        <%= kui(:breadcrumb, :page) { "Dashboard" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <div class="ml-auto flex items-center gap-2">
+    <%= kui(:button, variant: :outline, size: :sm) { "Export" } %>
+    <%= kui(:button, variant: :solid, size: :sm) { "New Report" } %>
+  </div>
+<% end %>
+
+<%# ── Main content ─────────────────────────────────────────────────────────── %>
+<div class="p-6 space-y-6">
+
+  <%# Page header %>
+  <div>
+    <h1 class="text-2xl font-bold tracking-tight">Overview</h1>
+    <p class="text-muted-foreground text-sm mt-0.5">Track your key metrics and team performance.</p>
+  </div>
+
+  <%# Stats row %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <%= kui(:stats_card) do %>
+      <%= kui(:stats_card, :header) do %>
+        <%= kui(:stats_card, :label) { "Total Revenue" } %>
+      <% end %>
+      <%= kui(:stats_card, :value) { "$47,821" } %>
+      <%= kui(:stats_card, :description) { "↑ 12.5% from last month" } %>
+    <% end %>
+
+    <%= kui(:stats_card) do %>
+      <%= kui(:stats_card, :header) do %>
+        <%= kui(:stats_card, :label) { "Active Users" } %>
+      <% end %>
+      <%= kui(:stats_card, :value) { "2,847" } %>
+      <%= kui(:stats_card, :description) { "↑ 8.2% from last month" } %>
+    <% end %>
+
+    <%= kui(:stats_card) do %>
+      <%= kui(:stats_card, :header) do %>
+        <%= kui(:stats_card, :label) { "New Signups" } %>
+      <% end %>
+      <%= kui(:stats_card, :value) { "342" } %>
+      <%= kui(:stats_card, :description) { "↑ 23.1% this week" } %>
+    <% end %>
+
+    <%= kui(:stats_card) do %>
+      <%= kui(:stats_card, :header) do %>
+        <%= kui(:stats_card, :label) { "Churn Rate" } %>
+      <% end %>
+      <%= kui(:stats_card, :value) { "2.1%" } %>
+      <%= kui(:stats_card, :description) { "↓ 0.3% from last month" } %>
+    <% end %>
+  </div>
+
+  <%# Two-column layout %>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <%# Recent subscriptions table (2/3 width) %>
+    <%= kui(:card, css_classes: "lg:col-span-2") do %>
+      <%= kui(:card, :header) do %>
+        <%= kui(:card, :title) { "Recent Subscriptions" } %>
+        <%= kui(:card, :description) { "Your latest customer activity." } %>
+        <%= kui(:card, :action) do %>
+          <%= kui(:button, variant: :ghost, size: :sm) { "View all" } %>
+        <% end %>
+      <% end %>
+      <%= kui(:card, :content) do %>
+        <%
+          orders = [
+            { customer: "Acme Corp",      plan: "Enterprise", amount: "$599/mo", status: "Active",    color: :success },
+            { customer: "Globex Inc",     plan: "Pro",        amount: "$99/mo",  status: "Active",    color: :success },
+            { customer: "Initech",        plan: "Starter",    amount: "$29/mo",  status: "Trial",     color: :info    },
+            { customer: "Umbrella LLC",   plan: "Pro",        amount: "$99/mo",  status: "Paused",    color: :warning },
+            { customer: "Hooli",          plan: "Enterprise", amount: "$599/mo", status: "Active",    color: :success },
+            { customer: "Pied Piper",     plan: "Starter",    amount: "$29/mo",  status: "Cancelled", color: :error   },
+            { customer: "Dunder Mifflin", plan: "Pro",        amount: "$99/mo",  status: "Active",    color: :success },
+          ]
+        %>
+        <%= kui(:table) do %>
+          <%= kui(:table, :header) do %>
+            <%= kui(:table, :row) do %>
+              <%= kui(:table, :head) { "Customer" } %>
+              <%= kui(:table, :head) { "Plan" } %>
+              <%= kui(:table, :head) { "Amount" } %>
+              <%= kui(:table, :head) { "Status" } %>
+            <% end %>
+          <% end %>
+          <%= kui(:table, :body) do %>
+            <% orders.each do |o| %>
+              <%= kui(:table, :row) do %>
+                <%= kui(:table, :cell, css_classes: "font-medium") { o[:customer] } %>
+                <%= kui(:table, :cell) { o[:plan] } %>
+                <%= kui(:table, :cell, css_classes: "tabular-nums") { o[:amount] } %>
+                <%= kui(:table, :cell) do %>
+                  <%= kui(:badge, color: o[:color], variant: :soft, size: :sm) { o[:status] } %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%# Recent activity feed (1/3 width) %>
+    <%= kui(:card) do %>
+      <%= kui(:card, :header) do %>
+        <%= kui(:card, :title) { "Recent Activity" } %>
+        <%= kui(:card, :description) { "Latest events from your team." } %>
+      <% end %>
+      <%= kui(:card, :content) do %>
+        <%
+          events = [
+            { text: "Acme Corp upgraded to Enterprise",  time: "2m ago",  color: :success },
+            { text: "New signup: maya@example.com",       time: "14m ago", color: :info    },
+            { text: "Pied Piper cancelled subscription",  time: "1h ago",  color: :error   },
+            { text: "Invoice #4821 paid — $599",          time: "3h ago",  color: :success },
+            { text: "Umbrella LLC paused account",        time: "5h ago",  color: :warning },
+            { text: "Initech started 14-day trial",       time: "8h ago",  color: :info    },
+            { text: "API usage alert: 90% of limit",      time: "1d ago",  color: :warning },
+          ]
+        %>
+        <div class="space-y-4">
+          <% events.each do |event| %>
+            <div class="flex items-start gap-3">
+              <div class="mt-0.5 w-2 h-2 rounded-full shrink-0 bg-<%= event[:color] %>"></div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm text-foreground leading-snug"><%= event[:text] %></p>
+                <p class="text-xs text-muted-foreground mt-0.5"><%= event[:time] %></p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+  </div>
+
+  <%# Alert at bottom %>
+  <%= kui(:alert, color: :info, variant: :soft) do %>
+    <%= kui(:alert, :title) { "Dashboard prototype" } %>
+    <%= kui(:alert, :description) { "This is a layout sandbox for #83. Sidebar toggles, dark mode, cookie persistence, and mobile overlay are all wired up. Content is static placeholder data." } %>
+  <% end %>
+
+</div>
