@@ -7,21 +7,16 @@
 
 <%# ── Topbar ───────────────────────────────────────────────────────────────── %>
 <% content_for :topbar do %>
-  <%= kui(:breadcrumb) do %>
-    <%= kui(:breadcrumb, :list) do %>
-      <%= kui(:breadcrumb, :item) do %>
-        <%= kui(:breadcrumb, :link, href: "/") { "Home" } %>
-      <% end %>
-      <%= kui(:breadcrumb, :separator) %>
-      <%= kui(:breadcrumb, :item) do %>
-        <%= kui(:breadcrumb, :page) { "Dashboard" } %>
-      <% end %>
-    <% end %>
-  <% end %>
+  <span class="text-sm font-semibold text-foreground">Dashboard</span>
 
-  <div class="ml-auto flex items-center gap-2">
-    <%= kui(:button, variant: :outline, size: :sm) { "Export" } %>
-    <%= kui(:button, variant: :solid, size: :sm) { "New Report" } %>
+  <div class="ml-auto flex items-center gap-1">
+    <%# Notification bell with unread dot %>
+    <button aria-label="Notifications" class="relative flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+      </svg>
+      <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error" aria-label="Unread notifications"></span>
+    </button>
   </div>
 <% end %>
 
