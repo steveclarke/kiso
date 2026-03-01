@@ -183,6 +183,7 @@ app/views/kiso/components/ ERB partials (rendered via kui() helper)
 app/assets/stylesheets/    Component CSS (thin — transitions/pseudo-states only)
 app/helpers/kiso/          kui(), kiso_prepare_options() helpers
 test/components/previews/  Lookbook preview classes + templates
+test/dummy/                Integration test app — real Rails host app using Kiso (bin/dummy → port 5000)
 lookbook/                  Lookbook dev app (bin/dev → port 4001)
 skills/kiso/               AI skill (component reference, theming guide)
 project/                   Architecture docs, design system, component vision docs
@@ -247,6 +248,9 @@ bin/dev restart docs          # Restart docs server
 bin/dev status                # Show running processes
 bin/dev stop                  # Stop all services
 bin/dev -f                    # Start in foreground (for debugging)
+bin/dummy                     # Start dummy integration app daemonized (port 5000)
+bin/dummy -f                  # Start dummy app in foreground
+bin/dummy stop                # Stop dummy app
 bundle exec rake test         # Run Ruby tests
 npm run test                  # Run all JS tests (unit + E2E)
 bundle exec standardrb --fix  # Lint & auto-format Ruby
