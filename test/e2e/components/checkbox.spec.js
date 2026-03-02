@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test"
 
 import { checkA11y } from "../fixtures/axe-fixture.js"
 
-const BASE = "/preview/kiso/checkbox"
+const BASE = "/preview/kiso/form/checkbox"
 
 test.describe("Checkbox component", () => {
   test("renders with data-slot=checkbox", async ({ page }) => {

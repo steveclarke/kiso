@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test"
 
 import { checkA11y } from "../fixtures/axe-fixture.js"
 
-const BASE = "/preview/kiso/radio_group"
+const BASE = "/preview/kiso/form/radio_group"
 
 test.describe("RadioGroup component", () => {
   test("renders with data-slot=radio-group", async ({ page }) => {

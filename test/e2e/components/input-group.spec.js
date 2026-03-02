@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test"
 
 import { checkA11y } from "../fixtures/axe-fixture.js"
 
-const BASE = "/preview/kiso/input_group"
+const BASE = "/preview/kiso/form/input_group"
 
 test.describe("InputGroup component", () => {
   test("renders with data-slot=input-group", async ({ page }) => {
