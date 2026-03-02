@@ -1,57 +1,62 @@
-import { test, expect } from "@playwright/test"
-
-import { checkA11y } from "../fixtures/axe-fixture.js"
-
-const BASE = "/preview/kiso/form/switch"
+import { test, expect } from "../fixtures/index.js"
 
 test.describe("Switch component", () => {
-  test("renders with data-slot=switch", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const switchEl = page.locator("[data-slot='switch']")
-    await expect(switchEl).toBeVisible()
-  })
+  const BASE = "/preview/kiso/form/switch"
 
-  test("has role=switch on the input", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const input = page.locator("[data-slot='switch'] input[role='switch']")
-    await expect(input).toHaveCount(1)
-  })
+  test.describe("playground", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/playground`)
+    })
 
-  test("click toggles on and off", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const switchEl = page.locator("[data-slot='switch']")
-    const input = switchEl.locator("input[role='switch']")
+    test("renders with data-slot=switch", async ({ page }) => {
+      const switchEl = page.getByTestId("switch")
+      await expect(switchEl).toBeVisible()
+    })
 
-    // Starts unchecked
-    await expect(input).not.toBeChecked()
+    test("has role=switch on the input", async ({ page }) => {
+      const input = page.locator("[data-slot='switch'] input[role='switch']")
+      await expect(input).toHaveCount(1)
+    })
 
-    // Click to toggle on
-    await switchEl.click()
-    await expect(input).toBeChecked()
+    test("click toggles on and off", async ({ page }) => {
+      const switchEl = page.getByTestId("switch")
+      const input = switchEl.locator("input[role='switch']")
 
-    // Click to toggle off
-    await switchEl.click()
-    await expect(input).not.toBeChecked()
-  })
+      // Starts unchecked
+      await expect(input).not.toBeChecked()
 
-  test("keyboard Space toggles switch", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const switchEl = page.locator("[data-slot='switch']")
-    const input = switchEl.locator("input[role='switch']")
+      // Click to toggle on
+      await switchEl.click()
+      await expect(input).toBeChecked()
 
-    // Focus the input and press Space
-    await input.focus()
-    await page.keyboard.press("Space")
-    await expect(input).toBeChecked()
+      // Click to toggle off
+      await switchEl.click()
+      await expect(input).not.toBeChecked()
+    })
 
-    // Press Space again to toggle off
-    await page.keyboard.press("Space")
-    await expect(input).not.toBeChecked()
+    test("keyboard Space toggles switch", async ({ page }) => {
+      const switchEl = page.getByTestId("switch")
+      const input = switchEl.locator("input[role='switch']")
+
+      // Focus the input and press Space
+      await input.focus()
+      await page.keyboard.press("Space")
+      await expect(input).toBeChecked()
+
+      // Press Space again to toggle off
+      await page.keyboard.press("Space")
+      await expect(input).not.toBeChecked()
+    })
+
+    test("passes WCAG 2.1 AA", async ({ checkA11y }) => {
+      const results = await checkA11y()
+      expect(results.violations).toEqual([])
+    })
   })
 
   test("disabled switch is not interactive", async ({ page }) => {
     await page.goto(`${BASE}/disabled`)
-    const firstSwitch = page.locator("[data-slot='switch']").first()
+    const firstSwitch = page.getByTestId("switch").first()
     const input = firstSwitch.locator("input[role='switch']")
 
     await expect(input).toBeDisabled()
@@ -64,13 +69,7 @@ test.describe("Switch component", () => {
 
   test("renders with different colors", async ({ page }) => {
     await page.goto(`${BASE}/playground?color=success&checked=true`)
-    const switchEl = page.locator("[data-slot='switch']")
+    const switchEl = page.getByTestId("switch")
     await expect(switchEl).toBeVisible()
-  })
-
-  test("passes WCAG 2.1 AA", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const results = await checkA11y(page)
-    expect(results.violations).toEqual([])
   })
 })

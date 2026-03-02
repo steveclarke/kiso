@@ -1,164 +1,119 @@
-import { test, expect } from "@playwright/test"
-
-import { checkA11y } from "../fixtures/axe-fixture.js"
+import { test, expect } from "../fixtures/index.js"
+import { OverlayModel } from "../models/overlay.js"
 
 const BASE = "/preview/kiso/popover"
 
 test.describe("Popover component", () => {
-  test("renders with data-slot=popover", async ({ page }) => {
+  let overlay
+
+  test.describe("rendering", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/basic`)
+      overlay = new OverlayModel(page, "popover")
+    })
+
+    test("renders with data-slot=popover", async ({ page }) => {
+      await expect(page.getByTestId("popover")).toBeVisible()
+    })
+
+    test("trigger button has aria-haspopup=dialog and aria-expanded=false", async () => {
+      await expect(overlay.triggerButton).toHaveAttribute("aria-haspopup", "dialog")
+      await expect(overlay.triggerButton).toHaveAttribute("aria-expanded", "false")
+    })
+
+    test("content is hidden by default", async () => {
+      await expect(overlay.content).toBeHidden()
+    })
+
+    test("content has role=dialog", async () => {
+      await expect(overlay.content).toHaveAttribute("role", "dialog")
+    })
+  })
+
+  test.describe("open/close", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/basic`)
+      overlay = new OverlayModel(page, "popover")
+    })
+
+    test("click trigger opens popover and sets aria-expanded=true", async () => {
+      await overlay.open()
+      await overlay.expectOpen()
+      await expect(overlay.content).toHaveAttribute("data-state", "open")
+    })
+
+    test("click trigger again closes popover", async () => {
+      await overlay.open()
+      await overlay.trigger.click()
+      await overlay.expectClosed()
+    })
+
+    test("Escape closes popover and returns focus to trigger", async () => {
+      await overlay.open()
+      await overlay.closeWithEscape()
+      await expect(overlay.triggerButton).toBeFocused()
+    })
+
+    test("outside click closes popover", async () => {
+      await overlay.open()
+      await overlay.closeWithOutsideClick()
+    })
+
+    test("data-state reflects open/closed on trigger", async ({ page }) => {
+      await overlay.open()
+      await expect(overlay.trigger).toHaveAttribute("data-state", "open")
+      await page.keyboard.press("Escape")
+      await expect(overlay.trigger).toHaveAttribute("data-state", "closed")
+    })
+
+    test("Space key opens popover", async ({ page }) => {
+      await overlay.triggerButton.focus()
+      await page.keyboard.press("Space")
+      await expect(overlay.content).toBeVisible()
+      await expect(overlay.triggerButton).toHaveAttribute("aria-expanded", "true")
+    })
+
+    test("Enter key opens popover", async ({ page }) => {
+      await overlay.triggerButton.focus()
+      await page.keyboard.press("Enter")
+      await expect(overlay.content).toBeVisible()
+      await expect(overlay.triggerButton).toHaveAttribute("aria-expanded", "true")
+    })
+  })
+
+  test.describe("content", () => {
+    test("focus moves to first focusable element on open", async ({ page }) => {
+      await page.goto(`${BASE}/with_form`)
+      const trigger = page.getByTestId("popover-trigger")
+      await trigger.click()
+      const content = page.getByTestId("popover-content")
+      await expect(content).toBeVisible()
+      await expect(content.locator("input").first()).toBeFocused()
+    })
+
+    test("renders sub-parts: header, title, description", async ({ page }) => {
+      await page.goto(`${BASE}/basic`)
+      await page.getByTestId("popover-trigger").click()
+      await expect(page.getByTestId("popover-content")).toBeVisible()
+      await expect(page.getByTestId("popover-header")).toBeVisible()
+      await expect(page.getByTestId("popover-title")).toContainText("Dimensions")
+      await expect(page.getByTestId("popover-description")).toContainText(
+        "Set the dimensions for the layer.",
+      )
+    })
+
+    test("accepts align parameter", async ({ page }) => {
+      await page.goto(`${BASE}/playground?align=start`)
+      await page.getByTestId("popover-trigger").click()
+      const content = page.getByTestId("popover-content")
+      await expect(content).toBeVisible()
+      await expect(content).toHaveAttribute("data-align", "start")
+    })
+  })
+
+  test("passes WCAG 2.1 AA", async ({ page, checkA11y }) => {
     await page.goto(`${BASE}/basic`)
-    const popover = page.locator("[data-slot='popover']")
-    await expect(popover).toBeVisible()
-  })
-
-  test("trigger button has aria-haspopup=dialog and aria-expanded=false", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const button = page.locator("[data-slot='popover-trigger'] button")
-    await expect(button).toHaveAttribute("aria-haspopup", "dialog")
-    await expect(button).toHaveAttribute("aria-expanded", "false")
-  })
-
-  test("content is hidden by default", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const content = page.locator("[data-slot='popover-content']")
-    await expect(content).toBeHidden()
-  })
-
-  test("content has role=dialog", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const content = page.locator("[data-slot='popover-content']")
-    await expect(content).toHaveAttribute("role", "dialog")
-  })
-
-  test("click trigger opens popover and sets aria-expanded=true", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const trigger = page.locator("[data-slot='popover-trigger']")
-    const content = page.locator("[data-slot='popover-content']")
-
-    await trigger.click()
-    await expect(content).toBeVisible()
-    const button = page.locator("[data-slot='popover-trigger'] button")
-    await expect(button).toHaveAttribute("aria-expanded", "true")
-    await expect(content).toHaveAttribute("data-state", "open")
-  })
-
-  test("click trigger again closes popover", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const trigger = page.locator("[data-slot='popover-trigger']")
-    const content = page.locator("[data-slot='popover-content']")
-
-    await trigger.click()
-    await expect(content).toBeVisible()
-
-    await trigger.click()
-    await expect(content).toBeHidden()
-    const button = page.locator("[data-slot='popover-trigger'] button")
-    await expect(button).toHaveAttribute("aria-expanded", "false")
-  })
-
-  test("Escape closes popover and returns focus to trigger", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const trigger = page.locator("[data-slot='popover-trigger']")
-    const content = page.locator("[data-slot='popover-content']")
-
-    await trigger.click()
-    await expect(content).toBeVisible()
-
-    await page.keyboard.press("Escape")
-    await expect(content).toBeHidden()
-    // Focus returns to the button inside the trigger wrapper
-    const button = trigger.locator("button")
-    await expect(button).toBeFocused()
-  })
-
-  test("outside click closes popover", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const trigger = page.locator("[data-slot='popover-trigger']")
-    const content = page.locator("[data-slot='popover-content']")
-
-    await trigger.click()
-    await expect(content).toBeVisible()
-
-    await page.locator("body").click({ position: { x: 10, y: 10 } })
-    await expect(content).toBeHidden()
-  })
-
-  test("focus moves to first focusable element on open", async ({ page }) => {
-    await page.goto(`${BASE}/with_form`)
-    const trigger = page.locator("[data-slot='popover-trigger']")
-
-    await trigger.click()
-    const content = page.locator("[data-slot='popover-content']")
-    await expect(content).toBeVisible()
-
-    // The first focusable element inside the popover should be focused
-    const firstInput = content.locator("input").first()
-    await expect(firstInput).toBeFocused()
-  })
-
-  test("data-state reflects open/closed on trigger", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const trigger = page.locator("[data-slot='popover-trigger']")
-
-    await trigger.click()
-    await expect(trigger).toHaveAttribute("data-state", "open")
-
-    await page.keyboard.press("Escape")
-    await expect(trigger).toHaveAttribute("data-state", "closed")
-  })
-
-  test("renders sub-parts: header, title, description", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const trigger = page.locator("[data-slot='popover-trigger']")
-    await trigger.click()
-
-    const content = page.locator("[data-slot='popover-content']")
-    await expect(content).toBeVisible()
-
-    const header = page.locator("[data-slot='popover-header']")
-    const title = page.locator("[data-slot='popover-title']")
-    const description = page.locator("[data-slot='popover-description']")
-
-    await expect(header).toBeVisible()
-    await expect(title).toContainText("Dimensions")
-    await expect(description).toContainText("Set the dimensions for the layer.")
-  })
-
-  test("Space key opens popover", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const button = page.locator("[data-slot='popover-trigger'] button")
-    const content = page.locator("[data-slot='popover-content']")
-
-    await button.focus()
-    await page.keyboard.press("Space")
-    await expect(content).toBeVisible()
-    await expect(button).toHaveAttribute("aria-expanded", "true")
-  })
-
-  test("Enter key opens popover", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const button = page.locator("[data-slot='popover-trigger'] button")
-    const content = page.locator("[data-slot='popover-content']")
-
-    await button.focus()
-    await page.keyboard.press("Enter")
-    await expect(content).toBeVisible()
-    await expect(button).toHaveAttribute("aria-expanded", "true")
-  })
-
-  test("accepts align parameter", async ({ page }) => {
-    await page.goto(`${BASE}/playground?align=start`)
-    const trigger = page.locator("[data-slot='popover-trigger']")
-    await trigger.click()
-
-    const content = page.locator("[data-slot='popover-content']")
-    await expect(content).toBeVisible()
-    await expect(content).toHaveAttribute("data-align", "start")
-  })
-
-  test("passes WCAG 2.1 AA", async ({ page }) => {
-    await page.goto(`${BASE}/basic`)
-    const results = await checkA11y(page)
+    const results = await checkA11y()
     expect(results.violations).toEqual([])
   })
 })

@@ -1,50 +1,45 @@
-import { test, expect } from "@playwright/test"
-
-import { checkA11y } from "../fixtures/axe-fixture.js"
+import { test, expect } from "../fixtures/index.js"
 
 const BASE = "/preview/kiso/button"
 
 test.describe("Button component", () => {
-  test("renders with data-slot=button", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const button = page.locator("[data-slot='button']")
-    await expect(button).toBeVisible()
-  })
+  test.describe("default preview", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/playground`)
+    })
 
-  test("renders as button element by default", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const button = page.locator("button[data-slot='button']")
-    await expect(button).toBeVisible()
+    test("renders with data-slot=button", async ({ page }) => {
+      await expect(page.getByTestId("button")).toBeVisible()
+    })
+
+    test("renders as button element by default", async ({ page }) => {
+      await expect(page.locator("button[data-slot='button']")).toBeVisible()
+    })
   })
 
   test("renders with variant=outline", async ({ page }) => {
     await page.goto(`${BASE}/playground?variant=outline`)
-    const button = page.locator("[data-slot='button']")
-    await expect(button).toBeVisible()
+    await expect(page.getByTestId("button")).toBeVisible()
   })
 
   test("renders with variant=ghost", async ({ page }) => {
     await page.goto(`${BASE}/playground?variant=ghost`)
-    const button = page.locator("[data-slot='button']")
-    await expect(button).toBeVisible()
+    await expect(page.getByTestId("button")).toBeVisible()
   })
 
   test("renders with variant=link", async ({ page }) => {
     await page.goto(`${BASE}/playground?variant=link`)
-    const button = page.locator("[data-slot='button']")
-    await expect(button).toBeVisible()
+    await expect(page.getByTestId("button")).toBeVisible()
   })
 
   test("renders with size=sm", async ({ page }) => {
     await page.goto(`${BASE}/playground?size=sm`)
-    const button = page.locator("[data-slot='button']")
-    await expect(button).toBeVisible()
+    await expect(page.getByTestId("button")).toBeVisible()
   })
 
   test("renders with size=lg", async ({ page }) => {
     await page.goto(`${BASE}/playground?size=lg`)
-    const button = page.locator("[data-slot='button']")
-    await expect(button).toBeVisible()
+    await expect(page.getByTestId("button")).toBeVisible()
   })
 
   test("renders as link when href is used", async ({ page }) => {
@@ -56,13 +51,12 @@ test.describe("Button component", () => {
 
   test("disabled button has disabled attribute", async ({ page }) => {
     await page.goto(`${BASE}/disabled`)
-    const button = page.locator("button[data-slot='button']").first()
-    await expect(button).toBeDisabled()
+    await expect(page.locator("button[data-slot='button']").first()).toBeDisabled()
   })
 
-  test("passes WCAG 2.1 AA", async ({ page }) => {
+  test("passes WCAG 2.1 AA", async ({ page, checkA11y }) => {
     await page.goto(`${BASE}/playground`)
-    const results = await checkA11y(page)
+    const results = await checkA11y()
     expect(results.violations).toEqual([])
   })
 })

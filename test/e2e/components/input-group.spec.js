@@ -1,34 +1,35 @@
-import { test, expect } from "@playwright/test"
-
-import { checkA11y } from "../fixtures/axe-fixture.js"
-
-const BASE = "/preview/kiso/form/input_group"
+import { test, expect } from "../fixtures/index.js"
 
 test.describe("InputGroup component", () => {
-  test("renders with data-slot=input-group", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const group = page.locator("[data-slot='input-group']")
-    await expect(group).toBeVisible()
+  const BASE = "/preview/kiso/form/input_group"
+
+  test.describe("default preview", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/playground`)
+    })
+
+    test("renders with data-slot=input-group", async ({ page }) => {
+      await expect(page.getByTestId("input-group")).toBeVisible()
+    })
+
+    test("passes WCAG 2.1 AA", async ({ checkA11y }) => {
+      const results = await checkA11y()
+      expect(results.violations).toEqual([])
+    })
   })
 
   test("renders addon prefix sub-part", async ({ page }) => {
     await page.goto(`${BASE}/prefix_text`)
-    const addon = page.locator("[data-slot='input-group-addon']").first()
+    const addon = page.getByTestId("input-group-addon").first()
     await expect(addon).toBeVisible()
     await expect(addon).toContainText("https://")
   })
 
   test("renders addon suffix sub-part", async ({ page }) => {
     await page.goto(`${BASE}/prefix_and_suffix`)
-    const addons = page.locator("[data-slot='input-group-addon']")
+    const addons = page.getByTestId("input-group-addon")
     const suffix = addons.nth(1)
     await expect(suffix).toBeVisible()
     await expect(suffix).toContainText("USD")
-  })
-
-  test("passes WCAG 2.1 AA", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const results = await checkA11y(page)
-    expect(results.violations).toEqual([])
   })
 })

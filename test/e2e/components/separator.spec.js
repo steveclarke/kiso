@@ -1,29 +1,39 @@
-import { test, expect } from "@playwright/test"
-
-const BASE = "/preview/kiso/separator"
+import { test, expect } from "../fixtures/index.js"
 
 test.describe("Separator component", () => {
-  test("renders a horizontal separator", async ({ page }) => {
-    await page.goto(`${BASE}/horizontal`)
-    const sep = page.locator("[data-slot='separator']").first()
-    await expect(sep).toBeVisible()
+  const BASE = "/preview/kiso/separator"
+
+  test.describe("default preview", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/playground`)
+    })
+
+    test("renders with data-slot=separator", async ({ page }) => {
+      await expect(page.getByTestId("separator").first()).toBeVisible()
+    })
+
+    test("decorative separator has role=none", async ({ page }) => {
+      await expect(page.getByTestId("separator").first()).toHaveAttribute("role", "none")
+    })
+
+    test("passes WCAG 2.1 AA", async ({ checkA11y }) => {
+      const results = await checkA11y()
+      expect(results.violations).toEqual([])
+    })
   })
 
-  test("decorative separator has role=none", async ({ page }) => {
-    await page.goto(`${BASE}/playground`)
-    const sep = page.locator("[data-slot='separator']").first()
-    await expect(sep).toHaveAttribute("role", "none")
+  test("renders a horizontal separator", async ({ page }) => {
+    await page.goto(`${BASE}/horizontal`)
+    await expect(page.getByTestId("separator").first()).toBeVisible()
   })
 
   test("non-decorative separator has role=separator", async ({ page }) => {
     await page.goto(`${BASE}/playground?decorative=false`)
-    const sep = page.locator("[data-slot='separator']").first()
-    await expect(sep).toHaveAttribute("role", "separator")
+    await expect(page.getByTestId("separator").first()).toHaveAttribute("role", "separator")
   })
 
   test("renders vertical separator", async ({ page }) => {
     await page.goto(`${BASE}/vertical`)
-    const sep = page.locator("[data-slot='separator']")
-    await expect(sep.first()).toBeVisible()
+    await expect(page.getByTestId("separator").first()).toBeVisible()
   })
 })
