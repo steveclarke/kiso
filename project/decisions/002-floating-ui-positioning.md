@@ -72,41 +72,45 @@ creep — it has its own separate positioning method.
 
 ### Import strategy
 
-Pin `@floating-ui/dom` ESM build from CDN for importmap apps. npm `exports`
-handle bundler apps. Same dual-path as Stimulus and other Kiso JS deps.
+The engine vendors the browser ESM builds of `@floating-ui/core` and
+`@floating-ui/dom` in `app/javascript/kiso/vendor/` and pins them in
+`config/importmap.rb`. The engine's importmap merges into host apps
+automatically — importmap apps need zero configuration:
 
 ```ruby
-# config/importmap.rb (host app)
-pin "@floating-ui/core", to: "https://cdn.jsdelivr.net/npm/@floating-ui/core@1/+esm"
-pin "@floating-ui/dom", to: "https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm"
-pin "@floating-ui/utils", to: "https://cdn.jsdelivr.net/npm/@floating-ui/utils@0/+esm"
-pin "@floating-ui/utils/dom", to: "https://cdn.jsdelivr.net/npm/@floating-ui/utils@0/dom/+esm"
+# config/importmap.rb (engine — merged into host app)
+pin "@floating-ui/core", to: "kiso/vendor/floating-ui-core.js"
+pin "@floating-ui/dom", to: "kiso/vendor/floating-ui-dom.js"
 ```
+
+Bundler apps get `@floating-ui/dom` automatically via `npm install kiso-ui`
+(listed in `dependencies`).
 
 ### Positioning utility
 
-Replace `positioning.js` with a thin wrapper around Floating UI that provides
-Kiso-specific defaults:
+`positioning.js` exports `startPositioning()` — a thin wrapper that
+combines `computePosition` + `autoUpdate` + middleware and returns a
+cleanup function:
 
 ```javascript
-import { computePosition, flip, shift, offset, autoUpdate } from "@floating-ui/dom"
-
-export function positionContent(reference, floating, options = {}) { ... }
-export { autoUpdate }
+export function startPositioning(reference, floating, options = {}) {
+  // Returns cleanup function from autoUpdate()
+}
 ```
 
 ### Stimulus lifecycle
 
-Controllers call `autoUpdate()` on open and the returned cleanup function
-on close/disconnect. This handles scroll and resize repositioning.
+Controllers call `startPositioning()` on open and store the returned
+cleanup function. Cleanup is called in both `close()` (normal lifecycle)
+and `disconnect()` (DOM removal safety net for Turbo navigation).
 
 ## Consequences
 
-- **New runtime dependency** — `@floating-ui/dom` (~3KB). Acceptable for
-  what it solves. Host apps that don't use positioned components can
-  tree-shake it away.
-- **importmap setup** — host apps using importmap-rails need CDN pins.
-  Document in Getting Started guide and install generator.
+- **New runtime dependency** — `@floating-ui/dom` (~10KB vendored).
+  Acceptable for what it solves. Bundler apps can tree-shake unused
+  middleware.
+- **Zero host app configuration** — importmap apps get the pins from the
+  engine. Bundler apps get the npm dependency transitively.
 - **All 4 controllers get flip/shift** — select, combobox, popover,
   dropdown_menu. Sub-menu positioning in dropdown_menu also uses Floating UI.
 - **`autoUpdate` cleanup** — must be managed in Stimulus `disconnect()` and

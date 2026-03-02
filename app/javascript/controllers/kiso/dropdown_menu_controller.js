@@ -342,16 +342,13 @@ export default class extends Controller {
     subContent.hidden = true
     subTrigger.removeAttribute("data-state")
 
-    // Clean up positioning and hover listeners
-    _subPositionCleanups.get(subContent)?.()
-    _subPositionCleanups.delete(subContent)
+    this._stopSubPositioning(subContent)
     this._removeSubContentListeners(subContent)
 
     // Close nested sub-menus recursively
     subContent.querySelectorAll("[data-slot='dropdown-menu-sub-content']").forEach((nested) => {
       nested.hidden = true
-      _subPositionCleanups.get(nested)?.()
-      _subPositionCleanups.delete(nested)
+      this._stopSubPositioning(nested)
       this._removeSubContentListeners(nested)
     })
     subContent.querySelectorAll("[data-slot='dropdown-menu-sub-trigger']").forEach((nested) => {
@@ -367,8 +364,7 @@ export default class extends Controller {
   _closeAllSubs() {
     this.subContentTargets.forEach((subContent) => {
       subContent.hidden = true
-      _subPositionCleanups.get(subContent)?.()
-      _subPositionCleanups.delete(subContent)
+      this._stopSubPositioning(subContent)
       this._removeSubContentListeners(subContent)
     })
     this.subTriggerTargets.forEach((subTrigger) => {
@@ -389,6 +385,17 @@ export default class extends Controller {
       subContent.removeEventListener("mouseleave", handlers.leaveHandler)
       _subHandlers.delete(subContent)
     }
+  }
+
+  /**
+   * Stops positioning for a sub-content element and removes its cleanup entry.
+   *
+   * @param {HTMLElement} subContent
+   * @private
+   */
+  _stopSubPositioning(subContent) {
+    _subPositionCleanups.get(subContent)?.()
+    _subPositionCleanups.delete(subContent)
   }
 
   /**

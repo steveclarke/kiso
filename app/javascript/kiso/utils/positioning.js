@@ -7,12 +7,15 @@
  * @module utils/positioning
  */
 
-import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom"
+import { autoUpdate, computePosition, flip, offset, shift, size } from "@floating-ui/dom"
 
 /**
  * Starts positioning a floating element relative to a reference element.
  * Computes position immediately and re-computes on scroll, resize, and
  * layout shift via Floating UI's `autoUpdate`.
+ *
+ * Sets `data-side` on the floating element ("top", "bottom", "left", "right")
+ * for CSS animation selectors (e.g., `[data-side="top"] { ... }`).
  *
  * @param {HTMLElement} reference - The anchor element to position against
  * @param {HTMLElement} floating - The floating element to position
@@ -35,10 +38,8 @@ import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/d
  *   }
  *
  *   close() {
- *     if (this._cleanupPosition) {
- *       this._cleanupPosition()
- *       this._cleanupPosition = null
- *     }
+ *     this._cleanupPosition?.()
+ *     this._cleanupPosition = null
  *     this.contentTarget.hidden = true
  *   }
  */
@@ -50,11 +51,23 @@ export function startPositioning(reference, floating, options = {}) {
     matchWidth = false,
   } = options
 
+  const middleware = [offset(offsetDistance), flip(), shift({ padding: 8 })]
+
+  if (matchWidth) {
+    middleware.push(
+      size({
+        apply({ rects, elements }) {
+          elements.floating.style.minWidth = `${rects.reference.width}px`
+        },
+      }),
+    )
+  }
+
   const update = () => {
     computePosition(reference, floating, {
       placement,
       strategy,
-      middleware: [offset(offsetDistance), flip(), shift({ padding: 8 })],
+      middleware,
     }).then(({ x, y, placement: finalPlacement }) => {
       Object.assign(floating.style, {
         position: strategy,
@@ -62,11 +75,10 @@ export function startPositioning(reference, floating, options = {}) {
         top: `${y}px`,
       })
 
-      if (matchWidth) {
-        floating.style.minWidth = `${reference.getBoundingClientRect().width}px`
+      const side = finalPlacement.split("-")[0]
+      if (floating.dataset.side !== side) {
+        floating.dataset.side = side
       }
-
-      floating.dataset.side = finalPlacement.split("-")[0]
     })
   }
 
