@@ -8,58 +8,21 @@ by [shadcn/ui](https://ui.shadcn.com) and [Nuxt UI](https://ui.nuxt.com).
 
 ERB partials, Tailwind CSS, progressive Stimulus.
 
-## Quick start
+## Why Kiso?
 
-Add Kiso to your Gemfile:
+Most Rails UI libraries ask you to adopt a new abstraction — ViewComponent
+classes, Phlex objects, or DSL builders. Kiso stays with what Rails gives you:
+ERB partials, `yield`, and strict locals. If you can call `render`, you can use
+Kiso.
 
-```ruby
-gem "kiso"
-```
+The `kui()` helper renders a partial with variant-aware Tailwind classes computed
+by [class_variants](https://github.com/avo-hq/class_variants). Dark mode,
+color theming, and class deduplication work automatically.
 
-Import the generated engine CSS in your Tailwind stylesheet. Kiso auto-generates
-this file before every Tailwind build with the correct paths for your environment:
+## Get started
 
-```css
-@import "tailwindcss";
-@import "../builds/tailwind/kiso";
-
-/* Optional: override tokens to match your brand */
-/* @theme { --color-primary: var(--color-violet-600); } */
-```
-
-Use the `kui()` helper to render components:
-
-```erb
-<%%= kui(:badge, color: :primary) { "New" } %>
-
-<%%= kui(:button, href: "/signup", variant: :solid) { "Get started" } %>
-
-<%%= kui(:alert, color: :success, variant: :soft) do |alert| %>
-  <%% alert.with_title { "Done!" } %>
-  <%% alert.with_description { "Your changes have been saved." } %>
-<%% end %>
-```
-
-## Components
-
-Browse the available components in the sidebar, or see the full list on the
-[Components](/components) page.
-
-### Stimulus controllers for bundler apps
-
-If your app uses a JS bundler (esbuild, Vite, Bun), install the npm package
-for interactive components (Toggle, Select, etc.):
-
-```bash
-npm install kiso-ui
-```
-
-```js
-import KisoUi from "kiso-ui"
-KisoUi.start(application)
-```
-
-Importmap apps get Stimulus controllers automatically — no npm install needed.
+See the [Getting Started](/getting-started) guide to install Kiso and render
+your first component.
 
 ## Architecture
 
@@ -71,3 +34,18 @@ Kiso has two layers:
 Components never use `@apply` in CSS. Tailwind classes are computed in Ruby and
 rendered in ERB. CSS files are only used for transitions, animations, and
 pseudo-states that ERB can't express.
+
+## Design principles
+
+1. **Native HTML first.** Use `<dialog>`, `[popover]`, `<details>` before adding JavaScript.
+2. **Build from small parts.** Card = Header + Title + Content + Footer.
+3. **ERB is enough.** Use strict locals and `yield` for blocks.
+4. **Tailwind classes in ERB.** CSS files only hold transitions and pseudo-states.
+5. **Theme with tokens.** Names like `primary` map to real colors. They flip in dark mode.
+6. **Works with Turbo.** Use them in Turbo Frames and Streams.
+7. **Stimulus only when needed.** Native HTML handles the basics. Stimulus adds the rest.
+
+## Components
+
+Browse the available components in the sidebar, or see the
+[Design System](/design-system) page for the visual reference.
