@@ -1,5 +1,6 @@
 module Kiso
   # @label Select
+  # @logical_path kiso/form
   class SelectPreview < Lookbook::Preview
     # @label Playground
     # @param size select { choices: [sm, md] }

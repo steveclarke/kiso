@@ -11,6 +11,10 @@ All colored components use **identical compound variant formulas** — see `proj
 | Component | Key locals | Reference |
 |---|---|---|
 | `card` | `variant` (outline/soft/subtle) | [card.md](components/card.md) |
+| `dashboard_group` | `sidebar_open`. Sub-parts via separate components: `dashboard_navbar`, `dashboard_sidebar`, `dashboard_panel`. Stimulus: `kiso--sidebar` | [dashboard_group.md](components/dashboard_group.md) |
+| `dashboard_navbar` | Topbar container. Sub-part: toggle | [dashboard_group.md](components/dashboard_group.md) |
+| `dashboard_sidebar` | Collapsible sidebar with auto-rendered inner scroll container | [dashboard_group.md](components/dashboard_group.md) |
+| `dashboard_panel` | Main content area | [dashboard_group.md](components/dashboard_group.md) |
 | `empty` | Media sub-part has `variant` (default/icon) | [empty.md](components/empty.md) |
 | `stats_card` | `variant` (outline/soft/subtle) | [stats_card.md](components/stats_card.md) |
 | `separator` | `orientation` (horizontal/vertical), `decorative` | [separator.md](components/separator.md) |
@@ -51,6 +55,8 @@ All colored components use **identical compound variant formulas** — see `proj
 | Component | Key locals | Reference |
 |---|---|---|
 | `badge` | `color`, `variant` (solid/outline/soft/subtle), `size` (xs-xl) | [badge.md](components/badge.md) |
+| `color_mode_button` | `size` (sm/md/lg). Toggles light/dark via `kiso--theme#toggle`. Icons: `kiso_component_icon(:sun/:moon)` | [color_mode_button.md](components/color_mode_button.md) |
+| `color_mode_select` | `size` (sm/md). Three-way select (light/dark/system). Composes `kui(:select)`, dispatches to `kiso--theme#set` | [color_mode_select.md](components/color_mode_select.md) |
 | `kbd` | `size` (sm/md/lg). Sub-part: group | [kbd.md](components/kbd.md) |
 | `alert` | `color`, `variant` (solid/outline/soft/subtle) | [alert.md](components/alert.md) |
 | `button` | `color`, `variant` (solid/outline/soft/subtle/ghost/link), `size` (xs-xl) | [button.md](components/button.md) |

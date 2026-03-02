@@ -1,5 +1,6 @@
 module Kiso
   # @label Dashboard Group
+  # @logical_path kiso/dashboard
   class DashboardGroupPreview < Lookbook::Preview
     # @label Playground
     def playground

@@ -1,5 +1,6 @@
 module Kiso
   # @label Input
+  # @logical_path kiso/form
   class InputPreview < Lookbook::Preview
     # @label Playground
     # @param variant select { choices: [outline, soft, ghost] }

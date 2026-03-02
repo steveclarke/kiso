@@ -1,5 +1,6 @@
 module Kiso
   # @label Switch
+  # @logical_path kiso/form
   class SwitchPreview < Lookbook::Preview
     # @label Playground
     # @param color select { choices: [primary, secondary, success, info, warning, error, neutral] }
