@@ -167,10 +167,11 @@ Standard interactive height is `h-9`. Scale by 1 in each direction.
 
 | Size | Height | Used for |
 |------|--------|----------|
-| xs | `h-6` | Extra-small buttons, icon buttons |
+| xs | `h-7` | Extra-small buttons, icon buttons |
 | sm | `h-8` | Small buttons, small inputs, tabs list |
 | md (default) | `h-9` | Buttons, inputs, selects, toggles |
 | lg | `h-10` | Large buttons, large avatars |
+| xl | `h-11` | Extra-large buttons |
 
 ### Padding
 

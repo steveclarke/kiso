@@ -17,6 +17,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | `dashboard_panel` | Main content area | [dashboard_group.md](components/dashboard_group.md) |
 | `empty` | Media sub-part has `variant` (default/icon) | [empty.md](components/empty.md) |
 | `stats_card` | `variant` (outline/soft/subtle) | [stats_card.md](components/stats_card.md) |
+| `stats_grid` | `columns` (1-4). Responsive grid wrapper for stats cards | [stats_card.md](components/stats_card.md) |
 | `separator` | `orientation` (horizontal/vertical), `decorative` | [separator.md](components/separator.md) |
 | `table` | 7 sub-parts: header, body, footer, row, head, cell, caption | [table.md](components/table.md) |
 
@@ -42,6 +43,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | Component | Key locals | Reference |
 |---|---|---|
 | `dropdown_menu` | 13 sub-parts: trigger, content, item, checkbox_item, radio_group, radio_item, label, separator, shortcut, group, sub, sub_trigger, sub_content. Item `variant` (default/destructive). Stimulus: `kiso--dropdown-menu` | [dropdown_menu.md](components/dropdown_menu.md) |
+| `popover` | `align` (start/center/end) on content. Sub-parts: trigger, content, anchor, header, title, description. Stimulus: `kiso--popover` | [popover.md](components/popover.md) |
 
 ## Navigation
 
@@ -49,25 +51,20 @@ All colored components use **identical compound variant formulas** — see `proj
 |---|---|---|
 | `breadcrumb` | 7 sub-parts: list, item, link, page, separator, ellipsis | [breadcrumb.md](components/breadcrumb.md) |
 | `command` | 8 sub-parts: input, list, empty, group, item, separator, shortcut, dialog. Stimulus: `kiso--command`, `kiso--command-dialog` | [command.md](components/command.md) |
+| `pagination` | 6 sub-parts: content, item, previous, next, ellipsis, list | [pagination.md](components/pagination.md) |
 
 ## Element
 
 | Component | Key locals | Reference |
 |---|---|---|
+| `alert` | `color`, `variant` (solid/outline/soft/subtle) | [alert.md](components/alert.md) |
 | `badge` | `color`, `variant` (solid/outline/soft/subtle), `size` (xs-xl) | [badge.md](components/badge.md) |
+| `button` | `color`, `variant` (solid/outline/soft/subtle/ghost/link), `size` (xs-xl) | [button.md](components/button.md) |
 | `color_mode_button` | `size` (sm/md/lg). Toggles light/dark via `kiso--theme#toggle`. Icons: `kiso_component_icon(:sun/:moon)` | [color_mode_button.md](components/color_mode_button.md) |
 | `color_mode_select` | `size` (sm/md). Three-way select (light/dark/system). Composes `kui(:select)`, dispatches to `kiso--theme#set` | [color_mode_select.md](components/color_mode_select.md) |
 | `kbd` | `size` (sm/md/lg). Sub-part: group | [kbd.md](components/kbd.md) |
-| `alert` | `color`, `variant` (solid/outline/soft/subtle) | [alert.md](components/alert.md) |
-| `button` | `color`, `variant` (solid/outline/soft/subtle/ghost/link), `size` (xs-xl) | [button.md](components/button.md) |
 | `toggle` | `variant` (default/outline), `size` (sm/default/lg), `pressed` | [toggle.md](components/toggle.md) |
 | `toggle_group` | `type` (single/multiple), `variant`, `size`. Sub-part: item | [toggle_group.md](components/toggle_group.md) |
-
-## Overlay
-
-| Component | Key locals | Reference |
-|---|---|---|
-| `popover` | `align` (start/center/end) on content. Sub-parts: trigger, content, anchor, header, title, description. Stimulus: `kiso--popover` | [popover.md](components/popover.md) |
 
 ## Compound Variant Reference
 

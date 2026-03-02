@@ -43,7 +43,7 @@ Nuxt UI's compound variant approach. One gem pair, both patterns.
 
 ```ruby
 # kiso.gemspec
-spec.add_dependency "tailwind_merge", "~> 1.3"   # v1.3.3+, supports Tailwind v4
+spec.add_dependency "tailwind_merge", "~> 1.0"   # v1.0+, supports Tailwind v4
 spec.add_dependency "class_variants", "~> 1.1"
 ```
 
@@ -361,12 +361,13 @@ from their **combination**:
 
 ```
 variants:
-  color:    primary | secondary | destructive | success | warning
-  variant:  solid | outline | soft | ghost | link
+  color:    primary | secondary | success | info | warning | error | neutral
+  variant:  solid | outline | soft | subtle
 compoundVariants:
-  { color: primary, variant: solid }   -> "bg-primary text-primary-foreground hover:bg-primary/90"
-  { color: primary, variant: outline } -> "text-primary ring ring-primary/50 hover:bg-primary/10"
-  { color: primary, variant: soft }    -> "text-primary bg-primary/10 hover:bg-primary/20"
+  { color: primary, variant: solid }   -> "bg-primary text-primary-foreground"
+  { color: primary, variant: outline } -> "text-primary ring-primary/50"
+  { color: primary, variant: soft }    -> "bg-primary/10 text-primary"
+  { color: primary, variant: subtle }  -> "bg-primary/10 text-primary ring-primary/25"
 defaults: color: primary, variant: solid, size: md
 ```
 
@@ -374,16 +375,16 @@ defaults: color: primary, variant: solid, size: md
 
 **Flat variants** (shadcn style) — the default for Kiso:
 - Component has one styling axis (`variant` only, or `size` only)
-- Badge with `variant: default | secondary | destructive | outline`
+- Badge with `variant: default | secondary | outline` (flat, no color axis)
 - Input, Card, Separator, Label, Skeleton
 - Simpler to read, simpler to maintain
 
 **Compound variants** (Nuxt UI style) — when the matrix demands it:
-- Component has `color` AND `variant` axes (5 colors x 5 variants = 25
+- Component has `color` AND `variant` axes (7 colors x 4 variants = 28
   combos)
 - Button, Alert, Badge (if you want per-color control)
 - Adding a new color is one entry, not touching every variant string
-- Use programmatic generation to avoid repetition (see Recipe 4)
+- Use programmatic generation to avoid repetition (see Recipe 3)
 
 ---
 
@@ -532,14 +533,14 @@ For components with a single root element (Badge, Separator, Label):
 # lib/kiso/themes/badge.rb
 module Kiso::Themes
   Badge = ClassVariants.build(
-    base: "inline-flex items-center rounded-md font-medium ring-1 ring-inset",
+    base: "inline-flex items-center rounded-md font-medium",
     variants: {
-      color: {
-        primary: "bg-primary/10 text-primary ring-primary/20",
-        secondary: "bg-secondary text-secondary-foreground ring-secondary-foreground/10",
-        destructive: "bg-destructive/10 text-destructive ring-destructive/20",
-        success: "bg-success/10 text-success ring-success/20",
-        warning: "bg-warning/10 text-warning ring-warning/20"
+      color: %i[primary secondary success info warning error neutral].index_with { "" },
+      variant: {
+        solid: "",
+        outline: "ring ring-inset",
+        soft: "",
+        subtle: "ring ring-inset"
       },
       size: {
         sm: "px-1.5 py-0.5 text-xs",
@@ -547,20 +548,22 @@ module Kiso::Themes
         lg: "px-2.5 py-1 text-sm"
       }
     },
-    defaults: { color: :primary, size: :md }
+    compound_variants: [
+      # For the complete compound variant block, see project/design-system.md.
+      # Copy from an existing component (Badge) — never invent new formulas.
+    ],
+    defaults: { color: :primary, variant: :soft, size: :md }
   )
 end
 ```
 
 ```erb
-<%# app/views/components/_badge.html.erb %>
-<%# locals: (color: :primary, size: :md, css_classes: "", **component_options) %>
-<% merged_data = (component_options.delete(:data) || {}).merge(
-    component: :badge
-  ).compact %>
+<%# app/views/kiso/components/_badge.html.erb %>
+<%# locals: (color: :primary, variant: :soft, size: :md, css_classes: "", **component_options) %>
 <%= content_tag :span,
-    class: Kiso::Themes::Badge.render(color: color, size: size, class: css_classes),
-    data: merged_data, **component_options do %>
+    class: Kiso::Themes::Badge.render(color: color, variant: variant, size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "badge"),
+    **component_options do %>
   <%= yield %>
 <% end %>
 ```
@@ -568,84 +571,11 @@ end
 The `class:` keyword on `.render()` appends user classes and tailwind_merge
 deduplicates any conflicts.
 
-### Recipe 2: Slotted Component
+### Recipe 2: Compound Variant Component (Color x Variant)
 
-For components with multiple styled sub-elements (Button with base, label,
-icon slots):
-
-```ruby
-# lib/kiso/themes/button.rb
-module Kiso::Themes
-  Button = ClassVariants.build do
-    base do
-      slot :base, class: "rounded-md font-medium inline-flex items-center justify-center
-                          focus-visible:outline-2 focus-visible:outline-offset-2
-                          disabled:opacity-50 disabled:cursor-not-allowed"
-      slot :label, class: "truncate"
-      slot :icon, class: "shrink-0"
-    end
-
-    variant color: :primary
-    variant color: :secondary
-    variant color: :destructive
-    variant color: :success
-    variant color: :warning
-
-    variant variant: :solid
-    variant variant: :outline
-    variant variant: :soft
-    variant variant: :ghost
-    variant variant: :link
-
-    variant size: :sm, base: "px-2 py-1 text-xs gap-1", icon: "size-4"
-    variant size: :md, base: "px-2.5 py-1.5 text-sm gap-1.5", icon: "size-5"
-    variant size: :lg, base: "px-3 py-2 text-base gap-2", icon: "size-5"
-
-    # Compound variants: color x variant
-    compound color: :primary, variant: :solid,
-      base: "bg-primary text-primary-foreground hover:bg-primary/90"
-    compound color: :primary, variant: :outline,
-      base: "text-primary border border-primary/50 hover:bg-primary/10"
-    compound color: :primary, variant: :soft,
-      base: "text-primary bg-primary/10 hover:bg-primary/20"
-    compound color: :primary, variant: :ghost,
-      base: "text-primary hover:bg-primary/10"
-    compound color: :primary, variant: :link,
-      base: "text-primary underline-offset-4 hover:underline"
-
-    compound color: :destructive, variant: :solid,
-      base: "bg-destructive text-destructive-foreground hover:bg-destructive/90"
-    compound color: :destructive, variant: :outline,
-      base: "text-destructive border border-destructive/50 hover:bg-destructive/10"
-    # ... more color x variant combos
-
-    defaults color: :primary, variant: :solid, size: :md
-  end
-end
-```
-
-```erb
-<%# app/views/components/_button.html.erb %>
-<%# locals: (variant: :solid, color: :primary, size: :md, css_classes: "", **component_options) %>
-<% merged_data = (component_options.delete(:data) || {}).merge(
-    component: :button, variant: variant, size: size
-  ).compact %>
-<%= content_tag :button,
-    class: Kiso::Themes::Button.render(:base,
-             color: color, variant: variant, size: size, class: css_classes),
-    data: merged_data, **component_options do %>
-  <span class="<%= Kiso::Themes::Button.render(:label, color: color, variant: variant, size: size) %>">
-    <%= yield %>
-  </span>
-<% end %>
-```
-
-Render a specific slot with `.render(:slot_name, **variants)`. Without a
-slot name, it renders the default (base) classes.
-
-### Recipe 3: Hash-Style Definition (Alternative)
-
-If you prefer hashes over the block DSL — equivalent to Recipe 2:
+For components with `color:` and `variant:` axes (Button, Badge, Alert).
+Kiso uses hash-style `ClassVariants.build(base: ..., variants: ...)` — not
+the block-style slot DSL.
 
 ```ruby
 # lib/kiso/themes/button.rb
@@ -655,19 +585,12 @@ module Kiso::Themes
            focus-visible:outline-2 focus-visible:outline-offset-2
            disabled:opacity-50 disabled:cursor-not-allowed",
     variants: {
-      color: {
-        primary: "",
-        secondary: "",
-        destructive: "",
-        success: "",
-        warning: ""
-      },
+      color: %i[primary secondary success info warning error neutral].index_with { "" },
       variant: {
         solid: "",
-        outline: "",
+        outline: "ring ring-inset",
         soft: "",
-        ghost: "",
-        link: ""
+        subtle: "ring ring-inset"
       },
       size: {
         sm: "px-2 py-1 text-xs gap-1",
@@ -676,29 +599,27 @@ module Kiso::Themes
       }
     },
     compound_variants: [
-      { color: :primary, variant: :solid,
-        class: "bg-primary text-primary-foreground hover:bg-primary/90" },
-      { color: :primary, variant: :outline,
-        class: "text-primary border border-primary/50 hover:bg-primary/10" },
-      { color: :primary, variant: :soft,
-        class: "text-primary bg-primary/10 hover:bg-primary/20" },
-      { color: :primary, variant: :ghost,
-        class: "text-primary hover:bg-primary/10" },
-      { color: :primary, variant: :link,
-        class: "text-primary underline-offset-4 hover:underline" },
-      { color: :destructive, variant: :solid,
-        class: "bg-destructive text-destructive-foreground hover:bg-destructive/90" },
-      # ... more color x variant combos
+      # For the complete compound variant block, see project/design-system.md.
+      # Copy from an existing component (Badge) — never invent new formulas.
     ],
     defaults: { color: :primary, variant: :solid, size: :md }
   )
 end
 ```
 
-Both styles produce the same result. Hash style is more compact; block style
-is more explicit about slots.
+```erb
+<%# app/views/kiso/components/_button.html.erb %>
+<%# locals: (variant: :solid, color: :primary, size: :md, css_classes: "", **component_options) %>
+<%= content_tag :button,
+    class: Kiso::Themes::Button.render(color: color, variant: variant,
+             size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "button"),
+    **component_options do %>
+  <%= yield %>
+<% end %>
+```
 
-### Recipe 4: Generating Compound Variants Programmatically
+### Recipe 3: Generating Compound Variants Programmatically
 
 Nuxt UI generates compound variants dynamically from a color list. This
 avoids writing repetitive entries:
@@ -706,14 +627,15 @@ avoids writing repetitive entries:
 ```ruby
 # lib/kiso/themes/button.rb
 module Kiso::Themes
-  COLORS = %i[primary secondary destructive success warning].freeze
+  COLORS = %i[primary secondary success info warning error neutral].freeze
 
+  # Simplified example — actual formulas MUST match project/design-system.md.
+  # Copy from an existing component (Badge) — never invent new formulas.
   VARIANT_STYLES = {
-    solid:   ->(c) { "bg-#{c} text-#{c}-foreground hover:bg-#{c}/90" },
-    outline: ->(c) { "text-#{c} border border-#{c}/50 hover:bg-#{c}/10" },
-    soft:    ->(c) { "text-#{c} bg-#{c}/10 hover:bg-#{c}/20" },
-    ghost:   ->(c) { "text-#{c} hover:bg-#{c}/10" },
-    link:    ->(c) { "text-#{c} underline-offset-4 hover:underline" }
+    solid:   ->(c) { "bg-#{c} text-#{c}-foreground" },
+    outline: ->(c) { "text-#{c} ring-#{c}/50" },
+    soft:    ->(c) { "bg-#{c}/10 text-#{c}" },
+    subtle:  ->(c) { "bg-#{c}/10 text-#{c} ring-#{c}/25" }
   }.freeze
 
   BUTTON_COMPOUNDS = COLORS.flat_map do |color|
@@ -727,7 +649,12 @@ module Kiso::Themes
            disabled:opacity-50 disabled:cursor-not-allowed",
     variants: {
       color: COLORS.index_with { "" },
-      variant: VARIANT_STYLES.keys.index_with { "" },
+      variant: {
+        solid: "",
+        outline: "ring ring-inset",
+        soft: "",
+        subtle: "ring ring-inset"
+      },
       size: {
         sm: "px-2 py-1 text-xs gap-1",
         md: "px-2.5 py-1.5 text-sm gap-1.5",
@@ -740,13 +667,18 @@ module Kiso::Themes
 end
 ```
 
+> **Note:** The `VARIANT_STYLES` lambdas above are simplified. For the
+> complete compound variant formulas (including neutral color special cases
+> and hover states), see `project/design-system.md`. Copy from an existing
+> component (Badge) — never invent new formulas.
+
 **Important**: When generating classes dynamically like `bg-#{color}`, you
 must configure Tailwind's content scanning to find these classes. Either:
 - Use a safelist in `tailwind.config.js`
 - Use `@source` comments pointing to the Ruby theme files
 - Keep a static list of all generated class strings in a comment block
 
-### Recipe 5: Component Helper for Clean ERB
+### Recipe 4: Component Helper for Clean ERB
 
 Wrap `.render()` calls in a helper so partials stay readable:
 
@@ -773,7 +705,7 @@ Or skip the helper and call the theme directly — it's already clean:
                      size: size, class: css_classes) %>">
 ```
 
-### Recipe 6: Data-Attribute CSS + class_variants Hybrid
+### Recipe 5: Data-Attribute CSS + class_variants Hybrid
 
 Kiso uses data-attribute selectors for variants. This coexists with
 class_variants — use data attributes for CSS that must live in stylesheets,
@@ -806,7 +738,7 @@ The data attributes serve as **hooks for CSS that's awkward in ERB** (pseudo-
 states, transitions, keyframes) while class_variants handles the main
 styling in markup.
 
-### Recipe 7: Inheriting and Extending Themes
+### Recipe 6: Inheriting and Extending Themes
 
 For component variants that share a base (e.g., Input, Textarea, Select all
 share form field styling):
@@ -859,7 +791,7 @@ end
 Shared constants + string interpolation give you the `extend` behavior that
 tailwind-variants has in JS, without any extra machinery.
 
-### Recipe 8: shadcn-Style Flat Button (No Color Axis)
+### Recipe 7: shadcn-Style Flat Button (No Color Axis)
 
 If your button doesn't need a separate `color` axis — just named variants
 like shadcn does — this is the simplest approach:
@@ -875,8 +807,8 @@ module Kiso::Themes
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        error: "bg-error text-error-foreground hover:bg-error/90",
+        outline: "ring ring-inset ring-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline"
@@ -898,21 +830,19 @@ end
 <%= content_tag :button,
     class: Kiso::Themes::Button.render(variant: variant, size: size,
                                        class: css_classes),
-    data: { component: :button, variant: variant, size: size },
+    data: kiso_prepare_options(component_options, slot: "button"),
     **component_options do %>
   <%= yield %>
 <% end %>
 ```
 
 No compound variants, no empty color entries, no programmatic generation.
-Each variant value is self-contained. You read `destructive:` and see
-exactly what classes it applies.
+Each variant value is self-contained and readable at a glance.
 
-**When to choose this over Recipe 3/4**: When you don't need independent
-`color` and `variant` axes. shadcn's Button has 6 named variants
-(default, destructive, outline, secondary, ghost, link) where each one is
-a complete visual style. If your app only uses `primary` and `destructive`
-buttons, this is simpler than a 5-color x 5-variant compound matrix.
+**When to choose this over Recipe 2/3**: When you don't need independent
+`color` and `variant` axes. Named variants like default, error, outline,
+secondary, ghost, and link are each a complete visual style. This is simpler
+than a 7-color x 4-variant compound matrix.
 
 ---
 
@@ -949,7 +879,7 @@ present. Both shadcn (`asChild`) and Nuxt UI (`ULinkBase`) do the same.
 Kiso should adopt this:
 
 ```erb
-<%# app/views/components/_button.html.erb %>
+<%# app/views/kiso/components/_button.html.erb %>
 <%# locals: (tag: :button, href: nil, ..., **component_options) %>
 <% tag_name = href.present? ? :a : tag %>
 <% component_options[:href] = href if href.present? %>

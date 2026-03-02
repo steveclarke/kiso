@@ -8,8 +8,6 @@ Stimulus.
 
 ## Key References
 
-- `PLAN.md` — **read first**. Current status, what's done, what to build next,
-  priority-ordered component list with batches.
 - `project/design-system.md` — **read before building any component**. Strict
   compound variant formulas, semantic token table, Nuxt UI token mapping,
   and **spatial system** (heights, padding, gaps, typography, radius, icon
@@ -152,6 +150,49 @@ Consistency is more important than any individual improvement.
   `@param`, `@returns`, `@private` as appropriate. See existing controllers
   in `app/javascript/controllers/kiso/` for the expected format.
 
+## Dark Mode System
+
+**`kiso_theme_script` helper** — outputs a blocking inline `<script>` in
+`<head>` that reads localStorage → cookie → `prefers-color-scheme` and sets
+`.dark` on `<html>` before first paint. Zero server-side code needed. CSP-safe
+via `nonce: true`. Developers add one line to their layout:
+
+```erb
+<head>
+  <%= kiso_theme_script %>
+  <%= stylesheet_link_tag "tailwind" %>
+</head>
+```
+
+**`kiso--theme` Stimulus controller** — handles toggling. `toggle()` cycles
+light ↔ dark. `set()` accepts "light", "dark", or "system" via event detail.
+Persists to both localStorage and cookie.
+
+**Color mode components:**
+- `kui(:color_mode_button)` — light/dark toggle with sun/moon icons
+- `kui(:color_mode_select)` — dropdown with Light/Dark/System options
+
+## Dashboard Layout
+
+**Components, not layouts.** The engine ships composable `kui()` components.
+Host apps own their layout file — the engine never renders `<html>` or `<body>`.
+
+```erb
+<%= kui(:dashboard_group) do %>
+  <%= kui(:dashboard_navbar) do %>
+    <%= kui(:dashboard_navbar, :toggle) %>
+    <%= kui(:color_mode_button) %>
+  <% end %>
+  <%= kui(:dashboard_sidebar) { yield :sidebar } %>
+  <%= kui(:dashboard_panel) { yield } %>
+<% end %>
+```
+
+`dashboard_group` reads `cookies[:sidebar_open]` itself — no `before_action`
+needed in host controllers. CSS mechanics (grid layout, sidebar animation,
+mobile overlay) live in `app/assets/tailwind/kiso/dashboard.css` using
+`[data-slot]` selectors.
+
 ## Component Pattern
 
 ```ruby
@@ -178,24 +219,26 @@ Kiso::Themes::Badge = ClassVariants.build(
 ## File Structure
 
 ```
-lib/kiso/themes/           Ruby theme modules (ClassVariants definitions)
-app/views/kiso/components/ ERB partials (rendered via kui() helper)
-app/assets/stylesheets/    Component CSS (thin — transitions/pseudo-states only)
-app/helpers/kiso/          kui(), kiso_prepare_options() helpers
-test/components/previews/  Lookbook preview classes + templates
-test/dummy/                Integration test app — real Rails host app using Kiso (bin/dummy → port 5000)
-lookbook/                  Lookbook dev app (bin/dev → port 4001)
-skills/kiso/               AI skill (component reference, theming guide)
-project/                   Architecture docs, design system, component vision docs
-docs/                      Bridgetown docs site (published documentation)
+lib/kiso/themes/              Ruby theme modules (ClassVariants definitions)
+app/views/kiso/components/    ERB partials (rendered via kui() helper)
+app/assets/tailwind/kiso/     Component CSS (engine.css + per-component mechanics)
+app/helpers/kiso/             kui(), kiso_prepare_options(), kiso_theme_script()
+app/javascript/controllers/kiso/  Stimulus controllers (namespaced kiso--)
+app/javascript/kiso/utils/    Shared JS utilities (positioning, highlight, focusable)
+test/components/previews/     Lookbook preview classes + templates
+test/dummy/                   Integration test app (bin/dummy → port 5000)
+lookbook/                     Lookbook dev app (bin/dev → port 4001)
+skills/kiso/                  AI skill (component reference, theming guide)
+project/                      Architecture docs, design system, component vision docs
+docs/                         Bridgetown docs site (published documentation)
 ```
 
 ## Dependencies
 
 - Rails >= 8.0
-- tailwindcss-rails (host app owns the Tailwind build)
 - class_variants ~> 1.1 (variant definitions, Ruby cva equivalent)
 - tailwind_merge ~> 1.0 (class deduplication)
+- Host app owns the Tailwind build (works with tailwindcss-rails or cssbundling-rails)
 
 ## GitHub Project
 
@@ -227,15 +270,45 @@ gh project item-edit --project-id PVT_kwHNBRnOAUCSOg --id PVTI_xxx --field-id PV
 - **Link PRs to issues** — include `Closes #N` in the PR body so GitHub
   auto-closes the issue on merge.
 - **Do not commit without explicit permission** from the user.
-- **Dev server**: `bin/dev` runs Overmind daemonized. Start it if not
-  running, restart services as needed (`overmind restart web`).
+
+## Finalize Checklist
+
+Run `/finalize` or ask "are we ready to merge?" to trigger this. These are
+Kiso-specific checks on top of the universal finalize skill.
+
+**Per component:**
+- [ ] Theme module in `lib/kiso/themes/` + required in `lib/kiso.rb`
+- [ ] ERB partial with `data-slot`, `css_classes:`, strict locals
+- [ ] Default icons use `kiso_component_icon(:name)` — no raw SVGs anywhere
+- [ ] Icon names registered in `lib/kiso/configuration.rb`
+- [ ] `type: "button"` on all `<button>` elements
+- [ ] Stimulus data attributes via `tag.*` helpers with `data:` hash — no raw HTML
+- [ ] Lookbook preview with `@logical_path` grouping (Form, Color Mode, Dashboard, etc.)
+- [ ] Vision doc at `project/components/{name}.md`
+- [ ] Docs page at `docs/src/components/{name}.md` (no `# Title` — frontmatter handles it)
+- [ ] Entry in `docs/src/_data/navigation.yml` (alphabetical)
+- [ ] Entry in `skills/kiso/references/components.md`
+- [ ] JSDoc on all JS controllers (`@example`, `@property`, `@fires`, `@param`)
+- [ ] `frozen_string_literal` consistency with existing files
+
+**Per PR:**
+- [ ] `bundle exec standardrb --fix` — clean
+- [ ] `npm run lint && npm run fmt:check` — clean
+- [ ] `bundle exec rake test` — all pass
+- [ ] Visual check in Lookbook and/or dummy app
+- [ ] Dark mode verified (if applicable)
+- [ ] PR description reflects actual scope
+- [ ] `Closes #N` in PR body
+- [ ] Parent epic updated with current status
+- [ ] Follow-on issues created for deferred work
+- [ ] Issues on project board with correct status
+- [ ] `MEMORY.md` updated with learnings
 
 ## Linting & Formatting
 
-- **Ruby**: `bundle exec standardrb --fix` before committing.
+- **Ruby**: `bundle exec standardrb --fix`
 - **JS lint**: `npm run lint` (oxlint). Config: `.oxlintrc.json`.
 - **JS format**: `npm run fmt` (oxfmt). Config: `.oxfmtrc.json`.
-- Run both checks before committing JS changes: `npm run lint && npm run fmt:check`
 - oxfmt uses no semicolons, double quotes, trailing commas, and sorts
   imports + Tailwind classes automatically.
 
