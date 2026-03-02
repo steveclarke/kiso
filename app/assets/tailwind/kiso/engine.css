@@ -5,6 +5,7 @@
 
 @import "./checkbox.css";
 @import "./radio-group.css";
+@import "./color-mode.css";
 @import "./dashboard.css";
 
 /* Scan Kiso's own files so host apps don't need to know the gem's internals.
