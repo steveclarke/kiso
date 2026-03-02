@@ -40,7 +40,11 @@ module Kiso
         ellipsis: "ellipsis",
         x: "x",
         search: "search",
-        circle: "circle"
+        circle: "circle",
+        sun: "sun",
+        moon: "moon",
+        monitor: "monitor",
+        menu: "menu"
       }
     end
   end

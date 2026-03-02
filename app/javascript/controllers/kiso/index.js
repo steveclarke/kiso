@@ -4,6 +4,8 @@ import KisoCommandDialogController from "./command_dialog_controller.js"
 import KisoDropdownMenuController from "./dropdown_menu_controller.js"
 import KisoPopoverController from "./popover_controller.js"
 import KisoSelectController from "./select_controller.js"
+import KisoSidebarController from "./sidebar_controller.js"
+import KisoThemeController from "./theme_controller.js"
 import KisoToggleController from "./toggle_controller.js"
 import KisoToggleGroupController from "./toggle_group_controller.js"
 
@@ -15,6 +17,8 @@ const KisoUi = {
     application.register("kiso--dropdown-menu", KisoDropdownMenuController)
     application.register("kiso--popover", KisoPopoverController)
     application.register("kiso--select", KisoSelectController)
+    application.register("kiso--sidebar", KisoSidebarController)
+    application.register("kiso--theme", KisoThemeController)
     application.register("kiso--toggle", KisoToggleController)
     application.register("kiso--toggle-group", KisoToggleGroupController)
   },
@@ -28,6 +32,8 @@ export {
   KisoDropdownMenuController,
   KisoPopoverController,
   KisoSelectController,
+  KisoSidebarController,
+  KisoThemeController,
   KisoToggleController,
   KisoToggleGroupController,
 }

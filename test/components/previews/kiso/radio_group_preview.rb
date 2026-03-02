@@ -1,5 +1,6 @@
 module Kiso
   # @label RadioGroup
+  # @logical_path kiso/form
   class RadioGroupPreview < Lookbook::Preview
     # @label Playground
     # @param color select { choices: [primary, secondary, success, info, warning, error, neutral] }

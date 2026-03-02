@@ -1,5 +1,6 @@
 module Kiso
   # @label InputGroup
+  # @logical_path kiso/form
   class InputGroupPreview < Lookbook::Preview
     # @label Playground
     def playground

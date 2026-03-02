@@ -1,0 +1,14 @@
+<%# locals: (size: :md, css_classes: "", **component_options) %>
+<%= content_tag :button,
+    class: Kiso::Themes::ColorModeButton.render(size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "color-mode-button",
+                               controller: "kiso--theme",
+                               action: "click->kiso--theme#toggle"),
+    aria: { label: "Toggle color mode" },
+    type: "button",
+    **component_options do %>
+  <%# Light icon — visible in light mode, hidden in dark %>
+  <span data-slot="color-mode-icon-light"><%= kiso_component_icon(:sun) %></span>
+  <%# Dark icon — hidden in light mode, visible in dark %>
+  <span data-slot="color-mode-icon-dark"><%= kiso_component_icon(:moon) %></span>
+<% end %>

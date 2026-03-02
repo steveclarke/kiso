@@ -1,5 +1,6 @@
 module Kiso
   # @label Textarea
+  # @logical_path kiso/form
   class TextareaPreview < Lookbook::Preview
     # @label Playground
     # @param variant select { choices: [outline, soft, ghost] }

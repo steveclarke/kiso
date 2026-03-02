@@ -1,0 +1,13 @@
+<%# locals: (sidebar_open: nil, css_classes: "", **component_options) %>
+<% sidebar_open = cookies[:sidebar_open] != "false" if sidebar_open.nil? %>
+<%= content_tag :div,
+    class: Kiso::Themes::DashboardGroup.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "dashboard-group",
+                               controller: "kiso--sidebar",
+                               sidebar_open: sidebar_open) do %>
+  <%= yield %>
+  <%= tag.div data: { slot: "dashboard-scrim",
+                      kiso__sidebar_target: "scrim",
+                      action: "click->kiso--sidebar#closeOnMobile" },
+              aria: { hidden: true } %>
+<% end %>

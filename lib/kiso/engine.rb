@@ -32,6 +32,7 @@ module Kiso
       ActiveSupport.on_load(:action_view) do
         include Kiso::ComponentHelper
         include Kiso::IconHelper
+        include Kiso::ThemeHelper
       end
     end
 

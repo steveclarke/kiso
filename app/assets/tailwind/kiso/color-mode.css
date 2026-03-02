@@ -1,0 +1,9 @@
+/* ── Color Mode Components ────────────────────────────────────────────────────
+   Icon visibility for the color mode button. The .dark class on <html> drives
+   which icon is shown — sun in light mode, moon in dark mode. */
+
+@layer components {
+  [data-slot="color-mode-icon-dark"] { display: none; }
+  .dark [data-slot="color-mode-icon-light"] { display: none; }
+  .dark [data-slot="color-mode-icon-dark"] { display: inline-block; }
+}

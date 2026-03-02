@@ -1,106 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" class="<%= "dark" if @dark_mode %>">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <title><%= content_for(:title).presence || "Dashboard" %></title>
+    <%= kiso_theme_script %>
     <%= stylesheet_link_tag "tailwind", data: { turbo_track: "reload" } %>
     <%= javascript_importmap_tags %>
     <%= yield :head %>
   </head>
 
-  <%#
-    The <body> is the sidebar state machine.
-    data-controller="sidebar" attaches the Stimulus controller.
-    data-sidebar-open is set by the server from a cookie — zero FOUC.
-    CSS reads this attribute to drive --sidebar-current-width and mobile overlay.
-  %>
-  <body class="grid grid-rows-[var(--topbar-height)_1fr] h-dvh overflow-hidden bg-background text-foreground antialiased"
-        data-controller="sidebar"
-        data-sidebar-open="<%= @sidebar_open %>">
+  <body>
+    <%= kui(:dashboard_group) do %>
+      <%= kui(:dashboard_navbar) do %>
+        <%= kui(:dashboard_navbar, :toggle) %>
+        <%= yield :topbar %>
 
-    <%#
-      Topbar: spans both grid columns (col-span-full).
-      Fixed height via --topbar-height. Sits in row 1.
-    %>
-    <header class="col-span-full flex items-center gap-3 px-4 border-b border-border bg-background shrink-0 z-[--z-topbar]">
+        <%= kui(:color_mode_button) %>
 
-      <%# Sidebar toggle button %>
-      <button data-sidebar-target="trigger"
-              data-action="click->sidebar#toggle"
-              aria-label="Toggle sidebar"
-              aria-expanded="<%= @sidebar_open %>"
-              aria-controls="sidebar-panel"
-              class="flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="4" x2="20" y1="12" y2="12"/>
-          <line x1="4" x2="20" y1="6" y2="6"/>
-          <line x1="4" x2="20" y1="18" y2="18"/>
-        </svg>
-      </button>
+        <%= yield :topbar_end %>
+      <% end %>
 
-      <%# Views fill this slot with breadcrumbs, page title, action buttons %>
-      <%= yield :topbar %>
+      <%= kui(:dashboard_sidebar) do %>
+        <%= yield :sidebar %>
+      <% end %>
 
-      <%# Theme toggle — always in topbar, right side %>
-      <button data-controller="theme"
-              data-action="click->theme#toggle"
-              aria-label="Toggle dark mode"
-              class="flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-        </svg>
-      </button>
-
-      <%# User avatar — always rightmost %>
-      <button aria-label="Account menu" class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
-        SC
-      </button>
-    </header>
-
-    <%#
-      Inner grid: sidebar + content.
-      grid-template-columns uses --sidebar-current-width, driven by body state attribute.
-      overflow-hidden clips the rail as it collapses.
-    %>
-    <div class="content-grid grid overflow-hidden [grid-template-columns:var(--sidebar-current-width)_1fr]">
-
-      <%#
-        Sidebar rail: the clipping element.
-        Desktop: width transitions via --sidebar-current-width.
-        Mobile: position:fixed, transform-based slide (CSS handles both).
-      %>
-      <aside id="sidebar-panel"
-             class="sidebar-rail border-r border-[--sidebar-border] bg-[--sidebar-background]"
-             aria-label="Sidebar navigation">
-
-        <%#
-          Inner nav: always var(--sidebar-width) wide — never squashes.
-          The rail clips it. This prevents text from compressing on close.
-        %>
-        <nav class="sidebar-nav flex flex-col">
-          <%= yield :sidebar %>
-        </nav>
-      </aside>
-
-      <%#
-        Main content: min-w-0 prevents 1fr column overflow.
-        overflow-y-auto is the page scroll container.
-      %>
-      <main class="col-start-2 min-w-0 overflow-y-auto bg-background" id="main-content">
+      <%= kui(:dashboard_panel) do %>
         <%= yield %>
-      </main>
-
-      <%#
-        Mobile scrim: a real DOM element (not ::before) so it receives clicks.
-        Hidden on desktop via CSS. Appears on mobile when sidebar is open.
-      %>
-      <div class="sidebar-scrim"
-           data-sidebar-target="scrim"
-           data-action="click->sidebar#closeOnMobile"
-           aria-hidden="true"></div>
-    </div>
+      <% end %>
+    <% end %>
   </body>
 </html>

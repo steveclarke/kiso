@@ -1,5 +1,6 @@
 module Kiso
   # @label Field
+  # @logical_path kiso/form
   class FieldPreview < Lookbook::Preview
     # @label Input
     def input

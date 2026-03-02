@@ -1,0 +1,127 @@
+/* ── Kiso Dashboard Layout ────────────────────────────────────────────────────
+   Tokens and mechanics for the full-screen sidebar + topbar dashboard shell.
+   Bundled with the engine — all apps get these tokens and layout rules.
+
+   Host apps can override any token in their own @theme block:
+     @theme { --sidebar-width: 18rem; }
+ */
+
+/* ── Tokens ──────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Sidebar geometry */
+  --sidebar-width:             16rem;
+
+  /* Layout heights */
+  --topbar-height:             3.5rem;
+
+  /* Sidebar surface tokens (light mode defaults) */
+  --sidebar-background:        var(--color-white);
+  --sidebar-foreground:        var(--color-zinc-900);
+  --sidebar-border:            var(--color-zinc-200);
+  --sidebar-accent:            var(--color-zinc-100);
+  --sidebar-accent-foreground: var(--color-zinc-700);
+
+  /* Animation */
+  --sidebar-duration:          220ms;
+  --ease-out-expo:             cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Z-index stack */
+  --z-topbar:  30;
+  --z-sidebar: 40;
+}
+
+/* Dark mode sidebar token overrides */
+.dark {
+  --sidebar-background:        var(--color-zinc-950);
+  --sidebar-foreground:        var(--color-zinc-100);
+  --sidebar-border:            var(--color-zinc-800);
+  --sidebar-accent:            var(--color-zinc-800);
+  --sidebar-accent-foreground: var(--color-zinc-300);
+}
+
+/* ── Layout mechanics ─────────────────────────────────────────────────────── */
+
+@layer components {
+  /* Drive --sidebar-current-width from the data attribute set by sidebar controller */
+  [data-sidebar-open="true"]  { --sidebar-current-width: var(--sidebar-width); }
+  [data-sidebar-open="false"] { --sidebar-current-width: 0rem; }
+
+  /* Flat 2×2 grid: topbar row + sidebar/panel row */
+  [data-slot="dashboard-group"] {
+    grid-template-rows: var(--topbar-height) 1fr;
+    grid-template-columns: var(--sidebar-current-width) 1fr;
+    transition: grid-template-columns var(--sidebar-duration) var(--ease-out-expo);
+  }
+
+  /* Topbar spans both columns */
+  [data-slot="dashboard-navbar"] {
+    grid-column: 1 / -1;
+  }
+
+  /*
+    Sidebar: background-color and border-right-color are set here (not via
+    Tailwind arbitrary classes) because bg-[--css-var] classes don't generate
+    reliably. overflow: hidden is in the theme module (DashboardSidebar base).
+  */
+  [data-slot="dashboard-sidebar"] {
+    background-color: var(--sidebar-background);
+    border-right-color: var(--sidebar-border);
+  }
+
+  /* Inner nav: always sidebar-width, scrolls independently */
+  [data-slot="dashboard-sidebar-inner"] {
+    width: var(--sidebar-width);
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Panel: row 2, col 2 */
+  [data-slot="dashboard-panel"] {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  /* Scrim: hidden on desktop */
+  [data-slot="dashboard-scrim"] { display: none; }
+
+  /* ── Mobile: sidebar becomes a fixed full-width overlay ───────────────── */
+  @media (max-width: 767px) {
+    /* Collapse sidebar column to 0 on mobile */
+    [data-slot="dashboard-group"] {
+      grid-template-columns: 0 1fr;
+    }
+
+    /* Sidebar switches from grid column to fixed overlay */
+    [data-slot="dashboard-sidebar"] {
+      position: fixed;
+      inset-block: 0;
+      inset-inline-start: 0;
+      z-index: var(--z-sidebar);
+      width: 100dvw;
+      transform: translateX(-100dvw);
+      transition: transform var(--sidebar-duration) var(--ease-out-expo);
+    }
+
+    [data-sidebar-open="true"] [data-slot="dashboard-sidebar"] {
+      transform: translateX(0);
+    }
+
+    /* Inner nav fills the full-width sidebar on mobile */
+    [data-slot="dashboard-sidebar-inner"] {
+      width: 100dvw;
+    }
+
+    /* Scrim: appears behind the sidebar overlay on mobile */
+    [data-sidebar-open="true"] [data-slot="dashboard-scrim"] {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: calc(var(--z-sidebar) - 1);
+      background: oklch(0% 0 0 / 40%);
+    }
+  }
+}

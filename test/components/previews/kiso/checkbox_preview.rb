@@ -1,5 +1,6 @@
 module Kiso
   # @label Checkbox
+  # @logical_path kiso/form
   class CheckboxPreview < Lookbook::Preview
     # @label Playground
     # @param color select { choices: [primary, secondary, success, info, warning, error, neutral] }

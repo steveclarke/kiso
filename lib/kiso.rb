@@ -35,6 +35,9 @@ require "kiso/themes/combobox"
 require "kiso/themes/command"
 require "kiso/themes/dropdown_menu"
 require "kiso/themes/kbd"
+require "kiso/themes/color_mode_button"
+require "kiso/themes/color_mode_select"
+require "kiso/themes/dashboard"
 require "kiso/icons"
 
 # Kiso — a Rails engine providing UI components inspired by shadcn/ui and Nuxt UI.

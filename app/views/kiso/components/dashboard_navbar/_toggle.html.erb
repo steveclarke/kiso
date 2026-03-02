@@ -1,0 +1,11 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :button,
+    class: Kiso::Themes::DashboardNavbarToggle.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "dashboard-navbar-toggle",
+                               kiso__sidebar_target: "trigger",
+                               action: "click->kiso--sidebar#toggle"),
+    aria: { label: "Toggle sidebar", expanded: "false", controls: "dashboard-sidebar" },
+    type: "button",
+    **component_options do %>
+  <%= kiso_component_icon(:menu) %>
+<% end %>
