@@ -1,6 +1,6 @@
 /* ── Kiso Dashboard Layout ────────────────────────────────────────────────────
    Tokens and mechanics for the full-screen sidebar + topbar dashboard shell.
-   Import this file in your application CSS after engine.css to opt in.
+   Bundled with the engine — all apps get these tokens and layout rules.
 
    Host apps can override any token in their own @theme block:
      @theme { --sidebar-width: 18rem; }
@@ -60,12 +60,11 @@
   }
 
   /*
-    Sidebar: clips the always-full-width inner nav.
-    background-color and border-right-color are set here (not via Tailwind
-    arbitrary classes) because bg-[--css-var] classes don't generate reliably.
+    Sidebar: background-color and border-right-color are set here (not via
+    Tailwind arbitrary classes) because bg-[--css-var] classes don't generate
+    reliably. overflow: hidden is in the theme module (DashboardSidebar base).
   */
   [data-slot="dashboard-sidebar"] {
-    overflow: hidden;
     background-color: var(--sidebar-background);
     border-right-color: var(--sidebar-border);
   }
@@ -114,11 +113,6 @@
     /* Inner nav fills the full-width sidebar on mobile */
     [data-slot="dashboard-sidebar-inner"] {
       width: 100dvw;
-    }
-
-    /* Panel explicitly in col 2 — stays full-width when sidebar is position:fixed */
-    [data-slot="dashboard-panel"] {
-      grid-column: 2;
     }
 
     /* Scrim: appears behind the sidebar overlay on mobile */

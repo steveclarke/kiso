@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Kiso
   module Themes
     DashboardGroup = ClassVariants.build(

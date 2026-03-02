@@ -15,11 +15,7 @@
       <div class="flex items-center gap-2.5 px-4 shrink-0 border-b border-[--sidebar-border]"
            style="height: var(--topbar-height)">
         <div class="flex items-center justify-center w-6 h-6 rounded-md bg-primary shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-               stroke-linejoin="round" class="text-primary-foreground" aria-hidden="true">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-          </svg>
+          <%= kiso_icon("layers", class: "size-3.5 text-primary-foreground") %>
         </div>
         <span class="font-semibold text-sm text-[--sidebar-foreground] truncate">Kiso App</span>
       </div>
@@ -27,33 +23,19 @@
         <a href="#" data-slot="nav-item" aria-current="page"
            class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium
                   text-[--sidebar-foreground] bg-[--sidebar-accent] text-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-               stroke-linejoin="round" aria-hidden="true">
-            <rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/>
-            <rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>
-          </svg>
+          <%= kiso_icon("layout-dashboard", class: "size-4") %>
           <span class="truncate">Dashboard</span>
         </a>
         <a href="#" data-slot="nav-item"
            class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium
                   text-[--sidebar-foreground] hover:bg-[--sidebar-accent]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-               stroke-linejoin="round" aria-hidden="true">
-            <line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/>
-            <line x1="6" x2="6" y1="20" y2="14"/>
-          </svg>
+          <%= kiso_icon("bar-chart-3", class: "size-4 opacity-70") %>
           <span class="truncate">Analytics</span>
         </a>
         <a href="#" data-slot="nav-item"
            class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium
                   text-[--sidebar-foreground] hover:bg-[--sidebar-accent]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-               stroke-linejoin="round" aria-hidden="true">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-          </svg>
+          <%= kiso_icon("users", class: "size-4 opacity-70") %>
           <span class="truncate">Team</span>
         </a>
       </div>

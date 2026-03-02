@@ -43,7 +43,8 @@ module Kiso
         circle: "circle",
         sun: "sun",
         moon: "moon",
-        monitor: "monitor"
+        monitor: "monitor",
+        menu: "menu"
       }
     end
   end

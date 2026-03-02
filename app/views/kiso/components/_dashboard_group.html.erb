@@ -6,8 +6,8 @@
                                controller: "kiso--sidebar",
                                sidebar_open: sidebar_open) do %>
   <%= yield %>
-  <div data-slot="dashboard-scrim"
-       data-kiso--sidebar-target="scrim"
-       data-action="click->kiso--sidebar#closeOnMobile"
-       aria-hidden="true"></div>
+  <%= tag.div data: { slot: "dashboard-scrim",
+                      kiso__sidebar_target: "scrim",
+                      action: "click->kiso--sidebar#closeOnMobile" },
+              aria: { hidden: true } %>
 <% end %>

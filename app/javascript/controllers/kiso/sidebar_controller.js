@@ -50,14 +50,7 @@ export default class extends Controller {
    */
   toggle() {
     const isOpen = this.element.dataset.sidebarOpen !== "false"
-    const next = String(!isOpen)
-
-    this.element.dataset.sidebarOpen = next
-    document.cookie = `sidebar_open=${next};path=/;max-age=31536000;SameSite=Lax`
-
-    if (this.hasTriggerTarget) {
-      this.triggerTarget.setAttribute("aria-expanded", next)
-    }
+    this.#setState(!isOpen)
   }
 
   /**
@@ -67,9 +60,25 @@ export default class extends Controller {
    * the mobile sidebar dismisses it without affecting desktop layout.
    */
   closeOnMobile() {
-    if (window.innerWidth < 768) {
-      this.element.dataset.sidebarOpen = "false"
-      document.cookie = "sidebar_open=false;path=/;max-age=31536000;SameSite=Lax"
+    if (matchMedia("(max-width: 767px)").matches) {
+      this.#setState(false)
+    }
+  }
+
+  /**
+   * Sets the sidebar state, syncs aria-expanded, and persists to cookie.
+   *
+   * @param {boolean} open - Whether the sidebar should be open
+   * @private
+   */
+  #setState(open) {
+    const value = String(open)
+
+    this.element.dataset.sidebarOpen = value
+    document.cookie = `sidebar_open=${value};path=/;max-age=31536000;SameSite=Lax`
+
+    if (this.hasTriggerTarget) {
+      this.triggerTarget.setAttribute("aria-expanded", value)
     }
   }
 }
