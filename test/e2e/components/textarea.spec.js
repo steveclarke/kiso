@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test"
 
 import { checkA11y } from "../fixtures/axe-fixture.js"
 
-const BASE = "/preview/kiso/textarea"
+const BASE = "/preview/kiso/form/textarea"
 
 test.describe("Textarea component", () => {
   test("renders with data-slot=textarea", async ({ page }) => {
