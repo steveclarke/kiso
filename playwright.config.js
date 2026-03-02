@@ -13,6 +13,7 @@ export default defineConfig({
 
   use: {
     baseURL: BASE_URL,
+    testIdAttribute: "data-slot",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
