@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
-import { positionBelow } from "kiso-ui/utils/positioning"
+import { startPositioning } from "kiso-ui/utils/positioning"
 
 /**
  * Popover controller — toggles a floating panel anchored to a trigger element.
@@ -38,6 +38,7 @@ export default class extends Controller {
   }
 
   disconnect() {
+    this._cleanupPosition?.()
     this._clearCloseTimers()
     this._removeGlobalListeners()
   }
@@ -94,6 +95,8 @@ export default class extends Controller {
   close() {
     if (!this._open) return
 
+    this._cleanupPosition?.()
+    this._cleanupPosition = null
     this._clearCloseTimers()
     this._open = false
     this.contentTarget.setAttribute("data-state", "closed")
@@ -161,19 +164,27 @@ export default class extends Controller {
     }
   }
 
+  /** @private */
+  static _alignToPlacement = {
+    start: "bottom-start",
+    center: "bottom",
+    end: "bottom-end",
+  }
+
   /**
-   * Positions the content panel below the reference element (trigger or anchor).
+   * Positions the content panel relative to the reference element (trigger or anchor).
    * Respects `data-align` on the content element: "start", "end", or "center" (default).
+   * Starts auto-updating on scroll/resize.
    *
    * @private
    */
   _positionContent() {
     const reference = this.hasAnchorTarget ? this.anchorTarget : this.triggerTarget
     const align = this.contentTarget.dataset.align || "center"
+    const placement = this.constructor._alignToPlacement[align] || "bottom"
 
-    positionBelow(reference, this.contentTarget, {
-      align,
-      container: this.element,
+    this._cleanupPosition = startPositioning(reference, this.contentTarget, {
+      placement,
     })
   }
 

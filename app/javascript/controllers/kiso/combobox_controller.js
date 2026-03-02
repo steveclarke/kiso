@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
-import { positionBelow } from "kiso-ui/utils/positioning"
+import { startPositioning } from "kiso-ui/utils/positioning"
 
 /**
  * Combobox autocomplete with keyboard navigation, filtering, and form integration.
@@ -79,6 +79,7 @@ export default class extends Controller {
   }
 
   disconnect() {
+    this._cleanupPosition?.()
     this._removeGlobalListeners()
   }
 
@@ -295,6 +296,8 @@ export default class extends Controller {
   close() {
     if (!this._open) return
 
+    this._cleanupPosition?.()
+    this._cleanupPosition = null
     this._open = false
     if (this.hasContentTarget) {
       this.contentTarget.hidden = true
@@ -571,20 +574,22 @@ export default class extends Controller {
   }
 
   /**
-   * Positions the dropdown below the input/chips container with matching width.
+   * Positions the dropdown relative to the input/chips container with matching width.
+   * Starts auto-updating on scroll/resize.
    *
    * @private
    */
   _positionContent() {
     if (!this.hasContentTarget) return
 
-    // Find the anchor — either the combobox-input wrapper, chips container, or the controller element
     const anchor =
       this.element.querySelector("[data-slot='combobox-input']") ||
       this.element.querySelector("[data-slot='combobox-chips']") ||
       this.element
 
-    positionBelow(anchor, this.contentTarget)
+    this._cleanupPosition = startPositioning(anchor, this.contentTarget, {
+      matchWidth: true,
+    })
   }
 
   /**

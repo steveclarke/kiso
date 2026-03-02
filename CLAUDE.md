@@ -136,7 +136,7 @@ Consistency is more important than any individual improvement.
   shared utilities using bare specifiers that match the npm package name:
   ```javascript
   import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
-  import { positionBelow } from "kiso-ui/utils/positioning"
+  import { startPositioning } from "kiso-ui/utils/positioning"
   import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
   ```
   These resolve via `pin_all_from` in `config/importmap.rb` for Rails apps
@@ -144,6 +144,21 @@ Consistency is more important than any individual improvement.
   so new util files in `app/javascript/kiso/utils/` are picked up
   automatically — no config changes needed. **Never use relative imports
   for shared utils.**
+- **Vendored third-party JS dependencies** — when a component needs a
+  third-party JS library (like Floating UI for positioning), the engine
+  **vendors the browser ESM build** in `app/javascript/kiso/vendor/` and
+  **pins it in the engine's `config/importmap.rb`**. The engine's importmap
+  merges into the host app automatically — host apps don't configure
+  anything for importmap apps. Bundler apps install via npm (peer
+  dependency). **Never use CDN pins** — CDN fetches are async, happen
+  after `load` event, and cause race conditions with Stimulus controller
+  loading. Follow the pattern of `stimulus-rails` (vendors `stimulus.min.js`)
+  and `turbo-rails` (vendors `turbo.js`). See
+  `project/decisions/002-floating-ui-positioning.md` for rationale.
+  Vendored files go in `.oxlintrc.json` and `.oxfmtrc.json` ignore patterns.
+  Add as `dependencies` in `package.json` (so bundler apps get it
+  automatically via `npm install kiso-ui`) and as `devDependencies` for
+  local development/testing.
 - **JSDoc on all JavaScript** — every Stimulus controller, method, property,
   and event must have JSDoc comments. Class-level: `@example` with HTML usage,
   `@property` for targets/values, `@fires` for dispatched events. Methods:

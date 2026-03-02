@@ -1,49 +1,74 @@
 /**
- * Shared positioning utilities for dropdown-style components.
+ * Shared positioning utilities for floating components.
+ * Wraps Floating UI for smart positioning with flip, shift, and auto-update.
+ *
  * Used by select, combobox, popover, and dropdown_menu controllers.
  *
  * @module utils/positioning
  */
 
+import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom"
+
 /**
- * Positions a content panel below an anchor element using absolute positioning.
+ * Starts positioning a floating element relative to a reference element.
+ * Computes position immediately and re-computes on scroll, resize, and
+ * layout shift via Floating UI's `autoUpdate`.
  *
- * @param {HTMLElement} anchor - The reference element to position below
- * @param {HTMLElement} content - The panel to position
+ * @param {HTMLElement} reference - The anchor element to position against
+ * @param {HTMLElement} floating - The floating element to position
  * @param {Object} [options]
- * @param {number} [options.gap=4] - Pixel gap between anchor and content
- * @param {"start"|"center"|"end"} [options.align="start"] - Horizontal alignment
- * @param {HTMLElement} [options.container] - Parent container for "end" alignment calculation
+ * @param {"bottom-start"|"bottom"|"bottom-end"|"top-start"|"top"|"top-end"|"right-start"|"right"|"right-end"|"left-start"|"left"|"left-end"} [options.placement="bottom-start"] - Preferred placement
+ * @param {number} [options.offset=4] - Pixel gap between reference and floating element
+ * @param {"absolute"|"fixed"} [options.strategy="absolute"] - CSS positioning strategy
+ * @param {boolean} [options.matchWidth=false] - Set floating element minWidth to reference width
+ * @returns {Function} Cleanup function — call on close or disconnect to remove listeners
+ *
+ * @example
+ *   // In a Stimulus controller:
+ *   open() {
+ *     this.contentTarget.hidden = false
+ *     this._cleanupPosition = startPositioning(
+ *       this.triggerTarget,
+ *       this.contentTarget,
+ *       { placement: "bottom-start", matchWidth: true }
+ *     )
+ *   }
+ *
+ *   close() {
+ *     if (this._cleanupPosition) {
+ *       this._cleanupPosition()
+ *       this._cleanupPosition = null
+ *     }
+ *     this.contentTarget.hidden = true
+ *   }
  */
-export function positionBelow(
-  anchor,
-  content,
-  { gap = 4, align = "start", container = null } = {},
-) {
-  const rect = anchor.getBoundingClientRect()
+export function startPositioning(reference, floating, options = {}) {
+  const {
+    placement = "bottom-start",
+    offset: offsetDistance = 4,
+    strategy = "absolute",
+    matchWidth = false,
+  } = options
 
-  content.style.position = "absolute"
-  content.style.top = `${anchor.offsetTop + anchor.offsetHeight + gap}px`
-  content.style.minWidth = `${rect.width}px`
+  const update = () => {
+    computePosition(reference, floating, {
+      placement,
+      strategy,
+      middleware: [offset(offsetDistance), flip(), shift({ padding: 8 })],
+    }).then(({ x, y, placement: finalPlacement }) => {
+      Object.assign(floating.style, {
+        position: strategy,
+        left: `${x}px`,
+        top: `${y}px`,
+      })
 
-  switch (align) {
-    case "end":
-      if (container) {
-        content.style.right = `${container.offsetWidth - anchor.offsetLeft - anchor.offsetWidth}px`
-        content.style.left = "auto"
+      if (matchWidth) {
+        floating.style.minWidth = `${reference.getBoundingClientRect().width}px`
       }
-      break
-    case "center": {
-      const contentWidth = content.offsetWidth
-      const center = anchor.offsetLeft + anchor.offsetWidth / 2
-      content.style.left = `${center - contentWidth / 2}px`
-      content.style.right = "auto"
-      break
-    }
-    case "start":
-    default:
-      content.style.left = `${anchor.offsetLeft}px`
-      content.style.right = "auto"
-      break
+
+      floating.dataset.side = finalPlacement.split("-")[0]
+    })
   }
+
+  return autoUpdate(reference, floating, update)
 }
