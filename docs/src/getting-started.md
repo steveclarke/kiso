@@ -124,8 +124,8 @@ system works and how to customize the palette.
 
 ## Bundler apps (esbuild, Vite, Bun)
 
-If your app uses a JavaScript bundler instead of importmaps, also install the
-npm package for Stimulus controllers:
+If your app uses a JavaScript bundler instead of importmaps, install the npm
+package:
 
 ```bash
 npm install kiso-ui

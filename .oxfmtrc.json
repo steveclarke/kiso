@@ -9,6 +9,7 @@
   "sortImports": {},
   "sortTailwindcss": {},
   "ignorePatterns": [
+    "app/javascript/kiso/vendor/**",
     "vendor/**",
     "node_modules/**",
     "docs/**",

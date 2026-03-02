@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
-import { positionBelow } from "kiso-ui/utils/positioning"
+import { startPositioning } from "kiso-ui/utils/positioning"
 
 /**
  * Custom select dropdown with keyboard navigation and form integration.
@@ -44,6 +44,7 @@ export default class extends Controller {
   }
 
   disconnect() {
+    this._cleanupPosition?.()
     this._removeGlobalListeners()
   }
 
@@ -88,6 +89,8 @@ export default class extends Controller {
   close() {
     if (!this._open) return
 
+    this._cleanupPosition?.()
+    this._cleanupPosition = null
     this._open = false
     this.contentTarget.hidden = true
     this.triggerTarget.setAttribute("aria-expanded", "false")
@@ -195,12 +198,15 @@ export default class extends Controller {
   }
 
   /**
-   * Positions the dropdown below the trigger with matching width.
+   * Positions the dropdown relative to the trigger with matching width.
+   * Starts auto-updating on scroll/resize.
    *
    * @private
    */
   _positionContent() {
-    positionBelow(this.triggerTarget, this.contentTarget)
+    this._cleanupPosition = startPositioning(this.triggerTarget, this.contentTarget, {
+      matchWidth: true,
+    })
   }
 
   /**

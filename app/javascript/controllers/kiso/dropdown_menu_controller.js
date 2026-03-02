@@ -1,9 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
-import { positionBelow } from "kiso-ui/utils/positioning"
+import { startPositioning } from "kiso-ui/utils/positioning"
 
 /** @type {WeakMap<HTMLElement, {enterHandler: Function, leaveHandler: Function}>} */
 const _subHandlers = new WeakMap()
+
+/** @type {WeakMap<HTMLElement, Function>} */
+const _subPositionCleanups = new WeakMap()
 
 /**
  * Dropdown menu with keyboard navigation, sub-menus, checkbox items, and radio items.
@@ -66,6 +69,7 @@ export default class extends Controller {
   }
 
   disconnect() {
+    this._cleanupPosition?.()
     this._closeAllSubs()
     this._removeGlobalListeners()
     if (this._closeSubTimeout) {
@@ -113,6 +117,8 @@ export default class extends Controller {
   close() {
     if (!this._open) return
 
+    this._cleanupPosition?.()
+    this._cleanupPosition = null
     this._open = false
     this._lastHoveredItem = null
     this._closeAllSubs()
@@ -336,12 +342,13 @@ export default class extends Controller {
     subContent.hidden = true
     subTrigger.removeAttribute("data-state")
 
-    // Clean up hover listeners
+    this._stopSubPositioning(subContent)
     this._removeSubContentListeners(subContent)
 
     // Close nested sub-menus recursively
     subContent.querySelectorAll("[data-slot='dropdown-menu-sub-content']").forEach((nested) => {
       nested.hidden = true
+      this._stopSubPositioning(nested)
       this._removeSubContentListeners(nested)
     })
     subContent.querySelectorAll("[data-slot='dropdown-menu-sub-trigger']").forEach((nested) => {
@@ -357,6 +364,7 @@ export default class extends Controller {
   _closeAllSubs() {
     this.subContentTargets.forEach((subContent) => {
       subContent.hidden = true
+      this._stopSubPositioning(subContent)
       this._removeSubContentListeners(subContent)
     })
     this.subTriggerTargets.forEach((subTrigger) => {
@@ -377,6 +385,17 @@ export default class extends Controller {
       subContent.removeEventListener("mouseleave", handlers.leaveHandler)
       _subHandlers.delete(subContent)
     }
+  }
+
+  /**
+   * Stops positioning for a sub-content element and removes its cleanup entry.
+   *
+   * @param {HTMLElement} subContent
+   * @private
+   */
+  _stopSubPositioning(subContent) {
+    _subPositionCleanups.get(subContent)?.()
+    _subPositionCleanups.delete(subContent)
   }
 
   /**
@@ -429,53 +448,29 @@ export default class extends Controller {
   }
 
   /**
-   * Positions the dropdown content below the trigger with matching min-width
-   * and a dynamic max-height based on viewport space.
+   * Positions the dropdown content relative to the trigger.
+   * Starts auto-updating on scroll/resize.
    *
    * @private
    */
   _positionContent() {
-    const content = this.contentTarget
-    positionBelow(this.triggerTarget, content)
-
-    // Dynamic max-height based on available viewport space
-    requestAnimationFrame(() => {
-      const contentRect = content.getBoundingClientRect()
-      const availableHeight = window.innerHeight - contentRect.top - 8
-      if (availableHeight > 0) {
-        content.style.maxHeight = `${availableHeight}px`
-      }
-    })
+    this._cleanupPosition = startPositioning(this.triggerTarget, this.contentTarget)
   }
 
   /**
    * Positions a sub-content panel to the right of its trigger using
-   * fixed positioning. Flips horizontally or adjusts vertically
-   * if the panel overflows the viewport.
+   * Floating UI with fixed positioning to escape parent overflow clipping.
    *
    * @param {HTMLElement} subTrigger - The sub-trigger element
    * @param {HTMLElement} subContent - The sub-content panel to position
    * @private
    */
   _positionSubContent(subTrigger, subContent) {
-    // Use fixed positioning to escape parent overflow clipping
-    const rect = subTrigger.getBoundingClientRect()
-    subContent.style.position = "fixed"
-    subContent.style.top = `${rect.top}px`
-    subContent.style.left = `${rect.right + 4}px`
-
-    // Check viewport bounds after rendering
-    requestAnimationFrame(() => {
-      const subRect = subContent.getBoundingClientRect()
-      // Flip horizontally if overflowing right edge
-      if (subRect.right > window.innerWidth) {
-        subContent.style.left = `${rect.left - subRect.width - 4}px`
-      }
-      // Adjust vertically if overflowing bottom edge
-      if (subRect.bottom > window.innerHeight) {
-        subContent.style.top = `${window.innerHeight - subRect.height - 8}px`
-      }
+    const cleanup = startPositioning(subTrigger, subContent, {
+      placement: "right-start",
+      strategy: "fixed",
     })
+    _subPositionCleanups.set(subContent, cleanup)
   }
 
   /**
