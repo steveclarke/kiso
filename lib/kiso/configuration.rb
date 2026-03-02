@@ -42,7 +42,8 @@ module Kiso
         search: "search",
         circle: "circle",
         sun: "sun",
-        moon: "moon"
+        moon: "moon",
+        monitor: "monitor"
       }
     end
   end

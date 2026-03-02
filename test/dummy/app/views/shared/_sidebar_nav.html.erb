@@ -121,6 +121,12 @@
   </div>
 </div>
 
+<%# Theme selector %>
+<div class="shrink-0 px-4 py-3 border-t border-[--sidebar-border]">
+  <p class="px-1 mb-1.5 text-[11px] font-semibold uppercase tracking-widest text-[--sidebar-foreground]/40">Theme</p>
+  <%= kui(:color_mode_select, size: :sm) %>
+</div>
+
 <%# Sidebar footer: user profile %>
 <div class="shrink-0 p-3 border-t border-[--sidebar-border]">
   <div class="flex items-center gap-3 rounded-md px-2 py-2 hover:bg-[--sidebar-accent] transition-colors duration-150 cursor-pointer">
