@@ -2,13 +2,17 @@
 set -euo pipefail
 
 ################################################################################
-# bin/dummy — Start the test/dummy Rails app
+# bin/dummy — Test/dummy app process manager
 ################################################################################
 #
 # USAGE
-#   bin/dummy                  Start on port 3000 (daemonized)
+# -----
+#   bin/dummy                  Start on port 5000 (daemonized)
 #   bin/dummy -f               Start in foreground
 #   bin/dummy stop             Stop the running instance
+#   bin/dummy restart web      Restart a specific service
+#   bin/dummy status           Show process statuses
+#   bin/dummy logs [NAME]      Tail logs (all or specific service)
 #   DUMMY_PORT=3001 bin/dummy  Start on a custom port
 #
 ################################################################################
@@ -19,53 +23,145 @@ SOCKET="${DUMMY_DIR}/tmp/overmind.sock"
 PROCFILE="${DUMMY_DIR}/Procfile.dev"
 PORT="${DUMMY_PORT:-5000}"
 
+################################################################################
+# Helper Functions
+################################################################################
+
+red='\033[0;31m'
+nc='\033[0m'
+
+error() { echo -e "${red}Error:${nc} ${1}" >&2; exit 1; }
+
 require_overmind() {
   command -v overmind > /dev/null 2>&1 \
-    || { echo "Error: overmind is not installed." >&2; exit 1; }
+    || error "overmind is not installed. Run bin/setup to install."
 }
 
 is_running() {
   [ -e "$SOCKET" ] && overmind status -s "$SOCKET" > /dev/null 2>&1
 }
 
-main() {
-  require_overmind
+require_running() {
+  is_running || error "Dummy app is not running. Start it with: bin/dummy"
+}
+
+cleanup_stale_socket() {
+  if [ -e "$SOCKET" ] && ! overmind status -s "$SOCKET" > /dev/null 2>&1; then
+    rm -f "$SOCKET"
+  fi
+}
+
+print_urls() {
+  echo ""
+  echo "  Dummy app → http://localhost:${PORT}"
+}
+
+usage() {
+  cat <<EOF
+Usage: bin/dummy [command] [options]
+
+Commands:
+  start            Start daemonized (default)
+  stop             Stop the running instance
+  restart [NAME]   Restart a service (auto-starts if not running)
+  status           Show process statuses
+  logs [NAME]      Tail logs (all services, or a specific one)
+  help             Show this help message
+
+Options:
+  -f               Start in foreground
+  DUMMY_PORT=N     Set the web server port (default: 5000)
+
+Examples:
+  bin/dummy                  Start daemonized on port 5000
+  bin/dummy -f               Start in foreground
+  bin/dummy stop             Stop the running instance
+  bin/dummy restart web      Restart the web process
+  bin/dummy status           Show running processes
+  bin/dummy logs             Tail all logs
+  bin/dummy logs web         Tail web process logs only
+  DUMMY_PORT=3001 bin/dummy  Start on custom port
+EOF
+}
+
+################################################################################
+# Commands
+################################################################################
+
+cmd_start() {
+  cleanup_stale_socket
   mkdir -p "${DUMMY_DIR}/tmp"
 
+  if is_running; then
+    echo "Dummy app is already running."
+    cmd_status
+    return
+  fi
+
+  echo "Starting dummy app..."
+  cd "$DUMMY_DIR"
+
+  if [[ "${1:-}" == "-f" ]]; then
+    exec overmind start -f "$PROCFILE" -s "$SOCKET"
+  else
+    overmind start -f "$PROCFILE" -s "$SOCKET" -D
+    sleep 1
+    cmd_status
+  fi
+}
+
+cmd_stop() {
+  if ! is_running; then
+    cleanup_stale_socket
+    error "Dummy app is not running."
+  fi
+  overmind quit -s "$SOCKET" 2>/dev/null || rm -f "$SOCKET"
+  echo "Stopped."
+}
+
+cmd_restart() {
+  if ! is_running; then
+    cleanup_stale_socket
+    echo "Dummy app not running — starting daemonized..."
+    mkdir -p "${DUMMY_DIR}/tmp"
+    cd "$DUMMY_DIR"
+    overmind start -f "$PROCFILE" -s "$SOCKET" -D
+    sleep 1
+  fi
+  overmind restart -s "$SOCKET" "$@"
+}
+
+cmd_status() {
+  require_running
+  overmind status -s "$SOCKET"
+  print_urls
+}
+
+cmd_logs() {
+  require_running
+  if [[ $# -gt 0 ]]; then
+    exec overmind echo -s "$SOCKET" "$1"
+  else
+    exec overmind echo -s "$SOCKET"
+  fi
+}
+
+################################################################################
+# Main Orchestration
+################################################################################
+
+main() {
+  require_overmind
+
   case "${1:-start}" in
-    start)
-      if is_running; then
-        echo "Dummy app is already running."
-        overmind status -s "$SOCKET"
-        echo ""
-        echo "  Dummy app → http://localhost:${PORT}"
-        return
-      fi
-      echo "Starting dummy app..."
-      cd "$DUMMY_DIR"
-      overmind start -f "$PROCFILE" -D -s "$SOCKET"
-      sleep 1
-      overmind status -s "$SOCKET"
-      echo ""
-      echo "  Dummy app → http://localhost:${PORT}"
-      ;;
-    -f)
-      cd "$DUMMY_DIR"
-      exec overmind start -f "$PROCFILE" -s "$SOCKET"
-      ;;
-    stop)
-      if ! is_running; then
-        [ -e "$SOCKET" ] && rm -f "$SOCKET"
-        echo "Dummy app is not running."
-        return
-      fi
-      overmind quit -s "$SOCKET" 2>/dev/null || rm -f "$SOCKET"
-      echo "Dummy app stopped."
-      ;;
-    *)
-      echo "Usage: bin/dummy [start|-f|stop]"
-      exit 1
-      ;;
+    start)   shift 2>/dev/null || true; cmd_start "$@" ;;
+    stop)    cmd_stop ;;
+    restart) shift; cmd_restart "$@" ;;
+    status)  cmd_status ;;
+    logs)    shift 2>/dev/null || true; cmd_logs "$@" ;;
+    help|-h|--help) usage ;;
+    -f)      cmd_start -f ;;
+    *)       usage; exit 1 ;;
   esac
 }
 

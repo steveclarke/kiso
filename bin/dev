@@ -18,12 +18,15 @@ set -euo pipefail
 #   bin/dev restart web     Restart a specific service
 #   bin/dev status          Show process statuses
 #   bin/dev logs            Tail logs from all services
+#   bin/dev logs web        Tail logs from a specific service
 #   bin/dev -- -l web,css   Pass flags directly to overmind
 #
 # CONFIGURATION
 # -------------
-# Services are defined in Procfile.dev. The overmind socket is stored
-# in tmp/overmind.sock (also configurable via .overmind.env).
+# Services are defined in Procfile.dev. Settings in .overmind.env:
+#   OVERMIND_SOCKET    — socket path (default: tmp/overmind.sock)
+#   OVERMIND_NO_PORT   — disable auto port assignment
+#   OVERMIND_CAN_DIE   — processes allowed to exit without killing others
 #
 ################################################################################
 
@@ -44,7 +47,7 @@ main() {
     stop)    cmd_stop ;;
     restart) shift; cmd_restart "$@" ;;
     status)  cmd_status ;;
-    logs)    cmd_logs ;;
+    logs)    shift 2>/dev/null || true; cmd_logs "$@" ;;
     help|-h|--help) usage ;;
     -f)      cmd_start "$@" ;;
     --)      shift; cmd_start -- "$@" ;;
@@ -67,7 +70,7 @@ require_overmind() {
 }
 
 is_running() {
-  [ -e "$SOCKET" ] && overmind status > /dev/null 2>&1
+  [ -e "$SOCKET" ] && overmind status -s "$SOCKET" > /dev/null 2>&1
 }
 
 require_running() {
@@ -75,9 +78,15 @@ require_running() {
 }
 
 cleanup_stale_socket() {
-  if [ -e "$SOCKET" ] && ! overmind status > /dev/null 2>&1; then
+  if [ -e "$SOCKET" ] && ! overmind status -s "$SOCKET" > /dev/null 2>&1; then
     rm -f "$SOCKET"
   fi
+}
+
+print_urls() {
+  echo ""
+  echo "  Lookbook → http://localhost:${LOOKBOOK_PORT:-4001}"
+  echo "  Docs     → http://localhost:${DOCS_PORT:-4000}"
 }
 
 usage() {
@@ -85,16 +94,16 @@ usage() {
 Usage: bin/dev [command] [options]
 
 Commands:
-  start       Start all services daemonized (default)
-  stop        Stop a running instance
-  restart     Restart a service (auto-starts if not running)
-  status      Show process statuses
-  logs        Tail logs from all services
-  help        Show this help message
+  start            Start all services daemonized (default)
+  stop             Stop a running instance
+  restart [NAME]   Restart a service (auto-starts if not running)
+  status           Show process statuses and URLs
+  logs [NAME]      Tail logs (all services, or a specific one)
+  help             Show this help message
 
 Options:
-  -f          Start in foreground (instead of daemonized)
-  --          Pass remaining args directly to overmind
+  -f               Start in foreground (instead of daemonized)
+  --               Pass remaining args directly to overmind
 
 Examples:
   bin/dev                 Start daemonized
@@ -102,8 +111,9 @@ Examples:
   bin/dev stop            Stop daemonized instance
   bin/dev restart web     Restart the web process
   bin/dev restart docs    Restart the docs process
-  bin/dev status          Show running processes
+  bin/dev status          Show running processes and URLs
   bin/dev logs            Tail all logs
+  bin/dev logs web        Tail logs from the web process only
   bin/dev -- -l web,css   Pass flags directly to overmind
 EOF
 }
@@ -128,22 +138,16 @@ cmd_start() {
 
   if is_running; then
     echo "Overmind is already running."
-    overmind status
-    echo ""
-    echo "  Lookbook → http://localhost:${LOOKBOOK_PORT:-4001}"
-    echo "  Docs     → http://localhost:${DOCS_PORT:-4000}"
+    cmd_status
     return
   fi
 
   if $foreground; then
-    exec overmind start -f "$PROCFILE" "${passthrough[@]+"${passthrough[@]}"}"
+    exec overmind start -f "$PROCFILE" -s "$SOCKET" "${passthrough[@]+"${passthrough[@]}"}"
   else
-    overmind start -f "$PROCFILE" -D "${passthrough[@]+"${passthrough[@]}"}"
+    overmind start -f "$PROCFILE" -s "$SOCKET" -D "${passthrough[@]+"${passthrough[@]}"}"
     sleep 1
-    overmind status
-    echo ""
-    echo "  Lookbook → http://localhost:${LOOKBOOK_PORT:-4001}"
-    echo "  Docs     → http://localhost:${DOCS_PORT:-4000}"
+    cmd_status
   fi
 }
 
@@ -152,27 +156,33 @@ cmd_stop() {
     cleanup_stale_socket
     error "Overmind is not running."
   fi
-  overmind quit 2>/dev/null || rm -f "$SOCKET"
+  overmind quit -s "$SOCKET" 2>/dev/null || rm -f "$SOCKET"
+  echo "Stopped."
 }
 
 cmd_restart() {
   if ! is_running; then
     cleanup_stale_socket
     echo "Overmind not running — starting daemonized..."
-    overmind start -f "$PROCFILE" -D
+    overmind start -f "$PROCFILE" -s "$SOCKET" -D
     sleep 1
   fi
-  overmind restart "$@"
+  overmind restart -s "$SOCKET" "$@"
 }
 
 cmd_status() {
   require_running
-  overmind status
+  overmind status -s "$SOCKET"
+  print_urls
 }
 
 cmd_logs() {
   require_running
-  exec overmind echo
+  if [[ $# -gt 0 ]]; then
+    exec overmind echo -s "$SOCKET" "$1"
+  else
+    exec overmind echo -s "$SOCKET"
+  fi
 }
 
 ################################################################################

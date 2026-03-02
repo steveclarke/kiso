@@ -318,12 +318,17 @@ Kiso-specific checks on top of the universal finalize skill.
 bin/dev                       # Start all services daemonized (Lookbook :4001 + docs :4000)
 bin/dev restart web           # Restart Lookbook server
 bin/dev restart docs          # Restart docs server
-bin/dev status                # Show running processes
+bin/dev status                # Show running processes and URLs
+bin/dev logs                  # Tail all logs
+bin/dev logs web              # Tail logs from a specific service
 bin/dev stop                  # Stop all services
 bin/dev -f                    # Start in foreground (for debugging)
 bin/dummy                     # Start dummy integration app daemonized (port 5000)
-bin/dummy -f                  # Start dummy app in foreground
+bin/dummy restart web         # Restart dummy web server
+bin/dummy status              # Show running processes
+bin/dummy logs                # Tail dummy app logs
 bin/dummy stop                # Stop dummy app
+bin/dummy -f                  # Start dummy app in foreground
 bundle exec rake test         # Run Ruby tests
 npm run test                  # Run all JS tests (unit + E2E)
 bundle exec standardrb --fix  # Lint & auto-format Ruby
