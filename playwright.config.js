@@ -28,7 +28,7 @@ export default defineConfig({
     url: `${BASE_URL}/up`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
-    stdout: "pipe",
-    stderr: "pipe",
+    stdout: "ignore",
+    stderr: "ignore",
   },
 })
