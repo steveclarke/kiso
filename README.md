@@ -29,8 +29,22 @@ Then add one import to your Tailwind CSS entrypoint:
 @import "../builds/tailwind/kiso.css";
 ```
 
+And add the dark mode helper to your layout's `<head>`:
+
+```erb
+<head>
+  <%= kiso_theme_script %>
+  <%= stylesheet_link_tag "tailwind" %>
+  <%= javascript_importmap_tags %>
+</head>
+
+<body class="bg-background text-foreground antialiased">
+```
+
 That's it. Helpers, importmap pins, asset paths, and dark mode tokens are all
-wired up automatically by the engine.
+wired up automatically by the engine. See the
+[Getting Started guide](https://kisoui.com/getting-started) for the full
+walkthrough.
 
 ### Bundler apps (esbuild, Vite, Bun)
 
@@ -81,7 +95,7 @@ Colors use tokens like `bg-primary` and `text-muted`. They switch on their own i
 
 ## Design system
 
-Kiso follows a strict spatial system — consistent heights, padding, gaps, typography, border radius, and icon sizing across every component. See the [Design System](https://steveclarke.github.io/kiso/design-system) page for the visual reference.
+Kiso follows a strict spatial system — consistent heights, padding, gaps, typography, border radius, and icon sizing across every component. See the [Design System](https://kisoui.com/design-system) page for the visual reference.
 
 ## Design principles
 
@@ -125,7 +139,7 @@ app/views/kiso/components/   ERB partials
 lib/kiso/themes/             Theme files (class_variants)
 app/javascript/controllers/  Stimulus controllers (also shipped via npm as kiso-ui)
 app/helpers/kiso/            kui(), kiso_prepare_options() helpers
-app/assets/stylesheets/kiso/ CSS (only transitions and pseudo-states)
+app/assets/tailwind/kiso/   CSS (only transitions and pseudo-states)
 lookbook/                    Lookbook dev app (previews on port 4001)
 docs/                        Docs site (Bridgetown)
 ```
@@ -138,7 +152,7 @@ docs/                        Docs site (Bridgetown)
 
 ## Status
 
-Early development. See [PLAN.md](PLAN.md) for the roadmap and current status.
+Early development. APIs, component names, and theme tokens may change.
 
 ## License
 
