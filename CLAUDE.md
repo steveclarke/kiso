@@ -195,7 +195,8 @@ Host apps own their layout file — the engine never renders `<html>` or `<body>
 ```erb
 <%= kui(:dashboard_group) do %>
   <%= kui(:dashboard_navbar) do %>
-    <%= kui(:dashboard_navbar, :toggle) %>
+    <%= kui(:dashboard_sidebar, :toggle) %>
+    <%= kui(:dashboard_sidebar, :collapse) %>
     <%= kui(:color_mode_button) %>
   <% end %>
   <%= kui(:dashboard_sidebar) { yield :sidebar } %>

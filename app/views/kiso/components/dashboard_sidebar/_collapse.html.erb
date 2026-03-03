@@ -1,0 +1,12 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :button,
+    class: Kiso::Themes::DashboardSidebarCollapse.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "dashboard-sidebar-collapse",
+                               kiso__sidebar_target: "trigger",
+                               action: "click->kiso--sidebar#toggle"),
+    aria: { label: "Collapse sidebar", expanded: "false", controls: "dashboard-sidebar" },
+    type: "button",
+    **component_options do %>
+  <span data-slot="collapse-icon-open"><%= kiso_component_icon(:panel_left_close) %></span>
+  <span data-slot="collapse-icon-closed"><%= kiso_component_icon(:panel_left_open) %></span>
+<% end %>

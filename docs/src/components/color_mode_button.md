@@ -54,7 +54,8 @@ The color mode button is commonly placed in the dashboard topbar:
 
 ```erb
 <%%= kui(:dashboard_navbar) do %>
-  <%%= kui(:dashboard_navbar, :toggle) %>
+  <%%= kui(:dashboard_sidebar, :toggle) %>
+  <%%= kui(:dashboard_sidebar, :collapse) %>
   <div class="flex-1"></div>
   <%%= kui(:color_mode_button) %>
 <%% end %>

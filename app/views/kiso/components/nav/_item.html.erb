@@ -1,0 +1,15 @@
+<%# locals: (href: "#", icon: nil, badge: nil, active: false, css_classes: "", **component_options) %>
+<%= content_tag :a,
+    href: href,
+    class: Kiso::Themes::NavItem.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "nav-item", active: active || nil),
+    aria: active ? { current: "page" } : {},
+    **component_options do %>
+  <% if icon %>
+    <%= kiso_icon(icon, class: "size-4 shrink-0") %>
+  <% end %>
+  <span data-slot="nav-item-label" class="truncate"><%= yield %></span>
+  <% if badge %>
+    <span data-slot="nav-item-badge" class="<%= Kiso::Themes::NavItemBadge.render %>"><%= badge %></span>
+  <% end %>
+<% end %>

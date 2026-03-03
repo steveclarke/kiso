@@ -1,0 +1,11 @@
+<%# Nav items with trailing badges %>
+<div class="w-64 rounded-lg border border-border bg-background p-2">
+  <%= kui(:nav) do %>
+    <%= kui(:nav, :section, title: "Inbox") do %>
+      <%= kui(:nav, :item, href: "#", icon: "inbox", badge: "12", active: true) { "All Messages" } %>
+      <%= kui(:nav, :item, href: "#", icon: "star", badge: "3") { "Starred" } %>
+      <%= kui(:nav, :item, href: "#", icon: "send") { "Sent" } %>
+      <%= kui(:nav, :item, href: "#", icon: "archive", badge: "99+") { "Archive" } %>
+    <% end %>
+  <% end %>
+</div>

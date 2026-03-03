@@ -22,11 +22,17 @@ application layout file:
   <body>
     <%%= kui(:dashboard_group) do %>
       <%%= kui(:dashboard_navbar) do %>
-        <%%= kui(:dashboard_navbar, :toggle) %>
+        <%%= kui(:dashboard_sidebar, :toggle) %>
+        <%%= kui(:dashboard_sidebar, :collapse) %>
         <%%= yield :topbar %>
       <%% end %>
 
       <%%= kui(:dashboard_sidebar) do %>
+        <%%= kui(:nav) do %>
+          <%%= kui(:nav, :section, title: "Main") do %>
+            <%%= kui(:nav, :item, href: "/", icon: "layout-dashboard", active: true) { "Dashboard" } %>
+          <%% end %>
+        <%% end %>
         <%%= yield :sidebar %>
       <%% end %>
 
@@ -44,9 +50,12 @@ application layout file:
 |-----------|---------|---------|
 | `kui(:dashboard_group)` | `<div>` | Root grid container, manages sidebar state |
 | `kui(:dashboard_navbar)` | `<header>` | Full-width topbar spanning both columns |
-| `kui(:dashboard_navbar, :toggle)` | `<button>` | Hamburger toggle for sidebar |
+| `kui(:dashboard_sidebar, :toggle)` | `<button>` | Mobile-only hamburger toggle (`lg:hidden`) |
+| `kui(:dashboard_sidebar, :collapse)` | `<button>` | Desktop-only collapse button (`hidden lg:flex`) |
 | `kui(:dashboard_sidebar)` | `<aside>` | Collapsible sidebar navigation area |
+| `kui(:dashboard_toolbar)` | `<div>` | Secondary action bar with `:left` and `:right` sub-parts |
 | `kui(:dashboard_panel)` | `<main>` | Main content area |
+| `kui(:nav)` | `<nav>` | Navigation wrapper with `:section` and `:item` sub-parts |
 
 ## Locals
 
@@ -108,11 +117,12 @@ server-side without JavaScript.
 ### Topbar Content
 
 Place your logo, search bar, user menu, and other topbar elements inside
-`dashboard_navbar`. The toggle button should come first:
+`dashboard_navbar`. The sidebar toggle and collapse buttons should come first:
 
 ```erb
 <%%= kui(:dashboard_navbar) do %>
-  <%%= kui(:dashboard_navbar, :toggle) %>
+  <%%= kui(:dashboard_sidebar, :toggle) %>
+  <%%= kui(:dashboard_sidebar, :collapse) %>
   <div class="flex-1"><%# logo, search, etc. %></div>
   <%%= kui(:color_mode_button) %>
 <%% end %>

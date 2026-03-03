@@ -35,7 +35,7 @@ import { Controller } from "@hotwired/stimulus"
  *        aria-hidden="true"></div>
  * </div>
  *
- * @property {Element} triggerTarget - The topbar toggle button
+ * @property {Element[]} triggerTargets - Toggle/collapse buttons that control the sidebar
  * @property {Element} scrimTarget   - The mobile overlay scrim
  */
 export default class extends Controller {
@@ -77,8 +77,8 @@ export default class extends Controller {
     this.element.dataset.sidebarOpen = value
     document.cookie = `sidebar_open=${value};path=/;max-age=31536000;SameSite=Lax`
 
-    if (this.hasTriggerTarget) {
-      this.triggerTarget.setAttribute("aria-expanded", value)
+    for (const trigger of this.triggerTargets) {
+      trigger.setAttribute("aria-expanded", value)
     }
   }
 }

@@ -8,12 +8,17 @@ of four components that compose into a responsive two-column layout.
 ```erb
 <%= kui(:dashboard_group) do %>
   <%= kui(:dashboard_navbar) do %>
-    <%= kui(:dashboard_navbar, :toggle) %>
+    <%= kui(:dashboard_sidebar, :toggle) %>
+    <%= kui(:dashboard_sidebar, :collapse) %>
     <!-- topbar content -->
   <% end %>
 
   <%= kui(:dashboard_sidebar) do %>
-    <!-- sidebar navigation -->
+    <%= kui(:nav) do %>
+      <%= kui(:nav, :section, title: "Main") do %>
+        <%= kui(:nav, :item, href: "/", icon: "layout-dashboard", active: true) { "Dashboard" } %>
+      <% end %>
+    <% end %>
   <% end %>
 
   <%= kui(:dashboard_panel) do %>
@@ -22,19 +27,18 @@ of four components that compose into a responsive two-column layout.
 <% end %>
 ```
 
-## Target API
-
-Same as current. The layout shell is stable.
-
 ## Components
 
 | Component | Element | Theme module | Purpose |
 |-----------|---------|-------------|---------|
 | `dashboard_group` | `<div>` | `DashboardGroup` | Root grid container, owns the sidebar controller |
 | `dashboard_navbar` | `<header>` | `DashboardNavbar` | Full-width topbar spanning both columns |
-| `dashboard_navbar, :toggle` | `<button>` | `DashboardNavbarToggle` | Hamburger button wired to `kiso--sidebar#toggle` |
 | `dashboard_sidebar` | `<aside>` | `DashboardSidebar` | Collapsible sidebar with inner scrollable nav |
+| `dashboard_sidebar, :toggle` | `<button>` | `DashboardSidebarToggle` | Mobile-only hamburger (`lg:hidden`) |
+| `dashboard_sidebar, :collapse` | `<button>` | `DashboardSidebarCollapse` | Desktop-only collapse (`hidden lg:flex`) |
+| `dashboard_toolbar` | `<div>` | `DashboardToolbar` | Secondary action bar with `:left` and `:right` sub-parts |
 | `dashboard_panel` | `<main>` | `DashboardPanel` | Main content area |
+| `nav` | `<nav>` | `Nav` | Navigation wrapper with `:section` and `:item` sub-parts |
 
 ## Layout Mechanics
 

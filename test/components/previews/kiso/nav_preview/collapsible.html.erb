@@ -1,0 +1,16 @@
+<%# Collapsible nav sections — click section titles to expand/collapse %>
+<div class="w-64 rounded-lg border border-border bg-background p-2">
+  <%= kui(:nav) do %>
+    <%= kui(:nav, :section, title: "Main", open: true) do %>
+      <%= kui(:nav, :item, href: "#", icon: "layout-dashboard", active: true) { "Dashboard" } %>
+      <%= kui(:nav, :item, href: "#", icon: "bar-chart-3") { "Analytics" } %>
+    <% end %>
+    <%= kui(:nav, :section, title: "Closed by Default", open: false) do %>
+      <%= kui(:nav, :item, href: "#", icon: "archive") { "Archive" } %>
+      <%= kui(:nav, :item, href: "#", icon: "trash-2") { "Trash" } %>
+    <% end %>
+    <%= kui(:nav, :section, title: "Non-Collapsible", collapsible: false) do %>
+      <%= kui(:nav, :item, href: "#", icon: "help-circle") { "Help" } %>
+    <% end %>
+  <% end %>
+</div>

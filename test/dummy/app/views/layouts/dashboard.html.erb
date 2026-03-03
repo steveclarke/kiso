@@ -15,7 +15,8 @@
   <body>
     <%= kui(:dashboard_group) do %>
       <%= kui(:dashboard_navbar) do %>
-        <%= kui(:dashboard_navbar, :toggle) %>
+        <%= kui(:dashboard_sidebar, :toggle) %>
+        <%= kui(:dashboard_sidebar, :collapse) %>
         <%= yield :topbar %>
 
         <%= kui(:color_mode_button) %>
@@ -24,6 +25,21 @@
       <% end %>
 
       <%= kui(:dashboard_sidebar) do %>
+        <div class="flex items-center gap-2.5 px-4 shrink-0 border-b border-[--sidebar-border]"
+             style="height: var(--topbar-height)">
+          <span class="font-semibold text-sm truncate">Kiso App</span>
+        </div>
+        <%= kui(:nav) do %>
+          <%= kui(:nav, :section, title: "Main") do %>
+            <%= kui(:nav, :item, href: "/dashboard", icon: "layout-dashboard", active: true) { "Dashboard" } %>
+            <%= kui(:nav, :item, href: "/analytics", icon: "bar-chart-3") { "Analytics" } %>
+            <%= kui(:nav, :item, href: "/team", icon: "users", badge: "3") { "Team" } %>
+          <% end %>
+          <%= kui(:nav, :section, title: "Settings") do %>
+            <%= kui(:nav, :item, href: "/settings", icon: "settings") { "General" } %>
+            <%= kui(:nav, :item, href: "/billing", icon: "credit-card") { "Billing" } %>
+          <% end %>
+        <% end %>
         <%= yield :sidebar %>
       <% end %>
 

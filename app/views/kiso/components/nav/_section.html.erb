@@ -1,0 +1,37 @@
+<%# locals: (title: nil, open: true, collapsible: true, css_classes: "", **component_options) %>
+<% if title && collapsible %>
+  <%= content_tag :details,
+      class: Kiso::Themes::NavSection.render(class: css_classes),
+      data: kiso_prepare_options(component_options, slot: "nav-section"),
+      open: open,
+      **component_options do %>
+    <summary class="<%= Kiso::Themes::NavSectionTitle.render %>" data-slot="nav-section-title">
+      <span class="truncate"><%= title %></span>
+      <span class="ml-auto" data-slot="nav-section-chevron">
+        <%= kiso_component_icon(:chevron_down, class: "size-4") %>
+      </span>
+    </summary>
+    <div data-slot="nav-section-content" class="<%= Kiso::Themes::NavSectionContent.render %>">
+      <%= yield %>
+    </div>
+  <% end %>
+<% elsif title %>
+  <%= content_tag :div,
+      class: Kiso::Themes::NavSection.render(class: css_classes),
+      data: kiso_prepare_options(component_options, slot: "nav-section"),
+      **component_options do %>
+    <div class="<%= Kiso::Themes::NavSectionTitle.render %>" data-slot="nav-section-title">
+      <span class="truncate"><%= title %></span>
+    </div>
+    <div data-slot="nav-section-content" class="<%= Kiso::Themes::NavSectionContent.render %>">
+      <%= yield %>
+    </div>
+  <% end %>
+<% else %>
+  <%= content_tag :div,
+      class: Kiso::Themes::NavSection.render(class: css_classes),
+      data: kiso_prepare_options(component_options, slot: "nav-section"),
+      **component_options do %>
+    <%= yield %>
+  <% end %>
+<% end %>

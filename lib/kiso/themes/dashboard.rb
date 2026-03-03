@@ -19,5 +19,25 @@ module Kiso
     DashboardPanel = ClassVariants.build(
       base: "min-w-0 overflow-y-auto bg-background"
     )
+
+    DashboardSidebarToggle = ClassVariants.build(
+      base: "lg:hidden flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0 cursor-pointer"
+    )
+
+    DashboardSidebarCollapse = ClassVariants.build(
+      base: "hidden lg:flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0 cursor-pointer"
+    )
+
+    DashboardToolbar = ClassVariants.build(
+      base: "shrink-0 flex items-center justify-between border-b border-border px-4 sm:px-6 gap-1.5 overflow-x-auto min-h-[49px]"
+    )
+
+    DashboardToolbarLeft = ClassVariants.build(
+      base: "flex items-center gap-1.5"
+    )
+
+    DashboardToolbarRight = ClassVariants.build(
+      base: "flex items-center gap-1.5"
+    )
   end
 end
