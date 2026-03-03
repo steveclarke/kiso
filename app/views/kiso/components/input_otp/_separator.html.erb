@@ -1,0 +1,8 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    role: "separator",
+    class: Kiso::Themes::InputOtpSeparator.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "input-otp-separator"),
+    **component_options do %>
+  <%= capture { yield }.presence || kiso_component_icon(:minus) %>
+<% end %>

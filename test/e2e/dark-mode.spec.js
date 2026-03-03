@@ -55,6 +55,7 @@ test.describe("Dark mode accessibility", () => {
       exclude: ["color-contrast"],
     },
     { name: "input-group", url: "/preview/kiso/form/input_group/playground" },
+    { name: "input-otp", url: "/preview/kiso/form/input_otp/playground" },
     { name: "kbd", url: "/preview/kiso/kbd/playground" },
     { name: "pagination", url: "/preview/kiso/pagination/playground" },
     { name: "popover", url: "/preview/kiso/popover/basic" },

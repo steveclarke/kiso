@@ -82,6 +82,8 @@ docs:
         href: /components/field
       - title: Input
         href: /components/input
+      - title: InputOTP
+        href: /components/input_otp
       - title: SelectNative
         href: /components/select_native
       - title: RadioGroup

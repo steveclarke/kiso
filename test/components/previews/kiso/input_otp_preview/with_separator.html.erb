@@ -1,0 +1,18 @@
+<div class="flex items-center justify-center py-10">
+  <%= kui(:input_otp, length: 6, name: "otp", aria_label: "One-time password") do %>
+    <%= kui(:input_otp, :group) do %>
+      <%= kui(:input_otp, :slot) %>
+      <%= kui(:input_otp, :slot) %>
+    <% end %>
+    <%= kui(:input_otp, :separator) %>
+    <%= kui(:input_otp, :group) do %>
+      <%= kui(:input_otp, :slot) %>
+      <%= kui(:input_otp, :slot) %>
+    <% end %>
+    <%= kui(:input_otp, :separator) %>
+    <%= kui(:input_otp, :group) do %>
+      <%= kui(:input_otp, :slot) %>
+      <%= kui(:input_otp, :slot) %>
+    <% end %>
+  <% end %>
+</div>

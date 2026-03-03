@@ -1,0 +1,9 @@
+<div class="flex items-center justify-center py-10">
+  <%= kui(:input_otp, length: 4, name: "pin", aria_label: "PIN code") do %>
+    <%= kui(:input_otp, :group) do %>
+      <% 4.times do %>
+        <%= kui(:input_otp, :slot) %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

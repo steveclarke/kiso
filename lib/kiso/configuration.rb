@@ -45,6 +45,7 @@ module Kiso
         moon: "moon",
         monitor: "monitor",
         menu: "menu",
+        minus: "minus",
         panel_left_close: "panel-left-close",
         panel_left_open: "panel-left-open"
       }

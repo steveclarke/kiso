@@ -1,0 +1,28 @@
+<div class="flex flex-col items-center justify-center gap-4 py-10">
+  <%= kui(:input_otp, length: 6, name: "otp", aria_label: "One-time password") do %>
+    <%= kui(:input_otp, :group) do %>
+      <% 3.times do %>
+        <%= kui(:input_otp, :slot) %>
+      <% end %>
+    <% end %>
+    <%= kui(:input_otp, :separator) %>
+    <%= kui(:input_otp, :group) do %>
+      <% 3.times do %>
+        <%= kui(:input_otp, :slot) %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <p id="otp-status" class="text-sm text-muted-foreground h-5"></p>
+</div>
+
+<script>
+  document.querySelector('[data-slot="input-otp"]').addEventListener('kiso--input-otp:complete', (e) => {
+    document.getElementById('otp-status').textContent = `Submitted! Code: ${e.detail.value}`
+  })
+  document.querySelector('[data-slot="input-otp"]').addEventListener('kiso--input-otp:change', (e) => {
+    if (e.detail.value.length < 6) {
+      document.getElementById('otp-status').textContent = ''
+    }
+  })
+</script>
