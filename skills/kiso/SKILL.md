@@ -100,9 +100,36 @@ Pass `css_classes:` to override styles on a specific instance. Conflicting class
 
 Layer order: theme default < global config < per-instance `css_classes:`.
 
+## Icons
+
+Kiso uses **kiso-icons** for server-side inline SVG rendering. Lucide
+(~1500 icons) is bundled and works out of the box:
+
+```erb
+<%= kiso_icon("check") %>
+<%= kiso_icon("settings", size: :md) %>
+<%= kiso_icon("heroicons:check-circle") %>  <%# from a pinned set %>
+```
+
+Add more icon libraries:
+
+```bash
+bin/kiso-icons pin heroicons mdi tabler
+```
+
+Override component default icons globally:
+
+```ruby
+Kiso.configure do |config|
+  config.icons[:chevron_right] = "heroicons:chevron-right"
+  config.icons[:menu] = "heroicons:bars-3"
+end
+```
+
 ## Additional references
 
 Load based on your task — **do not load all at once**:
 
 - [references/components.md](references/components.md) — all components with props and usage
 - [references/theming.md](references/theming.md) — CSS variables, tokens, brand customization
+- [references/icons.md](references/icons.md) — icon rendering, pinning sets, component icon overrides
