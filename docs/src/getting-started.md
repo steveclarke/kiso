@@ -106,6 +106,30 @@ Components compose from small parts. Here's a card:
 
 Browse all available components in the sidebar.
 
+## Icons
+
+[Lucide](https://lucide.dev) icons (~1,500) are bundled and work out of the box:
+
+```erb
+<%%= kiso_icon("check") %>
+<%%= kiso_icon("settings", size: :md) %>
+```
+
+Add more icon libraries (Heroicons, Material Design, Tabler, etc.):
+
+```bash
+bin/kiso-icons pin heroicons
+```
+
+Then use them with a prefix:
+
+```erb
+<%%= kiso_icon("heroicons:check-circle") %>
+```
+
+See [Icons](/guide/icons) for the full guide on sizing, accessibility, and
+overriding component default icons.
+
 ## Dark mode
 
 Dark mode works out of the box when you include `kiso_theme_script` in your

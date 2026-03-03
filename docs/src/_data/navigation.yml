@@ -24,6 +24,8 @@ docs:
         href: /guide/patterns
       - title: Interactivity
         href: /guide/interactivity
+      - title: Icons
+        href: /guide/icons
       - title: Dark Mode & Theming
         href: /guide/dark-mode
 
