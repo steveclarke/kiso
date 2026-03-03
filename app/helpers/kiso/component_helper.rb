@@ -30,6 +30,16 @@ module Kiso
         "kiso/components/#{component}"
       end
 
+      # Prevent yield from bubbling up the ERB rendering chain when no block
+      # is passed. Without this, partials that use `capture { yield }.presence`
+      # to support optional block overrides (e.g., toggle/collapse/separator)
+      # would have their `yield` bubble through nested content_tag blocks all
+      # the way to the layout's `<%= yield %>`, capturing the entire page
+      # template content. An explicit empty proc gives `yield` something to
+      # call, returning empty string → `.presence` returns nil → default
+      # content renders correctly.
+      block ||= proc {}
+
       if collection
         render partial: path, collection: collection, locals: kwargs, &block
       else

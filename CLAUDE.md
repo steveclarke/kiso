@@ -127,6 +127,13 @@ Consistency is more important than any individual improvement.
   ```erb
   <% content = capture { yield }.presence %>
   ```
+  This pattern is safe because `kui()` passes `block ||= proc {}` to every
+  render call. Without the empty proc, `yield` in a blockless partial would
+  bubble up the ERB rendering chain and capture the layout's `<%= yield %>`
+  (the entire page template). The empty proc gives `yield` something to
+  call, returning empty → `.presence` returns nil → default content renders.
+  **Never bypass `kui()` to render Kiso partials directly** — the empty
+  proc guard only works through the helper.
 - **Composition over configuration** — Card = Header + Title + Content + Footer.
   Small partials, flexibly combined.
 - **Sub-part naming** — sub-parts always use `kui(:component, :part)`, never

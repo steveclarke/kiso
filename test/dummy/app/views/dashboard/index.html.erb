@@ -1,67 +1,26 @@
-<div class="max-w-3xl mx-auto px-6 py-12 space-y-8">
+<h1 class="text-2xl font-bold tracking-tight">Dashboard</h1>
+<p class="text-muted-foreground text-sm mt-1">Your approval requests will appear here.</p>
 
-  <div>
-    <h1 class="text-2xl font-bold tracking-tight">Kiso Smoke Test</h1>
-    <p class="text-muted-foreground mt-1">Verifies the engine loads correctly in a host app.</p>
-  </div>
+<%= kui(:separator, css_classes: "my-6") %>
 
-  <%= kui(:separator) %>
-
-  <section class="space-y-3">
-    <h2 class="text-lg font-semibold">Badges</h2>
-    <div class="flex flex-wrap gap-2">
-      <% %i[primary secondary success info warning error neutral].each do |color| %>
-        <%= kui(:badge, color: color, variant: :soft) { color.to_s.capitalize } %>
-      <% end %>
-    </div>
-  </section>
-
-  <%= kui(:separator) %>
-
-  <section class="space-y-3">
-    <h2 class="text-lg font-semibold">Buttons</h2>
-    <div class="flex flex-wrap items-center gap-3">
-      <%= kui(:button, variant: :solid) { "Solid" } %>
-      <%= kui(:button, variant: :outline) { "Outline" } %>
-      <%= kui(:button, variant: :soft) { "Soft" } %>
-      <%= kui(:button, variant: :ghost) { "Ghost" } %>
-    </div>
-  </section>
-
-  <%= kui(:separator) %>
-
-  <section class="space-y-3">
-    <h2 class="text-lg font-semibold">Card</h2>
-    <%= kui(:card) do %>
-      <%= kui(:card, :header) do %>
-        <%= kui(:card, :title) { "Example Card" } %>
-        <%= kui(:card, :description) { "A simple card to verify rendering." } %>
-      <% end %>
-      <%= kui(:card, :content) do %>
-        <p class="text-sm">Content renders here.</p>
-      <% end %>
-    <% end %>
-  </section>
-
-  <%= kui(:separator) %>
-
-  <section class="space-y-3">
-    <h2 class="text-lg font-semibold">Toggle (Stimulus)</h2>
-    <div class="flex gap-2">
-      <%= kui(:toggle) { "Bold" } %>
-      <%= kui(:toggle) { "Italic" } %>
-      <%= kui(:toggle, variant: :outline) { "Underline" } %>
-    </div>
-  </section>
-
-  <%= kui(:separator) %>
-
-  <section class="space-y-3">
-    <h2 class="text-lg font-semibold">Alert</h2>
-    <%= kui(:alert, color: :info, variant: :soft) do %>
-      <%= kui(:alert, :title) { "Smoke test" } %>
-      <%= kui(:alert, :description) { "If you can see styled components, the engine CSS is working." } %>
-    <% end %>
-  </section>
-
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <%= kui(:stats_card) do %>
+    <%= kui(:stats_card, :header) { kui(:stats_card, :label) { "Pending" } } %>
+    <%= kui(:stats_card, :value) { "12" } %>
+  <% end %>
+  <%= kui(:stats_card) do %>
+    <%= kui(:stats_card, :header) { kui(:stats_card, :label) { "Approved" } } %>
+    <%= kui(:stats_card, :value) { "84" } %>
+  <% end %>
+  <%= kui(:stats_card) do %>
+    <%= kui(:stats_card, :header) { kui(:stats_card, :label) { "Rejected" } } %>
+    <%= kui(:stats_card, :value) { "3" } %>
+  <% end %>
 </div>
+
+<%= kui(:separator, css_classes: "my-6") %>
+
+<%= kui(:alert, color: :info, variant: :soft) do %>
+  <%= kui(:alert, :title) { "Smoke test" } %>
+  <%= kui(:alert, :description) { "Full dashboard layout matching ApproveThis structure." } %>
+<% end %>

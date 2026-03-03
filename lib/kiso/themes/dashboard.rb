@@ -9,7 +9,7 @@ module Kiso
     )
 
     DashboardNavbarToggle = ClassVariants.build(
-      base: "flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0"
+      base: "flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0 [&>svg]:size-4"
     )
 
     DashboardSidebar = ClassVariants.build(
@@ -29,11 +29,11 @@ module Kiso
     )
 
     DashboardSidebarToggle = ClassVariants.build(
-      base: "lg:hidden flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0 cursor-pointer"
+      base: "lg:hidden flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0 cursor-pointer [&>svg]:size-4"
     )
 
     DashboardSidebarCollapse = ClassVariants.build(
-      base: "hidden lg:flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0 cursor-pointer"
+      base: "hidden lg:flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0 cursor-pointer [&>svg]:size-4"
     )
 
     DashboardToolbar = ClassVariants.build(

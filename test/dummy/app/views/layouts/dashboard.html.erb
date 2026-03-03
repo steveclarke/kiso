@@ -11,6 +11,39 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
-    <%= yield %>
+    <%= kui(:dashboard_group) do %>
+      <%= kui(:dashboard_navbar) do %>
+        <%= kui(:dashboard_navbar, :toggle) %>
+        <span class="text-sm font-semibold text-foreground">Dashboard</span>
+        <div class="ml-auto flex items-center gap-1">
+          <%= kui(:color_mode_button) %>
+        </div>
+      <% end %>
+
+      <%= kui(:dashboard_sidebar) do %>
+        <%= kui(:dashboard_sidebar, :header) do %>
+          <span class="font-semibold text-sm truncate">Kiso App</span>
+        <% end %>
+        <%= kui(:nav) do %>
+          <%= kui(:nav, :section) do %>
+            <%= kui(:nav, :item, href: "/dashboard", icon: "layout-dashboard", active: true) { "Dashboard" } %>
+            <%= kui(:nav, :item, href: "#", icon: "settings") { "Settings" } %>
+          <% end %>
+        <% end %>
+        <%= kui(:dashboard_sidebar, :footer) do %>
+          <div class="flex items-center justify-between px-3 py-2">
+            <span class="text-sm text-muted-foreground">Sign out</span>
+            <%= kui(:color_mode_button, size: :sm) %>
+          </div>
+        <% end %>
+        <%= kui(:dashboard_sidebar, :collapse) %>
+      <% end %>
+
+      <%= kui(:dashboard_panel) do %>
+        <div class="p-6">
+          <%= yield %>
+        </div>
+      <% end %>
+    <% end %>
   </body>
 </html>
