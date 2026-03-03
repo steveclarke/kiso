@@ -25,6 +25,8 @@ source: lib/kiso/themes/button.rb
 | `disabled:` | `Boolean` | `false` |
 | `type:` | `:button` \| `:submit` \| `:reset` | `:button` |
 | `href:` | `String` \| `nil` | `nil` |
+| `method:` | `:delete` \| `:post` \| `:put` \| `:patch` \| `nil` | `nil` |
+| `form:` | `Hash` | `{}` |
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
 
@@ -68,7 +70,9 @@ compound variant formulas. Ghost and link are Button-only additions.
 
 ### Smart Tag
 
-When `href:` is present, renders `<a>` instead of `<button>`.
+When `href:` is present, renders `<a>` instead of `<button>`. When `method:`
+is also present (e.g. `:delete`, `:post`), renders via Rails `button_to` —
+wrapping the styled button in a `<form>` for non-GET HTTP methods.
 
 ```erb
 <%%# Renders <button> %>
@@ -76,6 +80,9 @@ When `href:` is present, renders `<a>` instead of `<button>`.
 
 <%%# Renders <a href="/settings"> %>
 <%%= kui(:button, href: "/settings") { "Settings" } %>
+
+<%%# Renders <form> + <button> via button_to %>
+<%%= kui(:button, href: session_path, method: :delete) { "Sign out" } %>
 ```
 
 ### Disabled
@@ -117,6 +124,43 @@ size via `[&_svg:not([class*='size-'])]:size-4`.
   Add Item
 <%% end %>
 ```
+
+### Form Method (button_to)
+
+For destructive or state-changing actions that need non-GET HTTP methods
+(sign out, delete, archive), pass `method:` along with `href:`. This renders
+via Rails `button_to`, wrapping the button in a `<form>` with a hidden
+`_method` field. The form uses `display: contents` so it's invisible to
+flex/grid layout.
+
+```erb
+<%%= kui(:button, href: session_path, method: :delete, variant: :ghost) do %>
+  <%%= kiso_icon("log-out") %> Sign out
+<%% end %>
+
+<%%= kui(:button, href: post_path(@post), method: :delete, color: :error) do %>
+  <%%= kiso_icon("trash-2") %> Delete
+<%% end %>
+```
+
+Works with Turbo confirm — `data-turbo-confirm` goes on the `<button>`:
+
+```erb
+<%%= kui(:button, href: post_path(@post), method: :delete,
+    color: :error, data: { turbo_confirm: "Are you sure?" }) { "Delete" } %>
+```
+
+For form-level attributes (e.g. Turbo Frame targeting), use `form:`:
+
+```erb
+<%%= kui(:button, href: archive_path, method: :post,
+    form: { data: { turbo_frame: "_top" } }) { "Archive" } %>
+```
+
+**Note:** Do not place a `method:` button inside an existing `<form>` — this
+creates invalid nested forms (same limitation as raw `button_to`). For full
+control over the form wrapper, use `button_to` directly with
+`Kiso::Themes::Button.render(...)` for styling.
 
 ## Examples
 

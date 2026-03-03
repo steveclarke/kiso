@@ -53,5 +53,17 @@ module Kiso
     def disabled
       render_with_template
     end
+
+    # @label Form Method
+    # @param method select { choices: [delete, post, put, patch] }
+    # @param variant select { choices: [solid, outline, soft, subtle, ghost, link] }
+    # @param color select { choices: [primary, secondary, success, info, warning, error, neutral] }
+    def form_method(method: :delete, variant: :ghost, color: :neutral)
+      render_with_template(locals: {
+        method: method.to_sym,
+        variant: variant.to_sym,
+        color: color.to_sym
+      })
+    end
   end
 end

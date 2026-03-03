@@ -54,6 +54,33 @@ test.describe("Button component", () => {
     await expect(page.locator("button[data-slot='button']").first()).toBeDisabled()
   })
 
+  test.describe("form method", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/form_method`)
+    })
+
+    test("renders form with class=contents when method is present", async ({ page }) => {
+      const form = page.locator("form.contents").first()
+      await expect(form).toBeAttached()
+    })
+
+    test("form contains hidden _method input", async ({ page }) => {
+      const hidden = page.locator("form.contents input[name='_method']").first()
+      await expect(hidden).toHaveAttribute("value", "delete")
+    })
+
+    test("inner button has data-slot and theme classes", async ({ page }) => {
+      const button = page.locator("form.contents button[data-slot='button']").first()
+      await expect(button).toBeVisible()
+      await expect(button).toHaveAttribute("type", "submit")
+    })
+
+    test("disabled button inside form", async ({ page }) => {
+      const button = page.locator("form.contents button[disabled]")
+      await expect(button).toBeVisible()
+    })
+  })
+
   test("passes WCAG 2.1 AA", async ({ page, checkA11y }) => {
     await page.goto(`${BASE}/playground`)
     const results = await checkA11y()
