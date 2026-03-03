@@ -126,10 +126,11 @@ Progress:
 - [ ] 11. Write/update project/components/{name}.md vision doc
 - [ ] 12. Create docs page AND add to docs/src/_data/navigation.yml (see "Documentation page" below)
 - [ ] 13. Write Playwright E2E tests (see project/testing-strategy.md for tier)
-- [ ] 14. Run: bundle exec standardrb --fix
-- [ ] 15. Run: npm run lint && npm run fmt:check
-- [ ] 16. Run: npm run test:unit && npm run test:e2e
-- [ ] 17. Verify in Lookbook: http://localhost:4001/lookbook
+- [ ] 14. Add to test/e2e/dark-mode.spec.js COMPONENTS array (dark mode a11y)
+- [ ] 15. Run: bundle exec standardrb --fix
+- [ ] 16. Run: npm run lint && npm run fmt:check
+- [ ] 17. Run: npm run test:unit && npm run test:e2e
+- [ ] 18. Verify in Lookbook: http://localhost:4001/lookbook
 ```
 
 ### Documentation page

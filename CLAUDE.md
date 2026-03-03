@@ -306,6 +306,7 @@ Kiso-specific checks on top of the universal finalize skill.
 - [ ] Entry in `skills/kiso/references/components.md`
 - [ ] JSDoc on all JS controllers (`@example`, `@property`, `@fires`, `@param`)
 - [ ] `frozen_string_literal` consistency with existing files
+- [ ] Entry in `test/e2e/dark-mode.spec.js` `COMPONENTS` array (dark mode a11y)
 
 **Per PR:**
 - [ ] `bundle exec standardrb --fix` — clean
