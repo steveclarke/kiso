@@ -1,0 +1,44 @@
+<%# Dashboard with custom toggle icons — pass a block to override the default icon.
+    The sidebar toggle is normally lg:hidden (mobile only), so we force it visible
+    with css_classes to demonstrate the custom icon at all viewports. %>
+<div class="w-full overflow-hidden rounded-lg border border-border" style="height: 480px;">
+  <%= kui(:dashboard_group, sidebar_open: false, css_classes: "h-full") do %>
+    <%= kui(:dashboard_navbar) do %>
+      <%# Custom icon via block override — forced visible at all sizes for demo %>
+      <%= kui(:dashboard_sidebar, :toggle, css_classes: "!flex") do %>
+        <%= kiso_icon("align-justify", class: "size-4") %>
+      <% end %>
+      <span class="text-sm font-semibold text-foreground">Custom Toggle Icon</span>
+      <div class="ml-auto flex items-center gap-2">
+        <%= kui(:avatar, size: :sm, text: "SC", css_classes: "bg-primary text-primary-foreground") %>
+      </div>
+    <% end %>
+
+    <%= kui(:dashboard_sidebar) do %>
+      <%= kui(:dashboard_sidebar, :header) do %>
+        <div class="flex items-center justify-center w-6 h-6 rounded-md bg-primary shrink-0">
+          <%= kiso_icon("layers", class: "size-3.5 text-primary-foreground") %>
+        </div>
+        <span class="font-semibold text-sm truncate">Kiso App</span>
+      <% end %>
+      <%= kui(:nav) do %>
+        <%= kui(:nav, :section, title: "Main") do %>
+          <%= kui(:nav, :item, href: "#", icon: "layout-dashboard", active: true) { "Dashboard" } %>
+          <%= kui(:nav, :item, href: "#", icon: "bar-chart-3") { "Analytics" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= kui(:dashboard_panel) do %>
+      <div class="p-6 space-y-4">
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">Custom Toggle Icon</h1>
+          <p class="text-muted-foreground text-sm mt-0.5">
+            The toggle button uses a custom "align-justify" icon via block override.
+            Click it to open the sidebar.
+          </p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

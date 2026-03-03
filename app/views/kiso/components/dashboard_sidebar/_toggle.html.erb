@@ -7,5 +7,5 @@
     aria: { label: "Toggle sidebar", expanded: "false", controls: "dashboard-sidebar" },
     type: "button",
     **component_options do %>
-  <%= kiso_component_icon(:menu) %>
+  <%= capture { yield }.presence || kiso_component_icon(:menu) %>
 <% end %>

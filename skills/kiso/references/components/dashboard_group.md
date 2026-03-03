@@ -49,6 +49,24 @@ compose into a responsive 2x2 CSS grid.
 </body>
 ```
 
+**Custom toggle icons:** Toggle buttons accept a block to override the default icon:
+```erb
+<%= kui(:dashboard_sidebar, :toggle) do %>
+  <%= kiso_icon("align-justify", class: "size-4") %>
+<% end %>
+```
+Or override globally: `Kiso.configure { |c| c.icons[:menu] = "align-justify" }`
+
+**Sidebar state variants:** `kui-sidebar-open:` and `kui-sidebar-closed:` — custom Tailwind variants for showing/hiding any descendant based on sidebar state. Compose with breakpoints:
+
+```erb
+<%# Hide navbar logo on desktop when sidebar open %>
+<div class="kui-sidebar-open:lg:hidden">MyApp</div>
+
+<%# Show only when collapsed %>
+<div class="hidden kui-sidebar-closed:lg:block">icon</div>
+```
+
 **Theme modules:** `Kiso::Themes::DashboardGroup`, `DashboardNavbar`, `DashboardSidebar`, `DashboardSidebarToggle`, `DashboardSidebarCollapse`, `DashboardToolbar`, `DashboardToolbarLeft`, `DashboardToolbarRight`, `DashboardPanel` (`lib/kiso/themes/dashboard.rb`)
 
 **Nav theme modules:** `Kiso::Themes::Nav`, `NavSection`, `NavSectionTitle`, `NavSectionContent`, `NavItem`, `NavItemBadge` (`lib/kiso/themes/nav.rb`)

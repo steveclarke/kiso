@@ -145,6 +145,30 @@ Place your logo, search bar, user menu, and other topbar elements inside
 <%% end %>
 ```
 
+### Custom Toggle Icons
+
+The toggle buttons render a default icon (`menu` for the hamburger) but accept
+a block to replace it with any content:
+
+```erb
+<%%= kui(:dashboard_sidebar, :toggle) do %>
+  <%%= kiso_icon("align-justify", class: "size-4") %>
+<%% end %>
+```
+
+To change the default icon globally (without passing a block every time),
+override it in your initializer:
+
+```ruby
+# config/initializers/kiso.rb
+Kiso.configure do |config|
+  config.icons[:menu] = "align-justify"
+end
+```
+
+The collapse button icons (`:panel_left_close` and `:panel_left_open`) can
+also be overridden globally via `config.icons`.
+
 ### Sidebar Content
 
 Place navigation links, grouped menus, and any sidebar content inside
@@ -158,6 +182,40 @@ Place navigation links, grouped menus, and any sidebar content inside
   </nav>
 <%% end %>
 ```
+
+### Sidebar State Variants
+
+Kiso ships two custom Tailwind variants for showing/hiding content based on
+whether the sidebar is open or closed. These work on **any element** inside
+`dashboard_group` — not just the navbar:
+
+```erb
+<%# Hide on desktop when sidebar is open (e.g., navbar logo that duplicates sidebar logo) %>
+<div class="kui-sidebar-open:lg:hidden flex items-center gap-2">
+  <%%= image_tag "logo.svg", class: "h-6 w-6" %>
+  <span class="font-semibold">MyApp</span>
+</div>
+
+<%# Show only when sidebar is collapsed (e.g., icon-only logo) %>
+<div class="hidden kui-sidebar-closed:lg:block">
+  <%%= image_tag "icon.svg", class: "h-6 w-6" %>
+</div>
+
+<%# Show a hint in the panel when sidebar is closed %>
+<p class="hidden kui-sidebar-closed:block text-sm text-muted-foreground">
+  Open the sidebar for full navigation
+</p>
+```
+
+The variants compose with all other Tailwind modifiers — `kui-sidebar-open:lg:hidden`
+means "hide at the `lg` breakpoint and above when the sidebar is open." On mobile
+the sidebar is an overlay, so the variant typically pairs with a breakpoint to
+only affect desktop behavior.
+
+| Variant | Matches when |
+|---------|-------------|
+| `kui-sidebar-open:` | Sidebar is expanded (`data-sidebar-open="true"`) |
+| `kui-sidebar-closed:` | Sidebar is collapsed (`data-sidebar-open="false"`) |
 
 ### Custom CSS Tokens
 
