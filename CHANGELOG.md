@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2.pre] - 2026-03-03
+
 ### Fixed
 
 - Dashboard layout rendering — components called without a block inside a layout (e.g., sidebar toggle, collapse) would capture the entire page template via ERB yield bubbling, breaking the dashboard grid. The `kui()` helper now passes an empty proc to prevent yield from reaching the layout.
@@ -66,7 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lookbook component previews
 - Bridgetown documentation site
 
-[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.2.1.pre...HEAD
+[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.2.2.pre...HEAD
+[0.2.2.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.2.pre
 [0.2.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.1.pre
 [0.2.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.0.pre
 [0.1.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.1.1.pre
