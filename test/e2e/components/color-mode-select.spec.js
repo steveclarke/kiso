@@ -1,6 +1,6 @@
 import { test, expect } from "../fixtures/index.js"
-import { OverlayModel } from "../models/overlay.js"
 import { waitForStimulus } from "../helpers/interactions.js"
+import { OverlayModel } from "../models/overlay.js"
 
 test.describe("ColorModeSelect component", () => {
   const BASE = "/preview/kiso/color_mode/color_mode_select"

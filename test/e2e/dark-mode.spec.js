@@ -56,7 +56,11 @@ test.describe("Dark mode accessibility", () => {
     { name: "stats-card", url: "/preview/kiso/stats_card/playground" },
     { name: "switch", url: "/preview/kiso/form/switch/playground" },
     { name: "table", url: "/preview/kiso/table/playground" },
-    { name: "textarea", url: "/preview/kiso/form/textarea/with_field", exclude: ["color-contrast"] },
+    {
+      name: "textarea",
+      url: "/preview/kiso/form/textarea/with_field",
+      exclude: ["color-contrast"],
+    },
     { name: "toggle", url: "/preview/kiso/toggle/playground" },
     { name: "toggle-group", url: "/preview/kiso/toggle_group/playground" },
   ]

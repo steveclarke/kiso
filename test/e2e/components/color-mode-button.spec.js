@@ -15,7 +15,10 @@ test.describe("ColorModeButton component", () => {
     })
 
     test("has accessible label", async ({ page }) => {
-      await expect(page.getByTestId("color-mode-button")).toHaveAttribute("aria-label", "Toggle color mode")
+      await expect(page.getByTestId("color-mode-button")).toHaveAttribute(
+        "aria-label",
+        "Toggle color mode",
+      )
     })
 
     test("toggles .dark on <html> when clicked", async ({ page }) => {
