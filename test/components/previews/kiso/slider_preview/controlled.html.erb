@@ -1,0 +1,14 @@
+<div class="mx-auto grid w-full max-w-xs gap-3 text-foreground">
+  <div class="flex items-center justify-between gap-2">
+    <%= kui(:label, for: "slider-temperature") { "Temperature" } %>
+    <span class="text-sm text-muted-foreground">0.5</span>
+  </div>
+  <%= kui(:slider,
+      id: "slider-temperature",
+      min: 0,
+      max: 1,
+      step: 0.1,
+      value: 0.5,
+      name: "temperature",
+      aria_label: "Temperature") %>
+</div>

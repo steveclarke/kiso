@@ -1,0 +1,27 @@
+@layer components {
+  /* Center the thumb over its left % position */
+  [data-slot="slider-thumb"] {
+    transform: translateX(-50%);
+    top: 50%;
+    margin-top: calc(-1 * var(--thumb-offset, 0.5rem));
+  }
+
+  /* Size-specific thumb offsets (half the thumb size) */
+  [data-slot="slider"] :where([data-slot="slider-thumb"].size-3) {
+    --thumb-offset: 0.375rem;
+  }
+
+  [data-slot="slider"] :where([data-slot="slider-thumb"].size-4) {
+    --thumb-offset: 0.5rem;
+  }
+
+  [data-slot="slider"] :where([data-slot="slider-thumb"].size-5) {
+    --thumb-offset: 0.625rem;
+  }
+
+  /* Disabled state */
+  [data-slot="slider"]:has(input:disabled) {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

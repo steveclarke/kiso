@@ -43,6 +43,7 @@ require "kiso/themes/color_mode_select"
 require "kiso/themes/dashboard"
 require "kiso/themes/nav"
 require "kiso/themes/avatar"
+require "kiso/themes/slider"
 require "kiso/icons"
 
 # Kiso — a Rails engine providing UI components inspired by shadcn/ui and Nuxt UI.
