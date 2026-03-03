@@ -9,19 +9,19 @@ source: lib/kiso/themes/input_otp.rb
 ## Quick Start
 
 ```erb
-<%= kui(:input_otp, length: 6, name: "otp_code") do %>
-  <%= kui(:input_otp, :group) do %>
-    <%= kui(:input_otp, :slot) %>
-    <%= kui(:input_otp, :slot) %>
-    <%= kui(:input_otp, :slot) %>
-  <% end %>
-  <%= kui(:input_otp, :separator) %>
-  <%= kui(:input_otp, :group) do %>
-    <%= kui(:input_otp, :slot) %>
-    <%= kui(:input_otp, :slot) %>
-    <%= kui(:input_otp, :slot) %>
-  <% end %>
-<% end %>
+<%%= kui(:input_otp, length: 6, name: "otp_code") do %>
+  <%%= kui(:input_otp, :group) do %>
+    <%%= kui(:input_otp, :slot) %>
+    <%%= kui(:input_otp, :slot) %>
+    <%%= kui(:input_otp, :slot) %>
+  <%% end %>
+  <%%= kui(:input_otp, :separator) %>
+  <%%= kui(:input_otp, :group) do %>
+    <%%= kui(:input_otp, :slot) %>
+    <%%= kui(:input_otp, :slot) %>
+    <%%= kui(:input_otp, :slot) %>
+  <%% end %>
+<%% end %>
 ```
 
 ## Locals
@@ -66,13 +66,13 @@ source: lib/kiso/themes/input_otp.rb
 Pass `size:` to each slot.
 
 ```erb
-<%= kui(:input_otp, length: 4, name: "pin") do %>
-  <%= kui(:input_otp, :group) do %>
-    <% 4.times do %>
-      <%= kui(:input_otp, :slot, size: :lg) %>
-    <% end %>
-  <% end %>
-<% end %>
+<%%= kui(:input_otp, length: 4, name: "pin") do %>
+  <%%= kui(:input_otp, :group) do %>
+    <%% 4.times do %>
+      <%%= kui(:input_otp, :slot, size: :lg) %>
+    <%% end %>
+  <%% end %>
+<%% end %>
 ```
 
 ### With Separator
@@ -80,22 +80,22 @@ Pass `size:` to each slot.
 Group slots and place separators between groups.
 
 ```erb
-<%= kui(:input_otp, length: 6, name: "code") do %>
-  <%= kui(:input_otp, :group) do %>
-    <%= kui(:input_otp, :slot) %>
-    <%= kui(:input_otp, :slot) %>
-  <% end %>
-  <%= kui(:input_otp, :separator) %>
-  <%= kui(:input_otp, :group) do %>
-    <%= kui(:input_otp, :slot) %>
-    <%= kui(:input_otp, :slot) %>
-  <% end %>
-  <%= kui(:input_otp, :separator) %>
-  <%= kui(:input_otp, :group) do %>
-    <%= kui(:input_otp, :slot) %>
-    <%= kui(:input_otp, :slot) %>
-  <% end %>
-<% end %>
+<%%= kui(:input_otp, length: 6, name: "code") do %>
+  <%%= kui(:input_otp, :group) do %>
+    <%%= kui(:input_otp, :slot) %>
+    <%%= kui(:input_otp, :slot) %>
+  <%% end %>
+  <%%= kui(:input_otp, :separator) %>
+  <%%= kui(:input_otp, :group) do %>
+    <%%= kui(:input_otp, :slot) %>
+    <%%= kui(:input_otp, :slot) %>
+  <%% end %>
+  <%%= kui(:input_otp, :separator) %>
+  <%%= kui(:input_otp, :group) do %>
+    <%%= kui(:input_otp, :slot) %>
+    <%%= kui(:input_otp, :slot) %>
+  <%% end %>
+<%% end %>
 ```
 
 ### Alphanumeric
@@ -103,13 +103,13 @@ Group slots and place separators between groups.
 Change the `pattern:` to accept letters and numbers.
 
 ```erb
-<%= kui(:input_otp, length: 6, name: "code", pattern: "[a-zA-Z0-9]") do %>
-  <%= kui(:input_otp, :group) do %>
-    <% 6.times do %>
-      <%= kui(:input_otp, :slot) %>
-    <% end %>
-  <% end %>
-<% end %>
+<%%= kui(:input_otp, length: 6, name: "code", pattern: "[a-zA-Z0-9]") do %>
+  <%%= kui(:input_otp, :group) do %>
+    <%% 6.times do %>
+      <%%= kui(:input_otp, :slot) %>
+    <%% end %>
+  <%% end %>
+<%% end %>
 ```
 
 ### With Field
@@ -117,31 +117,31 @@ Change the `pattern:` to accept letters and numbers.
 Wrap in a field for labels and descriptions.
 
 ```erb
-<%= kui(:field) do %>
-  <%= kui(:field, :label) { "Verification Code" } %>
-  <%= kui(:input_otp, length: 6, name: "verification_code") do %>
-    <%= kui(:input_otp, :group) do %>
-      <% 3.times do %>
-        <%= kui(:input_otp, :slot) %>
-      <% end %>
-    <% end %>
-    <%= kui(:input_otp, :separator) %>
-    <%= kui(:input_otp, :group) do %>
-      <% 3.times do %>
-        <%= kui(:input_otp, :slot) %>
-      <% end %>
-    <% end %>
-  <% end %>
-  <%= kui(:field, :description) { "Enter the 6-digit code sent to your email." } %>
-<% end %>
+<%%= kui(:field) do %>
+  <%%= kui(:field, :label) { "Verification Code" } %>
+  <%%= kui(:input_otp, length: 6, name: "verification_code") do %>
+    <%%= kui(:input_otp, :group) do %>
+      <%% 3.times do %>
+        <%%= kui(:input_otp, :slot) %>
+      <%% end %>
+    <%% end %>
+    <%%= kui(:input_otp, :separator) %>
+    <%%= kui(:input_otp, :group) do %>
+      <%% 3.times do %>
+        <%%= kui(:input_otp, :slot) %>
+      <%% end %>
+    <%% end %>
+  <%% end %>
+  <%%= kui(:field, :description) { "Enter the 6-digit code sent to your email." } %>
+<%% end %>
 ```
 
 ### Disabled
 
 ```erb
-<%= kui(:input_otp, length: 6, name: "otp", disabled: true, value: "123456") do %>
+<%%= kui(:input_otp, length: 6, name: "otp", disabled: true, value: "123456") do %>
   ...
-<% end %>
+<%% end %>
 ```
 
 ### Form Helpers
@@ -149,12 +149,12 @@ Wrap in a field for labels and descriptions.
 The transparent input has the `name:` attribute and submits naturally with Rails forms.
 
 ```erb
-<%= form_with(model: @verification) do |f| %>
-  <%= kui(:input_otp, length: 6, name: "verification[code]") do %>
+<%%= form_with(model: @verification) do |f| %>
+  <%%= kui(:input_otp, length: 6, name: "verification[code]") do %>
     ...
-  <% end %>
-  <%= kui(:button) { "Verify" } %>
-<% end %>
+  <%% end %>
+  <%%= kui(:button) { "Verify" } %>
+<%% end %>
 ```
 
 ## Events
@@ -167,10 +167,10 @@ The Stimulus controller dispatches custom events on the root element.
 | `kiso--input-otp:complete` | `{ value: string }` | Fired when all slots are filled |
 
 ```erb
-<%= kui(:input_otp, length: 6, name: "otp",
+<%%= kui(:input_otp, length: 6, name: "otp",
     data: { action: "kiso--input-otp:complete->verification#submit" }) do %>
   ...
-<% end %>
+<%% end %>
 ```
 
 ## Theme
