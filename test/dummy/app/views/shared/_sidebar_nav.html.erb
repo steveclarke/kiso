@@ -112,9 +112,7 @@
 <%# Sidebar footer: user profile %>
 <div class="shrink-0 p-3 border-t border-(--sidebar-border)">
   <div class="flex items-center gap-3 rounded-md px-2 py-2 hover:bg-(--sidebar-accent) transition-colors duration-150 cursor-pointer">
-    <div class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
-      SC
-    </div>
+    <%= kui(:avatar, size: :sm, text: "SC", css_classes: "bg-primary text-primary-foreground") %>
     <div data-slot="nav-item-label" class="flex-1 min-w-0">
       <p class="text-sm font-medium text-(--sidebar-foreground) truncate">Steve Clarke</p>
       <p class="text-xs text-(--sidebar-foreground)/50 truncate">steve@example.com</p>

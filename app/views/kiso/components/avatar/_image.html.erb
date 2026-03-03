@@ -1,0 +1,6 @@
+<%# locals: (src:, alt: "", css_classes: "", **component_options) %>
+<%= tag.img src: src, alt: alt,
+    class: Kiso::Themes::AvatarImage.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "avatar-image"),
+    onerror: "this.style.display='none'",
+    **component_options %>

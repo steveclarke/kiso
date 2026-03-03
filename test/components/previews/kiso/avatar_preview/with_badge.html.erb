@@ -1,0 +1,14 @@
+<%# Avatar with status badge %>
+<div class="flex items-center gap-4">
+  <%# Badge with default primary color %>
+  <%= kui(:avatar, text: "CN") do %>
+    <%= kui(:avatar, :fallback) { "CN" } %>
+    <%= kui(:avatar, :badge) %>
+  <% end %>
+
+  <%# Badge with custom color %>
+  <%= kui(:avatar, text: "PP") do %>
+    <%= kui(:avatar, :fallback) { "PP" } %>
+    <%= kui(:avatar, :badge, css_classes: "bg-success") %>
+  <% end %>
+</div>

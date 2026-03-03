@@ -6,6 +6,12 @@ All colored components use **identical compound variant formulas** — see `proj
 
 **Each component has its own reference file in `components/`.** Load only the ones you need.
 
+## Data Display
+
+| Component | Key locals | Reference |
+|---|---|---|
+| `avatar` | `src`, `alt`, `text`, `size` (sm/md/lg). Sub-parts: image, fallback, badge, group, group_count | — |
+
 ## Layout
 
 | Component | Key locals | Reference |

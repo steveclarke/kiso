@@ -1,0 +1,7 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::AvatarBadge.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "avatar-badge"),
+    **component_options do %>
+  <%= capture { yield }.presence %>
+<% end %>

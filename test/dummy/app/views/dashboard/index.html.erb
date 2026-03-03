@@ -20,9 +20,7 @@
 
 <%# ── Topbar end — avatar goes rightmost, after theme toggle ──────────────── %>
 <% content_for :topbar_end do %>
-  <button aria-label="Account menu" class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
-    SC
-  </button>
+  <%= kui(:avatar, size: :sm, text: "SC", css_classes: "bg-primary text-primary-foreground") %>
 <% end %>
 
 <%# ── Main content ─────────────────────────────────────────────────────────── %>

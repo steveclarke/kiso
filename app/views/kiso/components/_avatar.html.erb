@@ -1,0 +1,23 @@
+<%# locals: (src: nil, alt: "", text: nil, size: :md, css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::Avatar.render(size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "avatar", size: size),
+    **component_options do %>
+  <% content = capture { yield }.presence %>
+  <% if content %>
+    <%= content %>
+  <% else %>
+    <% if text.present? %>
+      <%= tag.span class: Kiso::Themes::AvatarFallback.render(size: size),
+          data: { slot: "avatar-fallback" } do %>
+        <%= text %>
+      <% end %>
+    <% end %>
+    <% if src.present? %>
+      <%= tag.img src: src, alt: alt,
+          class: Kiso::Themes::AvatarImage.render,
+          data: { slot: "avatar-image" },
+          onerror: "this.style.display='none'" %>
+    <% end %>
+  <% end %>
+<% end %>

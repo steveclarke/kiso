@@ -1,0 +1,7 @@
+<%# locals: (size: :md, css_classes: "", **component_options) %>
+<%= content_tag :span,
+    class: Kiso::Themes::AvatarFallback.render(size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "avatar-fallback"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

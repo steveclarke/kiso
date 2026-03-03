@@ -6,9 +6,7 @@
       <%= kui(:dashboard_sidebar, :collapse) %>
       <span class="text-sm font-semibold text-foreground">Dashboard</span>
       <div class="ml-auto flex items-center gap-2">
-        <button class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0" type="button">
-          SC
-        </button>
+<%= kui(:avatar, size: :sm, text: "SC", css_classes: "bg-primary text-primary-foreground") %>
       </div>
     <% end %>
 
@@ -34,9 +32,7 @@
         <%= kui(:dropdown_menu, css_classes: "w-full") do %>
           <%= kui(:dropdown_menu, :trigger, css_classes: "w-full") do %>
             <button type="button" class="flex items-center gap-2 w-full rounded-md px-1 py-1 hover:bg-accent transition-colors">
-              <div class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
-                SC
-              </div>
+              <%= kui(:avatar, size: :sm, text: "SC", css_classes: "bg-primary text-primary-foreground") %>
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium truncate text-left">Steve Clarke</p>
                 <p class="text-xs text-muted-foreground truncate text-left">steve@example.com</p>

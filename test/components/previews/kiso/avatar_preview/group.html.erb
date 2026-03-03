@@ -1,0 +1,17 @@
+<%# Avatar group with overlapping avatars %>
+<div class="flex flex-col gap-6">
+  <%# Basic group %>
+  <%= kui(:avatar, :group) do %>
+    <%= kui(:avatar, text: "CN") %>
+    <%= kui(:avatar, text: "LR") %>
+    <%= kui(:avatar, text: "ER") %>
+  <% end %>
+
+  <%# Group with overflow count %>
+  <%= kui(:avatar, :group) do %>
+    <%= kui(:avatar, text: "CN") %>
+    <%= kui(:avatar, text: "LR") %>
+    <%= kui(:avatar, text: "ER") %>
+    <%= kui(:avatar, :group_count) { "+3" } %>
+  <% end %>
+</div>

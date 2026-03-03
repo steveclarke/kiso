@@ -29,6 +29,8 @@ docs:
 
   - heading: Components
     items:
+      - title: Avatar
+        href: /components/avatar
       - title: Alert
         href: /components/alert
       - title: Badge
