@@ -56,6 +56,12 @@ Consistency is more important than any individual improvement.
   invent new formulas. See `project/design-system.md`.
 - **Semantic tokens** — `bg-primary`, `text-foreground`, `bg-muted`, etc.
   Components never use raw palette shades or `dark:` prefixes.
+- **Tailwind v4 CSS variable syntax** — use **parentheses** for CSS variable
+  references: `bg-(--my-color)`, `border-(--sidebar-border)`. Parentheses
+  auto-wrap in `var()`. **Never use square brackets** for CSS variables —
+  `bg-[--my-color]` passes the value literally without `var()` and is broken
+  in v4. Square brackets are only for literal arbitrary values like
+  `text-[11px]` or `min-h-[49px]`.
 - **`text-foreground` on container components** — Kiso uses CSS variable
   swapping for dark mode (`.dark {}` block), not Tailwind `dark:` prefixes.
   The browser default text color is black and doesn't change automatically.

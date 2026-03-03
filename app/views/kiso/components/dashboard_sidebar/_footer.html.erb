@@ -1,0 +1,7 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::DashboardSidebarFooter.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "dashboard-sidebar-footer"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

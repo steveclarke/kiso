@@ -1,7 +1,7 @@
 module Kiso
   module Themes
     Nav = ClassVariants.build(
-      base: "flex flex-col gap-4"
+      base: "flex flex-col gap-2"
     )
 
     NavSection = ClassVariants.build(

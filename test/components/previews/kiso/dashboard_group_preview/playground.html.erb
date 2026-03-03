@@ -1,6 +1,6 @@
 <%# Full dashboard layout composition at reduced scale for Lookbook preview %>
 <div class="w-full overflow-hidden rounded-lg border border-border" style="height: 480px;">
-  <%= kui(:dashboard_group, sidebar_open: true) do %>
+  <%= kui(:dashboard_group, sidebar_open: true, css_classes: "h-full") do %>
     <%= kui(:dashboard_navbar) do %>
       <%= kui(:dashboard_sidebar, :toggle) %>
       <%= kui(:dashboard_sidebar, :collapse) %>
@@ -13,14 +13,13 @@
     <% end %>
 
     <%= kui(:dashboard_sidebar) do %>
-      <div class="flex items-center gap-2.5 px-4 shrink-0 border-b border-[--sidebar-border]"
-           style="height: var(--topbar-height)">
+      <%= kui(:dashboard_sidebar, :header) do %>
         <div class="flex items-center justify-center w-6 h-6 rounded-md bg-primary shrink-0">
           <%= kiso_icon("layers", class: "size-3.5 text-primary-foreground") %>
         </div>
         <span class="font-semibold text-sm truncate">Kiso App</span>
-      </div>
-      <%= kui(:nav) do %>
+      <% end %>
+      <%= kui(:nav, css_classes: "flex-1 overflow-y-auto") do %>
         <%= kui(:nav, :section, title: "Main") do %>
           <%= kui(:nav, :item, href: "#", icon: "layout-dashboard", active: true) { "Dashboard" } %>
           <%= kui(:nav, :item, href: "#", icon: "bar-chart-3") { "Analytics" } %>
@@ -29,6 +28,41 @@
         <%= kui(:nav, :section, title: "Settings") do %>
           <%= kui(:nav, :item, href: "#", icon: "settings") { "General" } %>
           <%= kui(:nav, :item, href: "#", icon: "credit-card") { "Billing" } %>
+        <% end %>
+      <% end %>
+      <%= kui(:dashboard_sidebar, :footer) do %>
+        <%= kui(:dropdown_menu, css_classes: "w-full") do %>
+          <%= kui(:dropdown_menu, :trigger, css_classes: "w-full") do %>
+            <button type="button" class="flex items-center gap-2 w-full rounded-md px-1 py-1 hover:bg-accent transition-colors">
+              <div class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
+                SC
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium truncate text-left">Steve Clarke</p>
+                <p class="text-xs text-muted-foreground truncate text-left">steve@example.com</p>
+              </div>
+              <%= kiso_icon("chevrons-up-down", class: "size-4 shrink-0 text-muted-foreground") %>
+            </button>
+          <% end %>
+          <%= kui(:dropdown_menu, :content, align: "end") do %>
+            <%= kui(:dropdown_menu, :item) do %>
+              <%= kiso_icon("user", class: "size-4") %>
+              Profile
+            <% end %>
+            <%= kui(:dropdown_menu, :item) do %>
+              <%= kiso_icon("credit-card", class: "size-4") %>
+              Billing
+            <% end %>
+            <%= kui(:dropdown_menu, :item) do %>
+              <%= kiso_icon("settings", class: "size-4") %>
+              Settings
+            <% end %>
+            <%= kui(:dropdown_menu, :separator) %>
+            <%= kui(:dropdown_menu, :item) do %>
+              <%= kiso_icon("log-out", class: "size-4") %>
+              Log out
+            <% end %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

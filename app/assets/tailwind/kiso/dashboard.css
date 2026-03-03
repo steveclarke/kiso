@@ -69,12 +69,22 @@
     border-right-color: var(--sidebar-border);
   }
 
-  /* Inner nav: always sidebar-width, scrolls independently */
+  /* Sidebar header: matches topbar height, bottom border */
+  [data-slot="dashboard-sidebar-header"] {
+    height: var(--topbar-height);
+    border-bottom: 1px solid var(--sidebar-border);
+  }
+
+  /* Sidebar footer: top border */
+  [data-slot="dashboard-sidebar-footer"] {
+    border-top: 1px solid var(--sidebar-border);
+  }
+
+  /* Inner nav: always sidebar-width, flex column for header/nav/footer layout */
   [data-slot="dashboard-sidebar-inner"] {
     width: var(--sidebar-width);
     height: 100%;
-    overflow-y: auto;
-    overscroll-behavior: contain;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     color: var(--sidebar-foreground);

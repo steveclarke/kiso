@@ -1,6 +1,6 @@
 <%# Dashboard with sidebar closed — shows the collapsed state %>
 <div class="w-full overflow-hidden rounded-lg border border-border" style="height: 480px;">
-  <%= kui(:dashboard_group, sidebar_open: false) do %>
+  <%= kui(:dashboard_group, sidebar_open: false, css_classes: "h-full") do %>
     <%= kui(:dashboard_navbar) do %>
       <%= kui(:dashboard_sidebar, :toggle) %>
       <%= kui(:dashboard_sidebar, :collapse) %>
@@ -13,10 +13,9 @@
     <% end %>
 
     <%= kui(:dashboard_sidebar) do %>
-      <div class="flex items-center gap-2.5 px-4 shrink-0 border-b border-[--sidebar-border]"
-           style="height: var(--topbar-height)">
+      <%= kui(:dashboard_sidebar, :header) do %>
         <span class="font-semibold text-sm truncate">Kiso App</span>
-      </div>
+      <% end %>
       <%= kui(:nav) do %>
         <%= kui(:nav, :section) do %>
           <%= kui(:nav, :item, href: "#", icon: "layout-dashboard", active: true) { "Dashboard" } %>
