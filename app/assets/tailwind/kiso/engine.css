@@ -133,3 +133,16 @@
 
   --color-ring: var(--color-zinc-600);
 }
+
+/* === Page Defaults ===
+   Kiso automatically applies sensible base styles to <body> so host apps
+   start with the correct colors and rendering. Uses @layer base (lowest
+   Tailwind priority) — utility classes on <body> override automatically. */
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+}

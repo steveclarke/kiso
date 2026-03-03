@@ -73,17 +73,17 @@ brand:
 Every component that uses `bg-primary` or `text-primary` will pick up your
 overrides automatically.
 
-## Setting `text-foreground`
+## Base body styles
 
-One thing to know: the browser's default text color is black and doesn't
-change when `.dark` is applied. Kiso components set `text-foreground` on
-their root element so all children inherit the correct color in both modes.
+Kiso automatically applies `bg-background text-foreground antialiased` to
+`<body>` via `@layer base`. You don't need to add these classes manually —
+they switch automatically when `.dark` is toggled.
 
-If you're building custom layouts around Kiso components, set
-`text-foreground` on your own container elements too:
+If you're building custom containers with their own background color,
+set `text-foreground` on them so children inherit the correct text color:
 
 ```erb
-<div class="bg-background text-foreground">
+<div class="bg-muted text-foreground">
   <%% # Children will inherit correct text color in dark mode %>
 </div>
 ```

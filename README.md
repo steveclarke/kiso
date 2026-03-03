@@ -37,12 +37,10 @@ And add the dark mode helper to your layout's `<head>`:
   <%= stylesheet_link_tag "tailwind" %>
   <%= javascript_importmap_tags %>
 </head>
-
-<body class="bg-background text-foreground antialiased">
 ```
 
-That's it. Helpers, importmap pins, asset paths, and dark mode tokens are all
-wired up automatically by the engine. See the
+That's it. Helpers, importmap pins, asset paths, dark mode tokens, and base
+body styles are all wired up automatically by the engine. See the
 [Getting Started guide](https://kisoui.com/getting-started) for the full
 walkthrough.
 
