@@ -1,0 +1,6 @@
+<div class="mx-auto flex w-full max-w-xs flex-col gap-3 text-foreground">
+  <%= kui(:field) do %>
+    <%= kui(:field, :label, for: :volume) { "Volume" } %>
+    <%= kui(:slider, id: :volume, name: :volume, value: 33, max: 100, step: 1) %>
+  <% end %>
+</div>

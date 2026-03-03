@@ -1,0 +1,42 @@
+<%# locals: (min: 0, max: 100, step: 1, value: nil, name: nil, id: nil, disabled: false, size: :md, aria_label: nil, css_classes: "", **component_options) %>
+<% slider_value = value || min %>
+<% percent = ((slider_value.to_f - min) / (max - min) * 100).clamp(0, 100) %>
+<%= content_tag :div,
+    class: Kiso::Themes::Slider.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "slider",
+      controller: "kiso--slider",
+      kiso__slider_min_value: min,
+      kiso__slider_max_value: max,
+      kiso__slider_step_value: step),
+    **component_options do %>
+  <%= tag.input(type: :range,
+      id: id,
+      name: name,
+      min: min,
+      max: max,
+      step: step,
+      value: slider_value,
+      disabled: disabled,
+      aria: { label: aria_label },
+      tabindex: "-1",
+      class: "sr-only",
+      data: { kiso__slider_target: "input" }) %>
+  <%= tag.div(
+      class: Kiso::Themes::SliderTrack.render(size: size),
+      data: { slot: "slider-track", kiso__slider_target: "track" }) do %>
+    <%= tag.div(
+        class: Kiso::Themes::SliderRange.render,
+        style: "width: #{percent}%",
+        data: { slot: "slider-range", kiso__slider_target: "range" }) %>
+  <% end %>
+  <%= tag.div(
+      class: Kiso::Themes::SliderThumb.render(size: size),
+      role: :slider,
+      tabindex: (disabled ? "-1" : "0"),
+      aria: { valuemin: min, valuemax: max, valuenow: slider_value,
+              label: aria_label,
+              disabled: (disabled || nil) },
+      style: "position: absolute; left: #{percent}%",
+      data: { slot: "slider-thumb", kiso__slider_target: "thumb",
+              disabled: (disabled ? "true" : nil) }) %>
+<% end %>

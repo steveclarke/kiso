@@ -45,6 +45,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | `radio_group` | `color` (7 colors). Sub-part: item | [radio_group.md](components/radio_group.md) |
 | `combobox` | `name`, `multiple`. Sub-parts: input, content, list, item, empty, group, label, separator, chips, chip, chips_input. Stimulus: `kiso--combobox` | [combobox.md](components/combobox.md) |
 | `select` | `name`, `size` (sm/md). Sub-parts: trigger, value, content, group, label, item, separator. Stimulus: `kiso--select` | [select.md](components/select.md) |
+| `slider` | `min`, `max`, `step`, `value`, `size` (sm/md/lg), `disabled`. Stimulus: `kiso--slider` | [slider.md](components/slider.md) |
 | `switch` | `color` (7 colors), `size` (sm/md), `checked` | [switch.md](components/switch.md) |
 
 ## Overlay

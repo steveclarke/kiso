@@ -1,0 +1,14 @@
+<div class="mx-auto flex w-full max-w-xs flex-col gap-6 text-foreground">
+  <div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Small</span>
+    <%= kui(:slider, size: :sm, value: 50, aria_label: "Small slider") %>
+  </div>
+  <div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Medium (default)</span>
+    <%= kui(:slider, size: :md, value: 50, aria_label: "Medium slider") %>
+  </div>
+  <div class="flex flex-col gap-2">
+    <span class="text-sm text-muted-foreground">Large</span>
+    <%= kui(:slider, size: :lg, value: 50, aria_label: "Large slider") %>
+  </div>
+</div>

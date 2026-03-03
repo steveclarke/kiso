@@ -92,6 +92,8 @@ docs:
         href: /components/radio_group
       - title: Select
         href: /components/select
+      - title: Slider
+        href: /components/slider
       - title: Textarea
         href: /components/textarea
       - title: InputGroup
