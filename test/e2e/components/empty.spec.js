@@ -34,11 +34,11 @@ test.describe("Empty component", () => {
     await expect(page.getByTestId("empty-media")).toBeVisible()
   })
 
-  test("renders content sub-part with actions", async ({ page }) => {
+  test("renders actions sub-part with buttons", async ({ page }) => {
     await page.goto(`${BASE}/with_actions`)
-    const content = page.getByTestId("empty-content")
-    await expect(content).toBeVisible()
-    await expect(content.locator("[data-slot='button']")).toHaveCount(2)
+    const actions = page.getByTestId("empty-actions")
+    await expect(actions).toBeVisible()
+    await expect(actions.locator("[data-slot='button']")).toHaveCount(2)
   })
 
   test("passes WCAG 2.1 AA", async ({ page, checkA11y }) => {

@@ -9,7 +9,7 @@ module Kiso
     #   Empty.render
     #
     # Sub-parts: {EmptyHeader}, {EmptyMedia}, {EmptyTitle}, {EmptyDescription},
-    # {EmptyContent}
+    # {EmptyActions}, {EmptyContent}
     #
     # shadcn base: flex min-w-0 flex-1 flex-col ... border-dashed p-6 ... md:p-12
     Empty = ClassVariants.build(
@@ -44,6 +44,11 @@ module Kiso
     # Empty state body text with automatic link styling.
     EmptyDescription = ClassVariants.build(
       base: "text-muted-foreground text-sm/relaxed [&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4"
+    )
+
+    # Centered button group for call-to-action buttons.
+    EmptyActions = ClassVariants.build(
+      base: "flex flex-wrap items-center justify-center gap-2"
     )
 
     # Container for action buttons or other interactive content.
