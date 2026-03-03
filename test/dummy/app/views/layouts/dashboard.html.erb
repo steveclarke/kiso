@@ -5,46 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <title><%= content_for(:title).presence || "Dashboard" %></title>
+    <title><%= content_for(:title).presence || "Kiso Dummy" %></title>
     <%= kiso_theme_script %>
-    <%= stylesheet_link_tag "tailwind", data: { turbo_track: "reload" } %>
+    <%= stylesheet_link_tag :app, data: { turbo_track: "reload" } %>
     <%= javascript_importmap_tags %>
-    <%= yield :head %>
   </head>
-
   <body>
-    <%= kui(:dashboard_group) do %>
-      <%= kui(:dashboard_navbar) do %>
-        <%= kui(:dashboard_sidebar, :toggle) %>
-        <%= kui(:dashboard_sidebar, :collapse) %>
-        <%= yield :topbar %>
-
-        <%= kui(:color_mode_button) %>
-
-        <%= yield :topbar_end %>
-      <% end %>
-
-      <%= kui(:dashboard_sidebar) do %>
-        <%= kui(:dashboard_sidebar, :header) do %>
-          <span class="font-semibold text-sm truncate">Kiso App</span>
-        <% end %>
-        <%= kui(:nav) do %>
-          <%= kui(:nav, :section, title: "Main") do %>
-            <%= kui(:nav, :item, href: "/dashboard", icon: "layout-dashboard", active: true) { "Dashboard" } %>
-            <%= kui(:nav, :item, href: "/analytics", icon: "bar-chart-3") { "Analytics" } %>
-            <%= kui(:nav, :item, href: "/team", icon: "users", badge: "3") { "Team" } %>
-          <% end %>
-          <%= kui(:nav, :section, title: "Settings") do %>
-            <%= kui(:nav, :item, href: "/settings", icon: "settings") { "General" } %>
-            <%= kui(:nav, :item, href: "/billing", icon: "credit-card") { "Billing" } %>
-          <% end %>
-        <% end %>
-        <%= yield :sidebar %>
-      <% end %>
-
-      <%= kui(:dashboard_panel) do %>
-        <%= yield %>
-      <% end %>
-    <% end %>
+    <%= yield %>
   </body>
 </html>
