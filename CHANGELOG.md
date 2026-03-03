@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1.pre] - 2026-03-03
+
 ### Fixed
 
 - Propshaft `stylesheet_link_tag :app` compatibility — the Rails 8.1 default `:app` symbol caused Propshaft to serve `tailwindcss-rails` engine CSS stubs directly to the browser, resulting in 404 errors for absolute filesystem paths. Kiso now filters these build-time intermediates from Propshaft's stylesheet resolution automatically. Host apps using either `:app` or explicit `"tailwind"` work correctly.
@@ -59,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lookbook component previews
 - Bridgetown documentation site
 
-[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.2.0.pre...HEAD
+[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.2.1.pre...HEAD
+[0.2.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.1.pre
 [0.2.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.0.pre
 [0.1.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.1.1.pre
 [0.1.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.1.0.pre
