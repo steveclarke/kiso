@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0.pre] - 2026-03-03
+
 ### Added
 
 - InputOTP component — one-time password input with individual character slots, auto-advance, paste support, and mobile SMS autofill via `autocomplete="one-time-code"`. Stimulus controller distributes a single transparent input to visual slot divs. Sub-parts: group, slot, separator. Dispatches `change` and `complete` events for auto-submit workflows.
@@ -53,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lookbook component previews
 - Bridgetown documentation site
 
-[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.1.1.pre...HEAD
+[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.2.0.pre...HEAD
+[0.2.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.0.pre
 [0.1.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.1.1.pre
 [0.1.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.1.0.pre
