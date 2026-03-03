@@ -39,6 +39,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | `input` | `variant` (outline/soft/ghost), `size` (sm/md/lg) | [input.md](components/input.md) |
 | `textarea` | `variant` (outline/soft/ghost), `size` (sm/md/lg) | [textarea.md](components/textarea.md) |
 | `input_group` | Wraps input + addons with shared ring | [input_group.md](components/input_group.md) |
+| `input_otp` | `length`, `name`, `pattern`, `size` (sm/md/lg). Sub-parts: group, slot, separator. Stimulus: `kiso--input-otp` | [input_otp.md](components/input_otp.md) |
 | `select_native` | `variant` (outline/soft/ghost), `size` (sm/md/lg). Styled native `<select>` with chevron overlay, no JS | [select_native.md](components/select_native.md) |
 | `checkbox` | `color` (7 colors), `checked` | [checkbox.md](components/checkbox.md) |
 | `radio_group` | `color` (7 colors). Sub-part: item | [radio_group.md](components/radio_group.md) |

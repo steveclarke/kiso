@@ -1,0 +1,11 @@
+<%# locals: (size: :md, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::InputOtpSlot.render(size: size, class: css_classes),
+    aria: { hidden: "true" },
+    data: kiso_prepare_options(component_options, slot: "input-otp-slot",
+      kiso__input_otp_target: "slot") do %>
+  <span data-slot="input-otp-slot-char"></span>
+  <div data-slot="input-otp-caret" class="pointer-events-none absolute inset-0 flex items-center justify-center" hidden>
+    <div class="bg-foreground h-4 w-px animate-caret-blink"></div>
+  </div>
+<% end %>

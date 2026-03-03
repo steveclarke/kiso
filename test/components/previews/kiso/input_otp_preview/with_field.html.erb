@@ -1,0 +1,19 @@
+<div class="flex items-center justify-center py-10">
+  <%= kui(:field) do %>
+    <%= kui(:field, :label, for: "verification_code") { "Verification Code" } %>
+    <%= kui(:input_otp, length: 6, name: "verification_code", id: "verification_code") do %>
+      <%= kui(:input_otp, :group) do %>
+        <% 3.times do %>
+          <%= kui(:input_otp, :slot) %>
+        <% end %>
+      <% end %>
+      <%= kui(:input_otp, :separator) %>
+      <%= kui(:input_otp, :group) do %>
+        <% 3.times do %>
+          <%= kui(:input_otp, :slot) %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= kui(:field, :description) { "Enter the 6-digit code sent to your email." } %>
+  <% end %>
+</div>

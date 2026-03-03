@@ -1,0 +1,22 @@
+<%# locals: (length: 6, name: nil, id: nil, value: nil, pattern: "\\d", disabled: false, autocomplete: "one-time-code", aria_label: nil, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::InputOtp.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "input-otp",
+      controller: "kiso--input-otp",
+      kiso__input_otp_length_value: length,
+      kiso__input_otp_pattern_value: pattern),
+    **component_options do %>
+  <%= tag.input(type: :text,
+      id: id,
+      inputmode: (pattern == "\\d" ? :numeric : :text),
+      autocomplete: autocomplete,
+      maxlength: length,
+      name: name,
+      value: value,
+      disabled: disabled,
+      spellcheck: false,
+      aria: { label: aria_label },
+      class: "absolute inset-0 z-10 w-full h-full opacity-0 disabled:cursor-not-allowed",
+      data: { kiso__input_otp_target: "input" }) %>
+  <%= yield %>
+<% end %>
