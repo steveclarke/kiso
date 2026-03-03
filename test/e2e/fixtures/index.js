@@ -36,21 +36,6 @@ export const test = base.extend({
   },
 
   /**
-   * Capture a Stimulus custom event dispatched on an element.
-   * Sets up a one-time listener and returns an async function
-   * that resolves to the event detail.
-   *
-   * @example
-   *   const getValue = await captureEvent("[data-slot='command']", "kiso--command:select")
-   *   await page.keyboard.press("Enter")
-   *   const detail = await getValue()
-   *   expect(detail.value).toBe("calendar")
-   *
-   * @param {string} selector - CSS selector for the element to listen on
-   * @param {string} eventName - The custom event name to capture
-   * @returns {Promise<() => Promise<any>>} Async function that returns the event detail
-   */
-  /**
    * Navigate to a URL with dark mode active. Uses Playwright's
    * emulateMedia to set prefers-color-scheme: dark, which the
    * Lookbook preview layout reads to set .dark on <html>.
@@ -72,6 +57,21 @@ export const test = base.extend({
     await use(gotoDark)
   },
 
+  /**
+   * Capture a Stimulus custom event dispatched on an element.
+   * Sets up a one-time listener and returns an async function
+   * that resolves to the event detail.
+   *
+   * @example
+   *   const getValue = await captureEvent("[data-slot='command']", "kiso--command:select")
+   *   await page.keyboard.press("Enter")
+   *   const detail = await getValue()
+   *   expect(detail.value).toBe("calendar")
+   *
+   * @param {string} selector - CSS selector for the element to listen on
+   * @param {string} eventName - The custom event name to capture
+   * @returns {Promise<() => Promise<any>>} Async function that returns the event detail
+   */
   captureEvent: async ({ page }, use) => {
     const capture = async (selector, eventName) => {
       await page.evaluate(

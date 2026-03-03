@@ -40,6 +40,8 @@ test.describe("Dark mode accessibility", () => {
     { name: "button", url: "/preview/kiso/button/playground" },
     { name: "card", url: "/preview/kiso/card/playground" },
     { name: "checkbox", url: "/preview/kiso/form/checkbox/with_field" },
+    { name: "color-mode-button", url: "/preview/kiso/color_mode/color_mode_button/playground" },
+    { name: "color-mode-select", url: "/preview/kiso/color_mode/color_mode_select/playground" },
     { name: "combobox", url: "/preview/kiso/combobox/with_field" },
     { name: "command", url: "/preview/kiso/command/playground" },
     { name: "dropdown-menu", url: "/preview/kiso/dropdown_menu/basic" },
@@ -68,7 +70,7 @@ test.describe("Dark mode accessibility", () => {
   for (const { name, url, exclude } of COMPONENTS) {
     test(`${name} passes WCAG 2.1 AA in dark mode`, async ({ darkMode, checkA11y }) => {
       await darkMode(url)
-      const results = await checkA11y({ exclude: exclude || [] })
+      const results = await checkA11y(exclude ? { exclude } : {})
       expect(results.violations).toEqual([])
     })
   }
