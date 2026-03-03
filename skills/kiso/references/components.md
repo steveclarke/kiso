@@ -10,7 +10,7 @@ All colored components use **identical compound variant formulas** — see `proj
 
 | Component | Key locals | Reference |
 |---|---|---|
-| `avatar` | `src`, `alt`, `text`, `size` (sm/md/lg). Sub-parts: image, fallback, badge, group, group_count | — |
+| `avatar` | `src`, `alt`, `text`, `size` (sm/md/lg). Sub-parts: image, fallback, badge, group, group_count | [avatar.md](components/avatar.md) |
 
 ## Layout
 
@@ -21,6 +21,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | `dashboard_navbar` | Topbar container (panel column only in `:sidebar` layout, full-width in `:navbar` layout). Sub-part: toggle | [dashboard_group.md](components/dashboard_group.md) |
 | `dashboard_sidebar` | Collapsible sidebar with auto-rendered inner scroll container | [dashboard_group.md](components/dashboard_group.md) |
 | `dashboard_panel` | Main content area | [dashboard_group.md](components/dashboard_group.md) |
+| `dashboard_toolbar` | Page-level toolbar. Sub-parts: left, right | [dashboard_group.md](components/dashboard_group.md) |
 | `empty` | Media sub-part has `variant` (default/icon) | [empty.md](components/empty.md) |
 | `stats_card` | `variant` (outline/soft/subtle) | [stats_card.md](components/stats_card.md) |
 | `stats_grid` | `columns` (1-4). Responsive grid wrapper for stats cards | [stats_card.md](components/stats_card.md) |
@@ -55,9 +56,10 @@ All colored components use **identical compound variant formulas** — see `proj
 
 | Component | Key locals | Reference |
 |---|---|---|
+| `nav` | Sidebar navigation. Sub-parts: item (`href`, `icon`, `badge`, `active`), section (`title`, `open`, `collapsible`), section_title. Uses HTML5 `<details>` for collapsible sections | [dashboard_group.md](components/dashboard_group.md) |
 | `breadcrumb` | 7 sub-parts: list, item, link, page, separator, ellipsis | [breadcrumb.md](components/breadcrumb.md) |
 | `command` | 8 sub-parts: input, list, empty, group, item, separator, shortcut, dialog. Stimulus: `kiso--command`, `kiso--command-dialog` | [command.md](components/command.md) |
-| `pagination` | 6 sub-parts: content, item, previous, next, ellipsis, list | [pagination.md](components/pagination.md) |
+| `pagination` | 6 sub-parts: content, item, link, previous, next, ellipsis | [pagination.md](components/pagination.md) |
 
 ## Element
 

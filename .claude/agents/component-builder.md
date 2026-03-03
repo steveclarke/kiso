@@ -1,6 +1,6 @@
 ---
 name: component-builder
-description: Autonomously builds a Kiso UI component from shadcn/Nuxt UI sources. Creates theme module, ERB partials, Lookbook previews, docs page, and PR.
+description: Autonomous Kiso component builder. Reads shadcn structure + Nuxt UI theme, creates theme module, ERB partials, Lookbook previews, docs page, skills reference, E2E tests, and commits. Used by component-factory to build in isolated worktrees.
 permissionMode: bypassPermissions
 ---
 
@@ -14,8 +14,7 @@ issue number, and you deliver a complete implementation with a pull request.
 Read these files in this exact order:
 
 1. `project/design-system.md` — compound variant formulas, token table, spatial system
-2. `project/components/{component}.md` — vision doc (if it exists)
-3. `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx` — **structural source of truth**. Copy div-for-div, class-for-class.
+2. `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx` — **structural source of truth**. Copy div-for-div, class-for-class.
 4. `vendor/shadcn-ui/apps/v4/content/docs/components/radix/{name}.mdx` — **docs page**. Lists all demos to replicate in Lookbook.
 5. `vendor/shadcn-ui/apps/v4/examples/radix/{name}-*.tsx` — **demo implementations**. Translate these to ERB for Lookbook previews. Use the same icons, text, and layout.
 6. `vendor/nuxt-ui/src/theme/{name}.ts` — **theming source of truth**. Color × variant compounds.

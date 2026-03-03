@@ -9,9 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Global theme overrides via `Kiso.configure { |c| c.theme[:button] = { base: "rounded-full" } }` ([#66])
+- Dashboard layout system — sidebar, navbar, panel, toolbar, and nav components with cookie-persisted sidebar state
+- Avatar component with image, fallback, badge, and group support
+- Form components — Field, Label, Input, Textarea, InputGroup, Checkbox, RadioGroup, Switch, Select, Combobox
+- Overlay components — Popover, DropdownMenu, Command palette
+- Navigation components — Breadcrumb, Pagination
+- Element components — Kbd, Toggle, ToggleGroup
+- Dark mode system — `kiso_theme_script` helper, ColorModeButton, ColorModeSelect
+- Floating UI positioning for popovers and dropdowns
+- Global theme overrides via `Kiso.configure`
+- Configurable default icons via `kiso_component_icon`
+- Getting Started guide
 
-[#66]: https://github.com/steveclarke/kiso/issues/66
+### Changed
+
+- Renamed `kiso()` helper to `kui()` to avoid Rails route proxy collision
+- Renamed `empty_state` to `empty` to match shadcn naming
+- Adopted `data-slot` convention from shadcn v4
 
 ## [0.1.0.pre] - 2026-02-25
 
