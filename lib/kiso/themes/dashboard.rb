@@ -20,6 +20,14 @@ module Kiso
       base: "min-w-0 overflow-y-auto bg-background"
     )
 
+    DashboardSidebarHeader = ClassVariants.build(
+      base: "shrink-0 flex items-center gap-1.5 px-4"
+    )
+
+    DashboardSidebarFooter = ClassVariants.build(
+      base: "shrink-0 flex items-center gap-1.5 px-4 py-2"
+    )
+
     DashboardSidebarToggle = ClassVariants.build(
       base: "lg:hidden flex items-center justify-center w-8 h-8 rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0 cursor-pointer"
     )

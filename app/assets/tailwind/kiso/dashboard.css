@@ -69,6 +69,17 @@
     border-right-color: var(--sidebar-border);
   }
 
+  /* Sidebar header: matches topbar height, bottom border */
+  [data-slot="dashboard-sidebar-header"] {
+    height: var(--topbar-height);
+    border-bottom: 1px solid var(--sidebar-border);
+  }
+
+  /* Sidebar footer: top border */
+  [data-slot="dashboard-sidebar-footer"] {
+    border-top: 1px solid var(--sidebar-border);
+  }
+
   /* Inner nav: always sidebar-width, scrolls independently */
   [data-slot="dashboard-sidebar-inner"] {
     width: var(--sidebar-width);

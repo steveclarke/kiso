@@ -25,10 +25,9 @@
       <% end %>
 
       <%= kui(:dashboard_sidebar) do %>
-        <div class="flex items-center gap-2.5 px-4 shrink-0 border-b border-[--sidebar-border]"
-             style="height: var(--topbar-height)">
+        <%= kui(:dashboard_sidebar, :header) do %>
           <span class="font-semibold text-sm truncate">Kiso App</span>
-        </div>
+        <% end %>
         <%= kui(:nav) do %>
           <%= kui(:nav, :section, title: "Main") do %>
             <%= kui(:nav, :item, href: "/dashboard", icon: "layout-dashboard", active: true) { "Dashboard" } %>
