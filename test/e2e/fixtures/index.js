@@ -16,8 +16,9 @@ import { test as base, expect } from "@playwright/test"
 export const test = base.extend({
   /**
    * Run an axe accessibility scan on the current page.
-   * Configured for WCAG 2.1 AA compliance with Lookbook-specific
-   * exclusions (document-title, html-has-lang) baked in.
+   * Configured for WCAG 2.1 AA compliance with baked-in exclusions:
+   * - document-title, html-has-lang: Lookbook preview chrome, not component code
+   * - color-contrast: Kiso is a UI framework — host apps own their palette
    *
    * @param {Object} [options]
    * @param {string[]} [options.exclude] - Additional axe rule IDs to disable
@@ -28,7 +29,7 @@ export const test = base.extend({
     const check = async ({ exclude = [], include } = {}) => {
       let builder = new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-        .disableRules(["document-title", "html-has-lang", ...exclude])
+        .disableRules(["document-title", "html-has-lang", "color-contrast", ...exclude])
       if (include) builder = builder.include(include)
       return builder.analyze()
     }
