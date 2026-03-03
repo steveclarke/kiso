@@ -371,6 +371,80 @@ We believe so, but we want to verify thoroughly before filing.
 
 ---
 
+## How Other Engines Handle This
+
+### turbo_material (v0.30.0)
+
+turbo_material is the engine referenced in tailwindcss-rails PR #554 — its
+maintainer @bopm contributed the engine bundling feature. It ships 17 Material
+Design components via ERB partials + helpers (similar to Kiso's `kui()` pattern).
+
+**CSS strategy: pre-built fallback.** The gem maintainer runs the Tailwind build
+locally and commits the compiled output to `app/assets/dist/turbo_material/tailwind.css`.
+Host apps import this pre-built CSS as a static asset. This side-steps the
+Propshaft `:app` stub problem entirely because the pre-built file is a real CSS
+file with no `@import` directives — it's served as-is.
+
+The engine also ships a `app/assets/tailwind/turbo_material/engine.css` for
+dynamic `@source` scanning (the same mechanism Kiso uses), but the pre-built
+file is the primary integration path.
+
+**Trade-off:** Host apps cannot customize component styles via Tailwind
+utilities because the CSS is pre-compiled. They can only override via CSS custom
+properties. This is a fundamental limitation — the pre-built approach trades
+flexibility for simplicity. For Kiso, where the whole point is composable,
+overridable Tailwind utility classes via `css_classes:` and `class_variants`,
+this trade-off is unacceptable.
+
+**Other observations:**
+- Uses CDN pins for Material Components Web JS (`jsDelivr`) — the async load
+  pattern Kiso deliberately avoids (race conditions with Stimulus)
+- No dark mode system
+- Two-tier CSS adds maintenance burden — maintainer must rebuild and commit CSS
+  whenever components change
+- No evidence of a workaround for the `:app` stub problem on the dynamic path
+
+### Maquina Components
+
+Maquina Components uses the same `tailwindcss-rails` engine bundling mechanism
+(`app/assets/tailwind/maquina_components_engine/engine.css` with `@source`
+directives). It has the same `:app` stub vulnerability as Kiso. No workaround
+is implemented — likely because users haven't hit it yet or are using explicit
+`stylesheet_link_tag "tailwind"`.
+
+Maquina uses a CSS-driven variant approach (`data-component` + `data-variant`
+attributes with CSS rules) rather than Ruby `class_variants`. Simpler but less
+composable than Kiso's approach.
+
+### Summary: Kiso's position
+
+Kiso is the only engine we've found that:
+1. Uses dynamic `@source` scanning (not pre-built CSS)
+2. Has discovered and fixed the Propshaft `:app` stub problem
+3. Ships a comprehensive dark mode system
+4. Uses Ruby-level variant composition (`class_variants` + `tailwind_merge`)
+
+The pre-built approach used by turbo_material is a valid alternative but
+fundamentally limits host app customizability. Our dynamic approach with the
+`PropshaftTailwindStubFilter` workaround preserves full Tailwind flexibility
+while protecting host apps from the stub bug.
+
+---
+
+## Upstream References
+
+- **tailwindcss-rails #477** — Same class of bug for the source directory
+  (`app/assets/tailwind/`). Fixed by changing `after:` to `before:` on the
+  Propshaft exclusion initializer. Maintainer: @flavorjones.
+- **tailwindcss-rails PR #554** — Engine bundling feature. Contributed by @bopm
+  (turbo_material maintainer). Merged with "experimental" label. The PR
+  discussion does not mention Propshaft `:app` interaction at all — the stubs
+  were written to `app/assets/builds/tailwind/` without considering whether
+  Propshaft would serve them.
+- **Kiso #140** — Our tracking issue for filing the upstream bug report.
+
+---
+
 ## Related Documentation
 
 - `project/tailwind-integration.md` — how engine CSS reaches host apps
