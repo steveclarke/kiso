@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1.pre] - 2026-03-03
+
 ### Added
 
 - Dashboard layout system — sidebar, navbar, panel, toolbar, and nav components with cookie-persisted sidebar state
@@ -43,5 +45,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lookbook component previews
 - Bridgetown documentation site
 
-[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.1.0.pre...HEAD
+[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.1.1.pre...HEAD
+[0.1.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.1.1.pre
 [0.1.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.1.0.pre
