@@ -49,6 +49,13 @@ compose into a responsive 2x2 CSS grid.
 </body>
 ```
 
+**Active nav item:** Use `controller_name` to highlight the current page:
+```erb
+<%= kui(:nav, :item, href: dashboard_path, icon: "layout-dashboard",
+      active: controller_name == "dashboard") { "Dashboard" } %>
+```
+For multiple controllers: `active: controller_name.in?(%w[settings billing])`
+
 **Custom toggle icons:** Toggle buttons accept a block to override the default icon:
 ```erb
 <%= kui(:dashboard_sidebar, :toggle) do %>

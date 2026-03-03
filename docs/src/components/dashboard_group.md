@@ -183,6 +183,36 @@ Place navigation links, grouped menus, and any sidebar content inside
 <%% end %>
 ```
 
+### Active Nav Item
+
+Use Rails' `controller_name` helper to highlight the current page's nav item
+automatically:
+
+```erb
+<%%= kui(:nav, :item,
+      href: dashboard_path,
+      icon: "layout-dashboard",
+      active: controller_name == "dashboard") { "Dashboard" } %>
+<%%= kui(:nav, :item,
+      href: settings_path,
+      icon: "settings",
+      active: controller_name == "settings") { "Settings" } %>
+```
+
+For items that should highlight across multiple controllers:
+
+```erb
+<%%= kui(:nav, :item,
+      href: settings_path,
+      icon: "settings",
+      active: controller_name.in?(%%w[settings billing integrations])) { "Settings" } %>
+```
+
+`controller_name` is a built-in Rails helper that returns the current
+controller as a lowercase string (e.g. `"dashboard"`, `"settings"`). It
+evaluates on every render, so the correct item highlights automatically
+with no extra setup.
+
 ### Sidebar State Variants
 
 Kiso ships two custom Tailwind variants for showing/hiding content based on
