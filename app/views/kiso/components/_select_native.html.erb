@@ -1,0 +1,16 @@
+<%# locals: (variant: :outline, size: :md, disabled: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::SelectNativeWrapper.render,
+    data: {slot: "select-native-wrapper"} do %>
+  <% component_options[:disabled] = true if disabled %>
+  <%= tag.select(
+      class: Kiso::Themes::SelectNative.render(variant: variant, size: size, class: css_classes),
+      data: kiso_prepare_options(component_options, slot: "select-native"),
+      **component_options) { yield } %>
+  <%= content_tag :span,
+      class: Kiso::Themes::SelectNativeIcon.render,
+      aria: {hidden: true},
+      data: {slot: "select-native-icon"} do %>
+    <%= kiso_component_icon(:chevron_down) %>
+  <% end %>
+<% end %>

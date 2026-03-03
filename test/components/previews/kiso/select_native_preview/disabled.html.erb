@@ -1,0 +1,8 @@
+<div class="max-w-sm">
+  <%= kui(:field) do %>
+    <%= kui(:label, for: "timezone") { "Timezone" } %>
+    <%= kui(:select_native, name: "timezone", id: "timezone", disabled: true) do %>
+      <option value="utc">UTC</option>
+    <% end %>
+  <% end %>
+</div>
