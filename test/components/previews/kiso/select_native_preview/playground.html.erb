@@ -1,0 +1,10 @@
+<div class="max-w-sm space-y-4">
+  <%= kui(:select_native, variant: variant, size: size, name: "timezone", "aria-label": "Timezone") do %>
+    <option value="">Select a timezone...</option>
+    <option value="utc">UTC</option>
+    <option value="est">Eastern (ET)</option>
+    <option value="cst">Central (CT)</option>
+    <option value="mst">Mountain (MT)</option>
+    <option value="pst">Pacific (PT)</option>
+  <% end %>
+</div>
