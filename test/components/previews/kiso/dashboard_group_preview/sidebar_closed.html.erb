@@ -12,10 +12,12 @@
 
     <%= kui(:dashboard_sidebar) do %>
       <%= kui(:dashboard_sidebar, :header) do %>
-        <div class="flex items-center justify-center w-6 h-6 rounded-md bg-primary shrink-0">
-          <%= kiso_icon("layers", class: "size-3.5 text-primary-foreground") %>
+        <div class="flex items-center gap-1.5">
+          <div class="flex items-center justify-center w-6 h-6 rounded-md bg-primary shrink-0">
+            <%= kiso_icon("layers", class: "size-3.5 text-primary-foreground") %>
+          </div>
+          <span class="font-semibold text-sm truncate">Kiso App</span>
         </div>
-        <span class="font-semibold text-sm truncate">Kiso App</span>
       <% end %>
       <%= kui(:nav) do %>
         <%= kui(:nav, :section) do %>
