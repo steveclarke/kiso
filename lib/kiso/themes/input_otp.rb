@@ -21,8 +21,8 @@ module Kiso
     #   InputOtpSlot.render(size: :md)
     InputOtpSlot = ClassVariants.build(
       base: "border-border relative flex items-center justify-center " \
-            "border-y border-r shadow-xs transition-all outline-none " \
-            "first:rounded-l-md first:border-l last:rounded-r-md " \
+            "border -ml-px shadow-xs transition-all outline-none " \
+            "first:ml-0 first:rounded-l-md last:rounded-r-md " \
             "data-[active=true]:z-10 data-[active=true]:border-primary " \
             "data-[active=true]:ring-[3px] data-[active=true]:ring-primary/50 " \
             "aria-invalid:border-error " \

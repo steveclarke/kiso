@@ -8,3 +8,20 @@
   0%, 70%, 100% { opacity: 1; }
   20%, 50% { opacity: 0; }
 }
+
+/* Separator-adjacent rounding — when a separator sits inside a group,
+   round the slot edges next to it so each visual cluster has proper corners.
+   Also reset the negative margin so the slot after a separator starts fresh. */
+
+@layer utilities {
+  [data-slot="input-otp-slot"]:has(+ [data-slot="input-otp-separator"]) {
+    border-top-right-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+  }
+
+  [data-slot="input-otp-separator"] + [data-slot="input-otp-slot"] {
+    margin-left: 0;
+    border-top-left-radius: var(--radius-md);
+    border-bottom-left-radius: var(--radius-md);
+  }
+}
