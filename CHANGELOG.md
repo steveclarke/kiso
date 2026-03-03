@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- InputOTP component — one-time password input with individual character slots, auto-advance, paste support, and mobile SMS autofill via `autocomplete="one-time-code"`. Stimulus controller distributes a single transparent input to visual slot divs. Sub-parts: group, slot, separator. Dispatches `change` and `complete` events for auto-submit workflows.
+- SelectNative component — styled native `<select>` with chevron icon overlay. Variant × size axes matching Input (outline/soft/ghost, sm/md/lg). No JavaScript required.
+- Sidebar state variants — `kui-sidebar-open:` and `kui-sidebar-closed:` custom Tailwind variants for showing/hiding any element based on sidebar open/closed state. Composable with breakpoints (e.g., `kui-sidebar-open:lg:hidden`).
+- Custom toggle icon override — sidebar toggle and collapse buttons accept a block to replace the default icon.
+- Auto body base styles — engine CSS now applies `bg-background text-foreground antialiased` on `<body>` via `@layer base`, so host apps no longer need to add these classes manually.
+
 ## [0.1.1.pre] - 2026-03-03
 
 ### Added
