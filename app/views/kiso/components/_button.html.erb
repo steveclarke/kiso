@@ -1,19 +1,33 @@
 <%# locals: (color: :primary, variant: :solid, size: :md, block: false,
-             type: :button, href: nil, disabled: false,
-             css_classes: "", **component_options) %>
-<% tag_name = href.present? ? :a : :button
-   if tag_name == :a
-     component_options[:href] = href
-     component_options[:"aria-disabled"] = true if disabled
-   else
-     component_options[:type] = type
-     component_options[:disabled] = true if disabled
-   end %>
-<%= content_tag tag_name,
-    class: Kiso::Themes::Button.render(
-      color: color, variant: variant, size: size, block: block,
-      class: css_classes),
-    data: kiso_prepare_options(component_options, slot: "button"),
-    **component_options do %>
-  <%= yield %>
+             type: :button, href: nil, method: nil, disabled: false,
+             form: {}, css_classes: "", **component_options) %>
+<%
+  css = Kiso::Themes::Button.render(
+    color: color, variant: variant, size: size, block: block, class: css_classes)
+  data = kiso_prepare_options(component_options, slot: "button")
+  use_button_to = href.present? && method.present? && method.to_s != "get"
+%>
+<% if use_button_to %>
+  <%= button_to href,
+      method: method,
+      class: css,
+      form_class: "contents",
+      data: data,
+      disabled: disabled || nil,
+      form: form.presence,
+      **component_options do %>
+    <%= yield %>
+  <% end %>
+<% elsif href.present? %>
+  <% component_options[:href] = href
+     component_options[:"aria-disabled"] = true if disabled %>
+  <%= content_tag :a, class: css, data: data, **component_options do %>
+    <%= yield %>
+  <% end %>
+<% else %>
+  <% component_options[:type] = type
+     component_options[:disabled] = true if disabled %>
+  <%= content_tag :button, class: css, data: data, **component_options do %>
+    <%= yield %>
+  <% end %>
 <% end %>

@@ -1,0 +1,30 @@
+<%# Buttons that use Rails button_to for non-GET HTTP methods.
+    The form wrapper uses display:contents — invisible to layout. %>
+<div class="space-y-4">
+  <p class="text-sm text-muted-foreground">Configurable (inspect source to see the form wrapper)</p>
+  <div class="flex flex-wrap gap-3 items-center">
+    <%= kui(:button, href: "#", method: method, variant: variant, color: color) do %>
+      <%= kiso_icon("log-out") %> Sign out
+    <% end %>
+  </div>
+
+  <p class="text-sm text-muted-foreground">Common patterns</p>
+  <div class="flex flex-wrap gap-3 items-center">
+    <%= kui(:button, href: "#", method: :delete, variant: :ghost, color: :neutral) do %>
+      <%= kiso_icon("log-out") %> Sign out
+    <% end %>
+    <%= kui(:button, href: "#", method: :post, variant: :outline) do %>
+      <%= kiso_icon("archive") %> Archive
+    <% end %>
+    <%= kui(:button, href: "#", method: :delete, color: :error) do %>
+      <%= kiso_icon("trash-2") %> Delete
+    <% end %>
+  </div>
+
+  <p class="text-sm text-muted-foreground">Disabled</p>
+  <div class="flex flex-wrap gap-3 items-center">
+    <%= kui(:button, href: "#", method: :delete, variant: :outline, color: :error, disabled: true) do %>
+      <%= kiso_icon("trash-2") %> Delete
+    <% end %>
+  </div>
+</div>
