@@ -1,0 +1,77 @@
+name: Bug report
+description: Report something that isn't working as expected
+labels: ["bug", "pending triage"]
+title: "[bug]: "
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear description of what's happening.
+    validations:
+      required: true
+
+  - type: input
+    id: component
+    attributes:
+      label: Affected component
+      description: Which component(s) are affected?
+      placeholder: "e.g. Button, Card, DashboardSidebar"
+    validations:
+      required: false
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: To reproduce
+      description: Steps or a minimal code example.
+      placeholder: |
+        1. Render the component with...
+        2. Click on...
+        3. See error...
+
+        ```erb
+        <%= kui(:badge, variant: :primary) { "..." } %>
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected to happen.
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or error output
+      description: Paste any relevant console errors, stack traces, or log output.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Version info helps us reproduce the issue.
+      value: |
+        - Ruby:
+        - Rails:
+        - kiso:
+        - Browser:
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: before-submitting
+    attributes:
+      label: Before submitting
+      options:
+        - label: I've searched existing issues for duplicates
+          required: true
+        - label: This bug is in Kiso itself, not my app code
+          required: false

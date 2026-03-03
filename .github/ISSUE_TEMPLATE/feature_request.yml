@@ -1,0 +1,51 @@
+name: Feature request
+description: Suggest a new component, prop, or improvement
+labels: ["enhancement", "pending triage"]
+title: "[feat]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: A clear description of the use case. What are you trying to do and why is the current behavior insufficient?
+    validations:
+      required: true
+
+  - type: input
+    id: component
+    attributes:
+      label: Affected component
+      description: Which component(s) does this relate to, if any?
+      placeholder: "e.g. Button, Card, or 'new component'"
+    validations:
+      required: false
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What you'd like to happen. Include ERB examples if possible.
+      placeholder: |
+        ```erb
+        <%= kui(:button, method: :delete) { "Remove" } %>
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you've thought about or workarounds you're currently using.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: before-submitting
+    attributes:
+      label: Before submitting
+      options:
+        - label: I've searched existing issues for duplicates
+          required: true
+        - label: I'd be willing to help implement this
+          required: false
