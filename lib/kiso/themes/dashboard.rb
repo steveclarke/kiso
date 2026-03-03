@@ -21,11 +21,11 @@ module Kiso
     )
 
     DashboardSidebarHeader = ClassVariants.build(
-      base: "shrink-0 flex items-center gap-1.5 px-4"
+      base: "shrink-0 flex flex-col gap-2 p-2"
     )
 
     DashboardSidebarFooter = ClassVariants.build(
-      base: "shrink-0 flex items-center gap-1.5 px-4 py-2"
+      base: "shrink-0 flex flex-col gap-2 p-2"
     )
 
     DashboardSidebarToggle = ClassVariants.build(
