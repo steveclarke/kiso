@@ -5,7 +5,8 @@
     <script>
       (function() {
         var theme = new URLSearchParams(location.search).get("theme");
-        if (theme === "dark") document.documentElement.classList.add("dark");
+        if (theme === "dark" || (!theme && matchMedia("(prefers-color-scheme:dark)").matches))
+          document.documentElement.classList.add("dark");
         window.addEventListener("message", function(e) {
           if (e.data && e.data.type === "kiso:theme")
             document.documentElement.classList.toggle("dark", e.data.dark);

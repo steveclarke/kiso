@@ -50,6 +50,28 @@ export const test = base.extend({
    * @param {string} eventName - The custom event name to capture
    * @returns {Promise<() => Promise<any>>} Async function that returns the event detail
    */
+  /**
+   * Navigate to a URL with dark mode active. Uses Playwright's
+   * emulateMedia to set prefers-color-scheme: dark, which the
+   * Lookbook preview layout reads to set .dark on <html>.
+   *
+   * @example
+   *   test("badge a11y in dark", async ({ darkMode, checkA11y }) => {
+   *     await darkMode("/preview/kiso/badge/playground")
+   *     const results = await checkA11y()
+   *     expect(results.violations).toEqual([])
+   *   })
+   *
+   * @param {string} url - Lookbook preview URL to navigate to
+   */
+  darkMode: async ({ page }, use) => {
+    const gotoDark = async (url) => {
+      await page.emulateMedia({ colorScheme: "dark" })
+      await page.goto(url)
+    }
+    await use(gotoDark)
+  },
+
   captureEvent: async ({ page }, use) => {
     const capture = async (selector, eventName) => {
       await page.evaluate(
