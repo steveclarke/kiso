@@ -5,13 +5,13 @@
       data: kiso_prepare_options(component_options, slot: "nav-section"),
       open: open,
       **component_options do %>
-    <summary class="<%= Kiso::Themes::NavSectionTitle.render %> cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden" data-slot="nav-section-title">
+    <summary class="<%= Kiso::Themes::NavSectionTitle.render %>" data-slot="nav-section-title">
       <span class="truncate"><%= title %></span>
       <span class="ml-auto" data-slot="nav-section-chevron">
         <%= kiso_component_icon(:chevron_down, class: "size-4") %>
       </span>
     </summary>
-    <div data-slot="nav-section-content" class="flex w-full min-w-0 flex-col gap-1 text-sm">
+    <div data-slot="nav-section-content" class="<%= Kiso::Themes::NavSectionContent.render %>">
       <%= yield %>
     </div>
   <% end %>
@@ -23,7 +23,7 @@
     <div class="<%= Kiso::Themes::NavSectionTitle.render %>" data-slot="nav-section-title">
       <span class="truncate"><%= title %></span>
     </div>
-    <div data-slot="nav-section-content" class="flex w-full min-w-0 flex-col gap-1 text-sm">
+    <div data-slot="nav-section-content" class="<%= Kiso::Themes::NavSectionContent.render %>">
       <%= yield %>
     </div>
   <% end %>

@@ -8,7 +8,7 @@
   <% if icon %>
     <%= kiso_icon(icon, class: "size-4 shrink-0") %>
   <% end %>
-  <span class="truncate"><%= yield %></span>
+  <span data-slot="nav-item-label" class="truncate"><%= yield %></span>
   <% if badge %>
     <span data-slot="nav-item-badge" class="<%= Kiso::Themes::NavItemBadge.render %>"><%= badge %></span>
   <% end %>

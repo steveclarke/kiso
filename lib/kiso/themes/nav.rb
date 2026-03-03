@@ -9,7 +9,11 @@ module Kiso
     )
 
     NavSectionTitle = ClassVariants.build(
-      base: "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground"
+      base: "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden"
+    )
+
+    NavSectionContent = ClassVariants.build(
+      base: "flex w-full min-w-0 flex-col gap-1 text-sm"
     )
 
     NavItem = ClassVariants.build(

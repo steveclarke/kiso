@@ -96,9 +96,6 @@
   [data-sidebar-open="false"] [data-slot="collapse-icon-closed"] { display: inline; }
 
   /* ── Nav section (details/summary) ───────────────────────────────────── */
-  [data-slot="nav-section"] > summary::marker,
-  [data-slot="nav-section"] > summary::-webkit-details-marker { display: none; }
-
   [data-slot="nav-section-chevron"] {
     transition: transform 200ms ease;
   }
