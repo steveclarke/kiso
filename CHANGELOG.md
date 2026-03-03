@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Dashboard layout rendering — components called without a block inside a layout (e.g., sidebar toggle, collapse) would capture the entire page template via ERB yield bubbling, breaking the dashboard grid. The `kui()` helper now passes an empty proc to prevent yield from reaching the layout.
+- Dashboard toggle and collapse icon sizing — SVG icons now render at the correct size via `[&>svg]:size-4`.
+
 ## [0.2.1.pre] - 2026-03-03
 
 ### Fixed
