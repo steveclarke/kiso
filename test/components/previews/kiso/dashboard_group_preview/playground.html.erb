@@ -4,7 +4,13 @@
     <%= kui(:dashboard_navbar) do %>
       <%= kui(:dashboard_sidebar, :toggle) %>
       <%= kui(:dashboard_sidebar, :collapse) %>
-      <span class="text-sm font-semibold text-foreground">Dashboard</span>
+      <%# Navbar logo: auto-hides on desktop when sidebar is open (sidebar has its own logo) %>
+      <div class="kui-sidebar-open:lg:hidden flex items-center gap-2">
+        <div class="flex items-center justify-center w-6 h-6 rounded-md bg-primary shrink-0">
+          <%= kiso_icon("layers", class: "size-3.5 text-primary-foreground") %>
+        </div>
+        <span class="text-sm font-semibold text-foreground truncate">Kiso App</span>
+      </div>
       <div class="ml-auto flex items-center gap-2">
 <%= kui(:avatar, size: :sm, text: "SC", css_classes: "bg-primary text-primary-foreground") %>
       </div>

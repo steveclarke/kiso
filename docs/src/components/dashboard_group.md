@@ -159,6 +159,40 @@ Place navigation links, grouped menus, and any sidebar content inside
 <%% end %>
 ```
 
+### Sidebar State Variants
+
+Kiso ships two custom Tailwind variants for showing/hiding content based on
+whether the sidebar is open or closed. These work on **any element** inside
+`dashboard_group` — not just the navbar:
+
+```erb
+<%# Hide on desktop when sidebar is open (e.g., navbar logo that duplicates sidebar logo) %>
+<div class="kui-sidebar-open:lg:hidden flex items-center gap-2">
+  <%%= image_tag "logo.svg", class: "h-6 w-6" %>
+  <span class="font-semibold">MyApp</span>
+</div>
+
+<%# Show only when sidebar is collapsed (e.g., icon-only logo) %>
+<div class="hidden kui-sidebar-closed:lg:block">
+  <%%= image_tag "icon.svg", class: "h-6 w-6" %>
+</div>
+
+<%# Show a hint in the panel when sidebar is closed %>
+<p class="hidden kui-sidebar-closed:block text-sm text-muted-foreground">
+  Open the sidebar for full navigation
+</p>
+```
+
+The variants compose with all other Tailwind modifiers — `kui-sidebar-open:lg:hidden`
+means "hide at the `lg` breakpoint and above when the sidebar is open." On mobile
+the sidebar is an overlay, so the variant typically pairs with a breakpoint to
+only affect desktop behavior.
+
+| Variant | Matches when |
+|---------|-------------|
+| `kui-sidebar-open:` | Sidebar is expanded (`data-sidebar-open="true"`) |
+| `kui-sidebar-closed:` | Sidebar is collapsed (`data-sidebar-open="false"`) |
+
 ### Custom CSS Tokens
 
 Override layout tokens in your app's Tailwind CSS:

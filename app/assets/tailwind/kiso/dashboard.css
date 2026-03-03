@@ -40,6 +40,24 @@
   --sidebar-accent-foreground: var(--color-zinc-300);
 }
 
+/* ── Sidebar state variants ──────────────────────────────────────────────────
+   Custom Tailwind variants for showing/hiding content based on sidebar state.
+   Works on any descendant of dashboard_group. Compose with breakpoints:
+     kui-sidebar-open:lg:hidden    — hide on desktop when sidebar expanded
+     kui-sidebar-closed:lg:hidden  — hide on desktop when sidebar collapsed  */
+
+@custom-variant kui-sidebar-open {
+  [data-sidebar-open="true"] & {
+    @slot;
+  }
+}
+
+@custom-variant kui-sidebar-closed {
+  [data-sidebar-open="false"] & {
+    @slot;
+  }
+}
+
 /* ── Layout mechanics ─────────────────────────────────────────────────────── */
 
 @layer components {
