@@ -20,7 +20,7 @@ module Kiso
     # @example
     #   InputOtpSlot.render(size: :md)
     InputOtpSlot = ClassVariants.build(
-      base: "border-accented relative flex items-center justify-center " \
+      base: "border-border relative flex items-center justify-center " \
             "border-y border-r shadow-xs transition-all outline-none " \
             "first:rounded-l-md first:border-l last:rounded-r-md " \
             "data-[active=true]:z-10 data-[active=true]:border-primary " \
