@@ -39,7 +39,8 @@ The root `empty` has no variant axis — it renders a centered flex container.
 | `:media` | `kui(:empty, :media)` | Icon or image container |
 | `:title` | `kui(:empty, :title)` | Heading text |
 | `:description` | `kui(:empty, :description)` | Muted description text |
-| `:content` | `kui(:empty, :content)` | Action area (buttons, links) |
+| `:actions` | `kui(:empty, :actions)` | Centered button group for CTAs |
+| `:content` | `kui(:empty, :content)` | General content area (inputs, links) |
 
 All sub-parts accept `css_classes:` and `**component_options`.
 
@@ -51,7 +52,8 @@ Empty
 │   ├── Media (icon or image)
 │   ├── Title
 │   └── Description
-└── Content (actions)
+├── Actions (CTA buttons)
+└── Content (general content)
 ```
 
 All sub-parts are optional. Use any combination.
@@ -79,7 +81,9 @@ The `:media` sub-part has a `variant:` local to control how icons are displayed.
 
 ### With Actions
 
-Use the `:content` sub-part for buttons and links below the header.
+Use the `:actions` sub-part for call-to-action buttons below the header.
+Buttons are automatically centered with `gap-2` spacing and wrap on narrow
+screens.
 
 ```erb
 <%%= kui(:empty) do %>
@@ -90,11 +94,9 @@ Use the `:content` sub-part for buttons and links below the header.
     <%%= kui(:empty, :title) { "No Projects Yet" } %>
     <%%= kui(:empty, :description) { "Get started by creating your first project." } %>
   <%% end %>
-  <%%= kui(:empty, :content) do %>
-    <div class="flex gap-2">
-      <%%= kui(:button) { "Create Project" } %>
-      <%%= kui(:button, variant: :outline) { "Import Project" } %>
-    </div>
+  <%%= kui(:empty, :actions) do %>
+    <%%= kui(:button) { "Create Project" } %>
+    <%%= kui(:button, variant: :outline) { "Import Project" } %>
   <%% end %>
 <%% end %>
 ```
@@ -149,6 +151,7 @@ EmptyMedia       = ClassVariants.build(
 )
 EmptyTitle       = ClassVariants.build(base: "text-lg font-medium tracking-tight")
 EmptyDescription = ClassVariants.build(base: "text-muted-foreground text-sm/relaxed ...")
+EmptyActions     = ClassVariants.build(base: "flex flex-wrap items-center justify-center gap-2")
 EmptyContent     = ClassVariants.build(base: "flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance")
 ```
 
