@@ -1,0 +1,7 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :nav,
+    class: Kiso::Themes::Nav.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "nav"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

@@ -77,6 +77,7 @@
     overscroll-behavior: contain;
     display: flex;
     flex-direction: column;
+    color: var(--sidebar-foreground);
   }
 
   /* Panel: row 2, col 2 */
@@ -87,6 +88,33 @@
 
   /* Scrim: hidden on desktop */
   [data-slot="dashboard-scrim"] { display: none; }
+
+  /* ── Collapse button icon switching ────────────────────────────────────── */
+  [data-sidebar-open="true"] [data-slot="collapse-icon-open"]   { display: inline; }
+  [data-sidebar-open="true"] [data-slot="collapse-icon-closed"]  { display: none; }
+  [data-sidebar-open="false"] [data-slot="collapse-icon-open"]  { display: none; }
+  [data-sidebar-open="false"] [data-slot="collapse-icon-closed"] { display: inline; }
+
+  /* ── Nav section (details/summary) ───────────────────────────────────── */
+  [data-slot="nav-section"] > summary::marker,
+  [data-slot="nav-section"] > summary::-webkit-details-marker { display: none; }
+
+  [data-slot="nav-section-chevron"] {
+    transition: transform 200ms ease;
+  }
+  [data-slot="nav-section"][open] [data-slot="nav-section-chevron"] {
+    transform: rotate(180deg);
+  }
+
+  /* ── Nav item sidebar context ────────────────────────────────────────── */
+  [data-slot="dashboard-sidebar-inner"] [data-slot="nav-item"]:hover {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+  [data-slot="dashboard-sidebar-inner"] [data-slot="nav-item"][data-active="true"] {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
 
   /* ── Mobile: sidebar becomes a fixed full-width overlay ───────────────── */
   @media (max-width: 767px) {

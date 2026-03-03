@@ -1,0 +1,15 @@
+<%# Basic nav with sections and items %>
+<div class="w-64 rounded-lg border border-border bg-background p-2">
+  <%= kui(:nav) do %>
+    <%= kui(:nav, :section, title: "Main") do %>
+      <%= kui(:nav, :item, href: "#", icon: "layout-dashboard", active: true) { "Dashboard" } %>
+      <%= kui(:nav, :item, href: "#", icon: "bar-chart-3") { "Analytics" } %>
+      <%= kui(:nav, :item, href: "#", icon: "users") { "Team" } %>
+      <%= kui(:nav, :item, href: "#", icon: "file-text") { "Documents" } %>
+    <% end %>
+    <%= kui(:nav, :section, title: "Settings") do %>
+      <%= kui(:nav, :item, href: "#", icon: "settings") { "General" } %>
+      <%= kui(:nav, :item, href: "#", icon: "credit-card") { "Billing" } %>
+    <% end %>
+  <% end %>
+</div>
