@@ -1,0 +1,46 @@
+/* Dialog entry/exit animations and scroll lock. */
+
+/* Entry */
+dialog[data-slot="dialog"][open] {
+  animation: kiso-dialog-backdrop-in 200ms ease-out;
+}
+dialog[data-slot="dialog"][open] > [data-slot="dialog-content"] {
+  animation: kiso-dialog-content-in 200ms ease-out;
+}
+
+/* Exit — data-state="closing" set by Stimulus before calling .close() */
+dialog[data-slot="dialog"][data-state="closing"] {
+  animation: kiso-dialog-backdrop-out 200ms ease-in forwards;
+}
+dialog[data-slot="dialog"][data-state="closing"] > [data-slot="dialog-content"] {
+  animation: kiso-dialog-content-out 200ms ease-in forwards;
+}
+
+@keyframes kiso-dialog-backdrop-in {
+  from { opacity: 0; }
+}
+@keyframes kiso-dialog-backdrop-out {
+  to { opacity: 0; }
+}
+@keyframes kiso-dialog-content-in {
+  from { opacity: 0; transform: scale(0.95); }
+}
+@keyframes kiso-dialog-content-out {
+  to { opacity: 0; transform: scale(0.95); }
+}
+
+/* Scroll lock — prevent body scroll when modal dialog is open */
+html:has(dialog[data-slot="dialog"][open]:modal) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  dialog[data-slot="dialog"][open],
+  dialog[data-slot="dialog"][open] > [data-slot="dialog-content"],
+  dialog[data-slot="dialog"][data-state="closing"],
+  dialog[data-slot="dialog"][data-state="closing"] > [data-slot="dialog-content"] {
+    animation: none;
+  }
+}

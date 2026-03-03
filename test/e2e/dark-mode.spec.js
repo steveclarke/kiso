@@ -45,6 +45,7 @@ test.describe("Dark mode accessibility", () => {
     { name: "color-mode-select", url: "/preview/kiso/color_mode/color_mode_select/playground" },
     { name: "combobox", url: "/preview/kiso/combobox/with_field" },
     { name: "command", url: "/preview/kiso/command/playground" },
+    { name: "dialog", url: "/preview/kiso/dialog/playground?open=true" },
     { name: "dropdown-menu", url: "/preview/kiso/dropdown_menu/basic" },
     { name: "empty", url: "/preview/kiso/empty/with_actions" },
     { name: "field", url: "/preview/kiso/form/field/textarea" },

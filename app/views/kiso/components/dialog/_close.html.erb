@@ -1,0 +1,10 @@
+<%# locals: (css_classes: "", **component_options) %>
+<% content = capture { yield }.presence %>
+<%= tag.button type: "button",
+    class: Kiso::Themes::DialogClose.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "dialog-close",
+      action: "kiso--dialog#close"),
+    **component_options do %>
+  <%= content || kiso_component_icon(:x) %>
+  <span class="sr-only">Close</span>
+<% end %>

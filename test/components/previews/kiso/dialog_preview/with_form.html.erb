@@ -1,0 +1,27 @@
+<%= kui(:button, onclick: "document.getElementById('form-dialog').showModal()") { "New Item" } %>
+
+<%= kui(:dialog, id: "form-dialog") do %>
+  <%= kui(:dialog, :close) %>
+  <%= kui(:dialog, :header) do %>
+    <%= kui(:dialog, :title) { "Create item" } %>
+    <%= kui(:dialog, :description) { "Add a new item to your collection." } %>
+  <% end %>
+  <form class="grid gap-4">
+    <%= kui(:dialog, :body) do %>
+      <div class="grid gap-4">
+        <%= kui(:field) do %>
+          <%= kui(:field, :label) { "Title" } %>
+          <%= kui(:input, placeholder: "Item title") %>
+        <% end %>
+        <%= kui(:field) do %>
+          <%= kui(:field, :label) { "Description" } %>
+          <%= kui(:textarea, placeholder: "Describe the item...") %>
+        <% end %>
+      </div>
+    <% end %>
+    <%= kui(:dialog, :footer) do %>
+      <%= kui(:button, variant: :outline, data: { action: "kiso--dialog#close" }) { "Cancel" } %>
+      <%= kui(:button, type: :submit) { "Create" } %>
+    <% end %>
+  </form>
+<% end %>

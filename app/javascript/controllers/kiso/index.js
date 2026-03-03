@@ -1,6 +1,7 @@
 import KisoComboboxController from "./combobox_controller.js"
 import KisoCommandController from "./command_controller.js"
 import KisoCommandDialogController from "./command_dialog_controller.js"
+import KisoDialogController from "./dialog_controller.js"
 import KisoDropdownMenuController from "./dropdown_menu_controller.js"
 import KisoInputOtpController from "./input_otp_controller.js"
 import KisoPopoverController from "./popover_controller.js"
@@ -15,6 +16,7 @@ const KisoUi = {
     application.register("kiso--combobox", KisoComboboxController)
     application.register("kiso--command", KisoCommandController)
     application.register("kiso--command-dialog", KisoCommandDialogController)
+    application.register("kiso--dialog", KisoDialogController)
     application.register("kiso--dropdown-menu", KisoDropdownMenuController)
     application.register("kiso--input-otp", KisoInputOtpController)
     application.register("kiso--popover", KisoPopoverController)
@@ -31,6 +33,7 @@ export {
   KisoComboboxController,
   KisoCommandController,
   KisoCommandDialogController,
+  KisoDialogController,
   KisoDropdownMenuController,
   KisoInputOtpController,
   KisoPopoverController,
