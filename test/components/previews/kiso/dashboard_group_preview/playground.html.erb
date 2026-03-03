@@ -31,13 +31,41 @@
         <% end %>
       <% end %>
       <%= kui(:dashboard_sidebar, :footer) do %>
-        <div class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
-          SC
-        </div>
-        <div class="flex-1 min-w-0">
-          <p class="text-sm font-medium truncate">Steve Clarke</p>
-          <p class="text-xs text-muted-foreground truncate">steve@example.com</p>
-        </div>
+        <%= kui(:dropdown_menu) do %>
+          <%= kui(:dropdown_menu, :trigger) do %>
+            <button type="button" class="flex items-center gap-2 w-full rounded-md px-1 py-1 hover:bg-accent transition-colors">
+              <div class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
+                SC
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium truncate text-left">Steve Clarke</p>
+                <p class="text-xs text-muted-foreground truncate text-left">steve@example.com</p>
+              </div>
+              <%= kiso_icon("chevrons-up-down", class: "size-4 shrink-0 text-muted-foreground") %>
+            </button>
+          <% end %>
+          <%= kui(:dropdown_menu, :content, align: "end") do %>
+            <%= kui(:dropdown_menu, :label) { "My Account" } %>
+            <%= kui(:dropdown_menu, :separator) %>
+            <%= kui(:dropdown_menu, :item) do %>
+              <%= kiso_icon("user", class: "size-4") %>
+              Profile
+            <% end %>
+            <%= kui(:dropdown_menu, :item) do %>
+              <%= kiso_icon("credit-card", class: "size-4") %>
+              Billing
+            <% end %>
+            <%= kui(:dropdown_menu, :item) do %>
+              <%= kiso_icon("settings", class: "size-4") %>
+              Settings
+            <% end %>
+            <%= kui(:dropdown_menu, :separator) %>
+            <%= kui(:dropdown_menu, :item, variant: :destructive) do %>
+              <%= kiso_icon("log-out", class: "size-4") %>
+              Log out
+            <% end %>
+          <% end %>
+        <% end %>
       <% end %>
     <% end %>
 
