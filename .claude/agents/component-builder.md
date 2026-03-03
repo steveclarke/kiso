@@ -1,6 +1,6 @@
 ---
 name: component-builder
-description: Autonomously builds a Kiso UI component from shadcn/Nuxt UI sources. Creates theme module, ERB partials, Lookbook previews, docs page, and PR.
+description: Autonomous Kiso component builder. Reads shadcn structure + Nuxt UI theme, creates theme module, ERB partials, Lookbook previews, docs page, skills reference, E2E tests, and commits. Used by component-factory to build in isolated worktrees.
 permissionMode: bypassPermissions
 ---
 

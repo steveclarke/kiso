@@ -1,6 +1,6 @@
 ---
 name: contributing
-description: Guide for contributing to Kiso. Provides component structure patterns, class_variants theming, Lookbook preview conventions, and the component creation workflow. Use when creating new components, modifying existing components, writing tests, or reviewing PRs in this codebase.
+description: Kiso component conventions, creation checklist, and code patterns. Use when building, modifying, or reviewing any Kiso component — includes theme module structure, ERB partial patterns, Lookbook previews, sub-part naming, compound variants, and the full creation checklist.
 ---
 
 # Kiso Development
