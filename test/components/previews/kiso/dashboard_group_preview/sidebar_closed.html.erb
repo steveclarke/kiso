@@ -1,6 +1,6 @@
 <%# Dashboard with sidebar closed — shows the collapsed state %>
 <div class="w-full overflow-hidden rounded-lg border border-border" style="height: 480px;">
-  <%= kui(:dashboard_group, sidebar_open: false) do %>
+  <%= kui(:dashboard_group, sidebar_open: false, css_classes: "h-full") do %>
     <%= kui(:dashboard_navbar) do %>
       <%= kui(:dashboard_sidebar, :toggle) %>
       <%= kui(:dashboard_sidebar, :collapse) %>

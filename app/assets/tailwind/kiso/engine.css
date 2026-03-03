@@ -53,7 +53,7 @@
 
 @theme {
   /* Brand / action colors */
-  --color-primary: var(--color-blue-600);
+  --color-primary: var(--color-sky-600);
   --color-primary-foreground: white;
 
   --color-secondary: var(--color-teal-600);
