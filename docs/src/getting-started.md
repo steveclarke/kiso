@@ -59,22 +59,24 @@ A minimal layout that works with Kiso and dark mode:
     <%%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-background text-foreground antialiased">
+  <body>
     <%%= yield %>
   </body>
 </html>
 ```
 
-Three things to note:
+Two things to note:
 
 - **`kiso_theme_script`** outputs a blocking inline script that reads the
   user's theme preference (localStorage, cookie, or OS setting) and sets
   `.dark` on `<html>` before first paint. No server-side code needed.
-- **`bg-background text-foreground`** on `<body>` sets the base colors using
-  Kiso's semantic tokens. These switch automatically in dark mode.
 - **`javascript_importmap_tags`** loads Stimulus controllers. Kiso's
   controllers (for interactive components like Select, Combobox, etc.) are
   registered automatically via the engine.
+
+Kiso automatically applies `bg-background text-foreground antialiased` to
+`<body>` via `@layer base`, so you don't need to add those classes yourself.
+The base colors switch automatically in dark mode.
 
 ## Your first component
 
