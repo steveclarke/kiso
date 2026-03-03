@@ -48,8 +48,8 @@ application layout file:
 
 | Component | Element | Purpose |
 |-----------|---------|---------|
-| `kui(:dashboard_group)` | `<div>` | Root grid container, manages sidebar state |
-| `kui(:dashboard_navbar)` | `<header>` | Full-width topbar spanning both columns |
+| `kui(:dashboard_group)` | `<div>` | Root grid container, manages sidebar state. `layout:` `:sidebar` (default) or `:navbar` |
+| `kui(:dashboard_navbar)` | `<header>` | Topbar (panel column only in `:sidebar` layout, full-width in `:navbar` layout) |
 | `kui(:dashboard_sidebar, :toggle)` | `<button>` | Mobile-only hamburger toggle (`lg:hidden`) |
 | `kui(:dashboard_sidebar, :collapse)` | `<button>` | Desktop-only collapse button (`hidden lg:flex`) |
 | `kui(:dashboard_sidebar)` | `<aside>` | Collapsible sidebar navigation area |
@@ -64,8 +64,13 @@ application layout file:
 | Local | Type | Default |
 |-------|------|---------|
 | `sidebar_open:` | `Boolean` \| `nil` | `nil` (reads from cookie) |
+| `layout:` | `Symbol` | `:sidebar` |
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
+
+The `layout:` prop controls the grid structure:
+- `:sidebar` (default) — sidebar spans full viewport height, navbar spans the panel column only
+- `:navbar` — navbar spans full width across both columns, sidebar occupies the second row
 
 ### DashboardNavbar, DashboardSidebar, DashboardPanel
 
@@ -84,6 +89,18 @@ application layout file:
 ## Anatomy
 
 ```
+Default layout (:sidebar) — sidebar spans full height, navbar in panel column:
+
+DashboardGroup (grid root, kiso--sidebar controller)
+├── DashboardSidebar (collapsible aside, spans both rows)
+│   └── sidebar-inner (auto-rendered scroll container)
+├── DashboardNavbar (topbar, panel column only)
+│   └── DashboardNavbar :toggle (hamburger button)
+├── DashboardPanel (main content)
+└── scrim (auto-rendered mobile overlay)
+
+Alternate layout (:navbar) — navbar spans full width:
+
 DashboardGroup (grid root, kiso--sidebar controller)
 ├── DashboardNavbar (topbar, spans both columns)
 │   └── DashboardNavbar :toggle (hamburger button)

@@ -47,6 +47,11 @@
   [data-sidebar-open="true"]  { --sidebar-current-width: var(--sidebar-width); }
   [data-sidebar-open="false"] { --sidebar-current-width: 0rem; }
 
+  /* Hide sidebar border when collapsed to prevent ghost border at 0 width */
+  [data-sidebar-open="false"] [data-slot="dashboard-sidebar"] {
+    border-right-width: 0;
+  }
+
   /* Flat 2×2 grid: topbar row + sidebar/panel row */
   [data-slot="dashboard-group"] {
     grid-template-rows: var(--topbar-height) 1fr;
@@ -54,19 +59,20 @@
     transition: grid-template-columns var(--sidebar-duration) var(--ease-out-expo);
   }
 
-  /* Topbar spans both columns */
+  /* Topbar spans panel column only (sidebar owns full height) */
   [data-slot="dashboard-navbar"] {
-    grid-column: 1 / -1;
+    grid-column: 2;
   }
 
   /*
-    Sidebar: background-color and border-right-color are set here (not via
-    Tailwind arbitrary classes) because bg-[--css-var] classes don't generate
-    reliably. overflow: hidden is in the theme module (DashboardSidebar base).
+    Sidebar: spans full height (both grid rows). background-color and
+    border-right-color are set here (not via Tailwind arbitrary classes)
+    because bg-[--css-var] classes don't generate reliably.
   */
   [data-slot="dashboard-sidebar"] {
+    grid-row: 1 / -1;
     background-color: var(--sidebar-background);
-    border-right-color: var(--sidebar-border);
+    border-right: 1px solid var(--sidebar-border);
   }
 
   /* Sidebar header: matches topbar height, bottom border */
@@ -94,6 +100,14 @@
   [data-slot="dashboard-panel"] {
     grid-column: 2;
     grid-row: 2;
+  }
+
+  /* ── Navbar layout variant: navbar spans full width, sidebar below ────── */
+  [data-layout="navbar"] [data-slot="dashboard-navbar"] {
+    grid-column: 1 / -1;
+  }
+  [data-layout="navbar"] [data-slot="dashboard-sidebar"] {
+    grid-row: auto;
   }
 
   /* Scrim: hidden on desktop */

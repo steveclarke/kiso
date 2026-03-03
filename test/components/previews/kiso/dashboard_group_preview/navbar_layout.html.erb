@@ -1,10 +1,13 @@
-<%# Dashboard with sidebar closed — shows the collapsed state %>
+<%# Dashboard with layout: :navbar — navbar spans full width, sidebar below %>
 <div class="w-full overflow-hidden rounded-lg border border-border" style="height: 480px;">
-  <%= kui(:dashboard_group, sidebar_open: false, css_classes: "h-full") do %>
+  <%= kui(:dashboard_group, sidebar_open: true, layout: :navbar, css_classes: "h-full") do %>
     <%= kui(:dashboard_navbar) do %>
       <%= kui(:dashboard_sidebar, :toggle) %>
       <%= kui(:dashboard_sidebar, :collapse) %>
-      <span class="text-sm font-semibold text-foreground">Dashboard</span>
+      <div class="flex items-center justify-center w-6 h-6 rounded-md bg-primary shrink-0">
+        <%= kiso_icon("layers", class: "size-3.5 text-primary-foreground") %>
+      </div>
+      <span class="text-sm font-semibold text-foreground">Kiso App</span>
       <div class="ml-auto flex items-center gap-2">
         <button class="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0" type="button">
           SC
@@ -13,15 +16,11 @@
     <% end %>
 
     <%= kui(:dashboard_sidebar) do %>
-      <%= kui(:dashboard_sidebar, :header) do %>
-        <div class="flex items-center justify-center w-6 h-6 rounded-md bg-primary shrink-0">
-          <%= kiso_icon("layers", class: "size-3.5 text-primary-foreground") %>
-        </div>
-        <span class="font-semibold text-sm truncate">Kiso App</span>
-      <% end %>
-      <%= kui(:nav) do %>
-        <%= kui(:nav, :section) do %>
+      <%= kui(:nav, css_classes: "flex-1 overflow-y-auto") do %>
+        <%= kui(:nav, :section, title: "Main") do %>
           <%= kui(:nav, :item, href: "#", icon: "layout-dashboard", active: true) { "Dashboard" } %>
+          <%= kui(:nav, :item, href: "#", icon: "bar-chart-3") { "Analytics" } %>
+          <%= kui(:nav, :item, href: "#", icon: "users", badge: "3") { "Team" } %>
         <% end %>
       <% end %>
     <% end %>
@@ -30,7 +29,7 @@
       <div class="p-6 space-y-4">
         <div>
           <h1 class="text-xl font-bold tracking-tight">Overview</h1>
-          <p class="text-muted-foreground text-sm mt-0.5">Sidebar is collapsed.</p>
+          <p class="text-muted-foreground text-sm mt-0.5">Navbar spans full width (original layout).</p>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <%= kui(:stats_card) do %>

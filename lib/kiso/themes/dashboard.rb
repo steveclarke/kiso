@@ -5,7 +5,7 @@ module Kiso
     )
 
     DashboardNavbar = ClassVariants.build(
-      base: "col-span-full flex items-center gap-3 px-4 border-b border-border bg-background shrink-0 z-[--z-topbar]"
+      base: "flex items-center gap-3 px-4 border-b border-border bg-background shrink-0 z-[--z-topbar]"
     )
 
     DashboardNavbarToggle = ClassVariants.build(
@@ -13,7 +13,7 @@ module Kiso
     )
 
     DashboardSidebar = ClassVariants.build(
-      base: "overflow-hidden border-r"
+      base: "overflow-hidden"
     )
 
     DashboardPanel = ClassVariants.build(

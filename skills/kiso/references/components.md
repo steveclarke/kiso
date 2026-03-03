@@ -11,8 +11,8 @@ All colored components use **identical compound variant formulas** — see `proj
 | Component | Key locals | Reference |
 |---|---|---|
 | `card` | `variant` (outline/soft/subtle) | [card.md](components/card.md) |
-| `dashboard_group` | `sidebar_open`. Sub-parts via separate components: `dashboard_navbar`, `dashboard_sidebar`, `dashboard_panel`. Stimulus: `kiso--sidebar` | [dashboard_group.md](components/dashboard_group.md) |
-| `dashboard_navbar` | Topbar container. Sub-part: toggle | [dashboard_group.md](components/dashboard_group.md) |
+| `dashboard_group` | `sidebar_open`, `layout` (`:sidebar` default / `:navbar`). Sub-parts via separate components: `dashboard_navbar`, `dashboard_sidebar`, `dashboard_panel`. Stimulus: `kiso--sidebar` | [dashboard_group.md](components/dashboard_group.md) |
+| `dashboard_navbar` | Topbar container (panel column only in `:sidebar` layout, full-width in `:navbar` layout). Sub-part: toggle | [dashboard_group.md](components/dashboard_group.md) |
 | `dashboard_sidebar` | Collapsible sidebar with auto-rendered inner scroll container | [dashboard_group.md](components/dashboard_group.md) |
 | `dashboard_panel` | Main content area | [dashboard_group.md](components/dashboard_group.md) |
 | `empty` | Media sub-part has `variant` (default/icon) | [empty.md](components/empty.md) |

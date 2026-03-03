@@ -11,5 +11,10 @@ module Kiso
     def sidebar_closed
       render_with_template
     end
+
+    # @label Navbar Layout
+    def navbar_layout
+      render_with_template
+    end
   end
 end

@@ -32,7 +32,7 @@ of four components that compose into a responsive two-column layout.
 | Component | Element | Theme module | Purpose |
 |-----------|---------|-------------|---------|
 | `dashboard_group` | `<div>` | `DashboardGroup` | Root grid container, owns the sidebar controller |
-| `dashboard_navbar` | `<header>` | `DashboardNavbar` | Full-width topbar spanning both columns |
+| `dashboard_navbar` | `<header>` | `DashboardNavbar` | Topbar (panel column only in `:sidebar` layout, full-width in `:navbar` layout) |
 | `dashboard_sidebar` | `<aside>` | `DashboardSidebar` | Collapsible sidebar with inner scrollable nav |
 | `dashboard_sidebar, :toggle` | `<button>` | `DashboardSidebarToggle` | Mobile-only hamburger (`lg:hidden`) |
 | `dashboard_sidebar, :collapse` | `<button>` | `DashboardSidebarCollapse` | Desktop-only collapse (`hidden lg:flex`) |
@@ -42,9 +42,24 @@ of four components that compose into a responsive two-column layout.
 
 ## Layout Mechanics
 
-**Flat 2x2 CSS grid.** The root `dashboard_group` uses a CSS grid with two rows
-(topbar height + 1fr) and two columns (sidebar width + 1fr). The topbar spans
-both columns. Sidebar and panel occupy the second row.
+**Flat CSS grid with two layout modes.** The root `dashboard_group` accepts a
+`layout:` prop (`:sidebar` default, `:navbar` alternate) that controls the grid
+structure.
+
+**`:sidebar` layout (default)** — sidebar spans full viewport height
+(`grid-row: 1 / -1`), navbar spans the panel column only (`grid-column: 2`).
+
+```
+┌──────────┬───────────────────────────┐
+│          │     dashboard_navbar      │
+│ sidebar  ├───────────────────────────┤
+│          │       dashboard_panel     │
+│          │                           │
+└──────────┴───────────────────────────┘
+```
+
+**`:navbar` layout** — navbar spans both columns (`col-span-full`), sidebar and
+panel occupy the second row.
 
 ```
 ┌──────────────────────────────────────┐
@@ -123,8 +138,8 @@ their own `@theme` block.
 
 - **No color axis.** Layout components are structural, not semantic. Surface
   colors come from CSS tokens, not compound variants.
-- **Grid over flexbox.** A flat 2x2 grid avoids nested wrappers and makes the
-  topbar-spans-all-columns pattern trivial.
+- **Grid over flexbox.** A flat CSS grid avoids nested wrappers and makes
+  layout mode switching (full-height sidebar vs full-width navbar) trivial.
 - **Cookie over localStorage for sidebar.** The server needs the sidebar state
   to set `data-sidebar-open` before JavaScript loads. Cookies are readable
   server-side; localStorage is not.
