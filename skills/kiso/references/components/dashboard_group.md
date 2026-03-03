@@ -49,6 +49,14 @@ compose into a responsive 2x2 CSS grid.
 </body>
 ```
 
+**Custom toggle icons:** Toggle buttons accept a block to override the default icon:
+```erb
+<%= kui(:dashboard_sidebar, :toggle) do %>
+  <%= kiso_icon("align-justify", class: "size-4") %>
+<% end %>
+```
+Or override globally: `Kiso.configure { |c| c.icons[:menu] = "align-justify" }`
+
 **Sidebar state variants:** `kui-sidebar-open:` and `kui-sidebar-closed:` — custom Tailwind variants for showing/hiding any descendant based on sidebar state. Compose with breakpoints:
 
 ```erb

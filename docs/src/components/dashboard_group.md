@@ -145,6 +145,30 @@ Place your logo, search bar, user menu, and other topbar elements inside
 <%% end %>
 ```
 
+### Custom Toggle Icons
+
+The toggle buttons render a default icon (`menu` for the hamburger) but accept
+a block to replace it with any content:
+
+```erb
+<%%= kui(:dashboard_sidebar, :toggle) do %>
+  <%%= kiso_icon("align-justify", class: "size-4") %>
+<%% end %>
+```
+
+To change the default icon globally (without passing a block every time),
+override it in your initializer:
+
+```ruby
+# config/initializers/kiso.rb
+Kiso.configure do |config|
+  config.icons[:menu] = "align-justify"
+end
+```
+
+The collapse button icons (`:panel_left_close` and `:panel_left_open`) can
+also be overridden globally via `config.icons`.
+
 ### Sidebar Content
 
 Place navigation links, grouped menus, and any sidebar content inside

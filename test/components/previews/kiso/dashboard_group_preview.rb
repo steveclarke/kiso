@@ -12,6 +12,11 @@ module Kiso
       render_with_template
     end
 
+    # @label Custom Toggle Icon
+    def custom_toggle_icons
+      render_with_template
+    end
+
     # @label Navbar Layout
     def navbar_layout
       render_with_template
