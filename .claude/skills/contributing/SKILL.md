@@ -20,9 +20,7 @@ and the semantic token table.
 
 1. `project/design-system.md` — compound variant formulas, token table, spatial
    system (heights, padding, gaps, typography, radius, icon sizing), rules
-2. `project/components/{component}.md` — vision doc for the specific component
-   (if it exists)
-3. The shadcn component at `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/`
+2. The shadcn component at `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/`
    — read and copy the Tailwind classes for structure, spacing, and layout
 4. The Nuxt UI theme at `vendor/nuxt-ui/src/theme/` — read for variant
    formulas and slot structure
@@ -48,8 +46,7 @@ test/
 skills/kiso/                   # AI skill (update when adding components)
 project/
 ├── design-system.md           # Strict compound variant rules + token map
-├── component-strategy.md      # Architecture, recipes, patterns
-└── components/                # Per-component vision docs
+└── component-strategy.md      # Architecture, recipes, patterns
 docs/                          # Bridgetown docs site (published documentation)
 lookbook/                      # Dev Rails app (Lookbook on :4001)
 ```
@@ -91,11 +88,8 @@ engine file and adds Lookbook-specific source paths:
 
 ### Before writing code
 
-1. Check if a vision doc exists at `project/components/{component}.md`. If not,
-   create one following the Badge/Alert pattern (Current API → Target API →
-   Dependencies → Migration).
-2. Read `project/design-system.md` for the compound variant formulas.
-3. **Read the shadcn component** at
+1. Read `project/design-system.md` for the compound variant formulas.
+2. **Read the shadcn component** at
    `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/{name}.tsx` — this is
    the structural source of truth. Copy their Tailwind classes div-for-div.
 4. **Read the shadcn docs and examples** at
@@ -111,7 +105,7 @@ engine file and adds Lookbook-specific source paths:
 ```
 Component: [name]
 Progress:
-- [ ] 1. Read project/design-system.md and project/components/{name}.md
+- [ ] 1. Read project/design-system.md
 - [ ] 2. Verify component name matches shadcn exactly (check file name + exports)
 - [ ] 3. Read Nuxt UI theme file for this component
 - [ ] 4. Create theme module in lib/kiso/themes/
@@ -123,8 +117,7 @@ Progress:
 - [ ] 8. Create Lookbook previews mirroring shadcn demos (read examples/radix/{name}-*.tsx)
 - [ ] 9. Add CSS file if needed (transitions/animations only)
 - [ ] 10. Update skills/kiso/references/components.md
-- [ ] 11. Write/update project/components/{name}.md vision doc
-- [ ] 12. Create docs page AND add to docs/src/_data/navigation.yml (see "Documentation page" below)
+- [ ] 11. Create docs page AND add to docs/src/_data/navigation.yml (see "Documentation page" below)
 - [ ] 13. Write Playwright E2E tests (see project/testing-strategy.md for tier)
 - [ ] 14. Add to test/e2e/dark-mode.spec.js COMPONENTS array (dark mode a11y)
 - [ ] 15. Run: bundle exec standardrb --fix
@@ -340,7 +333,7 @@ For composed usage via `kui(:component, :part)`:
 | `css_classes:` override | Single override point, merged via tailwind_merge. |
 | Lookbook previews | Playground first, then Colors, Variants, feature galleries. |
 | Lookbook dark mode | Preview wrapper `div`s must include `text-foreground` so text/icons are visible in dark mode. Lookbook doesn't set a base text color on the preview iframe. |
-| Update docs | `skills/kiso/references/components.md` + vision doc. |
+| Update docs | `skills/kiso/references/components.md` + docs page. |
 | JSDoc on all JS | Every Stimulus controller, method, property, and event must have JSDoc. `@example`, `@property`, `@fires`, `@param`, `@returns`, `@private`. |
 | Bare specifier imports | **Never use relative imports (`./utils/...`) for shared utils.** Import with bare specifiers matching the npm package name: `import { positionBelow } from "kiso-ui/utils/positioning"`. Relative imports break importmaps because Propshaft serves fingerprinted filenames. Bare specifiers resolve via importmap pins (Rails) and package.json exports (bundlers). When adding a new util, add a pin in `config/importmap.rb` and an export in `package.json`. |
 | Shared JS utils | Use `positionBelow()` from `kiso-ui/utils/positioning`, `highlightItem()`/`wrapIndex()` from `kiso-ui/utils/highlight`, and `FOCUSABLE_SELECTOR` from `kiso-ui/utils/focusable`. Never reimplement positioning, list navigation, or focusable element queries. |

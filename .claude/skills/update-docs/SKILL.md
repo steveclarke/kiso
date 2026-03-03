@@ -76,7 +76,6 @@ given the changes. Report a checklist of what needs updating.
 | Design system rules current | `project/design-system.md` |
 | Component strategy current | `project/component-strategy.md` |
 | Testing strategy current | `project/testing-strategy.md` |
-| Component vision doc exists (if new) | `project/components/{name}.md` |
 | Build plan updated (if batch work) | `project/plans/*.md` |
 | PLAN.md status current | `PLAN.md` |
 | CONTRIBUTING.md setup still works | `CONTRIBUTING.md` |

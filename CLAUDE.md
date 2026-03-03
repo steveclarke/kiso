@@ -127,8 +127,6 @@ Consistency is more important than any individual improvement.
   ```erb
   <% content = capture { yield }.presence %>
   ```
-- **Component vision docs** — `project/components/{component}.md` defines the
-  target API for each component. Read before building or extending.
 - **Composition over configuration** — Card = Header + Title + Content + Footer.
   Small partials, flexibly combined.
 - **Sub-part naming** — sub-parts always use `kui(:component, :part)`, never
@@ -251,7 +249,7 @@ test/components/previews/     Lookbook preview classes + templates
 test/dummy/                   Integration test app (bin/dummy → port 5000)
 lookbook/                     Lookbook dev app (bin/dev → port 4001)
 skills/kiso/                  AI skill (component reference, theming guide)
-project/                      Architecture docs, design system, component vision docs
+project/                      Architecture docs, design system, decisions
 docs/                         Bridgetown docs site (published documentation)
 ```
 
@@ -306,7 +304,6 @@ Kiso-specific checks on top of the universal finalize skill.
 - [ ] `type: "button"` on all `<button>` elements
 - [ ] Stimulus data attributes via `tag.*` helpers with `data:` hash — no raw HTML
 - [ ] Lookbook preview with `@logical_path` grouping (Form, Color Mode, Dashboard, etc.)
-- [ ] Vision doc at `project/components/{name}.md`
 - [ ] Docs page at `docs/src/components/{name}.md` (no `# Title` — frontmatter handles it)
 - [ ] Entry in `docs/src/_data/navigation.yml` (alphabetical)
 - [ ] Entry in `skills/kiso/references/components.md`

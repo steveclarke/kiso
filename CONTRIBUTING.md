@@ -88,7 +88,7 @@ test/components/previews/         Lookbook preview classes + templates
 test/e2e/                         Playwright E2E tests
 lookbook/                         Lookbook dev app
 docs/                             Bridgetown docs site
-project/                          Architecture docs, design system, component visions
+project/                          Architecture docs, design system, decisions
 ```
 
 ## Submitting Changes
