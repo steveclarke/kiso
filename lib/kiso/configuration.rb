@@ -44,7 +44,8 @@ module Kiso
         sun: "sun",
         moon: "moon",
         monitor: "monitor",
-        menu: "menu"
+        menu: "menu",
+        calendar: "calendar-days"
       }
     end
   end

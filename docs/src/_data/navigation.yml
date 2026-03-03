@@ -70,14 +70,20 @@ docs:
 
   - heading: Forms
     items:
+      - title: Calendar
+        href: /components/calendar
       - title: Checkbox
         href: /components/checkbox
       - title: Combobox
         href: /components/combobox
+      - title: DatePicker
+        href: /components/date-picker
       - title: Field
         href: /components/field
       - title: Input
         href: /components/input
+      - title: InputDate
+        href: /components/input-date
       - title: RadioGroup
         href: /components/radio_group
       - title: Select

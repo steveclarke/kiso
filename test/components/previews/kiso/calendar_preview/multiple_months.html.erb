@@ -1,0 +1,5 @@
+<%= javascript_import_module_tag "cally" %>
+
+<div class="flex flex-col gap-4 p-4">
+  <%= kui(:calendar, months: 3, value: Date.today.iso8601) %>
+</div>

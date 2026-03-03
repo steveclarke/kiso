@@ -37,6 +37,9 @@ All colored components use **identical compound variant formulas** — see `proj
 | `combobox` | `name`, `multiple`. Sub-parts: input, content, list, item, empty, group, label, separator, chips, chip, chips_input. Stimulus: `kiso--combobox` | [combobox.md](components/combobox.md) |
 | `select` | `name`, `size` (sm/md). Sub-parts: trigger, value, content, group, label, item, separator. Stimulus: `kiso--select` | [select.md](components/select.md) |
 | `switch` | `color` (7 colors), `size` (sm/md), `checked` | [switch.md](components/switch.md) |
+| `calendar` | `mode` (single/range), `color` (7 colors), `variant` (solid/outline/soft/subtle), `size` (sm/md/lg), `months`. Wraps Cally web components. | calendar |
+| `date_picker` | `name`, `value`, `color`, `variant`, `min`, `max`, `months`, `mode`. Composes Button + Popover + Calendar. Stimulus: `kiso--date-picker` | date_picker |
+| `input_date` | `name`, `value`, `variant` (outline/soft/ghost), `size` (sm/md/lg). Segmented MM/DD/YYYY input. Stimulus: `kiso--input-date` | input_date |
 
 ## Overlay
 

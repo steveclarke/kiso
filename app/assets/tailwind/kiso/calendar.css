@@ -1,0 +1,233 @@
+/* Calendar — styles for Cally web component Shadow DOM.
+
+   CRITICAL: Cally has its own --color-accent (default: black) and
+   --color-text-on-accent (default: white) CSS custom properties.
+   We MUST override these on the host element to prevent black
+   hover/today states. These are Cally's theming hooks, not Kiso tokens. */
+
+/* === Kiso calendar tokens ===
+   Cally internally uses --color-accent (default: black) which collides
+   with Kiso's --color-accent semantic token. We define our own prefixed
+   tokens on the calendar wrapper and reference ONLY these in ::part()
+   rules. This avoids the Shadow DOM variable resolution collision. */
+
+[data-slot="calendar"] {
+  --kiso-cal-hover-bg: var(--color-zinc-100);
+  --kiso-cal-hover-fg: var(--color-zinc-900);
+  --kiso-cal-today-bg: var(--color-zinc-100);
+  --kiso-cal-today-fg: var(--color-zinc-900);
+}
+
+.dark [data-slot="calendar"] {
+  --kiso-cal-hover-bg: var(--color-zinc-800);
+  --kiso-cal-hover-fg: var(--color-zinc-50);
+  --kiso-cal-today-bg: var(--color-zinc-800);
+  --kiso-cal-today-fg: var(--color-zinc-50);
+}
+
+/* Override Cally's --color-accent on calendar-month (where the :host
+   rule that sets it to black lives). This controls Cally's internal
+   hover and aria-pressed=true (selected/today) backgrounds. */
+[data-slot="calendar"] calendar-month {
+  --color-accent: var(--color-zinc-100);
+  --color-text-on-accent: var(--color-zinc-900);
+}
+
+.dark [data-slot="calendar"] calendar-month {
+  --color-accent: var(--color-zinc-800);
+  --color-text-on-accent: var(--color-zinc-50);
+}
+
+/* === Container === */
+
+[data-slot="calendar"]::part(container) {
+  padding: 0.75rem;
+}
+
+[data-slot="calendar"]::part(header) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Month/year heading — shadcn: text-sm font-medium */
+[data-slot="calendar"]::part(heading) {
+  font-size: 0.875rem;
+  font-weight: 500;
+  user-select: none;
+}
+
+/* === Navigation buttons — shadcn: ghost button, no border === */
+
+[data-slot="calendar"]::part(button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  width: var(--cally-cell, 2rem);
+  height: var(--cally-cell, 2rem);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-foreground);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 150ms;
+}
+
+[data-slot="calendar"]::part(button):hover {
+  background-color: var(--kiso-cal-hover-bg);
+  color: var(--kiso-cal-hover-fg);
+}
+
+[data-slot="calendar"]::part(button disabled) {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* === Weekday headers — shadcn: text-[0.8rem] font-normal text-muted-foreground === */
+
+[data-slot="calendar"] calendar-month::part(head) {
+  color: var(--color-muted-foreground);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+[data-slot="calendar"] calendar-month::part(th) {
+  font-weight: 400;
+  width: var(--cally-cell, 2rem);
+  height: var(--cally-cell, 2rem);
+  user-select: none;
+}
+
+/* === Day cells — shadcn: ghost button, rounded-md, font-normal === */
+
+[data-slot="calendar"] calendar-month::part(day) {
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 400;
+  width: var(--cally-cell, 2rem);
+  height: var(--cally-cell, 2rem);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 150ms, color 150ms;
+}
+
+[data-slot="calendar"] calendar-month::part(day):hover {
+  background-color: var(--kiso-cal-hover-bg);
+  color: var(--kiso-cal-hover-fg);
+}
+
+/* === Today — shadcn: bg-accent text-accent-foreground rounded-md === */
+
+[data-slot="calendar"] calendar-month::part(today) {
+  background-color: var(--kiso-cal-today-bg);
+  color: var(--kiso-cal-today-fg);
+  font-weight: 500;
+}
+
+/* === Selected — solid variant (default) === */
+
+[data-slot="calendar"][data-variant="solid"] calendar-month::part(selected) {
+  background-color: var(--cally-color);
+  color: var(--cally-color-fg);
+  font-weight: 500;
+}
+
+[data-slot="calendar"][data-variant="solid"] calendar-month::part(selected):hover {
+  background-color: var(--cally-color);
+  color: var(--cally-color-fg);
+}
+
+/* Today + selected — selection styling wins */
+[data-slot="calendar"][data-variant="solid"] calendar-month::part(today selected) {
+  background-color: var(--cally-color);
+  color: var(--cally-color-fg);
+}
+
+/* === Selected — outline variant === */
+
+[data-slot="calendar"][data-variant="outline"] calendar-month::part(selected) {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cally-color) 50%, transparent);
+  color: var(--cally-color-fg);
+  background-color: transparent;
+}
+
+[data-slot="calendar"][data-variant="outline"] calendar-month::part(selected):hover {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cally-color) 50%, transparent);
+  color: var(--cally-color-fg);
+}
+
+/* === Selected — soft variant === */
+
+[data-slot="calendar"][data-variant="soft"] calendar-month::part(selected) {
+  background-color: color-mix(in srgb, var(--cally-color) 10%, transparent);
+  color: var(--cally-color-fg);
+  font-weight: 500;
+}
+
+[data-slot="calendar"][data-variant="soft"] calendar-month::part(selected):hover {
+  background-color: color-mix(in srgb, var(--cally-color) 20%, transparent);
+  color: var(--cally-color-fg);
+}
+
+/* === Selected — subtle variant === */
+
+[data-slot="calendar"][data-variant="subtle"] calendar-month::part(selected) {
+  background-color: color-mix(in srgb, var(--cally-color) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cally-color) 25%, transparent);
+  color: var(--cally-color-fg);
+  font-weight: 500;
+}
+
+[data-slot="calendar"][data-variant="subtle"] calendar-month::part(selected):hover {
+  background-color: color-mix(in srgb, var(--cally-color) 20%, transparent);
+  color: var(--cally-color-fg);
+}
+
+/* === Outside days — shadcn: text-muted-foreground === */
+
+[data-slot="calendar"] calendar-month::part(outside) {
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+}
+
+/* === Disabled / disallowed days — shadcn: text-muted-foreground opacity-50 === */
+
+[data-slot="calendar"] calendar-month::part(disallowed) {
+  color: var(--color-muted-foreground);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === Range selection — shadcn: rounded-l-md start, rounded-none middle, rounded-r-md end === */
+
+[data-slot="calendar"] calendar-month::part(range-start) {
+  background-color: var(--cally-color);
+  color: var(--cally-color-fg);
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+[data-slot="calendar"] calendar-month::part(range-end) {
+  background-color: var(--cally-color);
+  color: var(--cally-color-fg);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+[data-slot="calendar"] calendar-month::part(range-inner) {
+  background-color: var(--kiso-cal-hover-bg);
+  color: var(--kiso-cal-hover-fg);
+  border-radius: 0;
+}
+
+[data-slot="calendar"] calendar-month::part(range-start range-end) {
+  border-radius: var(--radius);
+}
+
+/* === Multi-month layout — shadcn: gap-4, flex-row on md === */
+
+[data-slot="calendar"]::part(months) {
+  display: flex;
+  gap: 1rem;
+}

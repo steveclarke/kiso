@@ -1,0 +1,6 @@
+<%= javascript_import_module_tag "cally" %>
+
+<div class="flex flex-col gap-4 p-4">
+  <span class="text-sm text-muted-foreground">Click two dates to select a range</span>
+  <%= kui(:calendar, mode: :range, months: 2) %>
+</div>

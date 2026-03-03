@@ -1,0 +1,60 @@
+<%# locals: (value: nil, name: nil, variant: :outline, size: :md, required: false, disabled: false, css_classes: "", **component_options) %>
+<%
+  segments = if value.present?
+    date = Date.parse(value.to_s)
+    { month: date.month, day: date.day, year: date.year }
+  else
+    { month: nil, day: nil, year: nil }
+  end
+%>
+<%= content_tag :div,
+    class: Kiso::Themes::InputDate.render(variant: variant, size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "input-date", controller: "kiso--input-date",
+      **(value ? { kiso__input_date_value_value: value } : {})),
+    **component_options do %>
+
+  <% if name %>
+    <%= tag.input type: "hidden", name: name, value: value,
+        required: (required || nil),
+        data: { kiso__input_date_target: "input" } %>
+  <% else %>
+    <%= tag.input type: "hidden", value: value,
+        data: { kiso__input_date_target: "input" } %>
+  <% end %>
+
+  <%= tag.span(
+    segments[:month] ? segments[:month].to_s.rjust(2, "0") : "MM",
+    class: Kiso::Themes::InputDateSegment.render(size: size),
+    tabindex: (disabled ? nil : "0"),
+    role: "spinbutton",
+    aria: { label: "Month", valuemin: 1, valuemax: 12, valuenow: segments[:month] },
+    data: { segment: "month", kiso__input_date_target: "segment",
+            action: "keydown->kiso--input-date#keydown",
+            **(segments[:month] ? {} : { placeholder: "" }) }) %>
+
+  <%= tag.span "/", class: Kiso::Themes::InputDateSeparator.render,
+      data: { slot: "input-date-separator" } %>
+
+  <%= tag.span(
+    segments[:day] ? segments[:day].to_s.rjust(2, "0") : "DD",
+    class: Kiso::Themes::InputDateSegment.render(size: size),
+    tabindex: (disabled ? nil : "0"),
+    role: "spinbutton",
+    aria: { label: "Day", valuemin: 1, valuemax: 31, valuenow: segments[:day] },
+    data: { segment: "day", kiso__input_date_target: "segment",
+            action: "keydown->kiso--input-date#keydown",
+            **(segments[:day] ? {} : { placeholder: "" }) }) %>
+
+  <%= tag.span "/", class: Kiso::Themes::InputDateSeparator.render,
+      data: { slot: "input-date-separator" } %>
+
+  <%= tag.span(
+    segments[:year] ? segments[:year].to_s.rjust(4, "0") : "YYYY",
+    class: Kiso::Themes::InputDateSegment.render(size: size),
+    tabindex: (disabled ? nil : "0"),
+    role: "spinbutton",
+    aria: { label: "Year", valuemin: 1900, valuemax: 2099, valuenow: segments[:year] },
+    data: { segment: "year", kiso__input_date_target: "segment",
+            action: "keydown->kiso--input-date#keydown",
+            **(segments[:year] ? {} : { placeholder: "" }) }) %>
+<% end %>

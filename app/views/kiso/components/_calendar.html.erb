@@ -1,0 +1,26 @@
+<%# locals: (mode: :single, value: nil, min: nil, max: nil, color: :primary, variant: :solid, size: :md, locale: nil, show_outside_days: true, months: 1, first_day_of_week: nil, css_classes: "", **component_options) %>
+<%
+  calendar_tag = (mode == :range) ? "calendar-range" : "calendar-date"
+  cally_attrs = {
+    value: value,
+    min: min,
+    max: max,
+    locale: locale,
+    months: (months > 1 ? months : nil),
+    "show-outside-days": (show_outside_days ? "" : nil),
+    "first-day-of-week": first_day_of_week
+  }.compact
+%>
+<%= content_tag :div,
+    class: Kiso::Themes::Calendar.render(color: color, variant: variant, size: size, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "calendar", variant: variant, controller: "kiso--calendar"),
+    **component_options do %>
+  <%= content_tag calendar_tag, **cally_attrs do %>
+    <%= kiso_component_icon(:chevron_left, slot: "previous", class: "size-4") %>
+    <% months.times do |i| %>
+      <%= tag.send(:"calendar-month", offset: (i > 0 ? i : nil)) %>
+    <% end %>
+    <%= kiso_component_icon(:chevron_right, slot: "next", class: "size-4") %>
+    <%= yield if block_given? %>
+  <% end %>
+<% end %>

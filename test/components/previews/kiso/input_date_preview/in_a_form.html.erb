@@ -1,0 +1,11 @@
+<div class="max-w-md p-4">
+  <form action="#" method="post" class="flex flex-col gap-4">
+    <%= kui(:field) do %>
+      <%= kui(:field, :label) { "Birth Date" } %>
+      <%= kui(:input_date, name: "person[birth_date]", required: true) %>
+      <%= kui(:field, :description) { "Enter your date of birth." } %>
+    <% end %>
+
+    <%= kui(:button, type: "submit") { "Save" } %>
+  </form>
+</div>

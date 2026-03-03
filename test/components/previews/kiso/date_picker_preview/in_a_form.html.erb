@@ -1,0 +1,16 @@
+<div class="max-w-md p-4">
+  <form action="#" method="post" class="flex flex-col gap-4">
+    <%= kui(:field) do %>
+      <%= kui(:field, :label) { "Event Date" } %>
+      <%= kui(:date_picker, name: "event[date]", required: true, placeholder: "Select event date") %>
+      <%= kui(:field, :description) { "Choose when the event should take place." } %>
+    <% end %>
+
+    <%= kui(:field) do %>
+      <%= kui(:field, :label) { "Event Name" } %>
+      <%= kui(:input, name: "event[name]", placeholder: "Enter event name") %>
+    <% end %>
+
+    <%= kui(:button, type: "submit") { "Create Event" } %>
+  </form>
+</div>

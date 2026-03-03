@@ -1,0 +1,43 @@
+<%# locals: (value: nil, placeholder: "Pick a date", color: :primary, variant: :solid, size: :md, min: nil, max: nil, locale: nil, name: nil, required: false, months: 1, mode: :single, button_variant: :outline, button_size: :md, show_outside_days: true, css_classes: "", **component_options) %>
+<%
+  popover_id = "dp-#{SecureRandom.hex(4)}"
+  display_text = if value.present?
+    date = Date.parse(value.to_s)
+    date.strftime("%B %-d, %Y")
+  else
+    placeholder
+  end
+  display_classes = value.blank? ? "text-muted-foreground" : ""
+%>
+<%= content_tag :div,
+    class: css_classes.presence,
+    data: kiso_prepare_options(component_options, slot: "date-picker", controller: "kiso--date-picker",
+      kiso__date_picker_format_value: "long",
+      **(locale ? {kiso__date_picker_locale_value: locale} : {})),
+    **component_options do %>
+  <% if name %>
+    <%= tag.input type: "hidden", name: name, value: value,
+        required: (required || nil),
+        data: { kiso__date_picker_target: "input" } %>
+  <% else %>
+    <%= tag.input type: "hidden", value: value,
+        data: { kiso__date_picker_target: "input" } %>
+  <% end %>
+
+  <%= kui(:button, variant: button_variant, size: button_size,
+      css_classes: "w-[280px] justify-start text-left font-normal",
+      data: { kiso__date_picker_target: "trigger" },
+      popovertarget: popover_id) do %>
+    <%= kiso_component_icon(:calendar) %>
+    <%= tag.span display_text, class: display_classes,
+        data: { kiso__date_picker_target: "display" } %>
+  <% end %>
+
+  <%= content_tag :div, id: popover_id, popover: "",
+      class: Kiso::Themes::DatePickerPopover.render,
+      data: { kiso__date_picker_target: "popover" } do %>
+    <%= kui(:calendar, mode: mode, value: value, min: min, max: max,
+        color: color, variant: variant, size: size, locale: locale,
+        show_outside_days: show_outside_days, months: months) %>
+  <% end %>
+<% end %>

@@ -1,0 +1,8 @@
+<div class="flex flex-col gap-4 p-4">
+  <% %i[sm md lg].each do |size| %>
+    <div class="flex items-center gap-4">
+      <span class="text-sm font-medium text-foreground w-8"><%= size %></span>
+      <%= kui(:input_date, size: size, value: "2026-03-15", name: "date_#{size}") %>
+    </div>
+  <% end %>
+</div>
