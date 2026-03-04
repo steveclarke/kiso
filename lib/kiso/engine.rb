@@ -97,6 +97,36 @@ module Kiso
       end
     end
 
+    # Watches lib/kiso/themes/ in development and reloads changed theme
+    # constants so you don't have to restart the server after every tweak.
+    # Uses Rails' built-in FileUpdateChecker (same mechanism as route reloading).
+    initializer "kiso.theme_reloading" do |app|
+      if Rails.env.development? || Rails.env.test?
+        theme_dir = root.join("lib/kiso/themes")
+        theme_files = Dir[theme_dir.join("*.rb")]
+
+        reloader = app.config.file_watcher.new(theme_files) do
+          # Suppress "already initialized constant" warnings during reload.
+          # Theme files assign to constants (Badge = ClassVariants.build(...))
+          # which is intentional — we want to replace the old instance.
+          verbose, $VERBOSE = $VERBOSE, nil
+          begin
+            theme_files.each { |file| load file }
+          ensure
+            $VERBOSE = verbose
+          end
+          Kiso::ThemeOverrides.reset!
+          Kiso::ThemeOverrides.apply!
+        end
+
+        app.reloaders << reloader
+
+        ActiveSupport::Reloader.to_prepare do
+          reloader.execute_if_updated
+        end
+      end
+    end
+
     # Registers Kiso's component previews with Lookbook when available.
     initializer "kiso.lookbook", after: :load_config_initializers do
       if defined?(Lookbook)

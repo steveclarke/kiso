@@ -25,6 +25,7 @@ Stimulus.
 Two layers (CSS files only for transitions/pseudo-states):
 1. **Ruby Theme Modules** (`lib/kiso/themes/`) — variant definitions using
    `class_variants` + `tailwind_merge`. This is where component styles live.
+   Hot-reloaded in development — no server restart needed after edits.
 2. **ERB Partials** (`app/views/kiso/components/`) — strict locals, computed
    class strings from theme modules, composition via `yield` and sub-parts.
 
