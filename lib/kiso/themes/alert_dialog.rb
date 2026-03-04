@@ -70,12 +70,9 @@ module Kiso
             "*:[svg:not([class*='size-'])]:size-8"
     )
 
-    # Primary action button (e.g. "Delete", "Continue"). Styled via
-    # {Kiso::Themes::Button}. No additional classes needed.
-    AlertDialogAction = ClassVariants.build(base: "")
-
-    # Cancel button. Styled via {Kiso::Themes::Button} with outline
-    # variant. No additional classes needed.
-    AlertDialogCancel = ClassVariants.build(base: "")
+    # Action and Cancel buttons are styled directly via
+    # {Kiso::Themes::Button} in their partials — no theme constants
+    # needed. See +alert_dialog/_action.html.erb+ and
+    # +alert_dialog/_cancel.html.erb+.
   end
 end

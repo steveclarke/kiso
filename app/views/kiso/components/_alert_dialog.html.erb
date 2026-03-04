@@ -1,5 +1,9 @@
 <%# locals: (open: false, size: :default, css_classes: "", **component_options) %>
 <%
+  # Store the dialog id on the view context so child sub-part partials
+  # (_title, _description) can auto-generate matching aria-labelledby /
+  # aria-describedby id attributes without requiring the caller to pass
+  # the id through each nested kui() call.
   @_kiso_alert_dialog_id = component_options[:id]
   aria = {}
   if @_kiso_alert_dialog_id
