@@ -33,6 +33,8 @@ docs:
     items:
       - title: Alert
         href: /components/alert
+      - title: AlertDialog
+        href: /components/alert_dialog
       - title: AspectRatio
         href: /components/aspect_ratio
       - title: Avatar

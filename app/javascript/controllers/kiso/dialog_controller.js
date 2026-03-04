@@ -23,12 +23,14 @@ import { Controller } from "@hotwired/stimulus"
  *   <button data-action="kiso--dialog#open">Open</button>
  *
  * @property {boolean} openValue - Whether the dialog should open on connect (default: false)
+ * @property {boolean} dismissableValue - Whether backdrop click and Escape close the dialog (default: true). Set to false for alert dialogs.
  * @fires kiso--dialog:open - Dispatched when the dialog opens
  * @fires kiso--dialog:close - Dispatched when the dialog closes
  */
 export default class extends Controller {
   static values = {
     open: { type: Boolean, default: false },
+    dismissable: { type: Boolean, default: true },
   }
 
   connect() {
@@ -116,6 +118,7 @@ export default class extends Controller {
    * @private
    */
   _handleBackdropClick(event) {
+    if (!this.dismissableValue) return
     if (event.target === this.element) {
       this.close()
     }
@@ -130,6 +133,8 @@ export default class extends Controller {
    */
   _handleCancel(event) {
     event.preventDefault()
-    this.close()
+    if (this.dismissableValue) {
+      this.close()
+    }
   }
 }

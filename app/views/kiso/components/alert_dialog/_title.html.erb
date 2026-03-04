@@ -1,0 +1,8 @@
+<%# locals: (css_classes: "", **component_options) %>
+<% component_options[:id] = "#{@_kiso_alert_dialog_id}-title" if @_kiso_alert_dialog_id && !component_options.key?(:id) %>
+<%= content_tag :h2,
+    class: Kiso::Themes::AlertDialogTitle.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "alert-dialog-title"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

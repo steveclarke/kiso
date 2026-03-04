@@ -1,0 +1,13 @@
+<%= kui(:button, color: :error,
+    onclick: "document.getElementById('destructive-alert').showModal()") { "Delete Account" } %>
+
+<%= kui(:alert_dialog, id: "destructive-alert") do %>
+  <%= kui(:alert_dialog, :header) do %>
+    <%= kui(:alert_dialog, :title) { "Delete account?" } %>
+    <%= kui(:alert_dialog, :description) { "This will permanently delete your account and all associated data. This action cannot be undone." } %>
+  <% end %>
+  <%= kui(:alert_dialog, :footer) do %>
+    <%= kui(:alert_dialog, :cancel) { "Cancel" } %>
+    <%= kui(:alert_dialog, :action, color: :error) { "Delete" } %>
+  <% end %>
+<% end %>

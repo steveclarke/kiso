@@ -1,18 +1,18 @@
-/* Dialog entry/exit animations and scroll lock. */
+/* Dialog and Alert Dialog entry/exit animations and scroll lock. */
 
 /* Entry */
-dialog[data-slot="dialog"][open] {
+:is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[open] {
   animation: kiso-dialog-backdrop-in 200ms ease-out;
 }
-dialog[data-slot="dialog"][open] > [data-slot="dialog-content"] {
+:is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[open] > :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"]) {
   animation: kiso-dialog-content-in 200ms ease-out;
 }
 
 /* Exit — data-state="closing" set by Stimulus before calling .close() */
-dialog[data-slot="dialog"][data-state="closing"] {
+:is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[data-state="closing"] {
   animation: kiso-dialog-backdrop-out 200ms ease-in forwards;
 }
-dialog[data-slot="dialog"][data-state="closing"] > [data-slot="dialog-content"] {
+:is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[data-state="closing"] > :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"]) {
   animation: kiso-dialog-content-out 200ms ease-in forwards;
 }
 
@@ -30,17 +30,17 @@ dialog[data-slot="dialog"][data-state="closing"] > [data-slot="dialog-content"] 
 }
 
 /* Scroll lock — prevent body scroll when modal dialog is open */
-html:has(dialog[data-slot="dialog"][open]:modal) {
+html:has(:is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[open]:modal) {
   overflow: hidden;
   scrollbar-gutter: stable;
 }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  dialog[data-slot="dialog"][open],
-  dialog[data-slot="dialog"][open] > [data-slot="dialog-content"],
-  dialog[data-slot="dialog"][data-state="closing"],
-  dialog[data-slot="dialog"][data-state="closing"] > [data-slot="dialog-content"] {
+  :is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[open],
+  :is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[open] > :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"]),
+  :is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[data-state="closing"],
+  :is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[data-state="closing"] > :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"]) {
     animation: none;
   }
 }

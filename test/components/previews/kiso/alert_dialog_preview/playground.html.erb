@@ -1,0 +1,12 @@
+<%= kui(:button, onclick: "document.getElementById('playground-alert').showModal()") { "Show Alert" } %>
+
+<%= kui(:alert_dialog, open: open, size: size, id: "playground-alert") do %>
+  <%= kui(:alert_dialog, :header) do %>
+    <%= kui(:alert_dialog, :title) { "Are you absolutely sure?" } %>
+    <%= kui(:alert_dialog, :description) { "This action cannot be undone. This will permanently delete your account and remove your data from our servers." } %>
+  <% end %>
+  <%= kui(:alert_dialog, :footer) do %>
+    <%= kui(:alert_dialog, :cancel) { "Cancel" } %>
+    <%= kui(:alert_dialog, :action) { "Continue" } %>
+  <% end %>
+<% end %>

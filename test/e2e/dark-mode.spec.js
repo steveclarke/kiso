@@ -35,6 +35,7 @@ test.describe("Dark mode accessibility", () => {
    */
   const COMPONENTS = [
     { name: "alert", url: "/preview/kiso/alert/playground" },
+    { name: "alert-dialog", url: "/preview/kiso/alert_dialog/playground?open=true" },
     { name: "aspect-ratio", url: "/preview/kiso/aspect_ratio/playground" },
     { name: "avatar", url: "/preview/kiso/avatar/playground" },
     { name: "badge", url: "/preview/kiso/badge/playground" },
