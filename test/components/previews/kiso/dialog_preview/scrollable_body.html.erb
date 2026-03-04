@@ -1,0 +1,23 @@
+<%= kui(:button, onclick: "document.getElementById('scroll-dialog').showModal()") { "Terms of Service" } %>
+
+<%= kui(:dialog, id: "scroll-dialog") do %>
+  <%= kui(:dialog, :close) %>
+  <%= kui(:dialog, :header) do %>
+    <%= kui(:dialog, :title) { "Terms of Service" } %>
+    <%= kui(:dialog, :description) { "Please review our terms before continuing." } %>
+  <% end %>
+  <%= kui(:dialog, :body, css_classes: "max-h-72 overflow-y-auto") do %>
+    <% 8.times do |i| %>
+      <p class="mb-4">
+        <strong>Section <%= i + 1 %>.</strong>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
+    <% end %>
+  <% end %>
+  <%= kui(:dialog, :footer) do %>
+    <%= kui(:button, variant: :outline, data: { action: "kiso--dialog#close" }) { "Decline" } %>
+    <%= kui(:button) { "Accept" } %>
+  <% end %>
+<% end %>

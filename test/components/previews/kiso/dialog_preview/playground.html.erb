@@ -1,0 +1,25 @@
+<%= kui(:button, onclick: "document.getElementById('playground-dialog').showModal()") { "Open Dialog" } %>
+
+<%= kui(:dialog, open: open, id: "playground-dialog") do %>
+  <%= kui(:dialog, :close) %>
+  <%= kui(:dialog, :header) do %>
+    <%= kui(:dialog, :title) { "Edit profile" } %>
+    <%= kui(:dialog, :description) { "Make changes to your profile here. Click save when you're done." } %>
+  <% end %>
+  <%= kui(:dialog, :body) do %>
+    <div class="grid gap-4 py-4">
+      <div class="grid grid-cols-4 items-center gap-4">
+        <label class="text-right text-sm font-medium">Name</label>
+        <%= kui(:input, placeholder: "Enter your name", css_classes: "col-span-3") %>
+      </div>
+      <div class="grid grid-cols-4 items-center gap-4">
+        <label class="text-right text-sm font-medium">Username</label>
+        <%= kui(:input, placeholder: "@username", css_classes: "col-span-3") %>
+      </div>
+    </div>
+  <% end %>
+  <%= kui(:dialog, :footer) do %>
+    <%= kui(:button, variant: :outline, data: { action: "kiso--dialog#close" }) { "Cancel" } %>
+    <%= kui(:button) { "Save changes" } %>
+  <% end %>
+<% end %>

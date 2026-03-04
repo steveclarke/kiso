@@ -62,6 +62,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | `nav` | Sidebar navigation. Sub-parts: item (`href`, `icon`, `badge`, `active`), section (`title`, `open`, `collapsible`), section_title. Uses HTML5 `<details>` for collapsible sections | [dashboard_group.md](components/dashboard_group.md) |
 | `breadcrumb` | 7 sub-parts: list, item, link, page, separator, ellipsis | [breadcrumb.md](components/breadcrumb.md) |
 | `command` | 8 sub-parts: input, list, empty, group, item, separator, shortcut, dialog. Stimulus: `kiso--command`, `kiso--command-dialog` | [command.md](components/command.md) |
+| `dialog` | `open:` (boolean). Sub-parts: header, title, description, body, footer, close. Stimulus: `kiso--dialog` | [dialog.md](components/dialog.md) |
 | `pagination` | 6 sub-parts: content, item, link, previous, next, ellipsis | [pagination.md](components/pagination.md) |
 
 ## Element
