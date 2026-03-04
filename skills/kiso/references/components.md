@@ -52,6 +52,7 @@ All colored components use **identical compound variant formulas** — see `proj
 
 | Component | Key locals | Reference |
 |---|---|---|
+| `alert_dialog` | `open`, `size` (default/sm). Sub-parts: header, title, description, media, footer, action, cancel. No backdrop/Escape dismiss. Reuses `kiso--dialog` controller with `dismissable: false` | [alert_dialog.md](components/alert_dialog.md) |
 | `dropdown_menu` | 13 sub-parts: trigger, content, item, checkbox_item, radio_group, radio_item, label, separator, shortcut, group, sub, sub_trigger, sub_content. Item `variant` (default/destructive). Stimulus: `kiso--dropdown-menu` | [dropdown_menu.md](components/dropdown_menu.md) |
 | `popover` | `align` (start/center/end) on content. Sub-parts: trigger, content, anchor, header, title, description. Stimulus: `kiso--popover` | [popover.md](components/popover.md) |
 

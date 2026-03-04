@@ -35,6 +35,8 @@ docs:
         href: /components/avatar
       - title: Alert
         href: /components/alert
+      - title: AlertDialog
+        href: /components/alert_dialog
       - title: Badge
         href: /components/badge
       - title: Breadcrumb

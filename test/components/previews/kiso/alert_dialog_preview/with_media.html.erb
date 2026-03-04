@@ -1,0 +1,15 @@
+<%= kui(:button, onclick: "document.getElementById('media-alert').showModal()") { "Share Project" } %>
+
+<%= kui(:alert_dialog, id: "media-alert") do %>
+  <%= kui(:alert_dialog, :header) do %>
+    <%= kui(:alert_dialog, :media) do %>
+      <%= kiso_icon("lucide:share-2", class: "size-8") %>
+    <% end %>
+    <%= kui(:alert_dialog, :title) { "Share this project?" } %>
+    <%= kui(:alert_dialog, :description) { "This will make the project visible to all team members and allow them to make changes." } %>
+  <% end %>
+  <%= kui(:alert_dialog, :footer) do %>
+    <%= kui(:alert_dialog, :cancel) { "Cancel" } %>
+    <%= kui(:alert_dialog, :action) { "Share" } %>
+  <% end %>
+<% end %>

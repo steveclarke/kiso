@@ -1,0 +1,16 @@
+<%= kui(:button, color: :error,
+    onclick: "document.getElementById('media-sm-alert').showModal()") { "Delete Project" } %>
+
+<%= kui(:alert_dialog, id: "media-sm-alert", size: :sm) do %>
+  <%= kui(:alert_dialog, :header) do %>
+    <%= kui(:alert_dialog, :media, css_classes: "bg-error/10 text-error") do %>
+      <%= kiso_icon("lucide:trash-2", class: "size-8") %>
+    <% end %>
+    <%= kui(:alert_dialog, :title) { "Delete project?" } %>
+    <%= kui(:alert_dialog, :description) { "This action is permanent and cannot be undone." } %>
+  <% end %>
+  <%= kui(:alert_dialog, :footer) do %>
+    <%= kui(:alert_dialog, :cancel) { "Cancel" } %>
+    <%= kui(:alert_dialog, :action, color: :error) { "Delete" } %>
+  <% end %>
+<% end %>
