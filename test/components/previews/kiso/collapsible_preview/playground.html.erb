@@ -2,7 +2,7 @@
   <%= kui(:collapsible, open: open, css_classes: "flex w-[350px] flex-col gap-2") do %>
     <div class="flex items-center justify-between gap-4 px-4">
       <h4 class="text-sm font-semibold">Order #4189</h4>
-      <%= kui(:button, variant: :ghost, size: :icon, css_classes: "size-8",
+      <%= kui(:button, color: :neutral, variant: :ghost, size: :icon, css_classes: "size-8",
             data: { action: "kiso--collapsible#toggle",
                     kiso__collapsible_target: "trigger" }) do %>
         <%= kiso_icon("chevrons-up-down") %>
