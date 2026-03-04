@@ -12,22 +12,18 @@
 @keyframes kiso-collapsible-down {
   from {
     height: 0;
-    opacity: 0;
   }
   to {
     height: var(--kiso-collapsible-height);
-    opacity: 1;
   }
 }
 
 @keyframes kiso-collapsible-up {
   from {
     height: var(--kiso-collapsible-height);
-    opacity: 1;
   }
   to {
     height: 0;
-    opacity: 0;
   }
 }
 
