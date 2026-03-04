@@ -111,8 +111,8 @@ test.describe("Collapsible component", () => {
   test("file tree has multiple collapsibles", async ({ page }) => {
     await page.goto(`${BASE}/file_tree`)
     const collapsibles = page.locator("[data-slot='collapsible']")
-    // At least the top-level folders (components, lib, hooks)
-    await expect(collapsibles).toHaveCount(4) // 3 top-level (components, lib, hooks) + 1 nested (ui)
+    // 5 top-level folders (components, lib, hooks, types, public) + 1 nested (ui)
+    await expect(collapsibles).toHaveCount(6)
   })
 
   test("nested collapsibles toggle independently", async ({ page }) => {

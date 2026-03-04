@@ -102,6 +102,52 @@
           <% end %>
         <% end %>
 
+        <%# types/ folder %>
+        <%= kui(:collapsible) do %>
+          <%= kui(:button, variant: :ghost, size: :sm,
+                css_classes: "group w-full justify-start transition-none",
+                data: { action: "kiso--collapsible#toggle",
+                        kiso__collapsible_target: "trigger" }) do %>
+            <%= kiso_icon("chevron-right", class: "transition-transform group-data-[state=open]:rotate-90") %>
+            <%= kiso_icon("folder") %>
+            types
+          <% end %>
+          <%= kui(:collapsible, :content, css_classes: "mt-1 ml-5") do %>
+            <div class="flex flex-col gap-1">
+              <% %w[index.d.ts api.d.ts].each do |file| %>
+                <%= kui(:button, variant: :link, size: :sm,
+                      css_classes: "w-full justify-start gap-2 text-foreground") do %>
+                  <%= kiso_icon("file") %>
+                  <span><%= file %></span>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+
+        <%# public/ folder %>
+        <%= kui(:collapsible) do %>
+          <%= kui(:button, variant: :ghost, size: :sm,
+                css_classes: "group w-full justify-start transition-none",
+                data: { action: "kiso--collapsible#toggle",
+                        kiso__collapsible_target: "trigger" }) do %>
+            <%= kiso_icon("chevron-right", class: "transition-transform group-data-[state=open]:rotate-90") %>
+            <%= kiso_icon("folder") %>
+            public
+          <% end %>
+          <%= kui(:collapsible, :content, css_classes: "mt-1 ml-5") do %>
+            <div class="flex flex-col gap-1">
+              <% %w[favicon.ico og-image.png robots.txt].each do |file| %>
+                <%= kui(:button, variant: :link, size: :sm,
+                      css_classes: "w-full justify-start gap-2 text-foreground") do %>
+                  <%= kiso_icon("file") %>
+                  <span><%= file %></span>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+
         <%# Root files %>
         <% %w[app.tsx layout.tsx globals.css package.json tsconfig.json README.md .gitignore].each do |file| %>
           <%= kui(:button, variant: :link, size: :sm,
