@@ -1,0 +1,5 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= tag.div(
+    class: Kiso::Themes::Skeleton.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "skeleton"),
+    **component_options) %>
