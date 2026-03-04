@@ -35,6 +35,8 @@ docs:
         href: /components/avatar
       - title: Alert
         href: /components/alert
+      - title: AspectRatio
+        href: /components/aspect_ratio
       - title: Badge
         href: /components/badge
       - title: Breadcrumb
