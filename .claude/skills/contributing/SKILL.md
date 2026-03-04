@@ -114,7 +114,7 @@ Progress:
 - [ ] 6. Create ERB partial in app/views/kiso/components/
          - Props-driven for common patterns, yield for override
 - [ ] 7. Create sub-part partials if needed (title, description, etc.)
-- [ ] 8. Create Lookbook previews mirroring shadcn demos (read examples/radix/{name}-*.tsx)
+- [ ] 8. Create Lookbook previews as EXACT replicas of shadcn demos (see "Lookbook preview rules")
 - [ ] 9. Add CSS file if needed (transitions/animations only)
 - [ ] 10. Update skills/kiso/references/components.md
 - [ ] 11. Create docs page AND add to docs/src/_data/navigation.yml (see "Documentation page" below)
@@ -163,6 +163,33 @@ renders as literal code:
 ```
 <%%= kui(:badge) { "Example" } %>
 ```
+
+## Lookbook preview rules
+
+**CRITICAL: Lookbook previews must be exact replicas of shadcn demos.**
+
+Do NOT invent content, layouts, or styling for previews. Copy from shadcn:
+
+1. **Read every shadcn demo file** at `vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples/{name}-*.tsx`
+   (or `vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples/radix/{name}-*.tsx`).
+2. **Use the same content** — same text, same headings, same placeholder data.
+   If shadcn says "@peduarte starred 3 repositories", write that. Don't invent
+   "Order #4189".
+3. **Use the same Tailwind classes** — if shadcn uses `rounded-md border`, use
+   `rounded-md border`. Don't substitute `ring ring-inset ring-border` in demos.
+   (Ring is for Kiso's variant system in theme modules, not for demo layouts.)
+4. **Use `color: :neutral` on all buttons in demos** — shadcn buttons default
+   to neutral. Kiso buttons default to `color: :primary` (blue). Every
+   `kui(:button)` in a preview must explicitly set `color: :neutral` to match
+   the shadcn monochrome aesthetic.
+5. **No CSS animations unless shadcn has them** — check the shadcn source. If
+   they don't animate it, we don't animate it. Don't add height transitions,
+   opacity fades, or other effects that aren't in the original.
+6. **Match the exact demo list** — create one Lookbook preview per shadcn demo.
+   Don't skip demos, don't add extras.
+
+The goal: a Kiso Lookbook preview should be visually indistinguishable from
+the corresponding shadcn demo page.
 
 ## Colored component template
 
@@ -331,7 +358,7 @@ For composed usage via `kui(:component, :part)`:
 | Strict locals | Every partial: `<%# locals: (color: :primary, ...) %>` |
 | Data slot | `data-slot="alert"` for identity (shadcn v4 convention). Kebab-case. Can be used as CSS selectors (`has-[[data-slot=...]]`). |
 | `css_classes:` override | Single override point, merged via tailwind_merge. |
-| Lookbook previews | Playground first, then Colors, Variants, feature galleries. |
+| Lookbook previews | **Exact replicas of shadcn demos.** Same content, same classes, same aesthetic. See "Lookbook preview rules" section. |
 | Lookbook dark mode | Preview wrapper `div`s must include `text-foreground` so text/icons are visible in dark mode. Lookbook doesn't set a base text color on the preview iframe. |
 | Update docs | `skills/kiso/references/components.md` + docs page. |
 | JSDoc on all JS | Every Stimulus controller, method, property, and event must have JSDoc. `@example`, `@property`, `@fires`, `@param`, `@returns`, `@private`. |

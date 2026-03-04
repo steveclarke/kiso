@@ -105,18 +105,27 @@ Rules:
 File: `test/components/previews/kiso/{name}_preview.rb`
 Templates: `test/components/previews/kiso/{name}_preview/*.html.erb`
 
-**Mirror shadcn's demos exactly.** Read the shadcn docs and example files in
-the vendor submodule to understand what demos to create:
+**CRITICAL: Lookbook previews must be exact visual replicas of shadcn demos.**
+Do NOT invent content, layouts, colors, or animations. Copy from shadcn:
 
 1. Read `vendor/shadcn-ui/apps/v4/content/docs/components/radix/{name}.mdx`
    — this lists all the `<ComponentPreview>` demos on the docs page.
-2. Read each example at `vendor/shadcn-ui/apps/v4/examples/radix/{name}-*.tsx`
-   — these are the actual demo implementations. Translate them to ERB.
-3. Create one Lookbook preview per shadcn demo. Use the same scenario names
-   (playground, outline, sizes, disabled, with-text, etc.).
-4. Use the same icons, text labels, and layout as shadcn's demos — don't
-   invent your own. If shadcn uses Bold/Italic/Underline icons, use those.
-   If they use "Bookmark" with text, do the same.
+2. Read each example at `vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples/{name}-*.tsx`
+   (or `examples/radix/{name}-*.tsx`) — these are the actual implementations.
+3. **Use the exact same content** — same text, same headings, same data. If
+   shadcn says "@peduarte starred 3 repositories", write that exactly. Do NOT
+   make up alternative content like "Order #4189".
+4. **Use the exact same Tailwind classes** — if shadcn uses `rounded-md border`,
+   use `rounded-md border`. Don't substitute `ring ring-inset ring-border` in
+   demo layouts. (Ring is for Kiso's variant system in theme modules only.)
+5. **Use `color: :neutral` on ALL buttons in previews** — shadcn buttons are
+   neutral by default. Kiso defaults to primary (blue). Every `kui(:button)`
+   in a preview MUST set `color: :neutral` to match shadcn's monochrome look.
+6. **No CSS animations unless shadcn has them** — check the shadcn source
+   and CSS. If they don't animate something, neither do we.
+7. Create one Lookbook preview per shadcn demo. Same scenario names.
+
+The goal: a Kiso preview should be visually indistinguishable from shadcn.
 
 Preview class pattern:
 ```ruby
@@ -263,6 +272,9 @@ In your final text output, include:
 
 ## Quality checklist (verify before creating PR)
 
+- [ ] **Lookbook previews are exact replicas of shadcn demos** (same content, same classes, same colors — NO invented content)
+- [ ] **All buttons in previews use `color: :neutral`** (shadcn aesthetic, not Kiso blue)
+- [ ] **No animations unless shadcn has them** (check shadcn CSS — if no animation exists, don't add one)
 - [ ] Component name matches shadcn exactly
 - [ ] Sub-part names match shadcn exactly
 - [ ] HTML elements match shadcn (div, label, fieldset, etc.)
