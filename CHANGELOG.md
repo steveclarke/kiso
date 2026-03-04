@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0.pre] - 2026-03-03
+
 ### Added
 
 - Dialog component — modal dialog wrapping the native `<dialog>` element with `showModal()` for focus trapping and backdrop. Sub-parts: header, title, description, body, footer, close. Entry/exit CSS animations with reduced-motion support. Stimulus controller for programmatic open/close.
@@ -83,7 +85,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lookbook component previews
 - Bridgetown documentation site
 
-[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.2.2.pre...HEAD
+[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.3.0.pre...HEAD
+[0.3.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.3.0.pre
 [0.2.2.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.2.pre
 [0.2.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.1.pre
 [0.2.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.0.pre
