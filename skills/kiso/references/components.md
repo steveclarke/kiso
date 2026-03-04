@@ -27,6 +27,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | `stats_card` | `variant` (outline/soft/subtle) | [stats_card.md](components/stats_card.md) |
 | `stats_grid` | `columns` (1-4). Responsive grid wrapper for stats cards | [stats_card.md](components/stats_card.md) |
 | `separator` | `orientation` (horizontal/vertical), `decorative` | [separator.md](components/separator.md) |
+| `skeleton` | No variants. Loading placeholder with `animate-pulse`. Shape via `css_classes:` | [skeleton.md](components/skeleton.md) |
 | `table` | 7 sub-parts: header, body, footer, row, head, cell, caption | [table.md](components/table.md) |
 
 ## Forms

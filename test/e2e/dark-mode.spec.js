@@ -65,6 +65,7 @@ test.describe("Dark mode accessibility", () => {
     { name: "radio-group", url: "/preview/kiso/form/radio_group/playground" },
     { name: "select", url: "/preview/kiso/form/select/playground" },
     { name: "separator", url: "/preview/kiso/separator/playground" },
+    { name: "skeleton", url: "/preview/kiso/skeleton/playground" },
     { name: "slider", url: "/preview/kiso/form/slider/playground" },
     { name: "stats-card", url: "/preview/kiso/stats_card/playground" },
     { name: "switch", url: "/preview/kiso/form/switch/playground" },
