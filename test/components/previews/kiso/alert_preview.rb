@@ -34,5 +34,15 @@ module Kiso
     def title_only
       render_with_template
     end
+
+    # @label Dismissible
+    def dismissible
+      render_with_template
+    end
+
+    # @label With Actions
+    def with_actions
+      render_with_template
+    end
   end
 end

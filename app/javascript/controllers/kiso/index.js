@@ -1,3 +1,4 @@
+import KisoAlertController from "./alert_controller.js"
 import KisoComboboxController from "./combobox_controller.js"
 import KisoCommandController from "./command_controller.js"
 import KisoCommandDialogController from "./command_dialog_controller.js"
@@ -13,6 +14,7 @@ import KisoToggleGroupController from "./toggle_group_controller.js"
 
 const KisoUi = {
   start(application) {
+    application.register("kiso--alert", KisoAlertController)
     application.register("kiso--combobox", KisoComboboxController)
     application.register("kiso--command", KisoCommandController)
     application.register("kiso--command-dialog", KisoCommandDialogController)
@@ -30,6 +32,7 @@ const KisoUi = {
 
 export default KisoUi
 export {
+  KisoAlertController,
   KisoComboboxController,
   KisoCommandController,
   KisoCommandDialogController,

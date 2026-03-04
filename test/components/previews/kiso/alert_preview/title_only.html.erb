@@ -3,8 +3,7 @@
     <%= kui(:alert, :title) { "New components are available." } %>
   <% end %>
 
-  <%= kui(:alert, color: :warning, variant: :outline) do %>
-    <%= kiso_icon("triangle-alert") %>
+  <%= kui(:alert, color: :warning, variant: :outline, icon: "triangle-alert") do %>
     <%= kui(:alert, :title) { "Your trial expires in 3 days." } %>
   <% end %>
 </div>

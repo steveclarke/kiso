@@ -1,0 +1,16 @@
+<div class="max-w-lg space-y-3">
+  <%= kui(:alert, color: :info, variant: :soft, close: true, icon: "info") do %>
+    <%= kui(:alert, :title) { "Heads up!" } %>
+    <%= kui(:alert, :description) { "You can now dismiss this alert." } %>
+  <% end %>
+
+  <%= kui(:alert, color: :success, variant: :outline, close: true, icon: "circle-check") do %>
+    <%= kui(:alert, :title) { "Changes saved" } %>
+    <%= kui(:alert, :description) { "Your preferences have been updated." } %>
+  <% end %>
+
+  <%= kui(:alert, color: :warning, variant: :solid, close: true, icon: "triangle-alert") do %>
+    <%= kui(:alert, :title) { "Warning" } %>
+    <%= kui(:alert, :description) { "Your session is about to expire." } %>
+  <% end %>
+</div>

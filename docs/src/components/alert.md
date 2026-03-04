@@ -1,7 +1,7 @@
 ---
 title: Alert
 layout: docs
-description: Contextual feedback message with optional icon, title, and description.
+description: Contextual feedback message with optional icon, title, description, actions, and close button.
 category: Element
 source: lib/kiso/themes/alert.rb
 ---
@@ -21,22 +21,25 @@ source: lib/kiso/themes/alert.rb
 
 | Local | Type | Default |
 |-------|------|---------|
+| `icon:` | `String` \| `nil` | `nil` |
 | `color:` | `:primary` \| `:secondary` \| `:success` \| `:info` \| `:warning` \| `:error` \| `:neutral` | `:primary` |
 | `variant:` | `:solid` \| `:outline` \| `:soft` \| `:subtle` | `:soft` |
+| `close:` | `Boolean` | `false` |
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
 
 ## Anatomy
 
-The Alert uses CSS Grid layout. When an SVG icon is a direct child, the grid
-automatically creates a two-column layout (icon + content). Without an icon,
-content spans the full width.
+The Alert uses flexbox layout. An optional icon sits before the content
+wrapper, and an optional close button sits after it.
 
 ```erb
-<%%= kui(:alert, color: :info) do %>
-  <svg>...</svg>
+<%%= kui(:alert, icon: "info", close: true) do %>
   <%%= kui(:alert, :title) { "Title text" } %>
   <%%= kui(:alert, :description) { "Description text." } %>
+  <%%= kui(:alert, :actions) do %>
+    <%%= kui(:button, size: :xs, color: :neutral) { "Action" } %>
+  <%% end %>
 <%% end %>
 ```
 
@@ -46,6 +49,7 @@ content spans the full width.
 |------|-------------|-------------|
 | `:title` | `kui(:alert, :title)` | Bold heading with `tracking-tight`. Inherits parent text color. |
 | `:description` | `kui(:alert, :description)` | Supporting text (inherits parent color). |
+| `:actions` | `kui(:alert, :actions)` | Flex container for action buttons. |
 
 ## Usage
 
@@ -69,15 +73,43 @@ content spans the full width.
 
 ### With Icon
 
-Place an SVG as a direct child of the alert. The grid handles sizing
-(`size-4`) and alignment (`translate-y-0.5`) automatically — no extra classes
-needed on the SVG.
+Pass an icon name string to the `icon:` prop. The alert handles sizing and
+positioning automatically.
 
 ```erb
-<%%= kui(:alert, color: :error, variant: :soft) do %>
-  <%%= kiso_icon("circle-alert") %>
+<%%= kui(:alert, color: :error, variant: :soft, icon: "circle-alert") do %>
   <%%= kui(:alert, :title) { "Error" } %>
   <%%= kui(:alert, :description) { "Something went wrong." } %>
+<%% end %>
+```
+
+### Dismissible
+
+Set `close: true` to render a close button. Clicking it removes the alert
+from the DOM and dispatches a `kiso--alert:close` event.
+
+```erb
+<%%= kui(:alert, color: :info, close: true) do %>
+  <%%= kui(:alert, :title) { "Heads up!" } %>
+  <%%= kui(:alert, :description) { "You can dismiss this alert." } %>
+<%% end %>
+```
+
+The close event is cancelable — call `event.preventDefault()` in a listener
+to keep the alert visible.
+
+### With Actions
+
+Use `kui(:alert, :actions)` to add action buttons below the description.
+
+```erb
+<%%= kui(:alert, color: :error, variant: :outline, icon: "circle-x", close: true) do %>
+  <%%= kui(:alert, :title) { "Deployment failed" } %>
+  <%%= kui(:alert, :description) { "The build process exited with code 1." } %>
+  <%%= kui(:alert, :actions) do %>
+    <%%= kui(:button, size: :xs, color: :neutral) { "Retry" } %>
+    <%%= kui(:button, size: :xs, color: :neutral, variant: :outline) { "View logs" } %>
+  <%% end %>
 <%% end %>
 ```
 
@@ -89,25 +121,12 @@ needed on the SVG.
 <%% end %>
 ```
 
-## Examples
-
-### Custom Classes
-
-```erb
-<%%= kui(:alert, css_classes: "max-w-md") do %>
-  <%%= kui(:alert, :title) { "Constrained width" } %>
-<%% end %>
-```
-
 ## Theme
 
 ```ruby
 # lib/kiso/themes/alert.rb
 Kiso::Themes::Alert = ClassVariants.build(
-  base: "relative w-full rounded-lg px-4 py-3 text-sm
-         grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr]
-         grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start
-         [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+  base: "relative overflow-hidden w-full rounded-lg p-4 flex gap-2.5 text-sm",
   variants: {
     variant: { solid: "", outline: "ring ring-inset", soft: "", subtle: "ring ring-inset" },
     color: COLORS.index_with { "" }
@@ -118,11 +137,20 @@ Kiso::Themes::Alert = ClassVariants.build(
   defaults: { color: :primary, variant: :soft }
 )
 
+Kiso::Themes::AlertWrapper = ClassVariants.build(
+  base: "min-w-0 flex-1 flex flex-col"
+)
 Kiso::Themes::AlertTitle = ClassVariants.build(
-  base: "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight"
+  base: "line-clamp-1 min-h-4 font-medium tracking-tight"
 )
 Kiso::Themes::AlertDescription = ClassVariants.build(
-  base: "col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
+  base: "mt-1 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
+)
+Kiso::Themes::AlertActions = ClassVariants.build(
+  base: "flex flex-wrap gap-1.5 shrink-0 mt-2.5"
+)
+Kiso::Themes::AlertClose = ClassVariants.build(
+  base: "shrink-0 -m-0.5 p-0.5 rounded-md opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
 )
 ```
 
@@ -136,6 +164,8 @@ that becomes unreadable on colored backgrounds.
 |-----------|-------|
 | `role` | `alert` |
 | `data-slot` | `"alert"` |
+| Close button `aria-label` | `"Dismiss"` |
 
 The `role="alert"` attribute is set automatically. Screen readers will
-announce alert content when it appears.
+announce alert content when it appears. The close button includes an
+`aria-label` for screen reader users.

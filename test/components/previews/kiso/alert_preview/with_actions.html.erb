@@ -1,0 +1,19 @@
+<div class="max-w-lg space-y-3">
+  <%= kui(:alert, color: :error, variant: :outline, icon: "circle-x", close: true) do %>
+    <%= kui(:alert, :title) { "Deployment failed" } %>
+    <%= kui(:alert, :description) { "The build process exited with code 1." } %>
+    <%= kui(:alert, :actions) do %>
+      <%= kui(:button, size: :xs, color: :neutral) { "Retry" } %>
+      <%= kui(:button, size: :xs, color: :neutral, variant: :outline) { "View logs" } %>
+    <% end %>
+  <% end %>
+
+  <%= kui(:alert, color: :info, variant: :soft, icon: "info") do %>
+    <%= kui(:alert, :title) { "Update available" } %>
+    <%= kui(:alert, :description) { "A new version is available. Update now to get the latest features." } %>
+    <%= kui(:alert, :actions) do %>
+      <%= kui(:button, size: :xs, color: :neutral) { "Update now" } %>
+      <%= kui(:button, size: :xs, color: :neutral, variant: :outline) { "Later" } %>
+    <% end %>
+  <% end %>
+</div>
