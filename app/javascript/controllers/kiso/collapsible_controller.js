@@ -2,16 +2,15 @@ import { Controller } from "@hotwired/stimulus"
 
 /**
  * Collapsible controller. Manages expand/collapse state for a content
- * panel with CSS animations. Sets `data-state` on the root element,
- * trigger elements, and content element for CSS targeting and animation
- * triggers.
+ * panel. Sets `data-state` on the root element, trigger elements, and
+ * content element for CSS targeting.
  *
- * The content panel uses CSS animations (`kiso-collapsible-down` /
- * `kiso-collapsible-up`) defined in `collapsible.css`. The controller
- * measures the content height and sets `--kiso-collapsible-height`
- * so the CSS animation can transition between 0 and the natural height.
- * When closed, the content is hidden via `hidden` attribute after the
- * animation completes.
+ * By default, content shows/hides instantly (matching shadcn/Radix).
+ * Host apps can add CSS animations targeting `[data-state="open"]` /
+ * `[data-state="closed"]` on the content element. The controller
+ * measures content height and sets `--kiso-collapsible-height` for
+ * use in custom keyframe animations. When animations are present,
+ * the `hidden` attribute is applied after the close animation ends.
  *
  * @example
  *   <div data-controller="kiso--collapsible"
@@ -48,7 +47,7 @@ export default class extends Controller {
       this.contentTarget.addEventListener("animationend", this._handleAnimationEnd)
     }
 
-    // Apply initial state without animation
+    // Apply initial state without events
     this._applyState(this.openValue, false)
   }
 
@@ -88,8 +87,52 @@ export default class extends Controller {
   }
 
   /**
+   * Applies the open/closed state to the DOM. Sets `data-state` on the
+   * root element, all trigger targets, and the content target. Measures
+   * content height for optional CSS animations.
+   *
+   * @param {boolean} isOpen - Whether the collapsible should be open
+   * @param {boolean} notify - Whether to dispatch events
+   * @private
+   */
+  _applyState(isOpen, notify) {
+    const state = isOpen ? "open" : "closed"
+    this.element.dataset.state = state
+
+    for (const trigger of this.triggerTargets) {
+      trigger.dataset.state = state
+      trigger.setAttribute("aria-expanded", String(isOpen))
+    }
+
+    if (!this.hasContentTarget) return
+
+    this.contentTarget.dataset.state = state
+
+    if (isOpen) {
+      this.contentTarget.hidden = false
+      this._measureAndSetHeight()
+
+      if (notify) {
+        this.dispatch("open")
+      }
+    } else {
+      this._measureAndSetHeight()
+
+      // If the content has a CSS animation, let animationend handle hiding.
+      // Otherwise, hide immediately (the default — matches shadcn/Radix).
+      if (!this._hasAnimation()) {
+        this.contentTarget.hidden = true
+      }
+
+      if (notify) {
+        this.dispatch("close")
+      }
+    }
+  }
+
+  /**
    * Measures the natural height of the content and sets it as a CSS
-   * custom property so the animation can transition to/from it.
+   * custom property for optional animation keyframes.
    *
    * @private
    */
@@ -111,62 +154,20 @@ export default class extends Controller {
   }
 
   /**
-   * Applies the open/closed state to the DOM. Sets `data-state` on the
-   * root element, all trigger targets, and the content target.
-   *
-   * @param {boolean} isOpen - Whether the collapsible should be open
-   * @param {boolean} animate - Whether to animate the transition
-   * @private
-   */
-  _applyState(isOpen, animate) {
-    const state = isOpen ? "open" : "closed"
-    this.element.dataset.state = state
-
-    // Set data-state on triggers (matches Radix behavior for CSS targeting)
-    for (const trigger of this.triggerTargets) {
-      trigger.dataset.state = state
-      trigger.setAttribute("aria-expanded", String(isOpen))
-    }
-
-    if (!this.hasContentTarget) return
-
-    this.contentTarget.dataset.state = state
-
-    if (isOpen) {
-      this._measureAndSetHeight()
-      this.contentTarget.hidden = false
-
-      if (animate) {
-        this.dispatch("open")
-      }
-    } else {
-      if (animate) {
-        this._measureAndSetHeight()
-        this.dispatch("close")
-
-        // With reduced motion, animations are disabled so animationend
-        // never fires. Hide content immediately instead.
-        if (this._prefersReducedMotion()) {
-          this.contentTarget.hidden = true
-        }
-      } else {
-        this.contentTarget.hidden = true
-      }
-    }
-  }
-
-  /**
-   * Checks if the user prefers reduced motion.
+   * Checks if the content element has a CSS animation applied.
    *
    * @returns {boolean}
    * @private
    */
-  _prefersReducedMotion() {
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  _hasAnimation() {
+    if (!this.hasContentTarget) return false
+    const animation = getComputedStyle(this.contentTarget).animationName
+    return animation && animation !== "none"
   }
 
   /**
-   * Hides the content element after the close animation finishes.
+   * Hides the content element after a close animation finishes.
+   * Only relevant when host apps add custom CSS animations.
    *
    * @param {AnimationEvent} event
    * @private

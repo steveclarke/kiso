@@ -1,36 +1,7 @@
 /* Collapsible expand/collapse animations.
-   Triggered by data-state on [data-slot="collapsible-content"]. */
+   Triggered by data-state on [data-slot="collapsible-content"].
 
-[data-slot="collapsible-content"][data-state="open"] {
-  animation: kiso-collapsible-down 150ms ease-out;
-}
-
-[data-slot="collapsible-content"][data-state="closed"] {
-  animation: kiso-collapsible-up 150ms ease-out forwards;
-}
-
-@keyframes kiso-collapsible-down {
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--kiso-collapsible-height);
-  }
-}
-
-@keyframes kiso-collapsible-up {
-  from {
-    height: var(--kiso-collapsible-height);
-  }
-  to {
-    height: 0;
-  }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  [data-slot="collapsible-content"][data-state="open"],
-  [data-slot="collapsible-content"][data-state="closed"] {
-    animation: none;
-  }
-}
+   By default, collapsibles open/close instantly (matching shadcn).
+   Host apps can add height animations by targeting [data-slot="collapsible-content"]
+   with custom keyframes using the --kiso-collapsible-height CSS custom property
+   (set by the Stimulus controller). */
