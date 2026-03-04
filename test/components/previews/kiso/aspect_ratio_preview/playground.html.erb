@@ -1,0 +1,8 @@
+<%# 16:9 landscape — matches shadcn aspect-ratio-demo %>
+<div class="w-full max-w-sm">
+  <%= kui(:aspect_ratio, ratio: ratio, css_classes: "bg-muted rounded-lg overflow-hidden") do %>
+    <div class="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+      16 : 9
+    </div>
+  <% end %>
+</div>

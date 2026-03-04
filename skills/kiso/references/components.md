@@ -16,6 +16,7 @@ All colored components use **identical compound variant formulas** — see `proj
 
 | Component | Key locals | Reference |
 |---|---|---|
+| `aspect_ratio` | `ratio` (number, default 16.0/9). No variants | [aspect_ratio.md](components/aspect_ratio.md) |
 | `card` | `variant` (outline/soft/subtle) | [card.md](components/card.md) |
 | `dashboard_group` | `sidebar_open`, `layout` (`:sidebar` default / `:navbar`). Sub-parts via separate components: `dashboard_navbar`, `dashboard_sidebar`, `dashboard_panel`. Stimulus: `kiso--sidebar` | [dashboard_group.md](components/dashboard_group.md) |
 | `dashboard_navbar` | Topbar container (panel column only in `:sidebar` layout, full-width in `:navbar` layout). Sub-part: toggle | [dashboard_group.md](components/dashboard_group.md) |
