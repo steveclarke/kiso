@@ -2,11 +2,11 @@
    Triggered by data-state on [data-slot="collapsible-content"]. */
 
 [data-slot="collapsible-content"][data-state="open"] {
-  animation: kiso-collapsible-down 200ms ease-out;
+  animation: kiso-collapsible-down 150ms ease-out;
 }
 
 [data-slot="collapsible-content"][data-state="closed"] {
-  animation: kiso-collapsible-up 200ms ease-out forwards;
+  animation: kiso-collapsible-up 150ms ease-out forwards;
 }
 
 @keyframes kiso-collapsible-down {
