@@ -1,9 +1,10 @@
 module Kiso
   module Themes
-    # Contextual alert banner with optional icon, title, and description.
+    # Contextual alert banner with optional icon, title, description,
+    # actions, and close button.
     #
-    # Uses CSS Grid with +has-[>svg]+ to auto-allocate a column for the icon
-    # when an SVG is present as a direct child.
+    # Uses flexbox layout with an optional icon, a content wrapper, and
+    # an optional close button.
     #
     # @example
     #   Alert.render(color: :error, variant: :soft)
@@ -12,12 +13,9 @@ module Kiso
     # - +color+ — :primary (default), :secondary, :success, :info, :warning, :error, :neutral
     # - +variant+ — :solid, :outline, :soft (default), :subtle
     #
-    # Sub-parts: {AlertTitle}, {AlertDescription}
+    # Sub-parts: {AlertWrapper}, {AlertTitle}, {AlertDescription}, {AlertActions}, {AlertClose}
     Alert = ClassVariants.build(
-      base: "relative w-full rounded-lg px-4 py-3 text-sm " \
-            "grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] " \
-            "has-[>svg]:gap-x-3 gap-y-0.5 items-start " \
-            "[&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
+      base: "relative overflow-hidden w-full rounded-lg p-4 flex gap-2.5 text-sm",
       variants: {
         variant: {
           solid: "",
@@ -67,14 +65,29 @@ module Kiso
       defaults: {color: :primary, variant: :soft}
     )
 
-    # Alert title text. Rendered in the second grid column (after the icon column).
+    # Flex wrapper for alert content (title, description, actions).
+    AlertWrapper = ClassVariants.build(
+      base: "min-w-0 flex-1 flex flex-col"
+    )
+
+    # Alert title text.
     AlertTitle = ClassVariants.build(
-      base: "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight"
+      base: "line-clamp-1 min-h-4 font-medium tracking-tight"
     )
 
     # Alert body text. Inherits parent text color for contrast on colored backgrounds.
     AlertDescription = ClassVariants.build(
-      base: "col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
+      base: "mt-1 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
+    )
+
+    # Container for action buttons inside an alert.
+    AlertActions = ClassVariants.build(
+      base: "flex flex-wrap gap-1.5 shrink-0 mt-2.5"
+    )
+
+    # Close button for dismissible alerts.
+    AlertClose = ClassVariants.build(
+      base: "shrink-0 -m-0.5 p-0.5 rounded-md opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
     )
   end
 end

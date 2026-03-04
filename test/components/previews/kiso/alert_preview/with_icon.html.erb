@@ -1,24 +1,20 @@
 <div class="max-w-lg space-y-3">
-  <%= kui(:alert, color: :info) do %>
-    <%= kiso_icon("info") %>
+  <%= kui(:alert, color: :info, icon: "info") do %>
     <%= kui(:alert, :title) { "Did you know?" } %>
     <%= kui(:alert, :description) { "You can add components to your app using the CLI." } %>
   <% end %>
 
-  <%= kui(:alert, color: :success) do %>
-    <%= kiso_icon("circle-check") %>
+  <%= kui(:alert, color: :success, icon: "circle-check") do %>
     <%= kui(:alert, :title) { "Success!" } %>
     <%= kui(:alert, :description) { "Your changes have been saved." } %>
   <% end %>
 
-  <%= kui(:alert, color: :warning) do %>
-    <%= kiso_icon("triangle-alert") %>
+  <%= kui(:alert, color: :warning, icon: "triangle-alert") do %>
     <%= kui(:alert, :title) { "Warning" } %>
     <%= kui(:alert, :description) { "Your session is about to expire." } %>
   <% end %>
 
-  <%= kui(:alert, color: :error) do %>
-    <%= kiso_icon("circle-x") %>
+  <%= kui(:alert, color: :error, icon: "circle-x") do %>
     <%= kui(:alert, :title) { "Error" } %>
     <%= kui(:alert, :description) { "Something went wrong. Please try again." } %>
   <% end %>

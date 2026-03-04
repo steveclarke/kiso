@@ -16,6 +16,10 @@ test.describe("Alert component", () => {
       await expect(page.getByTestId("alert")).toHaveAttribute("role", "alert")
     })
 
+    test("renders wrapper sub-part", async ({ page }) => {
+      await expect(page.getByTestId("alert-wrapper")).toBeVisible()
+    })
+
     test("renders title sub-part", async ({ page }) => {
       const title = page.getByTestId("alert-title")
       await expect(title).toBeVisible()
@@ -49,5 +53,82 @@ test.describe("Alert component", () => {
   test("renders with color=warning and variant=subtle", async ({ page }) => {
     await page.goto(`${BASE}/playground?color=warning&variant=subtle`)
     await expect(page.getByTestId("alert")).toBeVisible()
+  })
+
+  test.describe("with icon", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/with_icon`)
+    })
+
+    test("renders icon as SVG", async ({ page }) => {
+      const alert = page.getByTestId("alert").first()
+      await expect(alert.locator("svg").first()).toBeVisible()
+    })
+
+    test("passes WCAG 2.1 AA", async ({ checkA11y }) => {
+      const results = await checkA11y()
+      expect(results.violations).toEqual([])
+    })
+  })
+
+  test.describe("dismissible", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/dismissible`)
+    })
+
+    test("renders close button", async ({ page }) => {
+      const close = page.getByTestId("alert-close").first()
+      await expect(close).toBeVisible()
+      await expect(close).toHaveAttribute("aria-label", "Dismiss")
+    })
+
+    test("clicking close removes the alert", async ({ page }) => {
+      const alerts = page.getByTestId("alert")
+      await expect(alerts).toHaveCount(3)
+
+      const close = page.getByTestId("alert-close").first()
+      await close.click()
+
+      await expect(alerts).toHaveCount(2)
+    })
+
+    test("dispatches kiso--alert:close event", async ({ page }) => {
+      const eventFired = await page.evaluate(() => {
+        return new Promise((resolve) => {
+          const el = document.querySelector("[data-slot='alert']")
+          el.addEventListener("kiso--alert:close", () => resolve(true))
+          el.querySelector("[data-slot='alert-close']").click()
+        })
+      })
+
+      expect(eventFired).toBe(true)
+    })
+
+    test("passes WCAG 2.1 AA", async ({ checkA11y }) => {
+      const results = await checkA11y()
+      expect(results.violations).toEqual([])
+    })
+  })
+
+  test.describe("with actions", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/with_actions`)
+    })
+
+    test("renders actions sub-part", async ({ page }) => {
+      const actions = page.getByTestId("alert-actions").first()
+      await expect(actions).toBeVisible()
+    })
+
+    test("renders action buttons inside actions", async ({ page }) => {
+      const actions = page.getByTestId("alert-actions").first()
+      const buttons = actions.locator("button")
+      await expect(buttons).toHaveCount(2)
+    })
+
+    test("passes WCAG 2.1 AA", async ({ checkA11y }) => {
+      const results = await checkA11y()
+      expect(results.violations).toEqual([])
+    })
   })
 })

@@ -72,7 +72,7 @@ All colored components use **identical compound variant formulas** — see `proj
 
 | Component | Key locals | Reference |
 |---|---|---|
-| `alert` | `color`, `variant` (solid/outline/soft/subtle) | [alert.md](components/alert.md) |
+| `alert` | `icon`, `color`, `variant` (solid/outline/soft/subtle), `close`. Sub-parts: title, description, actions. Stimulus: `kiso--alert` | [alert.md](components/alert.md) |
 | `badge` | `color`, `variant` (solid/outline/soft/subtle), `size` (xs-xl) | [badge.md](components/badge.md) |
 | `button` | `color`, `variant` (solid/outline/soft/subtle/ghost/link), `size` (xs-xl), `method:` (delete/post/put/patch), `form:` | [button.md](components/button.md) |
 | `color_mode_button` | `size` (sm/md/lg). Toggles light/dark via `kiso--theme#toggle`. Icons: `kiso_component_icon(:sun/:moon)` | [color_mode_button.md](components/color_mode_button.md) |

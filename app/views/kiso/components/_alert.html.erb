@@ -1,8 +1,24 @@
-<%# locals: (color: :primary, variant: :soft, css_classes: "", **component_options) %>
+<%# locals: (icon: nil, color: :primary, variant: :soft, close: false, css_classes: "", **component_options) %>
 <%= content_tag :div,
     role: :alert,
     class: Kiso::Themes::Alert.render(color: color, variant: variant, class: css_classes),
-    data: kiso_prepare_options(component_options, slot: "alert"),
+    data: kiso_prepare_options(component_options, slot: "alert",
+      **({ controller: "kiso--alert" } if close)),
     **component_options do %>
-  <%= yield %>
+  <% if icon %>
+    <%= kiso_icon(icon, class: "size-4 translate-y-0.5 text-current") %>
+  <% end %>
+  <%= content_tag :div,
+      class: Kiso::Themes::AlertWrapper.render,
+      data: { slot: "alert-wrapper" } do %>
+    <%= yield %>
+  <% end %>
+  <% if close %>
+    <%= tag.button type: "button",
+        class: Kiso::Themes::AlertClose.render,
+        data: { slot: "alert-close", action: "click->kiso--alert#close" },
+        aria: { label: "Dismiss" } do %>
+      <%= kiso_component_icon(:x, class: "size-4") %>
+    <% end %>
+  <% end %>
 <% end %>
