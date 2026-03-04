@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Dialog component — modal dialog wrapping the native `<dialog>` element with `showModal()` for focus trapping and backdrop. Sub-parts: header, title, description, body, footer, close. Entry/exit CSS animations with reduced-motion support. Stimulus controller for programmatic open/close.
+- Alert Dialog component — confirmation dialog that requires an explicit user action (`role="alertdialog"`). Cannot be dismissed by Escape or backdrop click. Sub-parts: header, title, description, media, footer, action, cancel. Size variants (default/sm) with responsive media grid layout. Auto-linked `aria-labelledby` and `aria-describedby`.
+- AspectRatio component — lightweight wrapper that applies an aspect ratio via inline style. Accepts any `ratio:` value (defaults to 16:9).
+- Slider component — range input with track, thumb, and fill styling. Supports min/max/step/value, three sizes (sm/md/lg), and disabled state. Stimulus controller for real-time value display.
+- Empty component `:actions` slot for placing buttons below the description.
+- Button `method:` prop — renders a Rails `button_to` form for DELETE/POST/PUT/PATCH actions while preserving all Button styling.
+- Icons guide added to documentation site.
+
+### Fixed
+
+- InputOTP slots missing visible border when a separator is placed inside a group.
+- Sidebar header and footer now use `flex-col` layout matching shadcn structure.
+
 ## [0.2.2.pre] - 2026-03-03
 
 ### Fixed
