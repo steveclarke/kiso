@@ -1,0 +1,117 @@
+<div class="text-foreground">
+  <%= kui(:card, css_classes: "mx-auto w-full max-w-[16rem] gap-2") do %>
+    <%= kui(:card, :header) do %>
+      <div class="flex w-full items-center gap-1 rounded-lg bg-muted p-1 text-muted-foreground">
+        <button type="button" class="flex-1 rounded-md bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-sm">Explorer</button>
+        <button type="button" class="flex-1 rounded-md px-3 py-1.5 text-xs font-medium">Outline</button>
+      </div>
+    <% end %>
+    <%= kui(:card, :content) do %>
+      <div class="flex flex-col gap-1">
+
+        <%# components/ folder %>
+        <%= kui(:collapsible) do %>
+          <%= kui(:button, variant: :ghost, size: :sm,
+                css_classes: "group w-full justify-start transition-none",
+                data: { action: "kiso--collapsible#toggle",
+                        kiso__collapsible_target: "trigger" }) do %>
+            <%= kiso_icon("chevron-right", class: "transition-transform group-data-[state=open]:rotate-90") %>
+            <%= kiso_icon("folder") %>
+            components
+          <% end %>
+          <%= kui(:collapsible, :content, css_classes: "mt-1 ml-5") do %>
+            <div class="flex flex-col gap-1">
+
+              <%# components/ui/ subfolder %>
+              <%= kui(:collapsible) do %>
+                <%= kui(:button, variant: :ghost, size: :sm,
+                      css_classes: "group w-full justify-start transition-none",
+                      data: { action: "kiso--collapsible#toggle",
+                              kiso__collapsible_target: "trigger" }) do %>
+                  <%= kiso_icon("chevron-right", class: "transition-transform group-data-[state=open]:rotate-90") %>
+                  <%= kiso_icon("folder") %>
+                  ui
+                <% end %>
+                <%= kui(:collapsible, :content, css_classes: "mt-1 ml-5") do %>
+                  <div class="flex flex-col gap-1">
+                    <% %w[button.tsx card.tsx dialog.tsx input.tsx select.tsx table.tsx].each do |file| %>
+                      <%= kui(:button, variant: :link, size: :sm,
+                            css_classes: "w-full justify-start gap-2 text-foreground") do %>
+                        <%= kiso_icon("file") %>
+                        <span><%= file %></span>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+              <% end %>
+
+              <% %w[login-form.tsx register-form.tsx].each do |file| %>
+                <%= kui(:button, variant: :link, size: :sm,
+                      css_classes: "w-full justify-start gap-2 text-foreground") do %>
+                  <%= kiso_icon("file") %>
+                  <span><%= file %></span>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+
+        <%# lib/ folder %>
+        <%= kui(:collapsible) do %>
+          <%= kui(:button, variant: :ghost, size: :sm,
+                css_classes: "group w-full justify-start transition-none",
+                data: { action: "kiso--collapsible#toggle",
+                        kiso__collapsible_target: "trigger" }) do %>
+            <%= kiso_icon("chevron-right", class: "transition-transform group-data-[state=open]:rotate-90") %>
+            <%= kiso_icon("folder") %>
+            lib
+          <% end %>
+          <%= kui(:collapsible, :content, css_classes: "mt-1 ml-5") do %>
+            <div class="flex flex-col gap-1">
+              <% %w[utils.ts cn.ts api.ts].each do |file| %>
+                <%= kui(:button, variant: :link, size: :sm,
+                      css_classes: "w-full justify-start gap-2 text-foreground") do %>
+                  <%= kiso_icon("file") %>
+                  <span><%= file %></span>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+
+        <%# hooks/ folder %>
+        <%= kui(:collapsible) do %>
+          <%= kui(:button, variant: :ghost, size: :sm,
+                css_classes: "group w-full justify-start transition-none",
+                data: { action: "kiso--collapsible#toggle",
+                        kiso__collapsible_target: "trigger" }) do %>
+            <%= kiso_icon("chevron-right", class: "transition-transform group-data-[state=open]:rotate-90") %>
+            <%= kiso_icon("folder") %>
+            hooks
+          <% end %>
+          <%= kui(:collapsible, :content, css_classes: "mt-1 ml-5") do %>
+            <div class="flex flex-col gap-1">
+              <% %w[use-media-query.ts use-debounce.ts use-local-storage.ts].each do |file| %>
+                <%= kui(:button, variant: :link, size: :sm,
+                      css_classes: "w-full justify-start gap-2 text-foreground") do %>
+                  <%= kiso_icon("file") %>
+                  <span><%= file %></span>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+
+        <%# Root files %>
+        <% %w[app.tsx layout.tsx globals.css package.json tsconfig.json README.md .gitignore].each do |file| %>
+          <%= kui(:button, variant: :link, size: :sm,
+                css_classes: "w-full justify-start gap-2 text-foreground") do %>
+            <%= kiso_icon("file") %>
+            <span><%= file %></span>
+          <% end %>
+        <% end %>
+
+      </div>
+    <% end %>
+  <% end %>
+</div>

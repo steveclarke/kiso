@@ -1,0 +1,21 @@
+<div class="text-foreground">
+  <%= kui(:card, css_classes: "mx-auto w-full max-w-sm") do %>
+    <%= kui(:card, :content) do %>
+      <%= kui(:collapsible, css_classes: "rounded-md data-[state=open]:bg-muted") do %>
+        <%= kui(:button, variant: :ghost, css_classes: "group w-full",
+              data: { action: "kiso--collapsible#toggle",
+                      kiso__collapsible_target: "trigger" }) do %>
+          Product details
+          <%= kiso_icon("chevron-down", class: "ml-auto transition-transform group-data-[state=open]:rotate-180") %>
+        <% end %>
+        <%= kui(:collapsible, :content, css_classes: "flex flex-col items-start gap-2 p-2.5 pt-0 text-sm") do %>
+          <div>
+            This panel can be expanded or collapsed to reveal additional
+            content.
+          </div>
+          <%= kui(:button, size: :xs) { "Learn More" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

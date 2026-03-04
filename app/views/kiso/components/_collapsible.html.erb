@@ -1,0 +1,10 @@
+<%# locals: (open: false, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::Collapsible.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "collapsible",
+      controller: "kiso--collapsible",
+      kiso__collapsible_open_value: (open ? true : nil),
+      state: open ? "open" : "closed"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

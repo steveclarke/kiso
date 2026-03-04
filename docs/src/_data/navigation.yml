@@ -43,6 +43,8 @@ docs:
         href: /components/button
       - title: Card
         href: /components/card
+      - title: Collapsible
+        href: /components/collapsible
       - title: ColorModeButton
         href: /components/color_mode_button
       - title: ColorModeSelect

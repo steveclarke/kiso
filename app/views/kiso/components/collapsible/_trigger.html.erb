@@ -1,0 +1,10 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= content_tag :button,
+    type: "button",
+    class: Kiso::Themes::CollapsibleTrigger.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "collapsible-trigger",
+      action: "kiso--collapsible#toggle",
+      kiso__collapsible_target: "trigger"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

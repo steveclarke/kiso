@@ -1,0 +1,40 @@
+/* Collapsible expand/collapse animations.
+   Triggered by data-state on [data-slot="collapsible-content"]. */
+
+[data-slot="collapsible-content"][data-state="open"] {
+  animation: kiso-collapsible-down 200ms ease-out;
+}
+
+[data-slot="collapsible-content"][data-state="closed"] {
+  animation: kiso-collapsible-up 200ms ease-out forwards;
+}
+
+@keyframes kiso-collapsible-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--kiso-collapsible-height);
+    opacity: 1;
+  }
+}
+
+@keyframes kiso-collapsible-up {
+  from {
+    height: var(--kiso-collapsible-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="collapsible-content"][data-state="open"],
+  [data-slot="collapsible-content"][data-state="closed"] {
+    animation: none;
+  }
+}

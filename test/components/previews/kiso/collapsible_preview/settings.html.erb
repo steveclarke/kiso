@@ -1,0 +1,38 @@
+<div class="text-foreground">
+  <%= kui(:card, css_classes: "mx-auto w-full max-w-xs") do %>
+    <%= kui(:card, :header) do %>
+      <%= kui(:card, :title) { "Radius" } %>
+      <%= kui(:card, :description) { "Set the corner radius of the element." } %>
+    <% end %>
+    <%= kui(:card, :content) do %>
+      <%= kui(:collapsible, css_classes: "group flex items-start gap-2") do %>
+        <%= kui(:field_group, css_classes: "grid w-full grid-cols-2 gap-2") do %>
+          <%= kui(:field) do %>
+            <%= kui(:label, css_classes: "sr-only", for: "radius-tl") { "Radius TL" } %>
+            <%= kui(:input, id: "radius-tl", placeholder: "0", value: "0") %>
+          <% end %>
+          <%= kui(:field) do %>
+            <%= kui(:label, css_classes: "sr-only", for: "radius-tr") { "Radius TR" } %>
+            <%= kui(:input, id: "radius-tr", placeholder: "0", value: "0") %>
+          <% end %>
+          <%= kui(:collapsible, :content, css_classes: "col-span-full grid grid-cols-subgrid gap-2") do %>
+            <%= kui(:field) do %>
+              <%= kui(:label, css_classes: "sr-only", for: "radius-bl") { "Radius BL" } %>
+              <%= kui(:input, id: "radius-bl", placeholder: "0", value: "0") %>
+            <% end %>
+            <%= kui(:field) do %>
+              <%= kui(:label, css_classes: "sr-only", for: "radius-br") { "Radius BR" } %>
+              <%= kui(:input, id: "radius-br", placeholder: "0", value: "0") %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= kui(:button, variant: :outline, size: :icon,
+              data: { action: "kiso--collapsible#toggle",
+                      kiso__collapsible_target: "trigger" }) do %>
+          <%= kiso_icon("chevrons-up-down") %>
+          <span class="sr-only">Toggle advanced</span>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

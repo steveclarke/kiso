@@ -4,6 +4,7 @@
    (lib/kiso/themes/) as computed Tailwind classes. */
 
 @import "./checkbox.css";
+@import "./collapsible.css";
 @import "./radio-group.css";
 @import "./color-mode.css";
 @import "./dashboard.css";

@@ -40,6 +40,7 @@ test.describe("Dark mode accessibility", () => {
     { name: "breadcrumb", url: "/preview/kiso/breadcrumb/playground" },
     { name: "button", url: "/preview/kiso/button/playground" },
     { name: "card", url: "/preview/kiso/card/playground" },
+    { name: "collapsible", url: "/preview/kiso/collapsible/playground" },
     { name: "checkbox", url: "/preview/kiso/form/checkbox/with_field" },
     { name: "color-mode-button", url: "/preview/kiso/color_mode/color_mode_button/playground" },
     { name: "color-mode-select", url: "/preview/kiso/color_mode/color_mode_select/playground" },
