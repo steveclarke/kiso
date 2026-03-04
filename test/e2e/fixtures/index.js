@@ -30,7 +30,13 @@ export const test = base.extend({
     const check = async ({ exclude = [], include } = {}) => {
       let builder = new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-        .disableRules(["document-title", "html-has-lang", "color-contrast", "meta-viewport", ...exclude])
+        .disableRules([
+          "document-title",
+          "html-has-lang",
+          "color-contrast",
+          "meta-viewport",
+          ...exclude,
+        ])
       if (include) builder = builder.include(include)
       return builder.analyze()
     }

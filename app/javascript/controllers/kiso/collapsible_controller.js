@@ -130,10 +130,11 @@ export default class extends Controller {
 
     if (!this.hasContentTarget) return
 
+    this.contentTarget.dataset.state = state
+
     if (isOpen) {
       this._measureAndSetHeight()
       this.contentTarget.hidden = false
-      this.contentTarget.dataset.state = "open"
 
       if (animate) {
         this.dispatch("open")
@@ -141,13 +142,27 @@ export default class extends Controller {
     } else {
       if (animate) {
         this._measureAndSetHeight()
-        this.contentTarget.dataset.state = "closed"
         this.dispatch("close")
+
+        // With reduced motion, animations are disabled so animationend
+        // never fires. Hide content immediately instead.
+        if (this._prefersReducedMotion()) {
+          this.contentTarget.hidden = true
+        }
       } else {
-        this.contentTarget.dataset.state = "closed"
         this.contentTarget.hidden = true
       }
     }
+  }
+
+  /**
+   * Checks if the user prefers reduced motion.
+   *
+   * @returns {boolean}
+   * @private
+   */
+  _prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches
   }
 
   /**
