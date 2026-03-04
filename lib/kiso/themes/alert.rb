@@ -15,7 +15,7 @@ module Kiso
     #
     # Sub-parts: {AlertWrapper}, {AlertTitle}, {AlertDescription}, {AlertActions}, {AlertClose}
     Alert = ClassVariants.build(
-      base: "relative overflow-hidden w-full rounded-lg p-4 flex gap-2.5 text-sm",
+      base: "relative overflow-hidden w-full rounded-lg p-4 flex items-start gap-2.5 text-sm",
       variants: {
         variant: {
           solid: "",
