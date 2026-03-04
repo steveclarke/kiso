@@ -2,7 +2,7 @@
   <%= kui(:card, css_classes: "mx-auto w-full max-w-sm") do %>
     <%= kui(:card, :content) do %>
       <%= kui(:collapsible, css_classes: "rounded-md data-[state=open]:bg-muted") do %>
-        <%= kui(:button, variant: :ghost, css_classes: "group w-full",
+        <%= kui(:button, color: :neutral, variant: :ghost, css_classes: "group w-full",
               data: { action: "kiso--collapsible#toggle",
                       kiso__collapsible_target: "trigger" }) do %>
           Product details
