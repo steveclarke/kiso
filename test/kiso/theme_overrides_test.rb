@@ -102,6 +102,28 @@ class Kiso::ThemeOverridesTest < ActiveSupport::TestCase
     assert_includes card_result, "overflow-hidden"
   end
 
+  test "ui: key is not passed to ClassVariants merge" do
+    Kiso.config.theme[:card] = {ui: {header: "p-8", footer: "px-8"}}
+    # Should not raise — ui: is extracted before ClassVariants#merge
+    assert_nothing_raised { Kiso::ThemeOverrides.apply! }
+  end
+
+  test "ui: values are preserved in config for runtime access" do
+    Kiso.config.theme[:card] = {ui: {header: "p-8"}}
+    Kiso::ThemeOverrides.apply!
+
+    assert_equal({header: "p-8"}, Kiso.config.theme[:card][:ui])
+  end
+
+  test "mixed base: and ui: in same override hash" do
+    Kiso.config.theme[:card] = {base: "tracking-wide", ui: {header: "p-8"}}
+    Kiso::ThemeOverrides.apply!
+
+    result = Kiso::Themes::Card.render(variant: :outline)
+    assert_includes result, "tracking-wide"
+    assert_equal({header: "p-8"}, Kiso.config.theme[:card][:ui])
+  end
+
   test "apply! is idempotent" do
     Kiso.config.theme[:badge] = {base: "shadow-lg"}
     Kiso::ThemeOverrides.apply!

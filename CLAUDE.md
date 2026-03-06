@@ -90,8 +90,18 @@ Consistency is more important than any individual improvement.
   This is where `color:` × `variant:` axes, compound variants, and the
   outline/soft/subtle system come from. shadcn provides the skeleton,
   Nuxt UI provides the paint.
-- **`css_classes:` override** — single override point, merged via
-  tailwind_merge. Conflicting classes are resolved automatically.
+- **`css_classes:` override** — single override point for the root element,
+  merged via tailwind_merge. Conflicting classes are resolved automatically.
+- **`ui:` prop for per-slot overrides** — compound components accept
+  `ui: { slot_name: "classes" }` to override inner sub-part styles.
+  Self-rendering partials (Alert, Dialog, Slider, Switch, etc.) declare
+  `ui: {}` in strict locals and apply overrides via
+  `Kiso::Themes::SubPart.render(class: ui[:slot_name])`. Composed
+  sub-parts inherit overrides automatically via a request-scoped context
+  stack in the `kui()` helper — no partial changes needed. Global config
+  supports `ui:` key: `config.theme[:card] = { ui: { header: "p-8" } }`.
+  Four layers: theme default < global config (base + ui) < instance ui: <
+  instance css_classes:. See `project/decisions/004-per-slot-ui-prop.md`.
 - **`data-slot` for component identity (shadcn v4 convention)** — every
   component and sub-part gets `data-slot="name"` in kebab-case. Root:
   `data-slot="card"`, sub-parts: `data-slot="card-header"`. Used for CSS
@@ -309,6 +319,7 @@ Kiso-specific checks on top of the universal finalize skill.
 - [ ] Default icons use `kiso_component_icon(:name)` — no raw SVGs anywhere
 - [ ] Icon names registered in `lib/kiso/configuration.rb`
 - [ ] `type: "button"` on all `<button>` elements
+- [ ] Self-rendering partials accept `ui: {}` and apply to inner themed elements
 - [ ] Stimulus data attributes via `tag.*` helpers with `data:` hash — no raw HTML
 - [ ] Lookbook preview with `@logical_path` grouping (Form, Color Mode, Dashboard, etc.)
 - [ ] Docs page at `docs/src/components/{name}.md` (no `# Title` — frontmatter handles it)

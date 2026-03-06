@@ -32,7 +32,11 @@ module Kiso
         validate_keys!(overrides.keys)
 
         overrides.each do |key, options|
-          resolve_constant(key).merge(**options)
+          # Extract ui: before passing to ClassVariants#merge (it doesn't
+          # understand ui:). The ui: values stay in config for runtime access
+          # by ComponentHelper#kiso_merge_ui_layers.
+          cv_options = options.except(:ui)
+          resolve_constant(key).merge(**cv_options) unless cv_options.empty?
         end
 
         @applied = true

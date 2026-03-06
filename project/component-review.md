@@ -87,6 +87,7 @@ Check that ALL of these files exist:
 - [ ] Require line in `lib/kiso.rb`
 - [ ] Main partial: `app/views/kiso/components/_{name}.html.erb`
 - [ ] Sub-part partials (if component has sub-parts)
+- [ ] Self-rendering partials accept `ui: {}` and apply `class: ui[:slot_name]` to inner themed elements
 - [ ] Lookbook preview class: `test/components/previews/kiso/{name}_preview.rb`
 - [ ] Lookbook preview templates matching shadcn demos (compare against
       `vendor/shadcn-ui/apps/v4/content/docs/components/radix/{name}.mdx` and

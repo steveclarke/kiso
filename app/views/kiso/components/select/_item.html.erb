@@ -1,4 +1,4 @@
-<%# locals: (value:, disabled: false, css_classes: "", **component_options) %>
+<%# locals: (value:, disabled: false, ui: {}, css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::SelectItem.render(class: css_classes),
     role: "option",
@@ -10,7 +10,7 @@
       disabled: (disabled ? "true" : nil)),
     aria: {selected: false, disabled: (disabled || nil)},
     **component_options do %>
-  <%= tag.span class: Kiso::Themes::SelectItemIndicator.render,
+  <%= tag.span class: Kiso::Themes::SelectItemIndicator.render(class: ui[:indicator]),
               data: { slot: "select-item-indicator", kiso__select_target: "indicator" },
               hidden: true do %>
     <%= kiso_component_icon(:check, class: "size-4") %>

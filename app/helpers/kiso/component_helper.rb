@@ -11,6 +11,11 @@ module Kiso
     # @param component [Symbol] the component name (e.g. +:badge+, +:card+)
     # @param part [Symbol, nil] optional sub-part name (e.g. +:header+, +:footer+)
     # @param collection [Array, nil] renders the partial once per item when present
+    # @param ui [Hash{Symbol => String}, nil] per-slot class overrides keyed by sub-part name.
+    #   For parent components, the hash is pushed onto a context stack so sub-parts
+    #   inherit overrides automatically. For self-rendering components, the hash is
+    #   also passed as a local so the partial can apply overrides to internally
+    #   rendered elements.
     # @param kwargs [Hash] locals passed to the partial (e.g. +color:+, +variant:+, +css_classes:+)
     # @yield optional block for component content
     # @return [ActiveSupport::SafeBuffer] rendered HTML
@@ -18,12 +23,19 @@ module Kiso
     # @example Render a badge
     #   kui(:badge, color: :success, variant: :soft) { "Active" }
     #
-    # @example Render a card sub-part
-    #   kui(:card, :header) { "Title" }
+    # @example Render a card with per-slot overrides
+    #   kui(:card, ui: { header: "p-8", title: "text-xl" }) do
+    #     kui(:card, :header) do
+    #       kui(:card, :title) { "Dashboard" }
+    #     end
+    #   end
+    #
+    # @example Render an alert with inner element overrides
+    #   kui(:alert, icon: "info", ui: { close: "opacity-50" })
     #
     # @example Render a collection
     #   kui(:badge, collection: @tags)
-    def kui(component, part = nil, collection: nil, **kwargs, &block)
+    def kui(component, part = nil, collection: nil, ui: nil, **kwargs, &block)
       path = if part
         "kiso/components/#{component}/#{part}"
       else
@@ -40,10 +52,38 @@ module Kiso
       # content renders correctly.
       block ||= proc {}
 
-      if collection
-        render partial: path, collection: collection, locals: kwargs, &block
+      if part
+        # Sub-part: merge slot override from parent's ui context
+        parent_ui = kiso_current_ui(component)
+        if (slot_classes = parent_ui[part].presence)
+          existing = kwargs[:css_classes] || ""
+          kwargs[:css_classes] = existing.blank? ? slot_classes : "#{existing} #{slot_classes}"
+        end
+
+        if collection
+          render partial: path, collection: collection, locals: kwargs, &block
+        else
+          render path, **kwargs, &block
+        end
       else
-        render path, **kwargs, &block
+        # Parent component: merge global ui config with instance ui
+        merged_ui = kiso_merge_ui_layers(component, ui)
+
+        # Push context for composed sub-parts to read
+        kiso_push_ui_context(component, merged_ui)
+        begin
+          locals = merged_ui.present? ? kwargs.merge(ui: merged_ui) : kwargs
+
+          result = if collection
+            render partial: path, collection: collection, locals: locals, &block
+          else
+            render path, **locals, &block
+          end
+        ensure
+          kiso_pop_ui_context(component)
+        end
+
+        result
       end
     end
 
@@ -71,6 +111,26 @@ module Kiso
       end
 
       (component_options.delete(:data) || {}).merge(slot: slot, **data_attrs)
+    end
+
+    private
+
+    # Merge global config ui overrides with instance ui overrides.
+    # Global config is Layer 2, instance +ui:+ is Layer 3.
+    #
+    # @param component [Symbol] the component name
+    # @param instance_ui [Hash, nil] per-instance ui overrides
+    # @return [Hash{Symbol => String}] merged ui hash
+    def kiso_merge_ui_layers(component, instance_ui)
+      global_ui = Kiso.config.theme.dig(component, :ui) || {}
+      return instance_ui || {} if global_ui.empty?
+      return global_ui if instance_ui.nil? || instance_ui.empty?
+
+      # Instance wins. For slots in both, concatenate — tailwind_merge
+      # resolves conflicts when .render(class:) is called.
+      global_ui.merge(instance_ui) do |_slot, global_classes, instance_classes|
+        "#{global_classes} #{instance_classes}"
+      end
     end
   end
 end
