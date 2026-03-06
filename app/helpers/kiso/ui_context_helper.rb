@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Kiso
   # Manages a request-scoped context stack for per-slot +ui:+ overrides.
   #

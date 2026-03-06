@@ -60,6 +60,9 @@ module Kiso
           kwargs[:css_classes] = existing.blank? ? slot_classes : "#{existing} #{slot_classes}"
         end
 
+        # Forward ui: to sub-part partial when explicitly provided
+        kwargs[:ui] = ui if ui
+
         if collection
           render partial: path, collection: collection, locals: kwargs, &block
         else
@@ -68,22 +71,21 @@ module Kiso
       else
         # Parent component: merge global ui config with instance ui
         merged_ui = kiso_merge_ui_layers(component, ui)
+        has_ui = merged_ui.present?
 
-        # Push context for composed sub-parts to read
-        kiso_push_ui_context(component, merged_ui)
+        # Push context for composed sub-parts to read (skip when empty)
+        kiso_push_ui_context(component, merged_ui) if has_ui
         begin
-          locals = merged_ui.present? ? kwargs.merge(ui: merged_ui) : kwargs
+          locals = has_ui ? kwargs.merge(ui: merged_ui) : kwargs
 
-          result = if collection
+          if collection
             render partial: path, collection: collection, locals: locals, &block
           else
             render path, **locals, &block
           end
         ensure
-          kiso_pop_ui_context(component)
+          kiso_pop_ui_context(component) if has_ui
         end
-
-        result
       end
     end
 
@@ -122,8 +124,8 @@ module Kiso
     # @param instance_ui [Hash, nil] per-instance ui overrides
     # @return [Hash{Symbol => String}] merged ui hash
     def kiso_merge_ui_layers(component, instance_ui)
-      global_ui = Kiso.config.theme.dig(component, :ui) || {}
-      return instance_ui || {} if global_ui.empty?
+      global_ui = Kiso.config.theme.dig(component, :ui)
+      return instance_ui || {} if global_ui.nil? || global_ui.empty?
       return global_ui if instance_ui.nil? || instance_ui.empty?
 
       # Instance wins. For slots in both, concatenate — tailwind_merge
