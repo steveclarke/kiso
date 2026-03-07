@@ -1,0 +1,19 @@
+<div class="max-w-lg space-y-3">
+  <%= kui(:alert, color: :warning, variant: :soft, icon: "triangle-alert") do %>
+    <%= kui(:alert, :description) do %>
+      <strong>Warning:</strong> Your session is about to expire.
+    <% end %>
+  <% end %>
+
+  <%= kui(:alert, color: :info, variant: :soft, icon: "info") do %>
+    <%= kui(:alert, :description) { "You can add components to your app using the CLI." } %>
+  <% end %>
+
+  <%= kui(:alert, color: :error, variant: :outline, icon: "circle-x") do %>
+    <%= kui(:alert, :description) { "Something went wrong. Please try again." } %>
+  <% end %>
+
+  <%= kui(:alert, color: :success, variant: :subtle, icon: "circle-check") do %>
+    <%= kui(:alert, :description) { "Your changes have been saved." } %>
+  <% end %>
+</div>
