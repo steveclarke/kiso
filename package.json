@@ -8,9 +8,9 @@
     "stimulus",
     "ui"
   ],
+  "homepage": "https://kisoui.com",
   "license": "MIT",
   "author": "Steve Clarke",
-  "homepage": "https://kisoui.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/steveclarke/kiso.git"
