@@ -11,10 +11,6 @@ class RodaApp < Roda
   # But you can also add additional Roda configuration here if needed.
 
   route do |r|
-    r.on "discord" do
-      r.redirect "https://discord.gg/aMshcWAW"
-    end
-
     # Load Roda routes in server/routes (and src/_routes via `bridgetown-routes`)
     r.bridgetown
   end
