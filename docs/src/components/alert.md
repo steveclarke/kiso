@@ -144,7 +144,7 @@ Kiso::Themes::AlertTitle = ClassVariants.build(
   base: "line-clamp-1 min-h-4 font-medium tracking-tight"
 )
 Kiso::Themes::AlertDescription = ClassVariants.build(
-  base: "mt-1 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
+  base: "mt-1 first:mt-0 space-y-1 text-sm [&_p]:leading-relaxed"
 )
 Kiso::Themes::AlertActions = ClassVariants.build(
   base: "flex flex-wrap gap-1.5 shrink-0 mt-2.5"

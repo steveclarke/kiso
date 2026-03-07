@@ -110,6 +110,33 @@ test.describe("Alert component", () => {
     })
   })
 
+  test.describe("description only", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/description_only`)
+    })
+
+    test("renders description without title", async ({ page }) => {
+      const alert = page.getByTestId("alert").first()
+      await expect(alert.getByTestId("alert-description")).toBeVisible()
+      await expect(alert.getByTestId("alert-title")).toHaveCount(0)
+    })
+
+    test("inline content stays on one line", async ({ page }) => {
+      const description = page.getByTestId("alert-description").first()
+      const strong = description.locator("strong")
+      const descBox = await description.boundingBox()
+      const strongBox = await strong.boundingBox()
+
+      // strong element and description share the same top line
+      expect(Math.abs(strongBox.y - descBox.y)).toBeLessThan(5)
+    })
+
+    test("passes WCAG 2.1 AA", async ({ checkA11y }) => {
+      const results = await checkA11y()
+      expect(results.violations).toEqual([])
+    })
+  })
+
   test.describe("with actions", () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(`${BASE}/with_actions`)

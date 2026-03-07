@@ -35,6 +35,11 @@ module Kiso
       render_with_template
     end
 
+    # @label Description Only
+    def description_only
+      render_with_template
+    end
+
     # @label Dismissible
     def dismissible
       render_with_template
