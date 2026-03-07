@@ -278,7 +278,7 @@ DashboardGroup = ClassVariants.build(
 
 DashboardNavbar = ClassVariants.build(
   base: "col-span-full flex items-center gap-3 px-4 border-b border-border
-         bg-background shrink-0 z-[--z-topbar]"
+         bg-background shrink-0 z-(--z-topbar)"
 )
 
 DashboardNavbarToggle = ClassVariants.build(
