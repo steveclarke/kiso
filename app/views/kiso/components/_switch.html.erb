@@ -1,4 +1,4 @@
-<%# locals: (color: :primary, size: :md, checked: false, css_classes: "", **component_options) %>
+<%# locals: (color: :primary, size: :md, checked: false, ui: {}, css_classes: "", **component_options) %>
 <% component_options[:type] = :checkbox
    component_options[:role] = :switch
    component_options[:checked] = true if checked %>
@@ -6,5 +6,5 @@
     class: Kiso::Themes::SwitchTrack.render(color: color, size: size, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "switch")) do %>
   <%= tag.input(class: "peer sr-only", **component_options) %>
-  <%= tag.span(class: Kiso::Themes::SwitchThumb.render(size: size)) %>
+  <%= tag.span(class: Kiso::Themes::SwitchThumb.render(size: size, class: ui[:thumb])) %>
 <% end %>

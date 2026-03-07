@@ -1,4 +1,4 @@
-<%# locals: (src: nil, alt: "", text: nil, size: :md, css_classes: "", **component_options) %>
+<%# locals: (src: nil, alt: "", text: nil, size: :md, ui: {}, css_classes: "", **component_options) %>
 <%= content_tag :span,
     class: Kiso::Themes::Avatar.render(size: size, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "avatar", size: size),
@@ -8,14 +8,14 @@
     <%= content %>
   <% else %>
     <% if text.present? %>
-      <%= tag.span class: Kiso::Themes::AvatarFallback.render(size: size),
+      <%= tag.span class: Kiso::Themes::AvatarFallback.render(size: size, class: ui[:fallback]),
           data: { slot: "avatar-fallback" } do %>
         <%= text %>
       <% end %>
     <% end %>
     <% if src.present? %>
       <%= tag.img src: src, alt: alt,
-          class: Kiso::Themes::AvatarImage.render,
+          class: Kiso::Themes::AvatarImage.render(class: ui[:image]),
           data: { slot: "avatar-image" },
           onerror: "this.style.display='none'" %>
     <% end %>

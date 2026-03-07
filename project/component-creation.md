@@ -293,11 +293,12 @@ end
 
 ### Props-driven with yield fallback
 
-The target pattern for components with internal structure:
+The target pattern for components with internal structure. Self-rendering
+components accept `ui: {}` so callers can customize inner elements:
 
 ```erb
 <%# locals: (title: nil, description: nil, icon: nil, color: :primary,
-             variant: :soft, css_classes: "", **component_options) %>
+             variant: :soft, ui: {}, css_classes: "", **component_options) %>
 <% content = capture { yield }.presence %>
 <%= content_tag :div,
     class: Kiso::Themes::Alert.render(color: color, variant: variant, class: css_classes),
@@ -308,7 +309,8 @@ The target pattern for components with internal structure:
     <%= content %>
   <% else %>
     <%# Props-driven layout — component handles structure %>
-    <%# icon, title, description rendered here %>
+    <%# Inner elements apply ui[:slot_name] overrides: %>
+    <%# class: Kiso::Themes::AlertWrapper.render(class: ui[:wrapper]) %>
   <% end %>
 <% end %>
 ```
@@ -393,6 +395,7 @@ Verify before committing:
 - [ ] Lookbook previews are exact replicas of shadcn demos (same content, same classes, same colors — NO invented content)
 - [ ] All buttons in previews use `color: :neutral` (shadcn aesthetic, not Kiso blue)
 - [ ] No animations unless shadcn has them (check shadcn CSS — if no animation exists, don't add one)
+- [ ] Self-rendering partials accept `ui: {}` and apply `class: ui[:slot_name]` to inner themed elements
 - [ ] Component name matches shadcn exactly
 - [ ] Sub-part names match shadcn exactly
 - [ ] HTML elements match shadcn (div, label, fieldset, etc.)
@@ -442,7 +445,8 @@ Verify before committing:
 | Tag helpers for data attrs | Always use `tag.*` helpers with `data:` hash for Stimulus attributes. Never write raw `data-kiso--*` attributes in HTML. |
 | Strict locals | Every partial: `<%# locals: (color: :primary, ...) %>` |
 | Data slot | `data-slot="alert"` for identity (shadcn v4 convention). Kebab-case. |
-| `css_classes:` override | Single override point, merged via tailwind_merge. |
+| `css_classes:` override | Single override point for root element, merged via tailwind_merge. |
+| `ui:` prop | Per-slot class overrides. Self-rendering partials declare `ui: {}`. Composed sub-parts inherit via context stack. See `project/decisions/004-per-slot-ui-prop.md`. |
 | Lookbook previews | **Exact replicas of shadcn demos.** Same content, same classes, same aesthetic. |
 | Lookbook dark mode | Preview wrapper `div`s must include `text-foreground` so text/icons are visible in dark mode. |
 | Update docs | `skills/kiso/references/components.md` + docs page. |

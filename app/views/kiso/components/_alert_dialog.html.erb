@@ -1,4 +1,4 @@
-<%# locals: (open: false, size: :default, css_classes: "", **component_options) %>
+<%# locals: (open: false, size: :default, ui: {}, css_classes: "", **component_options) %>
 <%
   # Store the dialog id on the view context so child sub-part partials
   # (_title, _description) can auto-generate matching aria-labelledby /
@@ -20,7 +20,7 @@
       kiso__dialog_open_value: (open ? true : nil),
       kiso__dialog_dismissable_value: false),
     **component_options do %>
-  <div class="<%= Kiso::Themes::AlertDialogContent.render(size: size) %>"
+  <div class="<%= Kiso::Themes::AlertDialogContent.render(size: size, class: ui[:content]) %>"
        data-slot="alert-dialog-content"
        data-size="<%= size %>">
     <%= yield %>

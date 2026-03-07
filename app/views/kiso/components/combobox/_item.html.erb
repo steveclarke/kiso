@@ -1,4 +1,4 @@
-<%# locals: (value:, disabled: false, css_classes: "", **component_options) %>
+<%# locals: (value:, disabled: false, ui: {}, css_classes: "", **component_options) %>
 <%= content_tag :div,
     class: Kiso::Themes::ComboboxItem.render(class: css_classes),
     role: "option",
@@ -11,7 +11,7 @@
     aria: {selected: false, disabled: (disabled || nil)},
     **component_options do %>
   <%= tag.span yield, data: { slot: "combobox-item-text" } %>
-  <%= tag.span class: Kiso::Themes::ComboboxItemIndicator.render,
+  <%= tag.span class: Kiso::Themes::ComboboxItemIndicator.render(class: ui[:indicator]),
               data: { slot: "combobox-item-indicator", kiso__combobox_target: "indicator" },
               hidden: true do %>
     <%= kiso_component_icon(:check, class: "size-4") %>

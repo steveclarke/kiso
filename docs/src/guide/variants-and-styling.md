@@ -107,3 +107,26 @@ battle.
   Spacious card
 <%% end %>
 ```
+
+## Overriding inner elements with `ui:`
+
+`css_classes:` only reaches the root element. To target inner sub-parts, use
+`ui:` with a hash of slot names to class strings:
+
+```erb
+<%%= kui(:card, ui: { header: "p-8 bg-muted", title: "text-xl" }) do %>
+  <%%= kui(:card, :header) do %>
+    <%%= kui(:card, :title) { "Dashboard" } %>
+  <%% end %>
+<%% end %>
+```
+
+Self-rendering components like Alert and Slider apply `ui:` to their internal
+structure automatically:
+
+```erb
+<%%= kui(:slider, ui: { track: "bg-muted", thumb: "bg-primary" }) %>
+```
+
+See [Customizing Components](/guide/customizing#override-inner-elements-per-instance)
+for the full override layer system.

@@ -1,4 +1,4 @@
-<%# locals: (min: 0, max: 100, step: 1, value: nil, name: nil, id: nil, disabled: false, size: :md, aria_label: nil, css_classes: "", **component_options) %>
+<%# locals: (min: 0, max: 100, step: 1, value: nil, name: nil, id: nil, disabled: false, size: :md, aria_label: nil, ui: {}, css_classes: "", **component_options) %>
 <% slider_value = value || min %>
 <% percent = ((slider_value.to_f - min) / (max - min) * 100).clamp(0, 100) %>
 <%= content_tag :div,
@@ -22,15 +22,15 @@
       class: "sr-only",
       data: { kiso__slider_target: "input" }) %>
   <%= tag.div(
-      class: Kiso::Themes::SliderTrack.render(size: size),
+      class: Kiso::Themes::SliderTrack.render(size: size, class: ui[:track]),
       data: { slot: "slider-track", kiso__slider_target: "track" }) do %>
     <%= tag.div(
-        class: Kiso::Themes::SliderRange.render,
+        class: Kiso::Themes::SliderRange.render(class: ui[:range]),
         style: "width: #{percent}%",
         data: { slot: "slider-range", kiso__slider_target: "range" }) %>
   <% end %>
   <%= tag.div(
-      class: Kiso::Themes::SliderThumb.render(size: size),
+      class: Kiso::Themes::SliderThumb.render(size: size, class: ui[:thumb]),
       role: :slider,
       tabindex: (disabled ? "-1" : "0"),
       aria: { valuemin: min, valuemax: max, valuenow: slider_value,

@@ -1,11 +1,11 @@
-<%# locals: (open: false, css_classes: "", **component_options) %>
+<%# locals: (open: false, ui: {}, css_classes: "", **component_options) %>
 <%= content_tag :dialog,
     class: Kiso::Themes::Dialog.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dialog",
       controller: "kiso--dialog",
       kiso__dialog_open_value: (open ? true : nil)),
     **component_options do %>
-  <div class="<%= Kiso::Themes::DialogContent.render %>" data-slot="dialog-content">
+  <div class="<%= Kiso::Themes::DialogContent.render(class: ui[:content]) %>" data-slot="dialog-content">
     <%= yield %>
   </div>
 <% end %>

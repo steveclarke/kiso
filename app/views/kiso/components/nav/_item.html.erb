@@ -1,4 +1,4 @@
-<%# locals: (href: "#", icon: nil, badge: nil, active: false, css_classes: "", **component_options) %>
+<%# locals: (href: "#", icon: nil, badge: nil, active: false, ui: {}, css_classes: "", **component_options) %>
 <%= content_tag :a,
     href: href,
     class: Kiso::Themes::NavItem.render(class: css_classes),
@@ -10,6 +10,6 @@
   <% end %>
   <span data-slot="nav-item-label" class="truncate"><%= yield %></span>
   <% if badge %>
-    <span data-slot="nav-item-badge" class="<%= Kiso::Themes::NavItemBadge.render %>"><%= badge %></span>
+    <span data-slot="nav-item-badge" class="<%= Kiso::Themes::NavItemBadge.render(class: ui[:badge]) %>"><%= badge %></span>
   <% end %>
 <% end %>

@@ -15,6 +15,7 @@ Guidelines for contributing to the Kiso component library.
 | **Reviewing a component** | `project/component-review.md` — 12-point checklist, common mistakes |
 | **Design system rules** | `project/design-system.md` — compound variants, tokens, spatial system |
 | **Architecture patterns** | `project/component-strategy.md` — ClassVariants, override system |
+| **Per-slot `ui:` overrides** | `project/decisions/004-per-slot-ui-prop.md` — ADR for `ui:` prop |
 | **Testing strategy** | `project/testing-strategy.md` — tier system, E2E requirements |
 | **Docs page template** | `project/component-doc-template.md` — structure and guidelines |
 | **All conventions** | `CLAUDE.md` — framework mindset, naming, code rules |

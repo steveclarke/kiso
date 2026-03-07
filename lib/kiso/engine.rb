@@ -30,6 +30,7 @@ module Kiso
     # Makes {ComponentHelper} and {IconHelper} available in all views.
     initializer "kiso.helpers" do
       ActiveSupport.on_load(:action_view) do
+        include Kiso::UiContextHelper
         include Kiso::ComponentHelper
         include Kiso::IconHelper
         include Kiso::ThemeHelper

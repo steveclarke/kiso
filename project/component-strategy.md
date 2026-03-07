@@ -390,12 +390,13 @@ defaults: color: primary, variant: solid, size: md
 
 ## Override System
 
-Kiso uses **three layers**, inspired by Nuxt UI's `app.config.ts` pattern:
+Kiso uses **four layers**, matching Nuxt UI's override model:
 
 ```
 Layer 1: Component theme default     (Kiso gem — ClassVariants.build)
-Layer 2: Global config override      (host app — Kiso.configure)
-Layer 3: Instance override           (call site — css_classes param)
+Layer 2: Global config override      (host app — Kiso.configure, base + ui)
+Layer 3: Instance ui: override       (call site — per-slot overrides)
+Layer 4: Instance css_classes:        (call site — root element override)
 ```
 
 ### How It Works
@@ -415,24 +416,72 @@ Kiso::Themes::Button = ClassVariants.build(
 Kiso.configure do |config|
   config.theme[:button] = { base: "rounded-full", defaults: { variant: :outline } }
   config.theme[:card_header] = { base: "p-8 sm:p-10" }
+
+  # Per-slot overrides (ui: key) — targets inner sub-part elements
+  config.theme[:card] = { base: "rounded-xl", ui: { header: "p-8", footer: "px-8" } }
+  config.theme[:alert] = { ui: { close: "opacity-50" } }
 end
 ```
 
 Override hashes accept the same kwargs as `ClassVariants.build`: `base:`,
 `variants:`, `compound_variants:`, `defaults:`. Applied once at boot via
-`ClassVariants::Instance#merge` — zero per-render cost.
+`ClassVariants::Instance#merge` — zero per-render cost. The `ui:` key is
+preserved for runtime access by the `kui()` helper (not passed to
+ClassVariants).
 
 Snake_case keys map to PascalCase constants: `:card_header` →
 `Kiso::Themes::CardHeader`.
 
-**Layer 3 — Instance Override** (at the call site):
+**Layer 3 — Instance `ui:` Override** (per-slot at the call site):
+```erb
+<%# Per-slot overrides for composed sub-parts %>
+<%= kui(:card, ui: { header: "p-8 bg-muted", title: "text-xl" }) do %>
+  <%= kui(:card, :header) do %>
+    <%= kui(:card, :title) { "Dashboard" } %>
+  <% end %>
+<% end %>
+
+<%# Per-slot overrides for self-rendering components %>
+<%= kui(:alert, icon: "info", ui: { close: "opacity-50", wrapper: "gap-4" }) do %>
+  <%= kui(:alert, :title) { "Heads up" } %>
+<% end %>
+```
+
+Slot names match sub-part names: `:header` maps to `kui(:card, :header)`
+and `data-slot="card-header"`. For self-rendering components, slot names
+match the theme constant suffix (AlertWrapper → `:wrapper`, SliderThumb →
+`:thumb`).
+
+**Layer 4 — Instance `css_classes:` Override** (root element at call site):
 ```erb
 <%= kui(:button, css_classes: "rounded-full px-8") { "Click" } %>
 ```
 
+### How `ui:` Works
+
+The `kui()` helper uses a **request-scoped context stack** (ERB's equivalent
+of Vue's provide/inject):
+
+1. Parent component pushes the merged `ui:` hash onto the stack
+2. Composed sub-parts read their slot override from the stack automatically
+3. Self-rendering partials receive `ui:` as a local and apply overrides to
+   internally rendered elements
+4. Parent pops the stack after rendering (in an `ensure` block)
+
+**Composed sub-parts need zero changes** — the override is injected into
+`css_classes:` by the helper before the partial runs.
+
+**Self-rendering partials** declare `ui: {}` in strict locals and apply
+overrides to their inner themed elements:
+
+```erb
+<%# Self-rendering partial pattern %>
+class: Kiso::Themes::AlertClose.render(class: ui[:close])
+```
+
 ### Merge Strategy
 
-All three layers feed through tailwind-merge. Conflicting classes resolve —
+All four layers feed through tailwind-merge. Conflicting classes resolve —
 last wins:
 
 ```
@@ -447,12 +496,7 @@ Result:   "rounded-full px-8 py-1.5 font-medium"
 - `variants:` — appended variant entries (tailwind-merge deduplicates)
 - `compound_variants:` — appended alongside existing compounds
 - `defaults:` — replaced via `Hash#merge!` (changes default variant selection)
-
-### Why Not More Layers?
-
-- **No theme context wrapper** — ERB partials don't have Vue/React's
-  provide/inject. You could build this with `content_for` or view locals, but
-  the complexity isn't worth it for most apps.
+- `ui:` — preserved in config, merged at render time (global < instance)
 
 ---
 
