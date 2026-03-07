@@ -1,0 +1,29 @@
+<%= kui(:table) do %>
+  <%= kui(:table, :header) do %>
+    <%= kui(:table, :row) do %>
+      <%= kui(:table, :head) { "Name" } %>
+      <%= kui(:table, :head) { "Status" } %>
+      <%= kui(:table, :head) { "Action" } %>
+    <% end %>
+  <% end %>
+  <%= kui(:table, :body) do %>
+    <%= kui(:table, :row) do %>
+      <%= kui(:table, :cell) { "Room Alpha" } %>
+      <%= kui(:table, :cell) { "Inactive" } %>
+      <%= kui(:table, :cell) do %>
+        <%= kui(:button, href: "/rooms/1/activate", method: :patch, variant: :ghost, size: :sm) do %>
+          Activate
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= kui(:table, :row) do %>
+      <%= kui(:table, :cell) { "Room Beta" } %>
+      <%= kui(:table, :cell) { "Active" } %>
+      <%= kui(:table, :cell) do %>
+        <%= kui(:button, href: "/rooms/2", variant: :ghost, size: :sm) do %>
+          View
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

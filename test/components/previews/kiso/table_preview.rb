@@ -11,6 +11,11 @@ module Kiso
       render_with_template
     end
 
+    # @label With Button
+    def with_button
+      render_with_template
+    end
+
     # @label Striped
     def striped
       render_with_template
