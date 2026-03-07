@@ -77,7 +77,7 @@ module Kiso
 
     # Alert body text. Inherits parent text color for contrast on colored backgrounds.
     AlertDescription = ClassVariants.build(
-      base: "mt-1 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
+      base: "mt-1 first:mt-0 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
     )
 
     # Container for action buttons inside an alert.
