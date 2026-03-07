@@ -12,7 +12,7 @@
   <a href="https://kisoui.com">Docs</a> ·
   <a href="https://lookbook.kisoui.com">Lookbook</a> ·
   <a href="https://github.com/steveclarke/kiso/discussions">Discussions</a> ·
-  <a href="https://kisoui.com/discord">Discord</a>
+  <a href="https://discord.gg/aMshcWAW">Discord</a>
 </p>
 
 Add one gem and get badges, buttons, cards, alerts, and more. They all work with screen readers and dark mode.
