@@ -57,14 +57,54 @@ Kiso.configure do |config|
 end
 ```
 
-Override hashes accept `base:`, `variants:`, `compound_variants:`, and
-`defaults:` — the same structure as the component's theme definition.
-Overrides are applied once at boot via `ClassVariants::Instance#merge`, so
-there's zero per-render cost. Changes require a server restart.
+Override hashes accept `base:`, `variants:`, `compound_variants:`,
+`defaults:`, and `ui:` — the same structure as the component's theme
+definition. Overrides are applied once at boot via
+`ClassVariants::Instance#merge`, so there's zero per-render cost. Changes
+require a server restart.
 
-**Layer order:** theme default &lt; global config &lt; per-instance `css_classes:`.
-Global config wins over the gem defaults, but `css_classes:` on a specific
-instance still wins over everything.
+The `ui:` key targets inner sub-part elements globally:
+
+```ruby
+Kiso.configure do |config|
+  config.theme[:card] = { base: "rounded-xl", ui: { header: "p-8", footer: "px-8" } }
+  config.theme[:alert] = { ui: { close: "opacity-50" } }
+end
+```
+
+**Layer order:** theme default &lt; global config (base + ui) &lt; instance
+`ui:` &lt; instance `css_classes:`. Each layer wins over the previous.
+
+## Override inner elements per-instance
+
+`css_classes:` only reaches the root element. For inner sub-parts, use `ui:`:
+
+```erb
+<%%= kui(:card, ui: { header: "p-8 bg-muted", title: "text-xl" }) do %>
+  <%%= kui(:card, :header) do %>
+    <%%= kui(:card, :title) { "Dashboard" } %>
+  <%% end %>
+  <%%= kui(:card, :content) { "Body content" } %>
+<%% end %>
+```
+
+Self-rendering components (Alert, Dialog, Slider, Switch, etc.) apply `ui:`
+to their internal structure:
+
+```erb
+<%%= kui(:alert, icon: "triangle-alert", color: :warning, ui: {
+  close: "opacity-50",
+  wrapper: "gap-4"
+}) do %>
+  <%%= kui(:alert, :title) { "Heads up" } %>
+  <%%= kui(:alert, :description) { "Something happened." } %>
+<%% end %>
+
+<%%= kui(:slider, ui: { track: "bg-muted", thumb: "bg-primary" }) %>
+```
+
+Available slot names match the sub-part names used in `kui(:component, :part)`.
+See each component's docs page for its available slots.
 
 ## Theme your app with CSS variables
 

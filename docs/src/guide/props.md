@@ -63,7 +63,8 @@ Every Kiso component accepts these:
 
 | Local | Purpose |
 |-------|---------|
-| `css_classes:` | Override or extend styles (see [Customizing](/guide/customizing)) |
+| `css_classes:` | Override or extend root element styles (see [Customizing](/guide/customizing)) |
+| `ui:` | Override inner sub-part styles — `ui: { slot: "classes" }` (see [Customizing](/guide/customizing#override-inner-elements-per-instance)) |
 | `**component_options` | Passed through to the root HTML element — use for `id:`, `data:`, `aria:`, etc. |
 
 Component-specific locals vary. Check each component's docs page for its
