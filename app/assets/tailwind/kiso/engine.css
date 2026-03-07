@@ -56,7 +56,7 @@
 
 @theme {
   /* Brand / action colors */
-  --color-primary: var(--color-sky-600);
+  --color-primary: var(--color-rose-500);
   --color-primary-foreground: white;
 
   --color-secondary: var(--color-teal-600);
@@ -99,7 +99,7 @@
    Redefine tokens under .dark — components never use dark: prefixes. */
 
 .dark {
-  --color-primary: var(--color-blue-400);
+  --color-primary: var(--color-rose-400);
   --color-primary-foreground: var(--color-zinc-950);
 
   --color-secondary: var(--color-teal-400);

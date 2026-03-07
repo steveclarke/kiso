@@ -1,6 +1,19 @@
-# Kiso 基礎
+<p align="center">
+  <a href="https://kisoui.com">
+    <img src="brand/svg/logo-horizontal-color.svg" width="280" alt="Kiso">
+  </a>
+</p>
 
-UI components for Rails. Built on ERB, Tailwind CSS, and Hotwire.
+<p align="center">
+  UI components for Rails. Built on ERB, Tailwind CSS, and Hotwire.
+</p>
+
+<p align="center">
+  <a href="https://kisoui.com">Docs</a> ·
+  <a href="https://lookbook.kisoui.com">Lookbook</a> ·
+  <a href="https://github.com/steveclarke/kiso/discussions">Discussions</a> ·
+  <a href="https://kisoui.com/discord">Discord</a>
+</p>
 
 Add one gem and get badges, buttons, cards, alerts, and more. They all work with screen readers and dark mode.
 
