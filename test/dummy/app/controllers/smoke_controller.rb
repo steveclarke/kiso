@@ -1,7 +1,7 @@
 class SmokeController < ApplicationController
   layout "application"
 
-  def layout
+  def layout_components
   end
 
   def page

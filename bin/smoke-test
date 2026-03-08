@@ -27,8 +27,9 @@ FAILURES=0
 # ---------- Automated checks ----------
 
 header "1. Ruby tests"
-if bundle exec rake test > /dev/null 2>&1; then
-  pass "All tests pass ($(bundle exec rake test 2>&1 | grep -o '[0-9]* runs'))"
+TEST_OUTPUT=$(bundle exec rake test 2>&1)
+if [ $? -eq 0 ]; then
+  pass "All tests pass ($(echo "$TEST_OUTPUT" | grep -o '[0-9]* runs' | tail -1))"
 else
   fail "Tests failed — run 'bundle exec rake test' for details"
 fi

@@ -39,6 +39,14 @@ module Kiso
       @app_theme = :default
     end
 
+    # Resolves the active app theme directory path relative to the given root.
+    #
+    # @param app_root [Pathname] the Rails application root
+    # @return [Pathname] the active theme directory (e.g. +app/themes/default+)
+    def app_theme_path(app_root)
+      app_root.join("app/themes", app_theme.to_s)
+    end
+
     # Applies a pre-built style preset to all components.
     # Presets populate +@theme+ before {ThemeOverrides.apply!} runs,
     # so host-app overrides set after this call take priority.

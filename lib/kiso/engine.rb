@@ -146,15 +146,14 @@ module Kiso
       themes_root = app.root.join("app/themes")
       next unless themes_root.directory?
 
-      theme_name = Kiso.config.app_theme
-      active_path = themes_root.join(theme_name.to_s)
+      active_path = Kiso.config.app_theme_path(app.root)
 
       unless active_path.directory?
         available = Dir.children(themes_root.to_s)
           .select { |d| File.directory?(themes_root.join(d)) }
           .sort
 
-        msg = "Kiso app theme :#{theme_name} not found. " \
+        msg = "Kiso app theme :#{Kiso.config.app_theme} not found. " \
               "Expected directory: #{active_path}"
         msg += if available.any?
           "\nAvailable themes: #{available.map { |d| ":#{d}" }.join(", ")}"
@@ -167,7 +166,7 @@ module Kiso
 
       Object.const_set(:AppThemes, Module.new) unless Object.const_defined?(:AppThemes)
 
-      Dir[active_path.join("**/*.rb")].sort.each { |file| require file }
+      Dir[active_path.join("**/*.rb")].sort.each { |file| load file }
     end
 
     # Watches the active app theme directory in development and reloads
@@ -176,10 +175,7 @@ module Kiso
     initializer "kiso.app_theme_reloading" do |app|
       next unless Rails.env.development? || Rails.env.test?
 
-      themes_root = app.root.join("app/themes")
-      next unless themes_root.directory?
-
-      active_path = themes_root.join(Kiso.config.app_theme.to_s)
+      active_path = Kiso.config.app_theme_path(app.root)
       next unless active_path.directory?
 
       reloader = app.config.file_watcher.new([], {active_path.to_s => ["rb"]}) do

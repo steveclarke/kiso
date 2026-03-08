@@ -55,8 +55,8 @@ module Kiso
 
       # @return [String] the theme directory path (e.g. "app/themes/default")
       def theme_dir
-        theme_name = options[:theme] || Kiso.config.app_theme.to_s
-        File.join("app/themes", theme_name)
+        name = (options[:theme] || Kiso.config.app_theme).to_s
+        File.join("app/themes", name)
       end
 
       # @return [String] the component name in PascalCase (e.g. "PricingCard")

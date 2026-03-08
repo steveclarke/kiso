@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   end
 
   get "dashboard", to: "dashboard#index"
-  get "smoke/layout", to: "smoke#layout"
+  get "smoke/layout", to: "smoke#layout_components"
   get "smoke/page", to: "smoke#page"
   get "smoke/appui", to: "smoke#appui"
 
