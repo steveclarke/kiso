@@ -1,0 +1,62 @@
+---
+title: <%= human_name %>
+layout: docs
+description: TODO: Add component description.
+category: Element
+source: lib/kiso/themes/<%= file_name %>.rb
+---
+
+## Quick Start
+
+```erb
+<%%%= kui(:<%= file_name %>) do %>
+  Content here.
+<%% end %>
+```
+
+<%%= render "component_preview", component: "kiso/<%= file_name %>", scenario: "playground", height: "300px" %>
+
+## Locals
+
+| Local | Type | Default |
+|-------|------|---------|
+<% if colored? -%>
+| `color:` | `:primary` \| `:secondary` \| `:success` \| `:info` \| `:warning` \| `:error` \| `:neutral` | `:primary` |
+| `variant:` | `:solid` \| `:outline` \| `:soft` \| `:subtle` | `:soft` |
+<% end -%>
+| `css_classes:` | `String` | `""` |
+<% if sub_parts.any? -%>
+| `ui:` | `Hash` | `{}` |
+<% end -%>
+| `**component_options` | `Hash` | `{}` |
+<% if sub_parts.any? -%>
+
+## Sub-parts
+
+| Part | Usage | Purpose |
+|------|-------|---------|
+<% sub_parts.each do |part| -%>
+| `:<%= part %>` | `kui(:<%= file_name %>, :<%= part %>)` | TODO |
+<% end -%>
+
+All sub-parts accept `css_classes:` and `**component_options`.
+<% end -%>
+
+## Usage
+
+TODO: Add usage examples.
+
+## Theme
+
+```ruby
+Kiso::Themes::<%= class_name %> = ClassVariants.build(
+  base: "...",
+  ...
+)
+```
+
+## Accessibility
+
+| Attribute | Value |
+|-----------|-------|
+| `data-slot` | `"<%= slot_name %>"` |
