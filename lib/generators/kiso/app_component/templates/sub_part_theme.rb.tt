@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 <% if has_namespace? -%>
 <% component_class_path.each_with_index do |segment, i| -%>
 <%= "  " * i %>module AppThemes::<%= segment.camelize %>

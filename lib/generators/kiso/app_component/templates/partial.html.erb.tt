@@ -1,7 +1,7 @@
 <%% # locals: (css_classes: "", **component_options) %>
 <%%= content_tag :div,
     class: AppThemes::<%= has_namespace? ? "#{module_prefix}::" : "" %><%= class_name_without_namespace %>.render(class: css_classes),
-    data: { slot: "<%= slot_name %>" },
+    data: kiso_prepare_options(component_options, slot: "<%= slot_name %>"),
     **component_options do %>
   <%%= yield %>
 <%% end %>

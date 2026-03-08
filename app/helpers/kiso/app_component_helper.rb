@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Kiso
   # View helpers for rendering host app components.
   #
