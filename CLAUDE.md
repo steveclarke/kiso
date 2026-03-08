@@ -298,6 +298,24 @@ project/                      Architecture docs, design system, decisions
 docs/                         Bridgetown docs site (published documentation)
 ```
 
+## Docs Site (Bridgetown)
+
+The docs site (`docs/src/`) is built with Bridgetown, which processes
+**all `.md` files as ERB templates**. Every `<%` tag in a markdown file
+is evaluated as real Ruby — including those inside fenced code blocks.
+
+**All ERB tags in code examples must be escaped by doubling the `%`:**
+
+| You write | Renders as |
+|-----------|-----------|
+| `<%%=` | `<%= ` |
+| `<%%` | `<%` |
+| `%%>` | `%>` |
+| `<%%= kui(:badge) %>` | `<%= kui(:badge) %>` |
+
+The only unescaped `<%= ... %>` calls should be intentional Bridgetown
+helpers like `<%= render "component_preview", ... %>`.
+
 ## Dependencies
 
 - Rails >= 8.0
