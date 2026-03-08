@@ -1,0 +1,38 @@
+<%# locals: (headline: nil, title: nil, description: nil, ui: {}, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::PageHeader.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "page-header"),
+    **component_options do %>
+  <%= content_tag :div,
+      class: Kiso::Themes::PageHeaderWrapper.render(class: ui[:wrapper]),
+      data: { slot: "page-header-wrapper" } do %>
+    <% content = capture { yield }.presence %>
+    <% if content %>
+      <%= content %>
+    <% else %>
+      <div>
+        <% if headline %>
+          <%= content_tag :div,
+              class: Kiso::Themes::PageHeaderHeadline.render(class: ui[:headline]),
+              data: { slot: "page-header-headline" } do %>
+            <%= headline %>
+          <% end %>
+        <% end %>
+        <% if title %>
+          <%= content_tag :h1,
+              class: Kiso::Themes::PageHeaderTitle.render(class: ui[:title]),
+              data: { slot: "page-header-title" } do %>
+            <%= title %>
+          <% end %>
+        <% end %>
+        <% if description %>
+          <%= content_tag :p,
+              class: Kiso::Themes::PageHeaderDescription.render(class: ui[:description]),
+              data: { slot: "page-header-description" } do %>
+            <%= description %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

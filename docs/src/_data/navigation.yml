@@ -65,6 +65,8 @@ docs:
         href: /components/kbd
       - title: Nav
         href: /components/nav
+      - title: Page
+        href: /components/page
       - title: Pagination
         href: /components/pagination
       - title: Popover
