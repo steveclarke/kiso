@@ -1,0 +1,33 @@
+Description:
+  Scaffolds a new Kiso component with all required files:
+  theme module, ERB partial, Lookbook preview, and docs page.
+
+  This generator is for internal Kiso development only.
+
+Examples:
+  # Basic component
+  bin/rails generate kiso:component tooltip
+
+  # Colored component with two-axis color x variant compound variants
+  bin/rails generate kiso:component notification --colored
+
+  # Component with sub-parts
+  bin/rails generate kiso:component card --sub-parts header content footer
+
+  # Component with Stimulus controller
+  bin/rails generate kiso:component accordion --stimulus
+
+  # All options combined
+  bin/rails generate kiso:component alert --colored --sub-parts title description close --stimulus
+
+  # Skip docs page
+  bin/rails generate kiso:component tooltip --skip-docs
+
+Generated files:
+  lib/kiso/themes/{name}.rb                                    Theme module
+  app/views/kiso/components/_{name}.html.erb                   ERB partial
+  app/views/kiso/components/{name}/_{part}.html.erb            Sub-part partials (with --sub-parts)
+  test/components/previews/kiso/{name}_preview.rb              Lookbook preview class
+  test/components/previews/kiso/{name}_preview/playground.html.erb  Preview template
+  app/javascript/controllers/kiso/{name}_controller.js         Stimulus controller (with --stimulus)
+  docs/src/components/{name}.md                                Docs page (unless --skip-docs)

@@ -1,0 +1,17 @@
+<div class="max-w-4xl mx-auto space-y-8">
+  <%# With headline, title, and description via props %>
+  <%= kui(:page_header, headline: "Components", title: "Page Header", description: "Section header with title, description, and optional headline text.") %>
+
+  <%# Composed with sub-parts and action links %>
+  <%= kui(:page_header) do %>
+    <div>
+      <%= kui(:page_header, :headline) { "Guide" } %>
+      <%= kui(:page_header, :title) { "Composable Page Headers" } %>
+      <%= kui(:page_header, :description) { "Use sub-parts for full control over the header layout and content." } %>
+    </div>
+    <%= kui(:page_header, :links) do %>
+      <%= kui(:button, size: :sm) { "Get Started" } %>
+      <%= kui(:button, size: :sm, variant: :outline) { "Learn More" } %>
+    <% end %>
+  <% end %>
+</div>

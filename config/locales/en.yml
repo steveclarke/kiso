@@ -1,0 +1,33 @@
+en:
+  kiso:
+    alert:
+      dismiss: "Dismiss"
+    breadcrumb:
+      label: "breadcrumb"
+      more: "More"
+    color_mode_button:
+      toggle: "Toggle color mode"
+    color_mode_select:
+      theme: "Theme"
+      system: "System"
+      light: "Light"
+      dark: "Dark"
+    combobox:
+      toggle: "Toggle"
+      options: "Options"
+    command:
+      search: "Search"
+      suggestions: "Suggestions"
+    dashboard_sidebar:
+      label: "Sidebar navigation"
+      toggle: "Toggle sidebar"
+      collapse: "Collapse sidebar"
+    dialog:
+      close: "Close"
+    pagination:
+      label: "pagination"
+      more_pages: "More pages"
+      next: "Next"
+      next_page: "Go to next page"
+      previous: "Previous"
+      previous_page: "Go to previous page"

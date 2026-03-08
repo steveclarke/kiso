@@ -1,0 +1,22 @@
+<%# Wrap in a scrollable container to demonstrate sticky behavior %>
+<div class="h-[300px] overflow-y-auto border border-border rounded-lg">
+  <%= kui(:header) do %>
+    <%= kui(:container) do %>
+      <div class="flex items-center justify-between h-16">
+        <span class="font-semibold text-foreground">My Site</span>
+        <nav class="flex items-center gap-4 text-sm text-muted-foreground">
+          <a href="#" class="hover:text-foreground">Home</a>
+          <a href="#" class="hover:text-foreground">About</a>
+          <a href="#" class="hover:text-foreground">Contact</a>
+        </nav>
+      </div>
+    <% end %>
+  <% end %>
+  <div class="p-6 space-y-4">
+    <% 10.times do |i| %>
+      <p class="text-sm text-muted-foreground">
+        Scroll down to see the sticky header in action. This is paragraph <%= i + 1 %>.
+      </p>
+    <% end %>
+  </div>
+</div>
