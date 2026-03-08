@@ -32,11 +32,12 @@ module Kiso
       Kiso::ThemeOverrides.apply!
     end
 
-    # Makes {ComponentHelper} and {IconHelper} available in all views.
+    # Makes {ComponentHelper}, {AppComponentHelper}, and {IconHelper} available in all views.
     initializer "kiso.helpers" do
       ActiveSupport.on_load(:action_view) do
         include Kiso::UiContextHelper
         include Kiso::ComponentHelper
+        include Kiso::AppComponentHelper
         include Kiso::IconHelper
         include Kiso::ThemeHelper
       end
@@ -128,6 +129,42 @@ module Kiso
 
         ActiveSupport::Reloader.to_prepare do
           reloader.execute_if_updated
+        end
+      end
+    end
+
+    # Adds +app/themes/+ to the host app's autoload paths so theme constants
+    # like +AppThemes::PricingCard+ resolve automatically. Only added when
+    # the directory exists.
+    initializer "kiso.app_themes" do |app|
+      themes_path = app.root.join("app/themes")
+      if themes_path.directory?
+        app.config.autoload_paths << themes_path.to_s
+      end
+    end
+
+    # Watches +app/themes/+ in the host app and reloads changed theme
+    # constants in development. Uses directory-based watching so new files
+    # added after boot are picked up automatically.
+    initializer "kiso.app_theme_reloading" do |app|
+      if Rails.env.development? || Rails.env.test?
+        themes_path = app.root.join("app/themes")
+        if themes_path.directory?
+          reloader = app.config.file_watcher.new([], {themes_path.to_s => ["rb"]}) do
+            # Re-glob to pick up new files added after boot
+            verbose, $VERBOSE = $VERBOSE, nil
+            begin
+              Dir[themes_path.join("**/*.rb")].each { |file| load file }
+            ensure
+              $VERBOSE = verbose
+            end
+          end
+
+          app.reloaders << reloader
+
+          ActiveSupport::Reloader.to_prepare do
+            reloader.execute_if_updated
+          end
         end
       end
     end
