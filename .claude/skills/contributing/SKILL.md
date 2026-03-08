@@ -20,6 +20,11 @@ Guidelines for contributing to the Kiso component library.
 | **Docs page template** | `project/component-doc-template.md` — structure and guidelines |
 | **All conventions** | `CLAUDE.md` — framework mindset, naming, code rules |
 
+## Getting started with a new component
+
+Use `bin/rails generate kiso:component name` to scaffold the initial files,
+then fill in the theme and partial.
+
 ## Project structure
 
 ```
@@ -108,6 +113,13 @@ bundle exec standardrb --fix    # Lint & auto-format Ruby
 npm run lint                    # Lint JS (oxlint)
 npm run fmt                     # Format JS (oxfmt)
 ```
+
+## Additional conventions
+
+- **i18n** — all user-visible text and ARIA labels use
+  `t('kiso.component_name.key')` with entries in `config/locales/en.yml`.
+- **Presets** — if the component has `border-radius`, add entries to
+  `lib/kiso/presets/rounded.rb` and `sharp.rb`.
 
 ## Worktree workflow
 

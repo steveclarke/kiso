@@ -103,6 +103,22 @@ Consistency is more important than any individual improvement.
   supports `ui:` key: `config.theme[:card] = { ui: { header: "p-8" } }`.
   Four layers: theme default < global config (base + ui) < instance ui: <
   instance css_classes:. See `project/decisions/004-per-slot-ui-prop.md`.
+- **`appui()` for host app components** — mirrors `kui()` for app-specific
+  components. Themes live in `app/themes/{theme_name}/` (default: `default`),
+  partials in `app/views/components/`. Same `css_classes:` and `ui:` override
+  system, but no global config layer — you own the source. Generate with
+  `bin/rails generate kiso:app_component name`. See `appui()` helper for
+  full API.
+- **Theme presets** — pre-built style overrides applied at boot via
+  `Kiso.configure { |c| c.apply_preset(:rounded) }`. Ship with `:rounded`
+  and `:sharp`. Presets are monolithic (not composable). Preset files live
+  in `lib/kiso/presets/` and must be included in the Tailwind `@source`
+  directive in `engine.css`.
+- **Component generators** — `bin/rails generate kiso:component name`
+  scaffolds theme, partial, preview, and docs for Kiso engine components.
+  Supports `--colored`, `--sub-parts`, `--stimulus`, `--skip-docs`.
+  `bin/rails generate kiso:app_component name` scaffolds host app
+  components in `app/themes/` and `app/views/components/`.
 - **`data-slot` for component identity (shadcn v4 convention)** — every
   component and sub-part gets `data-slot="name"` in kebab-case. Root:
   `data-slot="card"`, sub-parts: `data-slot="card-header"`. Used for CSS
@@ -265,7 +281,11 @@ Kiso::Themes::Badge = ClassVariants.build(
 
 ```
 lib/kiso/themes/              Ruby theme modules (ClassVariants definitions)
+lib/kiso/presets/             Pre-built style preset overrides (rounded, sharp)
+lib/generators/kiso/          Component scaffolding generators
 app/views/kiso/components/    ERB partials (rendered via kui() helper)
+app/views/components/         Host app component partials (via appui())
+app/themes/{theme_name}/      Host app component themes (via appui())
 app/assets/tailwind/kiso/     Component CSS (engine.css + per-component mechanics)
 app/helpers/kiso/             kui(), kiso_prepare_options(), kiso_theme_script()
 app/javascript/controllers/kiso/  Stimulus controllers (namespaced kiso--)
@@ -336,6 +356,7 @@ Kiso-specific checks on top of the universal finalize skill.
 - [ ] JSDoc on all JS controllers (`@example`, `@property`, `@fires`, `@param`)
 - [ ] `frozen_string_literal` consistency with existing files
 - [ ] All user-visible text and ARIA labels use `t("kiso.component_name.key")` with entries in `config/locales/en.yml`
+- [ ] Preset entries in `lib/kiso/presets/rounded.rb` and `sharp.rb` (if component has border-radius)
 - [ ] Entry in `test/e2e/dark-mode.spec.js` `COMPONENTS` array (dark mode a11y)
 
 **Per PR:**
@@ -389,4 +410,7 @@ bin/deploy --only docs        # Deploy docs only (kisoui.com)
 bin/release                   # Tag and release a new gem version
 bin/release --npm 0.1.1       # Release npm package kiso-ui
 bin/release 0.2.0 --npm 0.1.1 # Release both gem and npm
+bin/rails g kiso:component name    # Scaffold a new Kiso engine component
+bin/rails g kiso:app_component name # Scaffold a host app component
+bin/smoke-test                # Run automated smoke tests for all features
 ```
