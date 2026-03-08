@@ -1,0 +1,30 @@
+<div class="max-w-6xl mx-auto">
+  <%= kui(:page) do %>
+    <%= kui(:page, :left) do %>
+      <div class="sticky top-4 space-y-2 text-sm text-muted-foreground">
+        <p class="font-semibold text-foreground">On this page</p>
+        <ul class="space-y-1">
+          <li><a href="#" class="hover:text-foreground">Introduction</a></li>
+          <li><a href="#" class="hover:text-foreground">Installation</a></li>
+          <li><a href="#" class="hover:text-foreground">Usage</a></li>
+          <li><a href="#" class="hover:text-foreground">API Reference</a></li>
+        </ul>
+      </div>
+    <% end %>
+    <%= kui(:page, :center) do %>
+      <%= kui(:page_header, title: "Getting Started", description: "Learn how to install and use Kiso in your Rails project.") %>
+      <%= kui(:page_body) do %>
+        <p class="text-muted-foreground">Main content area — takes 8 columns by default, 6 with both sidebars.</p>
+      <% end %>
+    <% end %>
+    <%= kui(:page, :right) do %>
+      <div class="sticky top-4 space-y-2 text-sm text-muted-foreground">
+        <p class="font-semibold text-foreground">Resources</p>
+        <ul class="space-y-1">
+          <li><a href="#" class="hover:text-foreground">GitHub</a></li>
+          <li><a href="#" class="hover:text-foreground">Discord</a></li>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+</div>

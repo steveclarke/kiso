@@ -1,0 +1,9 @@
+<div class="bg-muted py-8 space-y-4 text-foreground">
+  <% %i[narrow default wide full].each do |size| %>
+    <%= kui(:container, size: size) do %>
+      <div class="bg-background rounded-lg p-4 border border-border">
+        <p class="text-sm font-medium"><%= size %></p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

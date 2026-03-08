@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Smoke test for batch-merge features.
+# All checks run from the engine root directory.
+#
+# Usage:
+#   bin/smoke-test          # Run all checks
+#   bin/smoke-test --serve  # Start dummy app for visual testing
+
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$SCRIPT_DIR"
+
+DUMMY_DIR="$SCRIPT_DIR/test/dummy"
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+pass() { echo -e "  ${GREEN}✓${NC} $1"; }
+fail() { echo -e "  ${RED}✗${NC} $1"; FAILURES=$((FAILURES + 1)); }
+header() { echo -e "\n${BOLD}$1${NC}"; }
+
+FAILURES=0
+
+# ---------- Automated checks ----------
+
+header "1. Ruby tests"
+TEST_OUTPUT=$(bundle exec rake test 2>&1)
+if [ $? -eq 0 ]; then
+  pass "All tests pass ($(echo "$TEST_OUTPUT" | grep -o '[0-9]* runs' | tail -1))"
+else
+  fail "Tests failed — run 'bundle exec rake test' for details"
+fi
+
+header "2. Linting"
+if bundle exec standardrb > /dev/null 2>&1; then
+  pass "StandardRB clean"
+else
+  fail "StandardRB issues — run 'bundle exec standardrb --fix'"
+fi
+if npm run lint > /dev/null 2>&1; then
+  pass "oxlint clean"
+else
+  fail "oxlint issues — run 'npm run lint'"
+fi
+
+header "3. Generator: kiso:framework_component (unit tests)"
+if bundle exec ruby -Itest test/generators/framework_component_generator_test.rb > /dev/null 2>&1; then
+  pass "kiso:framework_component generator tests pass"
+else
+  fail "kiso:framework_component generator tests failed"
+fi
+
+header "4. Generator: kiso:component"
+# Run in a subshell so cd doesn't affect the rest of the script
+if (
+  cd "$DUMMY_DIR"
+  bin/rails generate kiso:component test_card --sub-parts header body > /dev/null 2>&1
+); then
+  pass "kiso:component generator runs"
+  for f in "$DUMMY_DIR/app/themes/default/test_card.rb" \
+           "$DUMMY_DIR/app/views/components/_test_card.html.erb" \
+           "$DUMMY_DIR/app/views/components/test_card/_header.html.erb" \
+           "$DUMMY_DIR/app/views/components/test_card/_body.html.erb"; do
+    if [ -f "$f" ]; then
+      pass "Created $(basename "$f")"
+    else
+      fail "Missing $(basename "$f")"
+    fi
+  done
+  # Clean up generated files
+  (cd "$DUMMY_DIR" && bin/rails destroy kiso:component test_card --sub-parts header body > /dev/null 2>&1) || true
+  rm -rf "$DUMMY_DIR/app/themes" "$DUMMY_DIR/app/views/components"
+else
+  fail "kiso:component generator failed"
+fi
+
+header "5. Preset loading"
+if (cd "$DUMMY_DIR" && bin/rails runner '
+  # Verify both presets load and actually change rendered classes
+  rounded = Kiso::Presets.load(:rounded)
+  puts "rounded: #{rounded.size} component overrides"
+  sharp = Kiso::Presets.load(:sharp)
+  puts "sharp: #{sharp.size} component overrides"
+' > /dev/null 2>&1); then
+  pass "Both presets load without errors"
+else
+  fail "Preset loading failed"
+fi
+
+header "6. i18n keys"
+if ruby -e '
+  require "yaml"
+  locale = YAML.load_file("config/locales/en.yml")
+  keys = locale.dig("en", "kiso")
+  missing = []
+  %w[alert breadcrumb color_mode_button color_mode_select combobox command dashboard_sidebar dialog pagination].each do |c|
+    missing << c unless keys.key?(c)
+  end
+  abort "Missing: #{missing.join(", ")}" if missing.any?
+'; then
+  pass "All component locale keys present"
+else
+  fail "Missing i18n keys"
+fi
+
+header "7. Palette CSS files"
+PALETTE_COUNT=$(ls app/assets/tailwind/kiso/palettes/*.css 2>/dev/null | wc -l | tr -d ' ')
+if [ "$PALETTE_COUNT" -eq 5 ]; then
+  pass "5 palette CSS files present"
+else
+  fail "Expected 5 palettes, found $PALETTE_COUNT"
+fi
+
+# ---------- Summary ----------
+
+echo ""
+if [ "$FAILURES" -eq 0 ]; then
+  echo -e "${GREEN}${BOLD}All automated checks passed!${NC}"
+else
+  echo -e "${RED}${BOLD}$FAILURES check(s) failed.${NC}"
+fi
+
+# ---------- Visual testing ----------
+
+echo ""
+header "Visual testing checklist"
+echo ""
+echo "  Start the dummy app:  bin/dummy"
+echo "  Start Lookbook:       bin/dev"
+echo ""
+echo "  Then visit these URLs:"
+echo ""
+echo "  Dummy app (port 5000):"
+echo "    http://localhost:5000/               → Dashboard (existing, should still work)"
+echo "    http://localhost:5000/smoke/layout   → Layout + i18n components"
+echo "    http://localhost:5000/smoke/page     → Page components"
+echo "    http://localhost:5000/smoke/appui    → appui() helper (needs generator first)"
+echo ""
+echo "  Lookbook (port 4001):"
+echo "    http://localhost:4001/              → Check Layout and Page groups in sidebar"
+echo ""
+echo "  Preset testing (edit test/dummy/config/initializers/kiso.rb):"
+echo "    1. Uncomment 'config.apply_preset(:rounded)' → restart dummy → check buttons/cards"
+echo "    2. Switch to 'config.apply_preset(:sharp)'   → restart dummy → check everything square"
+echo "    3. Re-comment to restore defaults"
+echo ""
+echo "  Dark mode: toggle with the sun/moon button on each page."
+echo ""
+
+if [ "${1:-}" = "--serve" ]; then
+  header "Starting dummy app..."
+  cd "$DUMMY_DIR"
+  exec bin/dev -f
+fi
+
+exit "$FAILURES"

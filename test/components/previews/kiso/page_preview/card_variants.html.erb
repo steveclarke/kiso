@@ -1,0 +1,29 @@
+<div class="max-w-6xl mx-auto space-y-8">
+  <h3 class="text-lg font-semibold text-foreground">Outline (default)</h3>
+  <%= kui(:page_grid) do %>
+    <%= kui(:page_card, variant: :outline, icon: "zap", title: "Outline Card", description: "Default variant with border and background.") %>
+    <%= kui(:page_card, variant: :outline, icon: "shield", title: "Security", description: "Enterprise-grade security built in.") %>
+    <%= kui(:page_card, variant: :outline, icon: "globe", title: "Global", description: "Deploy anywhere in the world.") %>
+  <% end %>
+
+  <h3 class="text-lg font-semibold text-foreground">Soft</h3>
+  <%= kui(:page_grid) do %>
+    <%= kui(:page_card, variant: :soft, icon: "zap", title: "Soft Card", description: "Elevated background without border.") %>
+    <%= kui(:page_card, variant: :soft, icon: "shield", title: "Security", description: "Enterprise-grade security built in.") %>
+    <%= kui(:page_card, variant: :soft, icon: "globe", title: "Global", description: "Deploy anywhere in the world.") %>
+  <% end %>
+
+  <h3 class="text-lg font-semibold text-foreground">Subtle</h3>
+  <%= kui(:page_grid) do %>
+    <%= kui(:page_card, variant: :subtle, icon: "zap", title: "Subtle Card", description: "Elevated background with border.") %>
+    <%= kui(:page_card, variant: :subtle, icon: "shield", title: "Security", description: "Enterprise-grade security built in.") %>
+    <%= kui(:page_card, variant: :subtle, icon: "globe", title: "Global", description: "Deploy anywhere in the world.") %>
+  <% end %>
+
+  <h3 class="text-lg font-semibold text-foreground">Ghost</h3>
+  <%= kui(:page_grid) do %>
+    <%= kui(:page_card, variant: :ghost, icon: "zap", title: "Ghost Card", description: "No background or border for minimal styling.") %>
+    <%= kui(:page_card, variant: :ghost, icon: "shield", title: "Security", description: "Enterprise-grade security built in.") %>
+    <%= kui(:page_card, variant: :ghost, icon: "globe", title: "Global", description: "Deploy anywhere in the world.") %>
+  <% end %>
+</div>

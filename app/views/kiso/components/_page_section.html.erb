@@ -1,0 +1,11 @@
+<%# locals: (orientation: :horizontal, ui: {}, css_classes: "", **component_options) %>
+<%= content_tag :section,
+    class: Kiso::Themes::PageSection.render(orientation: orientation, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "page-section"),
+    **component_options do %>
+  <%= content_tag :div,
+      class: Kiso::Themes::PageSectionContainer.render(orientation: orientation, class: ui[:container]),
+      data: { slot: "page-section-container" } do %>
+    <%= yield %>
+  <% end %>
+<% end %>

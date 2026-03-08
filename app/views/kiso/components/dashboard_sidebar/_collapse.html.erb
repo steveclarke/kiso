@@ -4,7 +4,7 @@
     data: kiso_prepare_options(component_options, slot: "dashboard-sidebar-collapse",
                                kiso__sidebar_target: "trigger",
                                action: "click->kiso--sidebar#toggle"),
-    aria: { label: "Collapse sidebar", expanded: "false", controls: "dashboard-sidebar" },
+    aria: { label: t("kiso.dashboard_sidebar.collapse"), expanded: "false", controls: "dashboard-sidebar" },
     type: "button",
     **component_options do %>
   <span data-slot="collapse-icon-open"><%= kiso_component_icon(:panel_left_close) %></span>

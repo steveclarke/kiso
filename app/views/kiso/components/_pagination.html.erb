@@ -1,7 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
 <%= content_tag :nav,
     role: "navigation",
-    aria: {label: "pagination"},
+    aria: {label: t("kiso.pagination.label")},
     class: Kiso::Themes::Pagination.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "pagination"),
     **component_options do %>

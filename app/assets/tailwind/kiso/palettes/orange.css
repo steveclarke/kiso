@@ -1,0 +1,65 @@
+/* Kiso Color Palette: Orange
+   A warm, energetic palette — great for creative, food, or community apps.
+   Based on shadcn/ui's Orange theme with OKLCH color values.
+
+   Usage:
+     1. Import in your CSS: @import "kiso/palettes/orange.css";
+     2. Add to your HTML: <html data-palette="orange"> or <body data-palette="orange">
+*/
+
+[data-palette="orange"] {
+  /* Brand / action colors — warm orange */
+  --color-primary: oklch(0.646 0.222 41.116);
+  --color-primary-foreground: oklch(0.98 0.016 73.684);
+
+  --color-secondary: oklch(0.97 0.001 106.424);
+  --color-secondary-foreground: oklch(0.216 0.006 56.043);
+
+  /* Surface tokens — warm stone neutrals */
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.147 0.004 49.25);
+
+  --color-muted: oklch(0.97 0.001 106.424);
+  --color-muted-foreground: oklch(0.553 0.013 58.071);
+
+  --color-accent: oklch(0.97 0.001 106.424);
+  --color-accent-foreground: oklch(0.216 0.006 56.043);
+
+  --color-inverted: oklch(0.216 0.006 56.043);
+  --color-inverted-foreground: oklch(0.985 0.001 106.423);
+  --color-elevated: oklch(0.97 0.001 106.424);
+  --color-accented: oklch(0.709 0.01 56.259);
+
+  --color-border: oklch(0.923 0.003 48.717);
+  --color-border-accented: oklch(0.709 0.01 56.259);
+
+  --color-ring: oklch(0.646 0.222 41.116);
+}
+
+.dark [data-palette="orange"],
+[data-palette="orange"].dark {
+  --color-primary: oklch(0.705 0.213 47.604);
+  --color-primary-foreground: oklch(0.98 0.016 73.684);
+
+  --color-secondary: oklch(0.268 0.007 34.298);
+  --color-secondary-foreground: oklch(0.985 0.001 106.423);
+
+  --color-background: oklch(0.147 0.004 49.25);
+  --color-foreground: oklch(0.985 0.001 106.423);
+
+  --color-muted: oklch(0.268 0.007 34.298);
+  --color-muted-foreground: oklch(0.709 0.01 56.259);
+
+  --color-accent: oklch(0.268 0.007 34.298);
+  --color-accent-foreground: oklch(0.985 0.001 106.423);
+
+  --color-inverted: oklch(0.985 0.001 106.423);
+  --color-inverted-foreground: oklch(0.216 0.006 56.043);
+  --color-elevated: oklch(0.268 0.007 34.298);
+  --color-accented: oklch(0.553 0.013 58.071);
+
+  --color-border: oklch(0.268 0.007 34.298);
+  --color-border-accented: oklch(0.553 0.013 58.071);
+
+  --color-ring: oklch(0.705 0.213 47.604);
+}

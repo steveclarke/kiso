@@ -16,7 +16,8 @@
    Count carefully — wrong paths fail SILENTLY (classes just won't generate). */
 @source "../../../views";              /* → app/views              */
 @source "../../../helpers";            /* → app/helpers            */
-@source "../../../../lib/kiso/themes"; /* → lib/kiso/themes        */
+@source "../../../../lib/kiso/themes";  /* → lib/kiso/themes        */
+@source "../../../../lib/kiso/presets"; /* → lib/kiso/presets       */
 
 /* === Geist Font (by Vercel) ===
    Self-hosted variable fonts — no CDN dependency.

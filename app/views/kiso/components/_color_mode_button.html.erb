@@ -4,7 +4,7 @@
     data: kiso_prepare_options(component_options, slot: "color-mode-button",
                                controller: "kiso--theme",
                                action: "click->kiso--theme#toggle"),
-    aria: { label: "Toggle color mode" },
+    aria: { label: t("kiso.color_mode_button.toggle") },
     type: "button",
     **component_options do %>
   <%# Light icon — visible in light mode, hidden in dark %>

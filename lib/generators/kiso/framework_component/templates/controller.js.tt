@@ -1,0 +1,22 @@
+import { Controller } from "@hotwired/stimulus"
+
+/**
+ * <%= human_name %> controller.
+ *
+ * TODO: Add description.
+ *
+ * Attach to the <%= file_name.dasherize %> root element with `data-controller="kiso--<%= file_name.dasherize %>"`.
+ *
+ * @example
+ *   <div data-controller="kiso--<%= file_name.dasherize %>" data-slot="<%= slot_name %>">
+ *     ...
+ *   </div>
+ */
+export default class extends Controller {
+  /**
+   * Called when the controller is connected to the DOM.
+   */
+  connect() {
+    // TODO: implement
+  }
+}

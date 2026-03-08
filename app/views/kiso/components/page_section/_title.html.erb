@@ -1,0 +1,7 @@
+<%# locals: (orientation: :horizontal, css_classes: "", **component_options) %>
+<%= content_tag :h2,
+    class: Kiso::Themes::PageSectionTitle.render(orientation: orientation, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "page-section-title"),
+    **component_options do %>
+  <%= yield %>
+<% end %>

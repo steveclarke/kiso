@@ -1,0 +1,19 @@
+<div class="flex flex-col min-h-[300px] border border-border rounded-lg overflow-hidden text-foreground">
+  <header class="border-b border-border px-4 py-3 text-sm font-medium bg-muted">
+    Header
+  </header>
+  <%= kui(:main) do %>
+    <%= kui(:container) do %>
+      <div class="py-8">
+        <h1 class="text-lg font-semibold">Main Content</h1>
+        <p class="text-sm text-muted-foreground mt-1">
+          The Main component uses <code>flex-1</code> to fill remaining vertical space
+          between the header and footer.
+        </p>
+      </div>
+    <% end %>
+  <% end %>
+  <footer class="border-t border-border px-4 py-3 text-sm text-muted-foreground bg-muted">
+    Footer
+  </footer>
+</div>

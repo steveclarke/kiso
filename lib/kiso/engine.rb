@@ -10,6 +10,11 @@ module Kiso
   class Engine < ::Rails::Engine
     isolate_namespace Kiso
 
+    # Loads Kiso's locale files so host apps can override translations.
+    initializer "kiso.i18n" do
+      config.i18n.load_path += Dir[root.join("config/locales/**/*.yml")]
+    end
+
     # Configures ClassVariants to use TailwindMerge for class deduplication.
     # This ensures conflicting Tailwind utilities are resolved correctly
     # when merging base, variant, and override classes.
@@ -27,11 +32,12 @@ module Kiso
       Kiso::ThemeOverrides.apply!
     end
 
-    # Makes {ComponentHelper} and {IconHelper} available in all views.
+    # Makes {ComponentHelper}, {AppComponentHelper}, and {IconHelper} available in all views.
     initializer "kiso.helpers" do
       ActiveSupport.on_load(:action_view) do
         include Kiso::UiContextHelper
         include Kiso::ComponentHelper
+        include Kiso::AppComponentHelper
         include Kiso::IconHelper
         include Kiso::ThemeHelper
       end
@@ -124,6 +130,73 @@ module Kiso
         ActiveSupport::Reloader.to_prepare do
           reloader.execute_if_updated
         end
+      end
+    end
+
+    # Loads the active app theme from +app/themes/<name>/+.
+    #
+    # Theme files define constants under the +AppThemes::+ namespace
+    # (e.g. +AppThemes::StatusBadge+) and are loaded via +require+ at
+    # boot. The active theme is determined by {Configuration#app_theme}
+    # (defaults to +:default+).
+    #
+    # No-op when +app/themes/+ doesn't exist. Raises a helpful error
+    # when the configured theme directory is missing.
+    initializer "kiso.app_themes", after: :load_config_initializers do |app|
+      themes_root = app.root.join("app/themes")
+      next unless themes_root.directory?
+
+      # Tell Zeitwerk to ignore app/themes/ — we manage loading ourselves.
+      # Rails auto-discovers app/* subdirectories and adds them to Zeitwerk,
+      # which would expect Default::StatusBadge (matching the directory name)
+      # instead of AppThemes::StatusBadge.
+      Rails.autoloaders.main.ignore(themes_root.to_s)
+
+      active_path = Kiso.config.app_theme_path(app.root)
+
+      unless active_path.directory?
+        available = Dir.children(themes_root.to_s)
+          .select { |d| File.directory?(themes_root.join(d)) }
+          .sort
+
+        msg = "Kiso app theme :#{Kiso.config.app_theme} not found. " \
+              "Expected directory: #{active_path}"
+        msg += if available.any?
+          "\nAvailable themes: #{available.map { |d| ":#{d}" }.join(", ")}"
+        else
+          "\nNo theme directories found in #{themes_root}. " \
+          "Run: bin/rails generate kiso:component your_component"
+        end
+        raise Kiso::Error, msg
+      end
+
+      Object.const_set(:AppThemes, Module.new) unless Object.const_defined?(:AppThemes)
+
+      Dir[active_path.join("**/*.rb")].sort.each { |file| load file }
+    end
+
+    # Watches the active app theme directory in development and reloads
+    # changed theme constants. Uses directory-based watching so new files
+    # added after boot are picked up automatically.
+    initializer "kiso.app_theme_reloading" do |app|
+      next unless Rails.env.development? || Rails.env.test?
+
+      active_path = Kiso.config.app_theme_path(app.root)
+      next unless active_path.directory?
+
+      reloader = app.config.file_watcher.new([], {active_path.to_s => ["rb"]}) do
+        verbose, $VERBOSE = $VERBOSE, nil
+        begin
+          Dir[active_path.join("**/*.rb")].sort.each { |file| load file }
+        ensure
+          $VERBOSE = verbose
+        end
+      end
+
+      app.reloaders << reloader
+
+      ActiveSupport::Reloader.to_prepare do
+        reloader.execute_if_updated
       end
     end
 

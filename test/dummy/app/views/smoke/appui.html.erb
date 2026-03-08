@@ -1,0 +1,43 @@
+<%# Smoke test: appui() helper with app components %>
+<%# This page only works after running the generator:
+    cd test/dummy && bin/rails generate kiso:component status_badge %>
+<%= kui(:app) do %>
+  <%= kui(:header) do %>
+    <%= kui(:container) do %>
+      <div class="flex items-center justify-between h-14">
+        <span class="font-semibold">appui() Smoke Test</span>
+        <%= kui(:color_mode_button) %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= kui(:main) do %>
+    <%= kui(:container) do %>
+      <div class="py-8 space-y-6">
+        <h1 class="text-2xl font-bold">App Component System</h1>
+        <p class="text-muted-foreground">
+          This page tests the <code class="font-mono text-foreground">appui()</code> helper.
+          If you see "undefined method `appui'" or "Missing template", the generator hasn't been run yet.
+        </p>
+
+        <%= kui(:alert, color: :info, variant: :soft) do %>
+          <%= kui(:alert, :title) { "Setup required" } %>
+          <%= kui(:alert, :description) do %>
+            Run: <code class="font-mono">cd test/dummy && bin/rails generate kiso:component status_badge</code>
+          <% end %>
+        <% end %>
+
+        <% if defined?(AppThemes) && defined?(AppThemes::StatusBadge) %>
+          <h2 class="text-lg font-semibold mt-8">Generated Component</h2>
+          <div class="flex gap-4 mt-4">
+            <%= appui(:status_badge) { "Active" } %>
+            <%= appui(:status_badge, css_classes: "bg-success/10 text-success") { "Approved" } %>
+            <%= appui(:status_badge, css_classes: "bg-error/10 text-error") { "Rejected" } %>
+          </div>
+        <% else %>
+          <%= kui(:empty, icon: "package", title: "No app component yet", description: "Run the generator above to create one.") %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

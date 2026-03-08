@@ -1,0 +1,18 @@
+<div class="max-w-6xl mx-auto">
+  <%= kui(:page_section, orientation: :horizontal) do %>
+    <%= kui(:page_section, :wrapper) do %>
+      <%= kui(:page_section, :headline, orientation: :horizontal) { "Features" } %>
+      <%= kui(:page_section, :title, orientation: :horizontal) { "Build faster with components" } %>
+      <%= kui(:page_section, :description, orientation: :horizontal) { "Pre-built ERB partials with Tailwind CSS. Composition over configuration." } %>
+      <%= kui(:page_section, :links, orientation: :horizontal) do %>
+        <%= kui(:button) { "Browse Components" } %>
+        <%= kui(:button, variant: :outline) { "View on GitHub" } %>
+      <% end %>
+    <% end %>
+    <%= kui(:page_section, :body) do %>
+      <div class="rounded-lg bg-muted p-8 text-center text-muted-foreground">
+        Image or illustration placeholder
+      </div>
+    <% end %>
+  <% end %>
+</div>

@@ -23,9 +23,49 @@ module Kiso
     #   Applied once at boot by {ThemeOverrides.apply!}.
     attr_reader :theme
 
+    # @return [Symbol] the active app theme directory name.
+    #   Theme files are loaded from +app/themes/<name>/+. Defaults to
+    #   +:default+, meaning +app/themes/default/+.
+    #
+    # @example Switch to a custom theme
+    #   Kiso.configure do |config|
+    #     config.app_theme = :modern
+    #   end
+    attr_accessor :app_theme
+
     def initialize
       @icons = default_icons
       @theme = {}
+      @app_theme = :default
+    end
+
+    # Resolves the active app theme directory path relative to the given root.
+    #
+    # @param app_root [Pathname] the Rails application root
+    # @return [Pathname] the active theme directory (e.g. +app/themes/default+)
+    def app_theme_path(app_root)
+      app_root.join("app/themes", app_theme.to_s)
+    end
+
+    # Applies a pre-built style preset to all components.
+    # Presets populate +@theme+ before {ThemeOverrides.apply!} runs,
+    # so host-app overrides set after this call take priority.
+    #
+    # @param name [Symbol, String] the preset name (e.g. +:rounded+, +:sharp+)
+    # @raise [ArgumentError] if the preset does not exist
+    # @return [void]
+    #
+    # @example
+    #   Kiso.configure do |config|
+    #     config.apply_preset(:rounded)
+    #     # Per-component overrides still work on top of the preset:
+    #     config.theme[:button] = { base: "shadow-lg" }
+    #   end
+    def apply_preset(name)
+      preset = Kiso::Presets.load(name)
+      preset.each do |component, overrides|
+        @theme[component] = (@theme[component] || {}).merge(overrides)
+      end
     end
 
     private

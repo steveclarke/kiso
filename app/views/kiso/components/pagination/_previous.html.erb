@@ -1,5 +1,5 @@
 <%# locals: (href: "#", active: false, css_classes: "", **component_options) %>
-<% aria_attrs = {label: "Go to previous page"}
+<% aria_attrs = {label: t("kiso.pagination.previous_page")}
    aria_attrs[:current] = "page" if active %>
 <%= content_tag :a,
     href: href,
@@ -8,5 +8,5 @@
     data: kiso_prepare_options(component_options, slot: "pagination-previous"),
     **component_options do %>
   <%= kiso_component_icon(:chevron_left) %>
-  <%= content_tag :span, "Previous", class: "hidden sm:block" %>
+  <%= content_tag :span, t("kiso.pagination.previous"), class: "hidden sm:block" %>
 <% end %>

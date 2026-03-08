@@ -1,0 +1,16 @@
+<div class="max-w-6xl mx-auto">
+  <%= kui(:page_section, orientation: :vertical) do %>
+    <%= kui(:page_section, :wrapper) do %>
+      <%= kui(:page_section, :headline, orientation: :vertical) { "Why Kiso?" } %>
+      <%= kui(:page_section, :title, orientation: :vertical) { "Everything you need to build" } %>
+      <%= kui(:page_section, :description, orientation: :vertical) { "A complete component library for Rails. ERB partials, Tailwind CSS, progressive Stimulus." } %>
+    <% end %>
+    <%= kui(:page_section, :body) do %>
+      <%= kui(:page_grid) do %>
+        <%= kui(:page_card, icon: "zap", title: "Fast", description: "Zero JavaScript by default. Progressive enhancement with Stimulus.") %>
+        <%= kui(:page_card, icon: "palette", title: "Themeable", description: "Dark mode, color variants, and full customization via Tailwind.") %>
+        <%= kui(:page_card, icon: "blocks", title: "Composable", description: "Small partials, flexibly combined. Composition over configuration.") %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

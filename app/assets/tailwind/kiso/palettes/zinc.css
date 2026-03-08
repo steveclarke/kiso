@@ -1,0 +1,65 @@
+/* Kiso Color Palette: Zinc
+   A neutral, cool-toned palette using the Zinc scale.
+   Based on shadcn/ui's Zinc theme with OKLCH color values.
+
+   Usage:
+     1. Import in your CSS: @import "kiso/palettes/zinc.css";
+     2. Add to your HTML: <html data-palette="zinc"> or <body data-palette="zinc">
+*/
+
+[data-palette="zinc"] {
+  /* Brand / action colors — zinc primary (near-black in light, near-white in dark) */
+  --color-primary: oklch(0.21 0.006 285.885);
+  --color-primary-foreground: oklch(0.985 0 0);
+
+  --color-secondary: oklch(0.967 0.001 286.375);
+  --color-secondary-foreground: oklch(0.21 0.006 285.885);
+
+  /* Surface tokens */
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.141 0.005 285.823);
+
+  --color-muted: oklch(0.967 0.001 286.375);
+  --color-muted-foreground: oklch(0.552 0.016 285.938);
+
+  --color-accent: oklch(0.967 0.001 286.375);
+  --color-accent-foreground: oklch(0.21 0.006 285.885);
+
+  --color-inverted: oklch(0.21 0.006 285.885);
+  --color-inverted-foreground: oklch(0.985 0 0);
+  --color-elevated: oklch(0.967 0.001 286.375);
+  --color-accented: oklch(0.705 0.015 286.067);
+
+  --color-border: oklch(0.92 0.004 286.32);
+  --color-border-accented: oklch(0.705 0.015 286.067);
+
+  --color-ring: oklch(0.705 0.015 286.067);
+}
+
+.dark [data-palette="zinc"],
+[data-palette="zinc"].dark {
+  --color-primary: oklch(0.92 0.004 286.32);
+  --color-primary-foreground: oklch(0.21 0.006 285.885);
+
+  --color-secondary: oklch(0.274 0.006 286.033);
+  --color-secondary-foreground: oklch(0.985 0 0);
+
+  --color-background: oklch(0.141 0.005 285.823);
+  --color-foreground: oklch(0.985 0 0);
+
+  --color-muted: oklch(0.274 0.006 286.033);
+  --color-muted-foreground: oklch(0.705 0.015 286.067);
+
+  --color-accent: oklch(0.274 0.006 286.033);
+  --color-accent-foreground: oklch(0.985 0 0);
+
+  --color-inverted: oklch(0.985 0 0);
+  --color-inverted-foreground: oklch(0.21 0.006 285.885);
+  --color-elevated: oklch(0.274 0.006 286.033);
+  --color-accented: oklch(0.552 0.016 285.938);
+
+  --color-border: oklch(0.274 0.006 286.033);
+  --color-border-accented: oklch(0.552 0.016 285.938);
+
+  --color-ring: oklch(0.552 0.016 285.938);
+}

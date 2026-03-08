@@ -3,7 +3,7 @@
     id: "dashboard-sidebar",
     class: Kiso::Themes::DashboardSidebar.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dashboard-sidebar"),
-    aria: { label: "Sidebar navigation" },
+    aria: { label: t("kiso.dashboard_sidebar.label") },
     **component_options do %>
   <div data-slot="dashboard-sidebar-inner">
     <%= yield %>

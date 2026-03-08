@@ -17,7 +17,7 @@
     <%= tag.button type: "button",
         class: Kiso::Themes::AlertClose.render(class: ui[:close]),
         data: { slot: "alert-close", action: "click->kiso--alert#close" },
-        aria: { label: "Dismiss" } do %>
+        aria: { label: t("kiso.alert.dismiss") } do %>
       <%= kiso_component_icon(:x, class: "size-4") %>
     <% end %>
   <% end %>

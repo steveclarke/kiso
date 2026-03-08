@@ -1,0 +1,40 @@
+<div class="max-w-6xl mx-auto text-foreground">
+  <%# Page header %>
+  <%= kui(:page_header, headline: "Open Source", title: "Build beautiful Rails apps", description: "A complete UI component library for Rails. ERB partials, Tailwind CSS, progressive Stimulus.") %>
+
+  <%= kui(:page_body) do %>
+    <%# Feature section (vertical with grid of cards) %>
+    <%= kui(:page_section, orientation: :vertical) do %>
+      <%= kui(:page_section, :wrapper) do %>
+        <%= kui(:page_section, :headline, orientation: :vertical) { "Features" } %>
+        <%= kui(:page_section, :title, orientation: :vertical) { "Everything you need" } %>
+        <%= kui(:page_section, :description, orientation: :vertical) { "Production-ready components that follow Rails conventions." } %>
+      <% end %>
+      <%= kui(:page_section, :body) do %>
+        <%= kui(:page_grid) do %>
+          <%= kui(:page_card, icon: "zap", title: "Zero Config", description: "Works out of the box with any Rails 8+ app. No build step required.") %>
+          <%= kui(:page_card, icon: "palette", title: "Dark Mode", description: "Built-in dark mode with CSS variable swapping. No flash of unstyled content.") %>
+          <%= kui(:page_card, icon: "blocks", title: "50+ Components", description: "From buttons to dashboards. Everything you need for a production app.") %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%# Horizontal section %>
+    <%= kui(:page_section, orientation: :horizontal) do %>
+      <%= kui(:page_section, :wrapper) do %>
+        <%= kui(:page_section, :headline, orientation: :horizontal) { "Developer Experience" } %>
+        <%= kui(:page_section, :title, orientation: :horizontal) { "Built for Rails developers" } %>
+        <%= kui(:page_section, :description, orientation: :horizontal) { "ERB partials you already know. No new templating language, no complex build tools. Just Rails." } %>
+        <%= kui(:page_section, :links, orientation: :horizontal) do %>
+          <%= kui(:button) { "Get Started" } %>
+          <%= kui(:button, variant: :outline) { "View on GitHub" } %>
+        <% end %>
+      <% end %>
+      <%= kui(:page_section, :body) do %>
+        <div class="rounded-lg bg-muted p-8 text-center text-muted-foreground min-h-[200px] flex items-center justify-center">
+          Code example placeholder
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

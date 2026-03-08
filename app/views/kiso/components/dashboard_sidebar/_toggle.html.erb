@@ -4,7 +4,7 @@
     data: kiso_prepare_options(component_options, slot: "dashboard-sidebar-toggle",
                                kiso__sidebar_target: "trigger",
                                action: "click->kiso--sidebar#toggle"),
-    aria: { label: "Toggle sidebar", expanded: "false", controls: "dashboard-sidebar" },
+    aria: { label: t("kiso.dashboard_sidebar.toggle"), expanded: "false", controls: "dashboard-sidebar" },
     type: "button",
     **component_options do %>
   <%= capture { yield }.presence || kiso_component_icon(:menu) %>

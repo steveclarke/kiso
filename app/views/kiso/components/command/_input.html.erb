@@ -1,4 +1,5 @@
-<%# locals: (placeholder: nil, label: "Search", ui: {}, css_classes: "", **component_options) %>
+<%# locals: (placeholder: nil, label: nil, ui: {}, css_classes: "", **component_options) %>
+<% label ||= t("kiso.command.search") %>
 <div class="<%= Kiso::Themes::CommandInputWrapper.render(class: ui[:wrapper]) %>"
      data-slot="command-input-wrapper">
   <%= kiso_component_icon(:search, class: "size-4 shrink-0 opacity-50") %>

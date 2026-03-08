@@ -1,0 +1,9 @@
+<% if colored? -%>
+<%%= kui(:<%= file_name %>, color: color, variant: variant) do %>
+  <%= human_name %> content
+<%% end %>
+<% else -%>
+<%%= kui(:<%= file_name %>) do %>
+  <%= human_name %> content
+<%% end %>
+<% end -%>
