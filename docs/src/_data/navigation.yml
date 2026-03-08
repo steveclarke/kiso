@@ -35,6 +35,8 @@ docs:
         href: /components/alert
       - title: AlertDialog
         href: /components/alert_dialog
+      - title: App
+        href: /components/app
       - title: AspectRatio
         href: /components/aspect_ratio
       - title: Avatar
@@ -53,16 +55,24 @@ docs:
         href: /components/color_mode_select
       - title: Command
         href: /components/command
-      - title: Dialog
-        href: /components/dialog
+      - title: Container
+        href: /components/container
       - title: DashboardGroup
         href: /components/dashboard_group
+      - title: Dialog
+        href: /components/dialog
       - title: DropdownMenu
         href: /components/dropdown_menu
       - title: Empty
         href: /components/empty
+      - title: Footer
+        href: /components/footer
+      - title: Header
+        href: /components/header
       - title: Kbd
         href: /components/kbd
+      - title: Main
+        href: /components/main
       - title: Nav
         href: /components/nav
       - title: Pagination

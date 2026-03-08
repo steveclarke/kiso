@@ -36,6 +36,7 @@ test.describe("Dark mode accessibility", () => {
   const COMPONENTS = [
     { name: "alert", url: "/preview/kiso/alert/playground" },
     { name: "alert-dialog", url: "/preview/kiso/alert_dialog/playground?open=true" },
+    { name: "app", url: "/preview/kiso/layout/app/playground" },
     { name: "aspect-ratio", url: "/preview/kiso/aspect_ratio/playground" },
     { name: "avatar", url: "/preview/kiso/avatar/playground" },
     { name: "badge", url: "/preview/kiso/badge/playground" },
@@ -47,10 +48,13 @@ test.describe("Dark mode accessibility", () => {
     { name: "color-mode-select", url: "/preview/kiso/color_mode/color_mode_select/playground" },
     { name: "combobox", url: "/preview/kiso/combobox/with_field" },
     { name: "command", url: "/preview/kiso/command/playground" },
+    { name: "container", url: "/preview/kiso/layout/container/playground" },
     { name: "dialog", url: "/preview/kiso/dialog/playground?open=true" },
     { name: "dropdown-menu", url: "/preview/kiso/dropdown_menu/basic" },
     { name: "empty", url: "/preview/kiso/empty/with_actions" },
     { name: "field", url: "/preview/kiso/form/field/textarea" },
+    { name: "footer", url: "/preview/kiso/layout/footer/playground" },
+    { name: "header", url: "/preview/kiso/layout/header/playground" },
     { name: "input", url: "/preview/kiso/form/input/with_field", exclude: ["color-contrast"] },
     {
       name: "select-native",
@@ -60,6 +64,7 @@ test.describe("Dark mode accessibility", () => {
     { name: "input-group", url: "/preview/kiso/form/input_group/playground" },
     { name: "input-otp", url: "/preview/kiso/form/input_otp/playground" },
     { name: "kbd", url: "/preview/kiso/kbd/playground" },
+    { name: "main", url: "/preview/kiso/layout/main/playground" },
     { name: "pagination", url: "/preview/kiso/pagination/playground" },
     { name: "popover", url: "/preview/kiso/popover/basic" },
     { name: "radio-group", url: "/preview/kiso/form/radio_group/playground" },
@@ -95,6 +100,7 @@ test.describe("Dark mode text visibility", () => {
    * the browser default is black — invisible on a dark background.
    */
   const CONTAINERS = [
+    { name: "app", url: "/preview/kiso/layout/app/playground", slot: "app" },
     { name: "card", url: "/preview/kiso/card/playground", slot: "card" },
     { name: "table", url: "/preview/kiso/table/playground", slot: "table" },
     { name: "empty", url: "/preview/kiso/empty/playground", slot: "empty" },
