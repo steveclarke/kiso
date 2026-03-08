@@ -36,57 +36,12 @@ module Kiso
     # @example Render a collection
     #   kui(:badge, collection: @tags)
     def kui(component, part = nil, collection: nil, ui: nil, **kwargs, &block)
-      path = if part
-        "kiso/components/#{component}/#{part}"
-      else
-        "kiso/components/#{component}"
-      end
-
-      # Prevent yield from bubbling up the ERB rendering chain when no block
-      # is passed. Without this, partials that use `capture { yield }.presence`
-      # to support optional block overrides (e.g., toggle/collapse/separator)
-      # would have their `yield` bubble through nested content_tag blocks all
-      # the way to the layout's `<%= yield %>`, capturing the entire page
-      # template content. An explicit empty proc gives `yield` something to
-      # call, returning empty string → `.presence` returns nil → default
-      # content renders correctly.
-      block ||= proc {}
-
-      if part
-        # Sub-part: merge slot override from parent's ui context
-        parent_ui = kiso_current_ui(component)
-        if (slot_classes = parent_ui[part].presence)
-          existing = kwargs[:css_classes] || ""
-          kwargs[:css_classes] = existing.blank? ? slot_classes : "#{existing} #{slot_classes}"
-        end
-
-        # Forward ui: to sub-part partial when explicitly provided
-        kwargs[:ui] = ui if ui
-
-        if collection
-          render partial: path, collection: collection, locals: kwargs, &block
-        else
-          render path, **kwargs, &block
-        end
-      else
-        # Parent component: merge global ui config with instance ui
-        merged_ui = kiso_merge_ui_layers(component, ui)
-        has_ui = merged_ui.present?
-
-        # Push context for composed sub-parts to read (skip when empty)
-        kiso_push_ui_context(component, merged_ui) if has_ui
-        begin
-          locals = has_ui ? kwargs.merge(ui: merged_ui) : kwargs
-
-          if collection
-            render partial: path, collection: collection, locals: locals, &block
-          else
-            render path, **locals, &block
-          end
-        ensure
-          kiso_pop_ui_context(component) if has_ui
-        end
-      end
+      kiso_render_component(
+        component, part,
+        path_prefix: "kiso/components",
+        collection: collection, ui: ui, merge_global_ui: true,
+        **kwargs, &block
+      )
     end
 
     # Prepares +component_options+ for use with +content_tag+.
@@ -116,6 +71,75 @@ module Kiso
     end
 
     private
+
+    # Shared rendering pipeline for both kui() and appui().
+    #
+    # @param component [Symbol] the component name
+    # @param part [Symbol, nil] optional sub-part name
+    # @param path_prefix [String] partial path prefix (e.g. "kiso/components" or "components")
+    # @param collection [Array, nil] renders the partial once per item when present
+    # @param ui [Hash, nil] per-slot class overrides
+    # @param merge_global_ui [Boolean] whether to merge global config ui layer
+    # @param kwargs [Hash] locals passed to the partial
+    # @param block [Proc] optional block for component content
+    # @return [ActiveSupport::SafeBuffer] rendered HTML
+    def kiso_render_component(component, part, path_prefix:, collection:, ui:, merge_global_ui: true, **kwargs, &block)
+      path = if part
+        "#{path_prefix}/#{component}/#{part}"
+      else
+        "#{path_prefix}/#{component}"
+      end
+
+      # Prevent yield from bubbling up the ERB rendering chain when no block
+      # is passed. Without this, partials that use `capture { yield }.presence`
+      # to support optional block overrides (e.g., toggle/collapse/separator)
+      # would have their `yield` bubble through nested content_tag blocks all
+      # the way to the layout's `<%= yield %>`, capturing the entire page
+      # template content. An explicit empty proc gives `yield` something to
+      # call, returning empty string → `.presence` returns nil → default
+      # content renders correctly.
+      block ||= proc {}
+
+      if part
+        # Sub-part: merge slot override from parent's ui context
+        parent_ui = kiso_current_ui(component)
+        if (slot_classes = parent_ui[part].presence)
+          existing = kwargs[:css_classes] || ""
+          kwargs[:css_classes] = existing.blank? ? slot_classes : "#{existing} #{slot_classes}"
+        end
+
+        # Forward ui: to sub-part partial when explicitly provided
+        kwargs[:ui] = ui if ui
+
+        if collection
+          render partial: path, collection: collection, locals: kwargs, &block
+        else
+          render path, **kwargs, &block
+        end
+      else
+        # Parent component: merge global ui config with instance ui (or use instance ui directly)
+        merged_ui = if merge_global_ui
+          kiso_merge_ui_layers(component, ui)
+        else
+          ui || {}
+        end
+        has_ui = merged_ui.present?
+
+        # Push context for composed sub-parts to read (skip when empty)
+        kiso_push_ui_context(component, merged_ui) if has_ui
+        begin
+          locals = has_ui ? kwargs.merge(ui: merged_ui) : kwargs
+
+          if collection
+            render partial: path, collection: collection, locals: locals, &block
+          else
+            render path, **locals, &block
+          end
+        ensure
+          kiso_pop_ui_context(component) if has_ui
+        end
+      end
+    end
 
     # Merge global config ui overrides with instance ui overrides.
     # Global config is Layer 2, instance +ui:+ is Layer 3.

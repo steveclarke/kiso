@@ -42,50 +42,12 @@ module Kiso
     # @example Render a collection
     #   appui(:pricing_card, collection: @plans)
     def appui(component, part = nil, collection: nil, ui: nil, **kwargs, &block)
-      path = if part
-        "components/#{component}/#{part}"
-      else
-        "components/#{component}"
-      end
-
-      # Prevent yield from bubbling up the ERB rendering chain when no block
-      # is passed. Same guard as kui() — see ComponentHelper for rationale.
-      block ||= proc {}
-
-      if part
-        # Sub-part: merge slot override from parent's ui context
-        parent_ui = kiso_current_ui(component)
-        if (slot_classes = parent_ui[part].presence)
-          existing = kwargs[:css_classes] || ""
-          kwargs[:css_classes] = existing.blank? ? slot_classes : "#{existing} #{slot_classes}"
-        end
-
-        # Forward ui: to sub-part partial when explicitly provided
-        kwargs[:ui] = ui if ui
-
-        if collection
-          render partial: path, collection: collection, locals: kwargs, &block
-        else
-          render path, **kwargs, &block
-        end
-      else
-        # Parent component: instance ui only (no global config layer)
-        has_ui = ui.present?
-
-        # Push context for composed sub-parts to read (skip when empty)
-        kiso_push_ui_context(component, ui) if has_ui
-        begin
-          locals = has_ui ? kwargs.merge(ui: ui) : kwargs
-
-          if collection
-            render partial: path, collection: collection, locals: locals, &block
-          else
-            render path, **locals, &block
-          end
-        ensure
-          kiso_pop_ui_context(component) if has_ui
-        end
-      end
+      kiso_render_component(
+        component, part,
+        path_prefix: "components",
+        collection: collection, ui: ui, merge_global_ui: false,
+        **kwargs, &block
+      )
     end
   end
 end
