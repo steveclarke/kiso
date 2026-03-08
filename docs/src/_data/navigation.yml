@@ -20,6 +20,8 @@ docs:
         href: /guide/variants-and-styling
       - title: Customizing Components
         href: /guide/customizing
+      - title: Building Your Own Components
+        href: /guide/building-components
       - title: Common Patterns
         href: /guide/patterns
       - title: Interactivity
