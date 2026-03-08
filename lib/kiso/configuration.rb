@@ -23,9 +23,20 @@ module Kiso
     #   Applied once at boot by {ThemeOverrides.apply!}.
     attr_reader :theme
 
+    # @return [Symbol] the active app theme directory name.
+    #   Theme files are loaded from +app/themes/<name>/+. Defaults to
+    #   +:default+, meaning +app/themes/default/+.
+    #
+    # @example Switch to a custom theme
+    #   Kiso.configure do |config|
+    #     config.app_theme = :modern
+    #   end
+    attr_accessor :app_theme
+
     def initialize
       @icons = default_icons
       @theme = {}
+      @app_theme = :default
     end
 
     # Applies a pre-built style preset to all components.

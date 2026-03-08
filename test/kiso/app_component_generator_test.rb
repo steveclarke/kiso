@@ -12,10 +12,10 @@ class Kiso::AppComponentGeneratorTest < Rails::Generators::TestCase
     prepare_destination
   end
 
-  test "generates theme file" do
+  test "generates theme file in default theme directory" do
     run_generator ["pricing_card"]
 
-    assert_file "app/themes/pricing_card.rb" do |content|
+    assert_file "app/themes/default/pricing_card.rb" do |content|
       assert_match(/AppThemes::PricingCard = ClassVariants\.build/, content)
       assert_match(/base: ""/, content)
       assert_match(/variants: \{\}/, content)
@@ -34,15 +34,15 @@ class Kiso::AppComponentGeneratorTest < Rails::Generators::TestCase
     end
   end
 
-  test "generates sub-part files" do
+  test "generates sub-part files in default theme directory" do
     run_generator ["pricing_card", "--sub-parts", "header", "footer"]
 
     # Root component
-    assert_file "app/themes/pricing_card.rb"
+    assert_file "app/themes/default/pricing_card.rb"
     assert_file "app/views/components/_pricing_card.html.erb"
 
     # Header sub-part
-    assert_file "app/themes/pricing_card_header.rb" do |content|
+    assert_file "app/themes/default/pricing_card_header.rb" do |content|
       assert_match(/AppThemes::PricingCardHeader = ClassVariants\.build/, content)
     end
 
@@ -52,13 +52,21 @@ class Kiso::AppComponentGeneratorTest < Rails::Generators::TestCase
     end
 
     # Footer sub-part
-    assert_file "app/themes/pricing_card_footer.rb" do |content|
+    assert_file "app/themes/default/pricing_card_footer.rb" do |content|
       assert_match(/AppThemes::PricingCardFooter = ClassVariants\.build/, content)
     end
 
     assert_file "app/views/components/pricing_card/_footer.html.erb" do |content|
       assert_match(/AppThemes::PricingCardFooter\.render/, content)
       assert_match(/slot: "pricing-card-footer"/, content)
+    end
+  end
+
+  test "generates theme in custom theme directory" do
+    run_generator ["pricing_card", "--theme", "modern"]
+
+    assert_file "app/themes/modern/pricing_card.rb" do |content|
+      assert_match(/AppThemes::PricingCard = ClassVariants\.build/, content)
     end
   end
 
@@ -73,7 +81,7 @@ class Kiso::AppComponentGeneratorTest < Rails::Generators::TestCase
   test "generated theme uses ClassVariants.build" do
     run_generator ["pricing_card"]
 
-    assert_file "app/themes/pricing_card.rb" do |content|
+    assert_file "app/themes/default/pricing_card.rb" do |content|
       assert_match(/ClassVariants\.build/, content)
     end
   end

@@ -1,0 +1,81 @@
+<%# Smoke test: Layout components (App, Container, Header, Footer, Main) %>
+<%= kui(:app) do %>
+  <%= kui(:header) do %>
+    <%= kui(:container) do %>
+      <div class="flex items-center justify-between h-14">
+        <span class="font-semibold">Kiso Layout Smoke Test</span>
+        <div class="flex items-center gap-2">
+          <%= kui(:color_mode_button) %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= kui(:main) do %>
+    <%= kui(:container) do %>
+      <div class="py-8 space-y-6">
+        <h1 class="text-2xl font-bold">Layout Components</h1>
+        <p class="text-muted-foreground">If you can see this with proper dark mode support, the App/Header/Main/Container/Footer components work.</p>
+
+        <%= kui(:separator) %>
+
+        <h2 class="text-lg font-semibold">Container Sizes</h2>
+        <p class="text-sm text-muted-foreground mb-4">Each container below is rendered outside the parent container so you can see the actual width differences.</p>
+      </div>
+    <% end %>
+
+    <%# Render containers at the top level (no parent container) so widths are visible %>
+    <% %i[narrow default wide full].each do |size| %>
+      <%= kui(:container, size: size, css_classes: "bg-muted/50 rounded-lg p-4 mb-4") do %>
+        <p class="text-sm text-muted-foreground">Container size: <code class="text-foreground font-mono"><%= size %></code> — <code class="text-foreground font-mono"><%= {narrow: "max-w-3xl (768px)", default: "max-w-7xl (1280px)", wide: "max-w-screen-2xl (1536px)", full: "max-w-full"}[size] %></code></p>
+      <% end %>
+    <% end %>
+
+    <%= kui(:container) do %>
+      <div class="space-y-6">
+
+        <%= kui(:separator) %>
+
+        <h2 class="text-lg font-semibold">i18n Strings</h2>
+        <p class="text-sm text-muted-foreground">Check these render correctly (not "translation missing"):</p>
+
+        <div class="space-y-4 mt-4">
+          <%= kui(:pagination) do %>
+            <%= kui(:pagination, :content) do %>
+              <%= kui(:pagination, :previous, href: "#") %>
+              <%= kui(:pagination, :item, href: "#") { "1" } %>
+              <%= kui(:pagination, :ellipsis) %>
+              <%= kui(:pagination, :item, href: "#") { "5" } %>
+              <%= kui(:pagination, :next, href: "#") %>
+            <% end %>
+          <% end %>
+
+          <%= kui(:breadcrumb) do %>
+            <%= kui(:breadcrumb, :list) do %>
+              <%= kui(:breadcrumb, :item) { kui(:breadcrumb, :link, href: "#") { "Home" } } %>
+              <%= kui(:breadcrumb, :separator) %>
+              <%= kui(:breadcrumb, :item) { kui(:breadcrumb, :ellipsis) } %>
+              <%= kui(:breadcrumb, :separator) %>
+              <%= kui(:breadcrumb, :item) { kui(:breadcrumb, :page) { "Current" } } %>
+            <% end %>
+          <% end %>
+
+          <%= kui(:alert, color: :info, variant: :soft, close: true) do %>
+            <%= kui(:alert, :title) { "Dismissible Alert" } %>
+            <%= kui(:alert, :description) { "The close button should have an aria-label of 'Dismiss'." } %>
+          <% end %>
+
+          <%= kui(:color_mode_select) %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= kui(:footer) do %>
+    <%= kui(:container) do %>
+      <div class="py-6 text-center text-sm text-muted-foreground">
+        Footer — Kiso Smoke Test
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

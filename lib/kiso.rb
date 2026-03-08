@@ -76,6 +76,9 @@ require "kiso/icons"
 # @see ComponentHelper#kui
 # @see Themes
 module Kiso
+  # Base error class for Kiso engine errors.
+  class Error < StandardError; end
+
   class << self
     # @return [Configuration] the global configuration instance
     def configuration

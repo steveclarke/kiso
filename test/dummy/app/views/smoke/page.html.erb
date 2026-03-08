@@ -1,0 +1,73 @@
+<%# Smoke test: Page components (Page, PageHeader, PageBody, PageSection, PageGrid, PageCard) %>
+<%= kui(:app) do %>
+  <%= kui(:header) do %>
+    <%= kui(:container) do %>
+      <div class="flex items-center justify-between h-14">
+        <span class="font-semibold">Kiso Page Smoke Test</span>
+        <%= kui(:color_mode_button) %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= kui(:main) do %>
+    <%= kui(:container) do %>
+      <%= kui(:page_header,
+              headline: "Page Components",
+              title: "Smoke Test",
+              description: "Testing PageHeader, PageBody, PageSection, PageGrid, and PageCard together.") %>
+
+      <%= kui(:page_body) do %>
+        <%= kui(:page_section,
+                headline: "Features",
+                title: "What Kiso Offers",
+                description: "A grid of cards demonstrating the PageGrid and PageCard components.",
+                orientation: :vertical) do %>
+          <%= kui(:page_section, :body, orientation: :vertical) do %>
+            <%= kui(:page_grid) do %>
+              <%= kui(:page_card,
+                      variant: :outline,
+                      icon: "layers",
+                      title: "Components",
+                      description: "50+ accessible components built with ERB and Tailwind CSS.") %>
+              <%= kui(:page_card,
+                      variant: :soft,
+                      icon: "palette",
+                      title: "Theming",
+                      description: "Presets and palettes for instant brand customization.") %>
+              <%= kui(:page_card,
+                      variant: :subtle,
+                      icon: "code",
+                      title: "Developer Experience",
+                      description: "Generators, hot-reload, and AI-friendly conventions.") %>
+              <%= kui(:page_card,
+                      variant: :ghost,
+                      icon: "globe",
+                      title: "i18n Ready",
+                      description: "All strings translatable via standard Rails locale files.") %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%= kui(:separator, css_classes: "my-8") %>
+
+        <%= kui(:page_section,
+                headline: "Horizontal Layout",
+                title: "Side by Side",
+                description: "PageSection with horizontal orientation puts the header beside the body.",
+                orientation: :horizontal) do %>
+          <%= kui(:page_section, :body, orientation: :horizontal) do %>
+            <p class="text-muted-foreground">This content sits to the right of the section header on large screens.</p>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= kui(:footer) do %>
+    <%= kui(:container) do %>
+      <div class="py-6 text-center text-sm text-muted-foreground">
+        Page Components Smoke Test
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

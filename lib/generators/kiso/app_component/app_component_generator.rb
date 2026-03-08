@@ -4,11 +4,18 @@ module Kiso
   module Generators
     # Scaffolds a host app component with a theme module and ERB partial.
     #
+    # Theme files are placed in +app/themes/<active_theme>/+ (default:
+    # +app/themes/default/+). The active theme is configured via
+    # +Kiso.config.app_theme+.
+    #
     # @example Basic usage
     #   bin/rails generate kiso:app_component pricing_card
     #
     # @example With sub-parts
     #   bin/rails generate kiso:app_component pricing_card --sub-parts header footer
+    #
+    # @example With a custom theme
+    #   bin/rails generate kiso:app_component pricing_card --theme modern
     class AppComponentGenerator < Rails::Generators::NamedBase
       source_root File.expand_path("templates", __dir__)
 
@@ -17,8 +24,13 @@ module Kiso
         default: [],
         desc: "Sub-part names to generate (e.g. --sub-parts header footer)"
 
+      class_option :theme,
+        type: :string,
+        default: nil,
+        desc: "Theme directory name (defaults to Kiso.config.app_theme, usually :default)"
+
       def create_theme_file
-        template "theme.rb.tt", File.join("app/themes", component_path_dir, "#{file_name}.rb")
+        template "theme.rb.tt", File.join(theme_dir, component_path_dir, "#{file_name}.rb")
       end
 
       def create_partial_file
@@ -30,7 +42,7 @@ module Kiso
         options[:sub_parts].each do |part|
           @current_part = part
           template "sub_part_theme.rb.tt",
-            File.join("app/themes", component_path_dir, "#{file_name}_#{part}.rb")
+            File.join(theme_dir, component_path_dir, "#{file_name}_#{part}.rb")
           template "sub_part_partial.html.erb.tt",
             File.join("app/views/components", component_path_dir, file_name, "_#{part}.html.erb")
         end
@@ -40,6 +52,12 @@ module Kiso
 
       # @return [String] the current sub-part name being generated
       attr_reader :current_part
+
+      # @return [String] the theme directory path (e.g. "app/themes/default")
+      def theme_dir
+        theme_name = options[:theme] || Kiso.config.app_theme.to_s
+        File.join("app/themes", theme_name)
+      end
 
       # @return [String] the component name in PascalCase (e.g. "PricingCard")
       def class_name_without_namespace

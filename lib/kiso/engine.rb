@@ -133,39 +133,68 @@ module Kiso
       end
     end
 
-    # Adds +app/themes/+ to the host app's autoload paths so theme constants
-    # like +AppThemes::PricingCard+ resolve automatically. Only added when
-    # the directory exists.
-    initializer "kiso.app_themes" do |app|
-      themes_path = app.root.join("app/themes")
-      if themes_path.directory?
-        app.config.autoload_paths << themes_path.to_s
+    # Loads the active app theme from +app/themes/<name>/+.
+    #
+    # Theme files define constants under the +AppThemes::+ namespace
+    # (e.g. +AppThemes::StatusBadge+) and are loaded via +require+ at
+    # boot. The active theme is determined by {Configuration#app_theme}
+    # (defaults to +:default+).
+    #
+    # No-op when +app/themes/+ doesn't exist. Raises a helpful error
+    # when the configured theme directory is missing.
+    initializer "kiso.app_themes", after: :load_config_initializers do |app|
+      themes_root = app.root.join("app/themes")
+      next unless themes_root.directory?
+
+      theme_name = Kiso.config.app_theme
+      active_path = themes_root.join(theme_name.to_s)
+
+      unless active_path.directory?
+        available = Dir.children(themes_root.to_s)
+          .select { |d| File.directory?(themes_root.join(d)) }
+          .sort
+
+        msg = "Kiso app theme :#{theme_name} not found. " \
+              "Expected directory: #{active_path}"
+        msg += if available.any?
+          "\nAvailable themes: #{available.map { |d| ":#{d}" }.join(", ")}"
+        else
+          "\nNo theme directories found in #{themes_root}. " \
+          "Run: bin/rails generate kiso:app_component your_component"
+        end
+        raise Kiso::Error, msg
       end
+
+      Object.const_set(:AppThemes, Module.new) unless Object.const_defined?(:AppThemes)
+
+      Dir[active_path.join("**/*.rb")].sort.each { |file| require file }
     end
 
-    # Watches +app/themes/+ in the host app and reloads changed theme
-    # constants in development. Uses directory-based watching so new files
+    # Watches the active app theme directory in development and reloads
+    # changed theme constants. Uses directory-based watching so new files
     # added after boot are picked up automatically.
     initializer "kiso.app_theme_reloading" do |app|
-      if Rails.env.development? || Rails.env.test?
-        themes_path = app.root.join("app/themes")
-        if themes_path.directory?
-          reloader = app.config.file_watcher.new([], {themes_path.to_s => ["rb"]}) do
-            # Re-glob to pick up new files added after boot
-            verbose, $VERBOSE = $VERBOSE, nil
-            begin
-              Dir[themes_path.join("**/*.rb")].each { |file| load file }
-            ensure
-              $VERBOSE = verbose
-            end
-          end
+      next unless Rails.env.development? || Rails.env.test?
 
-          app.reloaders << reloader
+      themes_root = app.root.join("app/themes")
+      next unless themes_root.directory?
 
-          ActiveSupport::Reloader.to_prepare do
-            reloader.execute_if_updated
-          end
+      active_path = themes_root.join(Kiso.config.app_theme.to_s)
+      next unless active_path.directory?
+
+      reloader = app.config.file_watcher.new([], {active_path.to_s => ["rb"]}) do
+        verbose, $VERBOSE = $VERBOSE, nil
+        begin
+          Dir[active_path.join("**/*.rb")].sort.each { |file| load file }
+        ensure
+          $VERBOSE = verbose
         end
+      end
+
+      app.reloaders << reloader
+
+      ActiveSupport::Reloader.to_prepare do
+        reloader.execute_if_updated
       end
     end
 
