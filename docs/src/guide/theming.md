@@ -108,7 +108,7 @@ OKLCH values. They change the entire color scheme without touching Ruby.
 2. Add the `data-palette` attribute to your root element:
 
 ```erb
-<html data-palette="blue" <%= "class=dark" if dark_mode? %>>
+<html data-palette="blue" <%%= "class=dark" if dark_mode? %>>
 ```
 
 ### Available palettes
