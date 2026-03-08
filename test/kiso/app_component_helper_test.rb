@@ -62,4 +62,8 @@ class Kiso::AppComponentHelperTest < ActionView::TestCase
   ensure
     kiso_pop_ui_context(:card)
   end
+
+  test "appui_tag is available as a helper" do
+    assert_respond_to self, :appui_tag
+  end
 end

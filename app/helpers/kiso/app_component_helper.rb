@@ -49,5 +49,15 @@ module Kiso
         **kwargs, &block
       )
     end
+
+    # Renders a themed HTML element for host app components.
+    #
+    # Identical to {ComponentHelper#kui_tag} — provided as a naming
+    # convenience so host app partials use +appui_tag+ alongside +appui()+.
+    #
+    # @see ComponentHelper#kui_tag
+    def appui_tag(...)
+      kui_tag(...)
+    end
   end
 end

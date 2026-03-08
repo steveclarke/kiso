@@ -70,6 +70,36 @@ module Kiso
       (component_options.delete(:data) || {}).merge(slot: slot, **data_attrs)
     end
 
+    # Renders a themed HTML element with Kiso conventions.
+    #
+    # Collapses the common +content_tag+ + +kiso_prepare_options+ + theme
+    # rendering boilerplate into a single call. Use in component partials
+    # instead of manually wiring +content_tag+.
+    #
+    # @param tag [Symbol] HTML element name (e.g. +:div+, +:span+, +:button+)
+    # @param theme [ClassVariants::Instance] the theme module to render classes from
+    # @param slot [String] the +data-slot+ value (kebab-case)
+    # @param css_classes [String] caller's class overrides, merged via +tailwind_merge+
+    # @param variants [Hash] variant values forwarded to +theme.render+
+    #   (e.g. +{ size: :md, color: :primary }+)
+    # @param component_options [Hash] HTML attributes forwarded to +content_tag+
+    #   (e.g. +id:+, +aria:+). A +data:+ key is extracted and merged with slot.
+    # @yield optional block for element content
+    # @return [ActiveSupport::SafeBuffer] rendered HTML
+    #
+    # @example In a component partial
+    #   kui_tag :div, theme: Kiso::Themes::Badge, slot: "badge",
+    #       css_classes: css_classes, variants: { color: color, variant: variant },
+    #       **component_options do
+    #     yield
+    #   end
+    def kui_tag(tag, theme:, slot:, css_classes: "", variants: {}, **component_options, &block)
+      content_tag(tag,
+        class: theme.render(**variants, class: css_classes),
+        data: kiso_prepare_options(component_options, slot: slot),
+        **component_options, &block)
+    end
+
     private
 
     # Shared rendering pipeline for both kui() and appui().

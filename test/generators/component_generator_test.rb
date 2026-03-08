@@ -28,7 +28,7 @@ class Kiso::Generators::ComponentGeneratorTest < Rails::Generators::TestCase
 
     assert_file "app/views/components/_pricing_card.html.erb" do |content|
       assert_match(/locals:.*css_classes: ""/, content)
-      assert_match(/AppThemes::PricingCard\.render/, content)
+      assert_match(/appui_tag :div, theme: AppThemes::PricingCard/, content)
       assert_match(/slot: "pricing-card"/, content)
       assert_match(/<%= yield %>/, content)
     end
@@ -47,7 +47,7 @@ class Kiso::Generators::ComponentGeneratorTest < Rails::Generators::TestCase
     end
 
     assert_file "app/views/components/pricing_card/_header.html.erb" do |content|
-      assert_match(/AppThemes::PricingCardHeader\.render/, content)
+      assert_match(/appui_tag :div, theme: AppThemes::PricingCardHeader/, content)
       assert_match(/slot: "pricing-card-header"/, content)
     end
 
@@ -57,7 +57,7 @@ class Kiso::Generators::ComponentGeneratorTest < Rails::Generators::TestCase
     end
 
     assert_file "app/views/components/pricing_card/_footer.html.erb" do |content|
-      assert_match(/AppThemes::PricingCardFooter\.render/, content)
+      assert_match(/appui_tag :div, theme: AppThemes::PricingCardFooter/, content)
       assert_match(/slot: "pricing-card-footer"/, content)
     end
   end
