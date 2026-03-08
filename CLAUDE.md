@@ -300,9 +300,21 @@ docs/                         Bridgetown docs site (published documentation)
 
 ## Docs Site (Bridgetown)
 
-The docs site (`docs/src/`) is built with Bridgetown, which processes
-**all `.md` files as ERB templates**. Every `<%` tag in a markdown file
-is evaluated as real Ruby — including those inside fenced code blocks.
+**Deployment:** Both the docs site (kisoui.com) and Lookbook
+(lookbook.kisoui.com) deploy via **Kamal** using `bin/deploy`. There
+are no GitHub Actions for deployment — it is always a manual step run
+after `bin/release`. See `config/deploy.docs.yml` and
+`config/deploy.yml` for the Kamal configs.
+
+```bash
+bin/deploy                    # Deploy both docs + Lookbook
+bin/deploy --only docs        # Deploy docs only
+bin/deploy --only lookbook    # Deploy Lookbook only
+```
+
+**ERB escaping:** Bridgetown processes **all `.md` files as ERB
+templates**. Every `<%` tag in a markdown file is evaluated as real
+Ruby — including those inside fenced code blocks.
 
 **All ERB tags in code examples must be escaped by doubling the `%`:**
 
