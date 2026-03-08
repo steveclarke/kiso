@@ -5,5 +5,5 @@
     data: kiso_prepare_options(component_options, slot: "pagination-ellipsis"),
     **component_options do %>
   <%= kiso_component_icon(:ellipsis, size: :sm) %>
-  <%= content_tag :span, "More pages", class: "sr-only" %>
+  <%= content_tag :span, t("kiso.pagination.more_pages"), class: "sr-only" %>
 <% end %>

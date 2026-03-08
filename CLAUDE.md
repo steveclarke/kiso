@@ -181,6 +181,13 @@ Consistency is more important than any individual improvement.
   Add as `dependencies` in `package.json` (so bundler apps get it
   automatically via `npm install kiso-ui`) and as `devDependencies` for
   local development/testing.
+- **i18n for all user-visible text** — every hardcoded string (ARIA labels,
+  visible text, screen-reader text, placeholders) must use
+  `t("kiso.component_name.key")` with a default English translation in
+  `config/locales/en.yml`. Host apps override via standard Rails locale
+  files. Components with configurable label parameters use
+  `label ||= t("kiso.component_name.key")` so per-instance overrides
+  still work.
 - **JSDoc on all JavaScript** — every Stimulus controller, method, property,
   and event must have JSDoc comments. Class-level: `@example` with HTML usage,
   `@property` for targets/values, `@fires` for dispatched events. Methods:
@@ -328,6 +335,7 @@ Kiso-specific checks on top of the universal finalize skill.
 - [ ] Entry in `skills/kiso/references/components.md`
 - [ ] JSDoc on all JS controllers (`@example`, `@property`, `@fires`, `@param`)
 - [ ] `frozen_string_literal` consistency with existing files
+- [ ] All user-visible text and ARIA labels use `t("kiso.component_name.key")` with entries in `config/locales/en.yml`
 - [ ] Entry in `test/e2e/dark-mode.spec.js` `COMPONENTS` array (dark mode a11y)
 
 **Per PR:**

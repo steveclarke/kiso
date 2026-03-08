@@ -6,5 +6,5 @@
       action: "kiso--dialog#close"),
     **component_options do %>
   <%= content || kiso_component_icon(:x) %>
-  <span class="sr-only">Close</span>
+  <span class="sr-only"><%= t("kiso.dialog.close") %></span>
 <% end %>
