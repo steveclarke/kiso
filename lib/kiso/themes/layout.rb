@@ -5,10 +5,19 @@ module Kiso
     #
     # @example
     #   App.render
+    #   App.render(center: true)
     #
-    # No variants — purely structural.
+    # Variants:
+    # - +center+ — centers content vertically and horizontally (e.g., login pages)
     App = ClassVariants.build(
-      base: "bg-background text-foreground antialiased"
+      base: "bg-background text-foreground antialiased",
+      variants: {
+        center: {
+          true => "min-h-screen flex items-center justify-center",
+          false => ""
+        }
+      },
+      defaults: {center: false}
     )
 
     # Content containment with consistent max-width and padding.
