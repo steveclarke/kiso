@@ -16,6 +16,11 @@ All colored components use **identical compound variant formulas** — see `proj
 
 | Component | Key locals | Reference |
 |---|---|---|
+| `app` | No variants. Root wrapper with `bg-background text-foreground antialiased` | [app.md](components/app.md) |
+| `container` | `size` (narrow/default/wide/full). Centered content with responsive padding | [container.md](components/container.md) |
+| `header` | No variants. Semantic `<header>` with sticky positioning and backdrop blur | [header.md](components/header.md) |
+| `footer` | No variants. Semantic `<footer>` element | [footer.md](components/footer.md) |
+| `main` | No variants. Semantic `<main>` with `flex-1` to fill remaining space | [main.md](components/main.md) |
 | `aspect_ratio` | `ratio` (number, default 16.0/9). No variants | [aspect_ratio.md](components/aspect_ratio.md) |
 | `card` | `variant` (outline/soft/subtle) | [card.md](components/card.md) |
 | `dashboard_group` | `sidebar_open`, `layout` (`:sidebar` default / `:navbar`). Sub-parts via separate components: `dashboard_navbar`, `dashboard_sidebar`, `dashboard_panel`. Stimulus: `kiso--sidebar` | [dashboard_group.md](components/dashboard_group.md) |
