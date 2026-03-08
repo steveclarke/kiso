@@ -8,6 +8,7 @@ en:
     color_mode_button:
       toggle: "Toggle color mode"
     color_mode_select:
+      theme: "Theme"
       system: "System"
       light: "Light"
       dark: "Dark"
@@ -25,6 +26,7 @@ en:
       close: "Close"
     pagination:
       label: "pagination"
+      more_pages: "More pages"
       next: "Next"
       next_page: "Go to next page"
       previous: "Previous"

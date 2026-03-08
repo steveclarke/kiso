@@ -7,7 +7,7 @@
     **component_options do %>
   <%= kui(:select) do %>
     <%= kui(:select, :trigger, size: size) do %>
-      <%= kui(:select, :value, placeholder: "Theme") %>
+      <%= kui(:select, :value, placeholder: t("kiso.color_mode_select.theme")) %>
     <% end %>
     <%= kui(:select, :content) do %>
       <%= kui(:select, :item, value: "system") do %>
