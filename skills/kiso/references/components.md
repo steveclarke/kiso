@@ -29,6 +29,12 @@ All colored components use **identical compound variant formulas** — see `proj
 | `dashboard_panel` | Main content area | [dashboard_group.md](components/dashboard_group.md) |
 | `dashboard_toolbar` | Page-level toolbar. Sub-parts: left, right | [dashboard_group.md](components/dashboard_group.md) |
 | `empty` | Media sub-part has `variant` (default/icon) | [empty.md](components/empty.md) |
+| `page` | Grid layout with left/right sidebar slots. Sub-parts: left, center, right | [page.md](components/page.md) |
+| `page_header` | Section header with `headline`, `title`, `description` props. Sub-parts: headline, title, description, links. `ui:` slots: wrapper, headline, title, description | [page.md](components/page.md) |
+| `page_body` | Main content wrapper with vertical spacing (`mt-8 pb-24 space-y-12`) | [page.md](components/page.md) |
+| `page_section` | `orientation` (horizontal/vertical). Sub-parts: wrapper, header, headline, title, description, body, links. `ui:` slots: container | [page.md](components/page.md) |
+| `page_grid` | Responsive grid (1/2/3 columns). Wrapper for page cards | [page.md](components/page.md) |
+| `page_card` | `variant` (outline/soft/subtle/ghost), `icon`, `title`, `description`. Sub-parts: icon, title, description, header, body, footer. `ui:` slots: container, wrapper, icon, title, description | [page.md](components/page.md) |
 | `stats_card` | `variant` (outline/soft/subtle) | [stats_card.md](components/stats_card.md) |
 | `stats_grid` | `columns` (1-4). Responsive grid wrapper for stats cards | [stats_card.md](components/stats_card.md) |
 | `separator` | `orientation` (horizontal/vertical), `decorative` | [separator.md](components/separator.md) |

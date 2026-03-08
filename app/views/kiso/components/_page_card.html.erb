@@ -1,0 +1,40 @@
+<%# locals: (variant: :outline, icon: nil, title: nil, description: nil, ui: {}, css_classes: "", **component_options) %>
+<%= content_tag :div,
+    class: Kiso::Themes::PageCard.render(variant: variant, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "page-card"),
+    **component_options do %>
+  <%= content_tag :div,
+      class: Kiso::Themes::PageCardContainer.render(class: ui[:container]),
+      data: { slot: "page-card-container" } do %>
+    <%= content_tag :div,
+        class: Kiso::Themes::PageCardWrapper.render(class: ui[:wrapper]),
+        data: { slot: "page-card-wrapper" } do %>
+      <% content = capture { yield }.presence %>
+      <% if content %>
+        <%= content %>
+      <% else %>
+        <% if icon %>
+          <%= content_tag :div,
+              class: Kiso::Themes::PageCardIcon.render(class: ui[:icon]),
+              data: { slot: "page-card-icon" } do %>
+            <%= kiso_icon(icon) %>
+          <% end %>
+        <% end %>
+        <% if title %>
+          <%= content_tag :p,
+              class: Kiso::Themes::PageCardTitle.render(class: ui[:title]),
+              data: { slot: "page-card-title" } do %>
+            <%= title %>
+          <% end %>
+        <% end %>
+        <% if description %>
+          <%= content_tag :p,
+              class: Kiso::Themes::PageCardDescription.render(class: ui[:description]),
+              data: { slot: "page-card-description" } do %>
+            <%= description %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
