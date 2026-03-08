@@ -94,6 +94,15 @@ module Kiso
       # CommandDialog content: rounded-lg → rounded-none
       command_dialog_content: {base: "rounded-none"},
 
+      # DashboardNavbarToggle: rounded-md → rounded-none
+      dashboard_navbar_toggle: {base: "rounded-none"},
+
+      # DashboardSidebarCollapse: rounded-md → rounded-none
+      dashboard_sidebar_collapse: {base: "rounded-none"},
+
+      # DashboardSidebarToggle: rounded-md → rounded-none
+      dashboard_sidebar_toggle: {base: "rounded-none"},
+
       # Popover: rounded-md → rounded-none
       popover_content: {base: "rounded-none"},
 
@@ -114,8 +123,10 @@ module Kiso
 
       # Avatar: rounded-full → rounded-none
       avatar: {base: "rounded-none"},
-      avatar_image: {base: "rounded-none"},
+      avatar_badge: {base: "rounded-none"},
       avatar_fallback: {base: "rounded-none"},
+      avatar_group_count: {base: "rounded-none"},
+      avatar_image: {base: "rounded-none"},
 
       # Switch track: rounded-full → rounded-none
       switch_track: {base: "rounded-none"},
