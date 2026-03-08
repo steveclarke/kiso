@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - i18n support: all component strings use `t()` with `config/locales/en.yml`
 - `bin/smoke-test` script for automated feature verification
 
+See [detailed release notes](docs/src/releases/batch-merge.md) for upgrade guide and examples.
+
 ## [0.3.0.pre] - 2026-03-03
 
 ### Added
