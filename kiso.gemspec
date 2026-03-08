@@ -23,6 +23,16 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md", "CHANGELOG.md"]
   end
 
+  spec.post_install_message = <<~MSG
+    Kiso installed successfully!
+
+    To get AI-assisted Kiso development with Claude Code, install the skill:
+
+      npx skills add steveclarke/kiso/skills/kiso
+
+    Learn more: https://kisoui.com/getting-started
+  MSG
+
   spec.add_dependency "rails", ">= 8.0"
   spec.add_dependency "class_variants", "~> 1.1"
   spec.add_dependency "tailwind_merge", "~> 1.0"
