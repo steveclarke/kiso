@@ -28,6 +28,8 @@ docs:
         href: /guide/icons
       - title: Dark Mode & Theming
         href: /guide/dark-mode
+      - title: Theming
+        href: /guide/theming
 
   - heading: Components
     items:
