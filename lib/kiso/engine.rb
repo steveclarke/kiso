@@ -10,6 +10,10 @@ module Kiso
   class Engine < ::Rails::Engine
     isolate_namespace Kiso
 
+    rake_tasks do
+      load Kiso::Engine.root.join("lib/tasks/kiso.rake")
+    end
+
     # Loads Kiso's locale files so host apps can override translations.
     initializer "kiso.i18n" do
       config.i18n.load_path += Dir[root.join("config/locales/**/*.yml")]

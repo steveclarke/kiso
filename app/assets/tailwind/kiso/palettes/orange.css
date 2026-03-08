@@ -3,7 +3,7 @@
    Based on shadcn/ui's Orange theme with OKLCH color values.
 
    Usage:
-     1. Import in your CSS: @import "kiso/palettes/orange.css";
+     1. Import in your CSS: @import "../builds/tailwind/kiso/palettes/orange.css";
      2. Add to your HTML: <html data-palette="orange"> or <body data-palette="orange">
 */
 

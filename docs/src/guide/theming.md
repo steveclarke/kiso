@@ -102,7 +102,7 @@ OKLCH values. They change the entire color scheme without touching Ruby.
 ```css
 @import "tailwindcss";
 @import "../builds/tailwind/kiso";
-@import "kiso/palettes/blue.css";
+@import "../builds/tailwind/kiso/palettes/blue.css";
 ```
 
 2. Add the `data-palette` attribute to your root element:
@@ -173,7 +173,7 @@ end
 /* app/assets/stylesheets/application.tailwind.css */
 @import "tailwindcss";
 @import "../builds/tailwind/kiso";
-@import "kiso/palettes/violet.css";
+@import "../builds/tailwind/kiso/palettes/violet.css";
 ```
 
 ```erb

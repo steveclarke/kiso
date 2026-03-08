@@ -3,7 +3,7 @@
    Based on shadcn/ui's Violet theme with OKLCH color values.
 
    Usage:
-     1. Import in your CSS: @import "kiso/palettes/violet.css";
+     1. Import in your CSS: @import "../builds/tailwind/kiso/palettes/violet.css";
      2. Add to your HTML: <html data-palette="violet"> or <body data-palette="violet">
 */
 

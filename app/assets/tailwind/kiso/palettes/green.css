@@ -3,7 +3,7 @@
    Based on shadcn/ui's Green theme with OKLCH color values.
 
    Usage:
-     1. Import in your CSS: @import "kiso/palettes/green.css";
+     1. Import in your CSS: @import "../builds/tailwind/kiso/palettes/green.css";
      2. Add to your HTML: <html data-palette="green"> or <body data-palette="green">
 */
 

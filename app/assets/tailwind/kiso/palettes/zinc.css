@@ -3,7 +3,7 @@
    Based on shadcn/ui's Zinc theme with OKLCH color values.
 
    Usage:
-     1. Import in your CSS: @import "kiso/palettes/zinc.css";
+     1. Import in your CSS: @import "../builds/tailwind/kiso/palettes/zinc.css";
      2. Add to your HTML: <html data-palette="zinc"> or <body data-palette="zinc">
 */
 
