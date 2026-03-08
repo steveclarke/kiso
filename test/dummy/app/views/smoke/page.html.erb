@@ -17,11 +17,12 @@
               description: "Testing PageHeader, PageBody, PageSection, PageGrid, and PageCard together.") %>
 
       <%= kui(:page_body) do %>
-        <%= kui(:page_section,
-                headline: "Features",
-                title: "What Kiso Offers",
-                description: "A grid of cards demonstrating the PageGrid and PageCard components.",
-                orientation: :vertical) do %>
+        <%= kui(:page_section, orientation: :vertical) do %>
+          <%= kui(:page_section, :header, orientation: :vertical) do %>
+            <%= kui(:page_section, :headline, orientation: :vertical) { "Features" } %>
+            <%= kui(:page_section, :title, orientation: :vertical) { "What Kiso Offers" } %>
+            <%= kui(:page_section, :description, orientation: :vertical) { "A grid of cards demonstrating the PageGrid and PageCard components." } %>
+          <% end %>
           <%= kui(:page_section, :body, orientation: :vertical) do %>
             <%= kui(:page_grid) do %>
               <%= kui(:page_card,
@@ -50,11 +51,12 @@
 
         <%= kui(:separator, css_classes: "my-8") %>
 
-        <%= kui(:page_section,
-                headline: "Horizontal Layout",
-                title: "Side by Side",
-                description: "PageSection with horizontal orientation puts the header beside the body.",
-                orientation: :horizontal) do %>
+        <%= kui(:page_section, orientation: :horizontal) do %>
+          <%= kui(:page_section, :header, orientation: :horizontal) do %>
+            <%= kui(:page_section, :headline, orientation: :horizontal) { "Horizontal Layout" } %>
+            <%= kui(:page_section, :title, orientation: :horizontal) { "Side by Side" } %>
+            <%= kui(:page_section, :description, orientation: :horizontal) { "PageSection with horizontal orientation puts the header beside the body." } %>
+          <% end %>
           <%= kui(:page_section, :body, orientation: :horizontal) do %>
             <p class="text-muted-foreground">This content sits to the right of the section header on large screens.</p>
           <% end %>
