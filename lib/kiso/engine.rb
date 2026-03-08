@@ -146,6 +146,12 @@ module Kiso
       themes_root = app.root.join("app/themes")
       next unless themes_root.directory?
 
+      # Tell Zeitwerk to ignore app/themes/ — we manage loading ourselves.
+      # Rails auto-discovers app/* subdirectories and adds them to Zeitwerk,
+      # which would expect Default::StatusBadge (matching the directory name)
+      # instead of AppThemes::StatusBadge.
+      Rails.autoloaders.main.ignore(themes_root.to_s)
+
       active_path = Kiso.config.app_theme_path(app.root)
 
       unless active_path.directory?
