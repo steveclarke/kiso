@@ -122,3 +122,37 @@ bin/release <gem-version> --npm <npm-version>
 ```
 
 Both version bumps go into a single commit with both tags.
+
+---
+
+## Post-release: Deploy docs and Lookbook
+
+After every release, deploy both the docs site and Lookbook to production.
+This is **not optional** — users need docs that match the released gem version.
+
+**IMPORTANT:** Use `-y` flag — Claude Code cannot open a TTY for interactive
+confirmation. Same applies to `bin/release`.
+
+```bash
+bin/deploy -y
+```
+
+This deploys both services via Kamal:
+- **kisoui.com** — docs site (Bridgetown)
+- **lookbook.kisoui.com** — Lookbook component previews
+
+There are **no GitHub Actions for deployment**. Deployment is always a manual
+step run via `bin/deploy` after `bin/release`. The deploy script pulls secrets
+from 1Password (prompts for biometric) and pushes to the production server.
+
+If you need to deploy only one service:
+
+```bash
+bin/deploy -y --only docs
+bin/deploy -y --only lookbook
+```
+
+### Post-deploy verification
+
+After deploy completes, verify the sites are live by checking key pages that
+changed in this release. Use browser tools or `curl` to confirm.
