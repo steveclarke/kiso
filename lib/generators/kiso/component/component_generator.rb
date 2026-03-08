@@ -73,8 +73,9 @@ module Kiso
         say "  2. Add entry to skills/kiso/references/components.md"
         say "  3. Add entry to docs/src/_data/navigation.yml (alphabetical)"
         say "  4. Add to COMPONENTS array in test/e2e/dark-mode.spec.js"
+        say "  5. Set @logical_path in the Lookbook preview if grouping is needed (e.g., @logical_path kiso/form)"
         if options[:stimulus]
-          say "  5. Register controller in app/javascript/controllers/kiso/index.js"
+          say "  6. Register controller in app/javascript/controllers/kiso/index.js"
         end
         say ""
         say "Files created:", :cyan

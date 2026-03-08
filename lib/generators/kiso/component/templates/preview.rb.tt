@@ -1,4 +1,5 @@
 module Kiso
+  # @logical_path kiso
   # @label <%= human_name %>
   class <%= class_name %>Preview < Lookbook::Preview
     # @label Playground
