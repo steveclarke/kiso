@@ -54,14 +54,14 @@ props:
 ```erb
 <%% # app/views/members/_member_badge.html.erb %>
 <%% # locals: (member:, size: :md, css_classes: "", **rest) %>
-<%
+<%%
   color = case member.role
           when "admin"  then :warning
           when "owner"  then :error
           when "member" then :primary
           else :neutral
           end
-%>
+%%>
 <%%= kui(:badge, color: color, variant: :soft, size: size, css_classes: css_classes, **rest) do %>
   <%%= member.role.titleize %>
 <%% end %>
