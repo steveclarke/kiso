@@ -11,13 +11,13 @@
     <% end %>
     <%= kui(:select, :content) do %>
       <%= kui(:select, :item, value: "system") do %>
-        <span class="inline-flex items-center gap-2"><%= kiso_component_icon(:monitor, class: "size-4 opacity-60") %> System</span>
+        <span class="inline-flex items-center gap-2"><%= kiso_component_icon(:monitor, class: "size-4 opacity-60") %> <%= t("kiso.color_mode_select.system") %></span>
       <% end %>
       <%= kui(:select, :item, value: "light") do %>
-        <span class="inline-flex items-center gap-2"><%= kiso_component_icon(:sun, class: "size-4 opacity-60") %> Light</span>
+        <span class="inline-flex items-center gap-2"><%= kiso_component_icon(:sun, class: "size-4 opacity-60") %> <%= t("kiso.color_mode_select.light") %></span>
       <% end %>
       <%= kui(:select, :item, value: "dark") do %>
-        <span class="inline-flex items-center gap-2"><%= kiso_component_icon(:moon, class: "size-4 opacity-60") %> Dark</span>
+        <span class="inline-flex items-center gap-2"><%= kiso_component_icon(:moon, class: "size-4 opacity-60") %> <%= t("kiso.color_mode_select.dark") %></span>
       <% end %>
     <% end %>
   <% end %>

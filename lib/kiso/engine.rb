@@ -10,6 +10,11 @@ module Kiso
   class Engine < ::Rails::Engine
     isolate_namespace Kiso
 
+    # Loads Kiso's locale files so host apps can override translations.
+    initializer "kiso.i18n" do
+      config.i18n.load_path += Dir[root.join("config/locales/**/*.yml")]
+    end
+
     # Configures ClassVariants to use TailwindMerge for class deduplication.
     # This ensures conflicting Tailwind utilities are resolved correctly
     # when merging base, variant, and override classes.
