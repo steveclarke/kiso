@@ -26,8 +26,10 @@ docs:
         href: /guide/interactivity
       - title: Icons
         href: /guide/icons
-      - title: Dark Mode & Theming
+      - title: Dark Mode
         href: /guide/dark-mode
+      - title: Theming
+        href: /guide/theming
 
   - heading: Components
     items:
