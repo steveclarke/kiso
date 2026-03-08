@@ -214,7 +214,7 @@ same `ui:` / `css_classes:` override system -- for components you own.
 **1. Generate a component:**
 
 ```bash
-bin/rails generate kiso:app_component pricing_card --sub-parts header footer
+bin/rails generate kiso:component pricing_card --sub-parts header footer
 ```
 
 This creates:
@@ -289,7 +289,7 @@ end
 ```
 
 ```bash
-bin/rails generate kiso:app_component pricing_card --theme modern
+bin/rails generate kiso:component pricing_card --theme modern
 ```
 
 ---
@@ -401,36 +401,39 @@ Result: pill-shaped components with a violet color scheme.
 Two generators are included -- one for Kiso engine development, one for
 host apps.
 
-### kiso:app_component (for your app)
+### kiso:component (for your app)
 
 ```bash
 # Basic component
-bin/rails generate kiso:app_component status_badge
+bin/rails generate kiso:component status_badge
 
 # With sub-parts
-bin/rails generate kiso:app_component pricing_card --sub-parts header footer
+bin/rails generate kiso:component pricing_card --sub-parts header footer
 
 # Target a specific theme directory
-bin/rails generate kiso:app_component pricing_card --theme modern
+bin/rails generate kiso:component pricing_card --theme modern
 ```
 
 Creates theme files in `app/themes/<theme>/` and partials in
 `app/views/components/`. Use with the `appui()` helper.
 
-### kiso:component (for engine development)
+### kiso:framework_component (for engine development)
+
+This generator is for internal Kiso development only and is not included
+in the gem.
 
 ```bash
 # Basic component
-bin/rails generate kiso:component tooltip
+bin/rails generate kiso:framework_component tooltip
 
 # Colored component with compound variants
-bin/rails generate kiso:component notification --colored
+bin/rails generate kiso:framework_component notification --colored
 
 # With sub-parts and Stimulus controller
-bin/rails generate kiso:component accordion --sub-parts item trigger content --stimulus
+bin/rails generate kiso:framework_component accordion --sub-parts item trigger content --stimulus
 
 # Skip docs page
-bin/rails generate kiso:component tooltip --skip-docs
+bin/rails generate kiso:framework_component tooltip --skip-docs
 ```
 
 Creates theme in `lib/kiso/themes/`, partial in

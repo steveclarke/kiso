@@ -1,6 +1,6 @@
-<%%# locals: (<%= colored? ? "color: :primary, variant: :soft, " : "" %>css_classes: ""<%= sub_parts.any? ? ", ui: {}" : "" %>, **component_options) %>
+<%% # locals: (css_classes: "", **component_options) %>
 <%%= content_tag :div,
-    class: Kiso::Themes::<%= class_name %>.render(<%= colored? ? "color: color, variant: variant, " : "" %>class: css_classes),
+    class: AppThemes::<%= has_namespace? ? "#{module_prefix}::" : "" %><%= class_name_without_namespace %>.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "<%= slot_name %>"),
     **component_options do %>
   <%%= yield %>

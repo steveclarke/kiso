@@ -1,6 +1,6 @@
 <%# Smoke test: appui() helper with app components %>
 <%# This page only works after running the generator:
-    cd test/dummy && bin/rails generate kiso:app_component status_badge %>
+    cd test/dummy && bin/rails generate kiso:component status_badge %>
 <%= kui(:app) do %>
   <%= kui(:header) do %>
     <%= kui(:container) do %>
@@ -23,7 +23,7 @@
         <%= kui(:alert, color: :info, variant: :soft) do %>
           <%= kui(:alert, :title) { "Setup required" } %>
           <%= kui(:alert, :description) do %>
-            Run: <code class="font-mono">cd test/dummy && bin/rails generate kiso:app_component status_badge</code>
+            Run: <code class="font-mono">cd test/dummy && bin/rails generate kiso:component status_badge</code>
           <% end %>
         <% end %>
 

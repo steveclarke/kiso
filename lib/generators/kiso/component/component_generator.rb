@@ -2,129 +2,102 @@
 
 module Kiso
   module Generators
-    # Rails generator for scaffolding new Kiso components.
+    # Scaffolds a component with a ClassVariants theme module and ERB partial.
     #
-    # Creates all files needed for a new component: theme module, ERB partial,
-    # Lookbook preview, and docs page. Supports options for colored variants,
-    # sub-parts, and Stimulus controllers.
+    # Theme files are placed in +app/themes/<active_theme>/+ (default:
+    # +app/themes/default/+). The active theme is configured via
+    # +Kiso.config.app_theme+. Components are rendered using the +appui()+
+    # helper.
     #
-    # @example Basic component
-    #   rails generate kiso:component tooltip
+    # @example Basic usage
+    #   bin/rails generate kiso:component pricing_card
     #
-    # @example Colored component with sub-parts
-    #   rails generate kiso:component alert --colored --sub-parts title description close
+    # @example With sub-parts
+    #   bin/rails generate kiso:component pricing_card --sub-parts header footer
     #
-    # @example Component with Stimulus controller
-    #   rails generate kiso:component accordion --stimulus
+    # @example With a custom theme
+    #   bin/rails generate kiso:component pricing_card --theme modern
     class ComponentGenerator < Rails::Generators::NamedBase
       source_root File.expand_path("templates", __dir__)
 
-      class_option :colored, type: :boolean, default: false,
-        desc: "Include two-axis color x variant compound variants"
-      class_option :sub_parts, type: :array, default: [],
-        desc: "Generate sub-part partials and theme entries"
-      class_option :stimulus, type: :boolean, default: false,
-        desc: "Generate a Stimulus controller stub"
-      class_option :skip_docs, type: :boolean, default: false,
-        desc: "Skip docs page generation"
+      class_option :sub_parts,
+        type: :array,
+        default: [],
+        desc: "Sub-part names to generate (e.g. --sub-parts header footer)"
 
-      def create_theme_module
-        template "theme.rb.tt", "lib/kiso/themes/#{file_name}.rb"
+      class_option :theme,
+        type: :string,
+        default: nil,
+        desc: "Theme directory name (defaults to Kiso.config.app_theme, usually :default)"
+
+      def create_theme_file
+        template "theme.rb.tt", File.join(theme_dir, component_path_dir, "#{file_name}.rb")
       end
 
-      def create_erb_partial
-        template "partial.html.erb.tt", "app/views/kiso/components/_#{file_name}.html.erb"
+      def create_partial_file
+        template "partial.html.erb.tt",
+          File.join("app/views/components", component_path_dir, "_#{file_name}.html.erb")
       end
 
-      def create_sub_part_partials
-        sub_parts.each do |part|
+      def create_sub_part_files
+        options[:sub_parts].each do |part|
           @current_part = part
+          template "sub_part_theme.rb.tt",
+            File.join(theme_dir, component_path_dir, "#{file_name}_#{part}.rb")
           template "sub_part_partial.html.erb.tt",
-            "app/views/kiso/components/#{file_name}/_#{part}.html.erb"
+            File.join("app/views/components", component_path_dir, file_name, "_#{part}.html.erb")
         end
-      end
-
-      def create_lookbook_preview
-        template "preview.rb.tt", "test/components/previews/kiso/#{file_name}_preview.rb"
-      end
-
-      def create_lookbook_preview_template
-        template "preview_template.html.erb.tt",
-          "test/components/previews/kiso/#{file_name}_preview/playground.html.erb"
-      end
-
-      def create_stimulus_controller
-        return unless options[:stimulus]
-        template "controller.js.tt",
-          "app/javascript/controllers/kiso/#{file_name}_controller.js"
-      end
-
-      def create_docs_page
-        return if options[:skip_docs]
-        template "docs.md.tt", "docs/src/components/#{file_name}.md"
-      end
-
-      def print_reminders
-        say ""
-        say "Component '#{class_name}' scaffolded!", :green
-        say ""
-        say "Manual steps remaining:", :yellow
-        say "  1. Add `require_relative \"themes/#{file_name}\"` to lib/kiso.rb"
-        say "  2. Add entry to skills/kiso/references/components.md"
-        say "  3. Add entry to docs/src/_data/navigation.yml (alphabetical)"
-        say "  4. Add to COMPONENTS array in test/e2e/dark-mode.spec.js"
-        say "  5. Set @logical_path in the Lookbook preview if grouping is needed (e.g., @logical_path kiso/form)"
-        if options[:stimulus]
-          say "  6. Register controller in app/javascript/controllers/kiso/index.js"
-        end
-        say ""
-        say "Files created:", :cyan
-        say "  Theme:   lib/kiso/themes/#{file_name}.rb"
-        say "  Partial: app/views/kiso/components/_#{file_name}.html.erb"
-        sub_parts.each do |part|
-          say "  Sub-part: app/views/kiso/components/#{file_name}/_#{part}.html.erb"
-        end
-        say "  Preview: test/components/previews/kiso/#{file_name}_preview.rb"
-        say "  Template: test/components/previews/kiso/#{file_name}_preview/playground.html.erb"
-        if options[:stimulus]
-          say "  Controller: app/javascript/controllers/kiso/#{file_name}_controller.js"
-        end
-        unless options[:skip_docs]
-          say "  Docs:    docs/src/components/#{file_name}.md"
-        end
-        say ""
       end
 
       private
 
-      # @return [String] the component name in PascalCase (e.g., "DropdownMenu")
-      def class_name
+      # @return [String] the current sub-part name being generated
+      attr_reader :current_part
+
+      # @return [String] the theme directory path (e.g. "app/themes/default")
+      def theme_dir
+        name = (options[:theme] || Kiso.config.app_theme).to_s
+        File.join("app/themes", name)
+      end
+
+      # @return [String] the component name in PascalCase (e.g. "PricingCard")
+      def class_name_without_namespace
         file_name.camelize
       end
 
-      # @return [String] the component name in kebab-case for data-slot (e.g., "dropdown-menu")
+      # @return [String] the kebab-case data-slot value (e.g. "pricing-card")
       def slot_name
         file_name.dasherize
       end
 
-      # @return [String] the component name as a human-readable title (e.g., "Dropdown Menu")
-      def human_name
-        file_name.titleize
+      # @return [String] the kebab-case data-slot value for a sub-part (e.g. "pricing-card-header")
+      def sub_part_slot_name
+        "#{slot_name}-#{current_part.dasherize}"
       end
 
-      # @return [Array<String>] the list of sub-parts to generate
-      def sub_parts
-        options[:sub_parts]
+      # @return [String] the PascalCase theme constant name for a sub-part (e.g. "PricingCardHeader")
+      def sub_part_class_name
+        "#{class_name_without_namespace}#{current_part.camelize}"
       end
 
-      # @return [Boolean] whether this is a colored component
-      def colored?
-        options[:colored]
+      # @return [Array<String>] namespace segments from the name argument
+      def component_class_path
+        regular_class_path
       end
 
-      # @return [Boolean] whether to generate a Stimulus controller
-      def stimulus?
-        options[:stimulus]
+      # @return [String] namespace directory path (empty string for simple names)
+      def component_path_dir
+        component_class_path.join("/")
+      end
+
+      # @return [String] full module nesting prefix (e.g. "Admin::" for admin/pricing_card)
+      def module_prefix
+        component_class_path.map(&:camelize).join("::")
+      end
+
+      # @return [Boolean] whether the component has a namespace prefix (e.g. admin/pricing_card)
+      def has_namespace?
+        component_class_path.any?
       end
     end
   end

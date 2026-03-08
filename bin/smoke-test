@@ -46,21 +46,21 @@ else
   fail "oxlint issues — run 'npm run lint'"
 fi
 
-header "3. Generator: kiso:component (unit tests)"
-if bundle exec ruby -Itest test/generators/component_generator_test.rb > /dev/null 2>&1; then
-  pass "kiso:component generator tests pass"
+header "3. Generator: kiso:framework_component (unit tests)"
+if bundle exec ruby -Itest test/generators/framework_component_generator_test.rb > /dev/null 2>&1; then
+  pass "kiso:framework_component generator tests pass"
 else
-  fail "kiso:component generator tests failed"
+  fail "kiso:framework_component generator tests failed"
 fi
 
-header "4. Generator: kiso:app_component"
+header "4. Generator: kiso:component"
 # Run in a subshell so cd doesn't affect the rest of the script
 if (
   cd "$DUMMY_DIR"
-  bin/rails generate kiso:app_component test_card --sub-parts header body > /dev/null 2>&1
+  bin/rails generate kiso:component test_card --sub-parts header body > /dev/null 2>&1
 ); then
-  pass "kiso:app_component generator runs"
-  for f in "$DUMMY_DIR/app/themes/test_card.rb" \
+  pass "kiso:component generator runs"
+  for f in "$DUMMY_DIR/app/themes/default/test_card.rb" \
            "$DUMMY_DIR/app/views/components/_test_card.html.erb" \
            "$DUMMY_DIR/app/views/components/test_card/_header.html.erb" \
            "$DUMMY_DIR/app/views/components/test_card/_body.html.erb"; do
@@ -71,10 +71,10 @@ if (
     fi
   done
   # Clean up generated files
-  (cd "$DUMMY_DIR" && bin/rails destroy kiso:app_component test_card --sub-parts header body > /dev/null 2>&1) || true
+  (cd "$DUMMY_DIR" && bin/rails destroy kiso:component test_card --sub-parts header body > /dev/null 2>&1) || true
   rm -rf "$DUMMY_DIR/app/themes" "$DUMMY_DIR/app/views/components"
 else
-  fail "kiso:app_component generator failed"
+  fail "kiso:component generator failed"
 fi
 
 header "5. Preset loading"

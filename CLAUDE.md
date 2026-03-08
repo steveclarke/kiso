@@ -107,7 +107,7 @@ Consistency is more important than any individual improvement.
   components. Themes live in `app/themes/{theme_name}/` (default: `default`),
   partials in `app/views/components/`. Same `css_classes:` and `ui:` override
   system, but no global config layer — you own the source. Generate with
-  `bin/rails generate kiso:app_component name`. See `appui()` helper for
+  `bin/rails generate kiso:component name`. See `appui()` helper for
   full API.
 - **Theme presets** — pre-built style overrides applied at boot via
   `Kiso.configure { |c| c.apply_preset(:rounded) }`. Ship with `:rounded`
@@ -115,10 +115,10 @@ Consistency is more important than any individual improvement.
   in `lib/kiso/presets/` and must be included in the Tailwind `@source`
   directive in `engine.css`.
 - **Component generators** — `bin/rails generate kiso:component name`
-  scaffolds theme, partial, preview, and docs for Kiso engine components.
-  Supports `--colored`, `--sub-parts`, `--stimulus`, `--skip-docs`.
-  `bin/rails generate kiso:app_component name` scaffolds host app
-  components in `app/themes/` and `app/views/components/`.
+  scaffolds theme, partial, and views for host app components in
+  `app/themes/` and `app/views/components/`. Supports `--sub-parts`
+  and `--theme`. `bin/rails generate kiso:framework_component name`
+  scaffolds Kiso engine components (internal, not shipped in gem).
 - **`data-slot` for component identity (shadcn v4 convention)** — every
   component and sub-part gets `data-slot="name"` in kebab-case. Root:
   `data-slot="card"`, sub-parts: `data-slot="card-header"`. Used for CSS
@@ -410,7 +410,7 @@ bin/deploy --only docs        # Deploy docs only (kisoui.com)
 bin/release                   # Tag and release a new gem version
 bin/release --npm 0.1.1       # Release npm package kiso-ui
 bin/release 0.2.0 --npm 0.1.1 # Release both gem and npm
-bin/rails g kiso:component name    # Scaffold a new Kiso engine component
-bin/rails g kiso:app_component name # Scaffold a host app component
+bin/rails g kiso:component name              # Scaffold a host app component
+bin/rails g kiso:framework_component name   # Scaffold a Kiso engine component (internal)
 bin/smoke-test                # Run automated smoke tests for all features
 ```

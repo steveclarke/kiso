@@ -165,7 +165,7 @@ module Kiso
           "\nAvailable themes: #{available.map { |d| ":#{d}" }.join(", ")}"
         else
           "\nNo theme directories found in #{themes_root}. " \
-          "Run: bin/rails generate kiso:app_component your_component"
+          "Run: bin/rails generate kiso:component your_component"
         end
         raise Kiso::Error, msg
       end

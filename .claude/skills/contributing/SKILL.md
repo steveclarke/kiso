@@ -22,7 +22,7 @@ Guidelines for contributing to the Kiso component library.
 
 ## Getting started with a new component
 
-Use `bin/rails generate kiso:component name` to scaffold the initial files,
+Use `bin/rails generate kiso:framework_component name` to scaffold the initial files,
 then fill in the theme and partial.
 
 ## Project structure
