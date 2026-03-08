@@ -1,0 +1,28 @@
+Description:
+  Scaffolds a host app component with a ClassVariants theme module and ERB partial.
+  Components are rendered using the appui() helper.
+
+Examples:
+  bin/rails generate kiso:app_component pricing_card
+
+    Creates:
+      app/themes/pricing_card.rb
+      app/views/components/_pricing_card.html.erb
+
+  bin/rails generate kiso:app_component pricing_card --sub-parts header footer
+
+    Creates:
+      app/themes/pricing_card.rb
+      app/themes/pricing_card_header.rb
+      app/themes/pricing_card_footer.rb
+      app/views/components/_pricing_card.html.erb
+      app/views/components/pricing_card/_header.html.erb
+      app/views/components/pricing_card/_footer.html.erb
+
+Usage:
+  appui(:pricing_card) { "Content" }
+
+  appui(:pricing_card) do
+    appui(:pricing_card, :header) { "Title" }
+    appui(:pricing_card, :footer) { "Actions" }
+  end

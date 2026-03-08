@@ -1,0 +1,7 @@
+<%% # locals: (css_classes: "", **component_options) %>
+<%%= content_tag :div,
+    class: AppThemes::<%= has_namespace? ? "#{module_prefix}::" : "" %><%= sub_part_class_name %>.render(class: css_classes),
+    data: { slot: "<%= sub_part_slot_name %>" },
+    **component_options do %>
+  <%%= yield %>
+<%% end %>

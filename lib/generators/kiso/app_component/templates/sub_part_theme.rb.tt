@@ -1,0 +1,19 @@
+<% if has_namespace? -%>
+<% component_class_path.each_with_index do |segment, i| -%>
+<%= "  " * i %>module AppThemes::<%= segment.camelize %>
+<% end -%>
+<%= "  " * component_class_path.size %><%= sub_part_class_name %> = ClassVariants.build(
+<%= "  " * component_class_path.size %>  base: "",
+<%= "  " * component_class_path.size %>  variants: {},
+<%= "  " * component_class_path.size %>  defaults: {}
+<%= "  " * component_class_path.size %>)
+<% component_class_path.each_with_index do |_, i| -%>
+<%= "  " * (component_class_path.size - 1 - i) %>end
+<% end -%>
+<% else -%>
+AppThemes::<%= sub_part_class_name %> = ClassVariants.build(
+  base: "",
+  variants: {},
+  defaults: {}
+)
+<% end -%>
