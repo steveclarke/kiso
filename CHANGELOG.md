@@ -17,9 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Theme presets: `apply_preset(:rounded)` and `apply_preset(:sharp)`
 - 5 OKLCH color palettes (zinc, blue, green, orange, violet)
 - i18n support: all component strings use `t()` with `config/locales/en.yml`
-- `bin/smoke-test` script for automated feature verification
-
-See [detailed release notes](docs/src/releases/batch-merge.md) for upgrade guide and examples.
+- [Building Your Own Components](/guide/building-components) guide — how to wrap Kiso components with domain logic and build standalone components with `appui()`, themes, and sub-parts
+- [Detailed release notes](/releases/batch-merge) with upgrade guide and examples for all new features
 
 ## [0.3.0.pre] - 2026-03-03
 
