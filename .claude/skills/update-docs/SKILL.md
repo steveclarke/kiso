@@ -1,6 +1,6 @@
 ---
 name: update-docs
-description: Audit all documentation for staleness after code changes. Checks docs site, CLAUDE.md, skills references, contributing skill, agents, CHANGELOG, and project/ files. Use after completing a feature, merging a PR, or when asked to check docs.
+description: Audit all documentation for staleness after code changes. Checks docs site, CLAUDE.md, skills references, contributing skill, agents, and project/ files. Use after completing a feature, merging a PR, or when asked to check docs.
 ---
 
 # Update Docs
@@ -67,7 +67,6 @@ given the changes. Report a checklist of what needs updating.
 | Check | File(s) |
 |-------|---------|
 | README install/usage still accurate | `README.md` |
-| CHANGELOG has entry | `CHANGELOG.md` |
 
 ### Contributors — `project/`
 
@@ -125,8 +124,6 @@ For each STALE or MISSING item, update the file. Follow these rules:
   `docs/src/components/card.md`.
 - **Component references** (`skills/kiso/references/components/`) follow the
   format of existing reference files — concise API summary, not full docs.
-- **CHANGELOG** entries are user-facing prose, grouped under Added/Changed/
-  Fixed/Removed.
 - **PLAN.md** updates are status changes only (mark items done, update
   "What's Next").
 
@@ -134,9 +131,9 @@ For each STALE or MISSING item, update the file. Follow these rules:
 
 | Change type | Always update | Usually update | Check if needed |
 |-------------|--------------|----------------|-----------------|
-| **New component** | docs page, nav, index, skills ref, skills index, PLAN.md | CHANGELOG | component-strategy, design-system |
-| **Component API change** | docs page, skills ref | CHANGELOG | README (if usage example affected) |
+| **New component** | docs page, nav, index, skills ref, skills index, PLAN.md | — | component-strategy, design-system |
+| **Component API change** | docs page, skills ref | — | README (if usage example affected) |
 | **New convention** | CLAUDE.md | project/ doc, contributing skill | builder/reviewer agents |
-| **Infrastructure** | PLAN.md | CONTRIBUTING.md, CHANGELOG | CLAUDE.md (if new commands) |
-| **Bug fix** | CHANGELOG | — | docs page (if workaround documented) |
-| **Dependency change** | CHANGELOG | README, CONTRIBUTING.md | CLAUDE.md |
+| **Infrastructure** | PLAN.md | CONTRIBUTING.md | CLAUDE.md (if new commands) |
+| **Bug fix** | — | — | docs page (if workaround documented) |
+| **Dependency change** | — | README, CONTRIBUTING.md | CLAUDE.md |
