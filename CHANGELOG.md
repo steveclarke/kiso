@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `scope:` prop for sharing domain locals from parent components to sub-parts — `appui(:room_card, scope: { room: room })` makes `room:` available to all sub-parts automatically without repeating it on every call. Explicit kwargs on sub-part calls override scope values. One level deep only (parent to its own sub-parts).
+
 ## [0.4.1.pre] - 2026-03-08
 
 ### Added
