@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `center:` variant on App layout component — `kui(:app, center: true)` applies full-viewport centering for login pages and similar single-focus layouts
+- `kui_tag` / `appui_tag` helpers — collapse the common `content_tag` + `kiso_prepare_options` + theme rendering boilerplate into a single call; component generator templates now use `appui_tag` by default
+- Shade scale auto-wiring — host apps defining `--color-primary-50` through `--color-primary-950` in their Tailwind `@theme` block now automatically feed into Kiso's semantic color tokens (shade 500 for light mode, 400 for dark mode, matching Nuxt UI conventions)
+
+### Fixed
+
+- Palette CSS files are now importable in host apps — a `kiso:palettes` rake task generates CSS stubs so `@import "../builds/tailwind/kiso/palettes/blue.css"` resolves correctly
+
 ## [0.4.0.pre] - 2026-03-08
 
 ### Added
