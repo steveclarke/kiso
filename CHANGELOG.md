@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2.pre] - 2026-03-08
+
 ### Added
 
 - `scope:` prop for sharing domain locals from parent components to sub-parts — `appui(:room_card, scope: { room: room })` makes `room:` available to all sub-parts automatically without repeating it on every call. Explicit kwargs on sub-part calls override scope values. One level deep only (parent to its own sub-parts).
@@ -116,7 +118,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lookbook component previews
 - Bridgetown documentation site
 
-[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.4.1.pre...HEAD
+[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.4.2.pre...HEAD
+[0.4.2.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.4.2.pre
 [0.4.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.4.1.pre
 [0.4.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.4.0.pre
 [0.3.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.3.0.pre
