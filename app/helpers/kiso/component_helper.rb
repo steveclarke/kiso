@@ -16,6 +16,9 @@ module Kiso
     #   inherit overrides automatically. For self-rendering components, the hash is
     #   also passed as a local so the partial can apply overrides to internally
     #   rendered elements.
+    # @param scope [Hash, nil] domain locals shared from parent to sub-parts via context stack.
+    #   Sub-parts receive scope values as kwargs automatically. Explicit kwargs on sub-part
+    #   calls override scope values. One level deep only — no ancestor resolution.
     # @param kwargs [Hash] locals passed to the partial (e.g. +color:+, +variant:+, +css_classes:+)
     # @yield optional block for component content
     # @return [ActiveSupport::SafeBuffer] rendered HTML
@@ -35,11 +38,11 @@ module Kiso
     #
     # @example Render a collection
     #   kui(:badge, collection: @tags)
-    def kui(component, part = nil, collection: nil, ui: nil, **kwargs, &block)
+    def kui(component, part = nil, collection: nil, ui: nil, scope: nil, **kwargs, &block)
       kiso_render_component(
         component, part,
         path_prefix: "kiso/components",
-        collection: collection, ui: ui, merge_global_ui: true,
+        collection: collection, ui: ui, scope: scope, merge_global_ui: true,
         **kwargs, &block
       )
     end
@@ -109,11 +112,12 @@ module Kiso
     # @param path_prefix [String] partial path prefix (e.g. "kiso/components" or "components")
     # @param collection [Array, nil] renders the partial once per item when present
     # @param ui [Hash, nil] per-slot class overrides
+    # @param scope [Hash, nil] domain locals shared from parent to sub-parts
     # @param merge_global_ui [Boolean] whether to merge global config ui layer
     # @param kwargs [Hash] locals passed to the partial
     # @param block [Proc] optional block for component content
     # @return [ActiveSupport::SafeBuffer] rendered HTML
-    def kiso_render_component(component, part, path_prefix:, collection:, ui:, merge_global_ui: true, **kwargs, &block)
+    def kiso_render_component(component, part, path_prefix:, collection:, ui:, scope:, merge_global_ui: true, **kwargs, &block)
       path = if part
         "#{path_prefix}/#{component}/#{part}"
       else
@@ -131,6 +135,10 @@ module Kiso
       block ||= proc {}
 
       if part
+        # Sub-part: merge scope from parent context (scope values first, explicit kwargs win)
+        parent_scope = kiso_current_scope(component)
+        kwargs = parent_scope.merge(kwargs) if parent_scope.present?
+
         # Sub-part: merge slot override from parent's ui context
         parent_ui = kiso_current_ui(component)
         if (slot_classes = parent_ui[part].presence)
@@ -154,9 +162,11 @@ module Kiso
           ui || {}
         end
         has_ui = merged_ui.present?
+        has_scope = scope.present?
 
         # Push context for composed sub-parts to read (skip when empty)
         kiso_push_ui_context(component, merged_ui) if has_ui
+        kiso_push_scope(component, scope) if has_scope
         begin
           locals = has_ui ? kwargs.merge(ui: merged_ui) : kwargs
 
@@ -167,6 +177,7 @@ module Kiso
           end
         ensure
           kiso_pop_ui_context(component) if has_ui
+          kiso_pop_scope(component) if has_scope
         end
       end
     end

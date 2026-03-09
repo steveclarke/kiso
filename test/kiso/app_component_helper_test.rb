@@ -63,6 +63,12 @@ class Kiso::AppComponentHelperTest < ActionView::TestCase
     kiso_pop_ui_context(:card)
   end
 
+  test "appui accepts scope: parameter" do
+    method = method(:appui)
+    params = method.parameters.map(&:last)
+    assert_includes params, :scope
+  end
+
   test "appui_tag is available as a helper" do
     assert_respond_to self, :appui_tag
   end

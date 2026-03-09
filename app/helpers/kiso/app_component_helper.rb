@@ -22,6 +22,9 @@ module Kiso
     #   inherit overrides automatically. For self-rendering components, the hash is
     #   also passed as a local so the partial can apply overrides to internally
     #   rendered elements.
+    # @param scope [Hash, nil] domain locals shared from parent to sub-parts via context stack.
+    #   Sub-parts receive scope values as kwargs automatically. Explicit kwargs on sub-part
+    #   calls override scope values. One level deep only — no ancestor resolution.
     # @param kwargs [Hash] locals passed to the partial (e.g. +css_classes:+)
     # @yield optional block for component content
     # @return [ActiveSupport::SafeBuffer] rendered HTML
@@ -39,13 +42,19 @@ module Kiso
     #     appui(:pricing_card, :header) { "Header" }
     #   end
     #
+    # @example Share domain locals with sub-parts
+    #   appui(:room_card, scope: { room: room }) do
+    #     appui(:room_card, :status)
+    #     appui(:room_card, :meta)
+    #   end
+    #
     # @example Render a collection
     #   appui(:pricing_card, collection: @plans)
-    def appui(component, part = nil, collection: nil, ui: nil, **kwargs, &block)
+    def appui(component, part = nil, collection: nil, ui: nil, scope: nil, **kwargs, &block)
       kiso_render_component(
         component, part,
         path_prefix: "components",
-        collection: collection, ui: ui, merge_global_ui: false,
+        collection: collection, ui: ui, scope: scope, merge_global_ui: false,
         **kwargs, &block
       )
     end
