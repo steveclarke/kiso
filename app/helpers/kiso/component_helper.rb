@@ -102,10 +102,17 @@ module Kiso
     #     yield
     #   end
     def kui_tag(tag, theme:, slot:, css_classes: "", variants: {}, **component_options, &block)
-      content_tag(tag,
+      html_options = {
         class: theme.render(**variants, class: css_classes),
         data: kiso_prepare_options(component_options, slot: slot),
-        **component_options, &block)
+        **component_options
+      }
+
+      if block
+        content_tag(tag, html_options, &block)
+      else
+        content_tag(tag, nil, html_options)
+      end
     end
 
     private
