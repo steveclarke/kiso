@@ -36,6 +36,11 @@ module Kiso
     # @example Render an alert with inner element overrides
     #   kui(:alert, icon: "info", ui: { close: "opacity-50" })
     #
+    # @example Share domain locals with sub-parts
+    #   kui(:card, scope: { project: @project }) do
+    #     kui(:card, :header) # sub-part receives project: automatically
+    #   end
+    #
     # @example Render a collection
     #   kui(:badge, collection: @tags)
     def kui(component, part = nil, collection: nil, ui: nil, scope: nil, **kwargs, &block)

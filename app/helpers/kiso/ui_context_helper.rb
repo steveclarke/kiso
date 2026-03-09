@@ -1,17 +1,22 @@
 # frozen_string_literal: true
 
 module Kiso
-  # Manages a request-scoped context stack for per-slot +ui:+ overrides.
+  # Manages request-scoped context stacks for component communication.
   #
-  # This is ERB's equivalent of Vue's provide/inject pattern. When a parent
-  # component is rendered with +ui:+, the hash is pushed onto a stack.
-  # Sub-parts rendered inside the parent's block read their slot override
-  # from the stack automatically.
+  # This is ERB's equivalent of Vue's provide/inject pattern. Two stacks:
+  #
+  # - **ui:** — per-slot CSS class overrides. When a parent component is
+  #   rendered with +ui:+, the hash is pushed onto a stack. Sub-parts read
+  #   their slot override automatically.
+  # - **scope:** — domain locals shared from parent to sub-parts. When a
+  #   parent is rendered with +scope:+, the hash is pushed onto a stack.
+  #   Sub-parts receive scope values as kwargs, with explicit kwargs
+  #   taking priority. One level deep only — no ancestor resolution.
   #
   # Thread-safe because Rails creates a fresh view context (and therefore
   # fresh instance variables) per request.
   #
-  # @example How the stack flows
+  # @example ui: stack flow
   #   # Parent pushes:
   #   kiso_push_ui_context(:card, { header: "p-8", title: "text-xl" })
   #
@@ -20,6 +25,16 @@ module Kiso
   #
   #   # After parent renders:
   #   kiso_pop_ui_context(:card)
+  #
+  # @example scope: stack flow
+  #   # Parent pushes:
+  #   kiso_push_scope(:room_card, { room: room })
+  #
+  #   # Sub-part reads (merged into kwargs before render):
+  #   kiso_current_scope(:room_card)  #=> { room: room }
+  #
+  #   # After parent renders:
+  #   kiso_pop_scope(:room_card)
   #
   # @see ComponentHelper#kui
   module UiContextHelper
