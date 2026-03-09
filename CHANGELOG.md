@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1.pre] - 2026-03-08
+
 ### Added
 
 - `center:` variant on App layout component — `kui(:app, center: true)` applies full-viewport centering for login pages and similar single-focus layouts
@@ -110,7 +112,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lookbook component previews
 - Bridgetown documentation site
 
-[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.4.0.pre...HEAD
+[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.4.1.pre...HEAD
+[0.4.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.4.1.pre
 [0.4.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.4.0.pre
 [0.3.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.3.0.pre
 [0.2.2.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.2.2.pre
