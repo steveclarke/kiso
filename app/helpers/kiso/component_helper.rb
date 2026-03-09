@@ -172,6 +172,10 @@ module Kiso
         # Push context for composed sub-parts to read (skip when empty)
         kiso_push_ui_context(component, merged_ui) if has_ui
         kiso_push_scope(component, scope) if has_scope
+
+        # Merge scope into parent kwargs so the parent partial receives
+        # scope values as strict locals (scope as defaults, explicit kwargs win)
+        kwargs = scope.merge(kwargs) if has_scope
         begin
           locals = has_ui ? kwargs.merge(ui: merged_ui) : kwargs
 
