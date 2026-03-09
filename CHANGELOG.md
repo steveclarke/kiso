@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `scope:` values now merge into the parent partial's kwargs — previously, scope was pushed onto the stack for sub-parts but not merged into the parent's own strict locals, causing `ActionView::StrictLocalsError`
+- `kui_tag` / `appui_tag` now render correctly without a block — self-closing elements (e.g., status dots, icons) were rendering the options hash as text content instead of HTML attributes
+
 ## [0.4.2.pre] - 2026-03-08
 
 ### Added
