@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.3.pre] - 2026-03-08
+
 ### Fixed
 
 - `scope:` values now merge into the parent partial's kwargs — previously, scope was pushed onto the stack for sub-parts but not merged into the parent's own strict locals, causing `ActionView::StrictLocalsError`
@@ -123,7 +125,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lookbook component previews
 - Bridgetown documentation site
 
-[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.4.2.pre...HEAD
+[Unreleased]: https://github.com/steveclarke/kiso/compare/v0.4.3.pre...HEAD
+[0.4.3.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.4.3.pre
 [0.4.2.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.4.2.pre
 [0.4.1.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.4.1.pre
 [0.4.0.pre]: https://github.com/steveclarke/kiso/releases/tag/v0.4.0.pre
