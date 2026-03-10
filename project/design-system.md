@@ -111,6 +111,50 @@ When referencing Nuxt UI source code, use this translation:
 
 ---
 
+## Structural Tokens (CSS Variables)
+
+These CSS custom properties control framework-level layout values. Host apps
+override them in their own `@theme` block — no need to touch component themes.
+
+### Global
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--kiso-radius` | `0.375rem` | Base border radius |
+| `--kiso-container` | `80rem` | Max content width |
+
+### Dashboard
+
+Defined in `app/assets/tailwind/kiso/dashboard.css`. Only present when the
+dashboard layout components are used.
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--sidebar-width` | `16rem` | Sidebar panel width |
+| `--topbar-height` | `3.5rem` | Top navigation bar height |
+| `--sidebar-background` | white / zinc-950 | Sidebar surface color (light/dark) |
+| `--sidebar-foreground` | zinc-900 / zinc-100 | Sidebar text color (light/dark) |
+| `--sidebar-border` | zinc-200 / zinc-800 | Sidebar divider color (light/dark) |
+| `--sidebar-accent` | zinc-100 / zinc-800 | Sidebar hover/active surface (light/dark) |
+| `--sidebar-accent-foreground` | zinc-700 / zinc-300 | Sidebar hover/active text (light/dark) |
+| `--sidebar-duration` | `220ms` | Sidebar open/close animation duration |
+
+### Overriding tokens
+
+```css
+/* In your app's Tailwind CSS file */
+@theme {
+  --kiso-radius: 0.5rem;    /* rounder corners */
+  --kiso-container: 64rem;  /* narrower content */
+  --sidebar-width: 18rem;   /* wider sidebar */
+}
+```
+
+Color tokens (`--color-primary`, `--color-background`, etc.) are documented
+in the Semantic Color Tokens section above.
+
+---
+
 ## Rules
 
 1. **Compound variant formulas are identical across components.** Badge, Alert,
