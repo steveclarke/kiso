@@ -1,5 +1,9 @@
 <%# locals: (min: 0, max: 100, step: 1, value: nil, name: nil, id: nil, disabled: false, size: :md, aria_label: nil, ui: {}, css_classes: "", **component_options) %>
+<%# Range slider with a hidden native <input type="range"> for form submission and an
+    accessible ARIA slider thumb for keyboard/pointer interaction. The Stimulus controller
+    syncs the visual position with the hidden input value. %>
 <% slider_value = value || min %>
+<%# Calculate initial thumb/range position as a percentage for inline styles. %>
 <% percent = ((slider_value.to_f - min) / (max - min) * 100).clamp(0, 100) %>
 <%= content_tag :div,
     class: Kiso::Themes::Slider.render(class: css_classes),

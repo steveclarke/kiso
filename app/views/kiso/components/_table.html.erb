@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Data table wrapped in a horizontally-scrollable container. Composes with table/header,
+    table/body, table/row, table/head, table/cell, table/footer, and table/caption. %>
 <div class="relative w-full overflow-x-auto">
   <%= content_tag :table,
       class: Kiso::Themes::Table.render(class: css_classes),

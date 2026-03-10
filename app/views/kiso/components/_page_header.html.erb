@@ -1,4 +1,6 @@
 <%# locals: (headline: nil, title: nil, description: nil, ui: {}, css_classes: "", **component_options) %>
+<%# Page header with optional headline, title, and description props.
+    Yield a block to fully override the internal structure (e.g., to add action buttons). %>
 <%= content_tag :div,
     class: Kiso::Themes::PageHeader.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "page-header"),
@@ -6,6 +8,7 @@
   <%= content_tag :div,
       class: Kiso::Themes::PageHeaderWrapper.render(class: ui[:wrapper]),
       data: { slot: "page-header-wrapper" } do %>
+    <%# Block override: yield replaces default headline/title/description layout. %>
     <% content = capture { yield }.presence %>
     <% if content %>
       <%= content %>

@@ -1,4 +1,5 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Native <fieldset> for grouping related form fields. Use with field_set/legend. %>
 <%= content_tag :fieldset,
     class: Kiso::Themes::FieldSet.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "field-set"),

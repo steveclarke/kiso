@@ -1,4 +1,5 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Main content area of the dashboard layout, adjacent to the sidebar. %>
 <%= content_tag :main,
     class: Kiso::Themes::DashboardPanel.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dashboard-panel"),

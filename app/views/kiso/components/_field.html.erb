@@ -1,4 +1,6 @@
 <%# locals: (orientation: :vertical, invalid: false, disabled: false, css_classes: "", **component_options) %>
+<%# Form field wrapper that groups a label, input, description, and error message.
+    Sets data-invalid and data-disabled attributes for CSS-driven state styling. %>
 <%= content_tag :div,
     role: :group,
     class: Kiso::Themes::Field.render(orientation: orientation, class: css_classes),

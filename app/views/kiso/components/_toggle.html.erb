@@ -1,4 +1,6 @@
 <%# locals: (variant: :default, size: :default, pressed: false, css_classes: "", **component_options) %>
+<%# Two-state toggle button with aria-pressed. The Stimulus controller toggles
+    the data-state attribute between "on" and "off" on click. %>
 <% component_options[:type] ||= :button
    component_options[:"aria-pressed"] = pressed %>
 <%= content_tag :button,

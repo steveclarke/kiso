@@ -1,4 +1,5 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Auto-generates id from the parent dialog's @_kiso_alert_dialog_id for aria-describedby linking. %>
 <% component_options[:id] = "#{@_kiso_alert_dialog_id}-description" if @_kiso_alert_dialog_id && !component_options.key?(:id) %>
 <%= content_tag :p,
     class: Kiso::Themes::AlertDialogDescription.render(class: css_classes),

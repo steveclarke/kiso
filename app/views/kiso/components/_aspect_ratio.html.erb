@@ -1,4 +1,5 @@
 <%# locals: (ratio: 16.0/9, css_classes: "", **component_options) %>
+<%# Constrains child content to a fixed aspect ratio via inline style. %>
 <%= content_tag :div,
     style: "aspect-ratio: #{ratio}",
     class: Kiso::Themes::AspectRatio.render(class: css_classes),

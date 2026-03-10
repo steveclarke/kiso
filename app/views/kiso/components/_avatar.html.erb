@@ -1,10 +1,14 @@
 <%# locals: (src: nil, alt: "", text: nil, size: :md, color: nil, contrast_threshold: nil, ui: {}, css_classes: "", **component_options) %>
+<%# User avatar with image, text fallback, and optional status badge. Supports
+    arbitrary background colors via color: with automatic contrast text selection.
+    Yield a block to fully override internal structure, or use props for defaults. %>
 <% text_color = Kiso::ColorUtils.contrast_text_color(color, threshold: contrast_threshold) if color %>
 <%= content_tag :span,
     class: Kiso::Themes::Avatar.render(size: size, class: css_classes),
     style: (color ? "background-color: #{color}; color: #{text_color};" : nil),
     data: kiso_prepare_options(component_options, slot: "avatar", size: size),
     **component_options do %>
+  <%# Block override: if caller yields content, render it instead of the default image+fallback. %>
   <% content = capture { yield }.presence %>
   <% if content %>
     <%= content %>

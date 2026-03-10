@@ -1,4 +1,6 @@
 <%# locals: (variant: :outline, icon: nil, title: nil, description: nil, ui: {}, css_classes: "", **component_options) %>
+<%# Page-level card with optional icon, title, and description props.
+    Yield a block to fully override the internal structure. %>
 <%= content_tag :div,
     class: Kiso::Themes::PageCard.render(variant: variant, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "page-card"),
@@ -9,6 +11,7 @@
     <%= content_tag :div,
         class: Kiso::Themes::PageCardWrapper.render(class: ui[:wrapper]),
         data: { slot: "page-card-wrapper" } do %>
+      <%# Block override: yield replaces default icon/title/description layout. %>
       <% content = capture { yield }.presence %>
       <% if content %>
         <%= content %>

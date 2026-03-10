@@ -1,4 +1,6 @@
 <%# locals: (shortcut: "k", css_classes: "", **component_options) %>
+<%# Command palette wrapped in a native <dialog>. Opens via Cmd/Ctrl+K (configurable
+    via shortcut: prop). Typically contains a command/input and command/list. %>
 <%= content_tag :dialog,
     class: Kiso::Themes::CommandDialog.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "command-dialog",

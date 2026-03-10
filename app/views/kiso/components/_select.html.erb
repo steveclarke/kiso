@@ -1,4 +1,7 @@
 <%# locals: (name: nil, css_classes: "", **component_options) %>
+<%# Custom select with keyboard navigation and Stimulus-driven open/close.
+    Pass name: to include a hidden input for form submission. For a native
+    <select>, use select_native instead. %>
 <%= content_tag :div,
     class: Kiso::Themes::Select.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "select", controller: "kiso--select"),

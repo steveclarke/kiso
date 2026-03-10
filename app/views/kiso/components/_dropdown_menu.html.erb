@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Dropdown menu with keyboard navigation, checkbox/radio items, and nested submenus.
+    Composes with dropdown_menu/trigger, dropdown_menu/content, dropdown_menu/item, etc. %>
 <%= content_tag :div,
     class: Kiso::Themes::DropdownMenu.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dropdown-menu", controller: "kiso--dropdown-menu"),

@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Visual separator between OTP slot groups. Defaults to a minus icon;
+    yield a block to replace with a custom separator. %>
 <%= content_tag :div,
     role: "separator",
     class: Kiso::Themes::InputOtpSeparator.render(class: css_classes),

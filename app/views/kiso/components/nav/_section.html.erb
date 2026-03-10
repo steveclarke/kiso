@@ -1,4 +1,8 @@
 <%# locals: (title: nil, open: true, collapsible: true, ui: {}, css_classes: "", **component_options) %>
+<%# Navigation section with three rendering modes:
+    1. title + collapsible (default): native <details> element with toggle
+    2. title + collapsible: false: static section with non-interactive heading
+    3. No title: plain wrapper for ungrouped nav items %>
 <% if title && collapsible %>
   <%= content_tag :details,
       class: Kiso::Themes::NavSection.render(class: css_classes),

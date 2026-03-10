@@ -1,6 +1,9 @@
 <%# locals: (color: :primary, variant: :solid, size: :md, block: false,
              type: :button, href: nil, method: nil, disabled: false,
              form: {}, css_classes: "", **component_options) %>
+<%# Polymorphic button that renders as <button>, <a>, or button_to depending on props.
+    With href: renders an anchor tag. With href: + method: (non-GET) renders a Rails
+    button_to form for safe non-GET navigation. Without href: renders a plain <button>. %>
 <%
   css = Kiso::Themes::Button.render(
     color: color, variant: variant, size: size, block: block, class: css_classes)

@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Pagination navigation. Composes with pagination/content, pagination/item,
+    pagination/link, pagination/previous, pagination/next, pagination/ellipsis. %>
 <%= content_tag :nav,
     role: "navigation",
     aria: {label: t("kiso.pagination.label")},

@@ -1,4 +1,7 @@
 <%# locals: (name: nil, multiple: false, css_classes: "", **component_options) %>
+<%# Autocomplete combobox with keyboard navigation and optional multi-select.
+    Composes with combobox/input, combobox/content, combobox/item sub-parts.
+    Pass name: to include a hidden input for form submission. %>
 <%= content_tag :div,
     class: Kiso::Themes::Combobox.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "combobox",

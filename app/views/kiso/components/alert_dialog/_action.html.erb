@@ -1,4 +1,5 @@
 <%# locals: (color: :primary, variant: :solid, size: :md, css_classes: "", **component_options) %>
+<%# Confirm action button that closes the dialog. Uses Button theme for styling. %>
 <%= tag.button type: "button",
     class: Kiso::Themes::Button.render(color: color, variant: variant, size: size, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "alert-dialog-action",

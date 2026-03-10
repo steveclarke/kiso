@@ -1,4 +1,6 @@
 <%# locals: (size: :md, css_classes: "", **component_options) %>
+<%# Color mode dropdown with Light/Dark/System options. Composes a Select component
+    and dispatches kiso--select:change events to the kiso--theme controller. %>
 <%= content_tag :div,
     class: Kiso::Themes::ColorModeSelect.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "color-mode-select",

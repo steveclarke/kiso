@@ -1,4 +1,7 @@
 <%# locals: (length: 6, name: nil, id: nil, value: nil, pattern: "\\d", disabled: false, autocomplete: "one-time-code", aria_label: nil, css_classes: "", **component_options) %>
+<%# One-time password input with individual character slots. A hidden real input
+    captures keystrokes while visible slot divs display each character. Compose
+    with input_otp/group and input_otp/slot sub-parts for the visual layout. %>
 <%= content_tag :div,
     class: Kiso::Themes::InputOtp.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "input-otp",

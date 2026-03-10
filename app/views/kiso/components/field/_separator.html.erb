@@ -1,4 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Horizontal divider between form fields. Optionally yield text (e.g., "or") to
+    display centered over the separator line. Sets data-content when text is present
+    so CSS can adjust spacing. %>
 <% captured = capture { yield }.presence %>
 <%= content_tag :div,
     class: Kiso::Themes::FieldSeparator.render(class: css_classes),

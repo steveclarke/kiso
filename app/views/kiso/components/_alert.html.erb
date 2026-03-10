@@ -1,4 +1,6 @@
 <%# locals: (icon: nil, color: :primary, variant: :soft, close: false, ui: {}, css_classes: "", **component_options) %>
+<%# Dismissible alert banner with optional icon. Composes with alert/title, alert/description,
+    and alert/actions sub-parts. The close: prop adds a Stimulus-powered dismiss button. %>
 <%= content_tag :div,
     role: :alert,
     class: Kiso::Themes::Alert.render(color: color, variant: variant, class: css_classes),

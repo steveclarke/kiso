@@ -1,5 +1,9 @@
 <%# locals: (errors: [], css_classes: "", **component_options) %>
+<%# Form field error display. Pass errors: as an array of strings (e.g., from
+    ActiveModel) or yield a block for fully custom error markup. Renders nothing
+    when both errors and block are empty. Multiple errors render as a bulleted list. %>
 <% messages = Array(errors).compact.map(&:to_s).reject(&:blank?).uniq %>
+<%# Block override: custom error content replaces the default message rendering. %>
 <% content = capture { yield }.presence %>
 <% if content || messages.any? %>
   <%= content_tag :div,

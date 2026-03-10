@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Dashboard sidebar <aside> with a fixed id for aria-controls references.
+    The inner wrapper div provides the scrollable content area. %>
 <%= content_tag :aside,
     id: "dashboard-sidebar",
     class: Kiso::Themes::DashboardSidebar.render(class: css_classes),

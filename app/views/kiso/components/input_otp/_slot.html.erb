@@ -1,4 +1,6 @@
 <%# locals: (size: :md, css_classes: "", **component_options) %>
+<%# Individual character display slot for the OTP input. The Stimulus controller
+    populates the slot-char span and shows/hides the blinking caret. %>
 <%= content_tag :div,
     class: Kiso::Themes::InputOtpSlot.render(size: size, class: css_classes),
     aria: { hidden: "true" },

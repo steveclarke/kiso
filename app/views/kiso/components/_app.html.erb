@@ -1,4 +1,6 @@
 <%# locals: (center: false, css_classes: "", **component_options) %>
+<%# Top-level app layout wrapper. Composes with Header, Main, Footer sub-components.
+    Set center: true to constrain content width. %>
 <%= content_tag :div,
     class: Kiso::Themes::App.render(center: center, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "app"),
