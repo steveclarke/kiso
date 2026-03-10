@@ -166,8 +166,25 @@ module Kiso
         raise ArgumentError, "Use css_classes: instead of class: for Kiso components"
       end
 
-      (component_options.delete(:data) || {}).merge(slot: slot, **data_attrs)
+      user_data = component_options.delete(:data) || {}
+      component_data = {slot: slot, **data_attrs}
+
+      # Stimulus data-action and data-controller are space-separated and
+      # additive — concatenate rather than overwrite so both the component's
+      # and user's bindings apply.
+      CONCATENABLE_DATA_KEYS.each do |key|
+        if user_data.key?(key) && component_data.key?(key)
+          component_data[key] = "#{user_data.delete(key)} #{component_data[key]}"
+        end
+      end
+
+      user_data.merge(component_data)
     end
+
+    # Data attribute keys whose values are space-separated lists in Stimulus.
+    # When both the user and the component provide these, values are
+    # concatenated rather than overwritten.
+    CONCATENABLE_DATA_KEYS = %i[action controller].freeze
 
     # Renders a themed HTML element with Kiso conventions.
     #
