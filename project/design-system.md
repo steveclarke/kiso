@@ -357,3 +357,54 @@ values — don't invent new ones. Example for a component needing xs → xl:
 
 This is a reference scale. Not every component needs all 5 sizes — most
 should match shadcn and use a single size or 2–3 variants (sm, default, lg).
+
+---
+
+## For Host Apps
+
+This section is for developers building applications with Kiso — not for
+contributing to Kiso itself. These are the values and patterns your components
+should follow for visual consistency with Kiso's built-in components.
+
+### Use the spatial scales above
+
+When building custom components (via `appui()` or plain ERB), draw from the
+same scales Kiso uses. The tables above are your reference:
+
+- **Heights** — `h-7` through `h-11` for interactive elements
+- **Padding** — `px-2`/`py-1` (compact) through `px-4`/`py-2` (large)
+- **Gaps** — `gap-1` (tight) through `gap-6` (major sections)
+- **Font sizes** — `text-xs` (labels) through `text-lg` (modal titles)
+- **Border radius** — `rounded-md` (interactive), `rounded-lg` (containers), `rounded-xl` (cards)
+- **Icon sizes** — `size-3` (compact) through `size-5` (large)
+
+### Use semantic color tokens
+
+Never use raw Tailwind palette shades (`text-zinc-500`, `bg-blue-600`).
+Use Kiso's semantic tokens: `text-foreground`, `bg-primary`,
+`text-muted-foreground`, `bg-elevated`, etc. These automatically adapt
+to dark mode and theme presets.
+
+### Follow the typography hierarchy
+
+| Context | Title | Description |
+|---------|-------|-------------|
+| Page header | `text-lg font-semibold` | `text-sm text-muted-foreground` |
+| Card | `font-semibold leading-none` | `text-sm text-muted-foreground` |
+| Form field | `text-sm font-medium` (label) | `text-sm text-muted-foreground` |
+
+### Override structural tokens
+
+Customize Kiso's structural CSS variables in your Tailwind CSS:
+
+```css
+@theme {
+  --kiso-radius: 0.5rem;
+  --kiso-container: 64rem;
+}
+```
+
+### Generate a design system
+
+Run `rails generate kiso:design_system` to scaffold a complete design
+system document for your app, pre-populated with Kiso's defaults. See #191.
