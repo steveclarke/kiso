@@ -73,11 +73,18 @@ given the changes. Report a checklist of what needs updating.
 | Check | File(s) |
 |-------|---------|
 | Design system rules current | `project/design-system.md` |
+| Spatial/typography scales match components | `project/design-system.md` |
 | Component strategy current | `project/component-strategy.md` |
 | Testing strategy current | `project/testing-strategy.md` |
 | Build plan updated (if batch work) | `project/plans/*.md` |
 | PLAN.md status current | `PLAN.md` |
 | CONTRIBUTING.md setup still works | `CONTRIBUTING.md` |
+
+**Design system drift detection:** When checking `project/design-system.md`,
+verify that components don't use spacing, typography, or radius values outside
+the documented scales. If a component introduces a new value, either change
+the component to use an existing scale value or update the scale tables to
+include the new value with justification.
 
 ### AI agents — `.claude/`
 
