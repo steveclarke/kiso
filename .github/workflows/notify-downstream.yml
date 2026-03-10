@@ -1,0 +1,82 @@
+name: Notify downstream projects
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for downstream reference
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || '';
+            const labels = issue.labels.map(l => l.name);
+
+            // Only process issues with from:* labels
+            const fromLabel = labels.find(l => l.startsWith('from:'));
+            if (!fromLabel) {
+              core.info('No from: label found, skipping');
+              return;
+            }
+
+            // Parse "Reported from: owner/repo#number"
+            const match = body.match(/Reported from:\s*([^\s#]+)#(\d+)/);
+            if (!match) {
+              core.info('No "Reported from:" reference found in body');
+              return;
+            }
+
+            const [, repo, issueNumber] = match;
+            core.setOutput('repo', repo);
+            core.setOutput('issue_number', issueNumber);
+            core.setOutput('kiso_issue', String(issue.number));
+            core.setOutput('kiso_title', issue.title);
+            core.setOutput('should_notify', 'true');
+
+      - name: Select token for downstream org
+        id: token
+        env:
+          DOWNSTREAM_REPO: ${{ steps.parse.outputs.repo }}
+          PAT_PERSONAL: ${{ secrets.DOWNSTREAM_PAT }}
+          PAT_SEVENVIEW: ${{ secrets.DOWNSTREAM_PAT_SEVENVIEW }}
+        if: steps.parse.outputs.should_notify == 'true'
+        run: |
+          OWNER="${DOWNSTREAM_REPO%%/*}"
+          if [ "$OWNER" = "sevenview" ]; then
+            echo "pat=${PAT_SEVENVIEW}" >> "$GITHUB_OUTPUT"
+          else
+            echo "pat=${PAT_PERSONAL}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Comment on downstream issue
+        if: steps.parse.outputs.should_notify == 'true'
+        uses: actions/github-script@v7
+        env:
+          DOWNSTREAM_REPO: ${{ steps.parse.outputs.repo }}
+          DOWNSTREAM_ISSUE: ${{ steps.parse.outputs.issue_number }}
+          KISO_ISSUE: ${{ steps.parse.outputs.kiso_issue }}
+          KISO_TITLE: ${{ steps.parse.outputs.kiso_title }}
+        with:
+          github-token: ${{ steps.token.outputs.pat }}
+          script: |
+            const [owner, repo] = process.env.DOWNSTREAM_REPO.split('/');
+            const issueNumber = parseInt(process.env.DOWNSTREAM_ISSUE);
+            const kisoIssue = process.env.KISO_ISSUE;
+            const kisoTitle = process.env.KISO_TITLE;
+
+            await github.rest.issues.createComment({
+              owner, repo,
+              issue_number: issueNumber,
+              body: `## Upstream resolved \u{1F389}\n\nKiso issue steveclarke/kiso#${kisoIssue} ("${kisoTitle}") has been closed.\n\nYou can now clean up this workaround or refactor to use the new feature. Run \`bin/upstream\` to see all items ready for cleanup.`
+            });
+
+            await github.rest.issues.addLabels({
+              owner, repo,
+              issue_number: issueNumber,
+              labels: ['upstream-resolved']
+            });
