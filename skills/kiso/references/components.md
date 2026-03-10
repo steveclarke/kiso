@@ -92,6 +92,7 @@ All colored components use **identical compound variant formulas** — see `proj
 | `kbd` | `size` (sm/md/lg). Sub-part: group | [kbd.md](components/kbd.md) |
 | `toggle` | `variant` (default/outline), `size` (sm/default/lg), `pressed` | [toggle.md](components/toggle.md) |
 | `toggle_group` | `type` (single/multiple), `variant`, `size`. Sub-part: item | [toggle_group.md](components/toggle_group.md) |
+| `tooltip` | `text`, `kbds`, `side` (top/right/bottom/left), `align` (center/start/end), `delay`. Sub-parts: trigger, content. Stimulus: `kiso--tooltip` | [tooltip.md](components/tooltip.md) |
 
 ## Compound Variant Reference
 

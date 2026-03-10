@@ -84,6 +84,7 @@ test.describe("Dark mode accessibility", () => {
     },
     { name: "toggle", url: "/preview/kiso/toggle/playground" },
     { name: "toggle-group", url: "/preview/kiso/toggle_group/playground" },
+    { name: "tooltip", url: "/preview/kiso/tooltip/playground" },
   ]
 
   for (const { name, url, exclude } of COMPONENTS) {

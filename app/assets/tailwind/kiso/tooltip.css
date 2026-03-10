@@ -1,0 +1,26 @@
+/* Tooltip entry/exit animations and arrow positioning. */
+
+/* Entry animation — fade + scale from 95% */
+[data-slot="tooltip-content"][data-state="open"] {
+  animation: kiso-tooltip-in 150ms ease-out;
+}
+
+/* Exit animation — fade out + scale to 95% */
+[data-slot="tooltip-content"][data-state="closed"] {
+  animation: kiso-tooltip-out 100ms ease-in forwards;
+}
+
+@keyframes kiso-tooltip-in {
+  from { opacity: 0; transform: scale(0.95); }
+}
+@keyframes kiso-tooltip-out {
+  to { opacity: 0; transform: scale(0.95); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="tooltip-content"][data-state="open"],
+  [data-slot="tooltip-content"][data-state="closed"] {
+    animation: none;
+  }
+}

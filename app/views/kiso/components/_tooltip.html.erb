@@ -1,0 +1,26 @@
+<%# locals: (text: nil, kbds: nil, side: :top, align: :center, delay: 0, ui: {}, css_classes: "", **component_options) %>
+<%= tag.div(
+    class: css_classes.presence,
+    style: "display: inline-flex;",
+    data: kiso_prepare_options(component_options, slot: "tooltip",
+      controller: "kiso--tooltip",
+      kiso__tooltip_side_value: side,
+      kiso__tooltip_align_value: align,
+      kiso__tooltip_delay_value: delay),
+    **component_options) do %>
+  <% if text %>
+    <%= kui(:tooltip, :trigger) { yield } %>
+    <%= kui(:tooltip, :content, css_classes: ui[:content].to_s) do %>
+      <span data-slot="tooltip-text"><%= text %></span>
+      <% if kbds.present? %>
+        <span data-slot="tooltip-kbds" class="hidden lg:inline-flex items-center shrink-0 gap-0.5">
+          <% Array(kbds).each do |kbd| %>
+            <%= kui(:kbd, size: :sm) { kbd } %>
+          <% end %>
+        </span>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= yield %>
+  <% end %>
+<% end %>

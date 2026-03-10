@@ -1,0 +1,14 @@
+<div class="flex flex-wrap items-center justify-center gap-4 py-16">
+  <%= kui(:tooltip, text: "Top", side: :top) do %>
+    <%= kui(:button, variant: :outline) { "Top" } %>
+  <% end %>
+  <%= kui(:tooltip, text: "Right", side: :right) do %>
+    <%= kui(:button, variant: :outline) { "Right" } %>
+  <% end %>
+  <%= kui(:tooltip, text: "Bottom", side: :bottom) do %>
+    <%= kui(:button, variant: :outline) { "Bottom" } %>
+  <% end %>
+  <%= kui(:tooltip, text: "Left", side: :left) do %>
+    <%= kui(:button, variant: :outline) { "Left" } %>
+  <% end %>
+</div>

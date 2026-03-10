@@ -26,6 +26,8 @@ en:
       close: "Close"
     spinner:
       loading: "Loading"
+    tooltip:
+      label: "Tooltip"
     pagination:
       label: "pagination"
       more_pages: "More pages"

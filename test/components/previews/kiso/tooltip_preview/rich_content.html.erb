@@ -1,0 +1,16 @@
+<div class="flex items-center justify-center py-16">
+  <%= kui(:tooltip) do %>
+    <%= kui(:tooltip, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Rich tooltip" } %>
+    <% end %>
+    <%= kui(:tooltip, :content) do %>
+      <div class="flex items-center gap-2">
+        <div class="size-8 rounded-full bg-inverted-foreground/20"></div>
+        <div>
+          <div class="font-medium">Custom content</div>
+          <div class="opacity-75">With rich HTML inside</div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

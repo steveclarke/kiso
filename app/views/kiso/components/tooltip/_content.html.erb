@@ -1,0 +1,14 @@
+<%# locals: (css_classes: "", ui: {}, **component_options) %>
+<%= tag.div(
+    class: Kiso::Themes::TooltipContent.render(class: css_classes),
+    role: "tooltip",
+    popover: "manual",
+    data: kiso_prepare_options(component_options, slot: "tooltip-content",
+      kiso__tooltip_target: "content",
+      action: "mouseenter->kiso--tooltip#contentMouseEnter mouseleave->kiso--tooltip#contentMouseLeave"),
+    **component_options) do %>
+  <%= yield %>
+  <%= tag.div(
+      class: Kiso::Themes::TooltipArrow.render(class: ui[:arrow].to_s),
+      data: { slot: "tooltip-arrow", kiso__tooltip_target: "arrow" }) %>
+<% end %>

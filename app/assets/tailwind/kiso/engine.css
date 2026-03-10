@@ -11,6 +11,7 @@
 @import "./dialog.css";
 @import "./input-otp.css";
 @import "./slider.css";
+@import "./tooltip.css";
 
 /* Scan Kiso's own files so host apps don't need to know the gem's internals.
    Paths are relative to THIS file (app/assets/tailwind/kiso/engine.css).

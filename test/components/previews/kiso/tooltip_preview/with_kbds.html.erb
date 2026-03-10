@@ -1,0 +1,11 @@
+<div class="flex items-center justify-center gap-4 py-16">
+  <%= kui(:tooltip, text: "Bold", kbds: ["⌘", "B"]) do %>
+    <%= kui(:button, variant: :outline, size: :sm) { "Bold" } %>
+  <% end %>
+  <%= kui(:tooltip, text: "Italic", kbds: ["⌘", "I"]) do %>
+    <%= kui(:button, variant: :outline, size: :sm) { "Italic" } %>
+  <% end %>
+  <%= kui(:tooltip, text: "Underline", kbds: ["⌘", "U"]) do %>
+    <%= kui(:button, variant: :outline, size: :sm) { "Underline" } %>
+  <% end %>
+</div>

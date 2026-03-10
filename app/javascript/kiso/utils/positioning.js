@@ -2,12 +2,20 @@
  * Shared positioning utilities for floating components.
  * Wraps Floating UI for smart positioning with flip, shift, and auto-update.
  *
- * Used by select, combobox, popover, and dropdown_menu controllers.
+ * Used by select, combobox, popover, dropdown_menu, and tooltip controllers.
  *
  * @module utils/positioning
  */
 
-import { autoUpdate, computePosition, flip, offset, shift, size } from "@floating-ui/dom"
+import {
+  arrow as arrowMiddleware,
+  autoUpdate,
+  computePosition,
+  flip,
+  offset,
+  shift,
+  size,
+} from "@floating-ui/dom"
 
 /**
  * Starts positioning a floating element relative to a reference element.
@@ -24,6 +32,7 @@ import { autoUpdate, computePosition, flip, offset, shift, size } from "@floatin
  * @param {number} [options.offset=4] - Pixel gap between reference and floating element
  * @param {"absolute"|"fixed"} [options.strategy="absolute"] - CSS positioning strategy
  * @param {boolean} [options.matchWidth=false] - Set floating element minWidth to reference width
+ * @param {HTMLElement|null} [options.arrow=null] - Arrow element to position via Floating UI arrow middleware
  * @returns {Function} Cleanup function — call on close or disconnect to remove listeners
  *
  * @example
@@ -49,6 +58,7 @@ export function startPositioning(reference, floating, options = {}) {
     offset: offsetDistance = 4,
     strategy = "absolute",
     matchWidth = false,
+    arrow: arrowElement = null,
   } = options
 
   const middleware = [offset(offsetDistance), flip(), shift({ padding: 8 })]
@@ -63,12 +73,19 @@ export function startPositioning(reference, floating, options = {}) {
     )
   }
 
+  if (arrowElement) {
+    middleware.push(arrowMiddleware({ element: arrowElement }))
+  }
+
+  /** @type {Record<string, string>} Maps placement side to the opposite side where the arrow attaches */
+  const ARROW_STATIC_SIDE = { top: "bottom", right: "left", bottom: "top", left: "right" }
+
   const update = () => {
     computePosition(reference, floating, {
       placement,
       strategy,
       middleware,
-    }).then(({ x, y, placement: finalPlacement }) => {
+    }).then(({ x, y, placement: finalPlacement, middlewareData }) => {
       Object.assign(floating.style, {
         position: strategy,
         left: `${x}px`,
@@ -78,6 +95,20 @@ export function startPositioning(reference, floating, options = {}) {
       const side = finalPlacement.split("-")[0]
       if (floating.dataset.side !== side) {
         floating.dataset.side = side
+      }
+
+      // Position arrow element if provided
+      if (arrowElement && middlewareData.arrow) {
+        const { x: arrowX, y: arrowY } = middlewareData.arrow
+        const staticSide = ARROW_STATIC_SIDE[side]
+
+        Object.assign(arrowElement.style, {
+          left: arrowX != null ? `${arrowX}px` : "",
+          top: arrowY != null ? `${arrowY}px` : "",
+          right: "",
+          bottom: "",
+          [staticSide]: "-4px",
+        })
       }
     })
   }

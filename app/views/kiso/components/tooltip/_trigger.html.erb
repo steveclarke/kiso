@@ -1,0 +1,9 @@
+<%# locals: (css_classes: "", **component_options) %>
+<%= tag.div(
+    class: css_classes.presence,
+    data: kiso_prepare_options(component_options, slot: "tooltip-trigger",
+      kiso__tooltip_target: "trigger",
+      action: "mouseenter->kiso--tooltip#show mouseleave->kiso--tooltip#hide focusin->kiso--tooltip#show focusout->kiso--tooltip#hide"),
+    **component_options) do %>
+  <%= yield %>
+<% end %>

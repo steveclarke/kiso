@@ -95,6 +95,8 @@ docs:
         href: /components/stats_card
       - title: Table
         href: /components/table
+      - title: Tooltip
+        href: /components/tooltip
       - title: Toggle
         href: /components/toggle
       - title: ToggleGroup
