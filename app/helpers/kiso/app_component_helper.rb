@@ -4,52 +4,91 @@ module Kiso
   # View helpers for rendering host app components.
   #
   # Mirrors {ComponentHelper#kui} but resolves partials from
-  # +app/views/components/+ and themes from +AppThemes::+.
-  # No global config layer — host apps own the source directly.
+  # +app/views/components/+ and themes from the +AppThemes::+ namespace
+  # (loaded from +app/themes/<theme_name>/+).
   #
-  # Included in all views automatically by {Engine}.
+  # == Key difference from +kui()+
+  #
+  # +appui()+ does *not* merge global config overrides (Layer 2). Host apps
+  # own their component source directly, so there is no need for a
+  # boot-time override layer. The three layers for +appui()+ are:
+  #
+  # 1. **Theme default** -- the +ClassVariants+ definition in
+  #    +app/themes/<theme_name>/+.
+  # 2. **Instance +ui:+** -- per-render slot overrides.
+  # 3. **Instance +css_classes:+** -- per-render root-element overrides.
+  #
+  # == Generating host app components
+  #
+  # Use the generator to scaffold theme and partial files:
+  #
+  #   bin/rails generate kiso:component pricing_card --sub-parts header body footer
+  #
+  # This creates files in +app/themes/default/+ and +app/views/components/+.
+  #
+  # Included in all views automatically by {Kiso::Engine}.
+  #
+  # @see ComponentHelper#kui  the equivalent helper for engine-shipped components
+  # @see ComponentHelper#kui_tag  the themed +content_tag+ shorthand (aliased as {#appui_tag})
   module AppComponentHelper
     # Renders a host app component partial.
     #
     # Components live in +app/views/components/+. Sub-parts are nested
-    # in a directory matching the parent component name.
+    # in a directory matching the parent component name (e.g.
+    # +components/pricing_card/_header.html.erb+).
     #
-    # @param component [Symbol] the component name (e.g. +:pricing_card+)
-    # @param part [Symbol, nil] optional sub-part name (e.g. +:header+, +:footer+)
-    # @param collection [Array, nil] renders the partial once per item when present
-    # @param ui [Hash{Symbol => String}, nil] per-slot class overrides keyed by sub-part name.
-    #   For parent components, the hash is pushed onto a context stack so sub-parts
-    #   inherit overrides automatically. For self-rendering components, the hash is
-    #   also passed as a local so the partial can apply overrides to internally
-    #   rendered elements.
-    # @param scope [Hash, nil] domain locals shared from parent to sub-parts via context stack.
-    #   Sub-parts receive scope values as kwargs automatically. Explicit kwargs on sub-part
-    #   calls override scope values. One level deep only — no ancestor resolution.
-    # @param kwargs [Hash] locals passed to the partial (e.g. +css_classes:+)
+    # Behaves identically to {ComponentHelper#kui} except:
+    # - Partials resolve from +app/views/components/+ instead of
+    #   +app/views/kiso/components/+.
+    # - Global config +ui:+ overrides are *not* merged (host apps own the
+    #   source and can edit themes directly).
+    #
+    # @param component [Symbol] the component name (e.g. +:pricing_card+).
+    #   Must match a partial at +app/views/components/_<name>.html.erb+.
+    # @param part [Symbol, nil] optional sub-part name (e.g. +:header+,
+    #   +:footer+). Resolves to
+    #   +app/views/components/<component>/_<part>.html.erb+.
+    # @param collection [Array, nil] when present, renders the partial once
+    #   per item using Rails collection rendering.
+    # @param ui [Hash{Symbol => String}, nil] per-slot class overrides keyed
+    #   by sub-part name. Pushed onto the context stack for composed
+    #   sub-parts, and also passed as a +ui:+ local to self-rendering
+    #   partials.
+    # @param scope [Hash, nil] domain locals shared from parent to sub-parts
+    #   via context stack. Sub-parts receive scope values as kwargs
+    #   automatically. Explicit kwargs on sub-part calls override scope
+    #   values. One level deep only -- no ancestor resolution.
+    # @param kwargs [Hash] locals forwarded to the partial (e.g.
+    #   +css_classes:+, +plan:+, +featured:+). Must match the partial's
+    #   strict locals declaration.
     # @yield optional block for component content
-    # @return [ActiveSupport::SafeBuffer] rendered HTML
+    # @return [ActiveSupport::SafeBuffer] rendered HTML string
     #
     # @example Render a pricing card
-    #   appui(:pricing_card) { "Content" }
+    #   <%= appui(:pricing_card, plan: @plan) { "Content" } %>
     #
-    # @example Render a pricing card with sub-parts
-    #   appui(:pricing_card) do
-    #     appui(:pricing_card, :header) { "Header" }
-    #   end
+    # @example Render a pricing card with composed sub-parts
+    #   <%= appui(:pricing_card) do %>
+    #     <%= appui(:pricing_card, :header) { "Pro Plan" } %>
+    #     <%= appui(:pricing_card, :body) do %>
+    #       <p>Everything you need to get started.</p>
+    #     <% end %>
+    #     <%= appui(:pricing_card, :footer) { "Sign up" } %>
+    #   <% end %>
     #
     # @example Render with per-slot overrides
-    #   appui(:pricing_card, ui: { header: "p-8" }) do
-    #     appui(:pricing_card, :header) { "Header" }
-    #   end
+    #   <%= appui(:pricing_card, ui: { header: "p-8 bg-muted" }) do %>
+    #     <%= appui(:pricing_card, :header) { "Enterprise" } %>
+    #   <% end %>
     #
-    # @example Share domain locals with sub-parts
-    #   appui(:room_card, scope: { room: room }) do
-    #     appui(:room_card, :status)
-    #     appui(:room_card, :meta)
-    #   end
+    # @example Share domain locals with sub-parts via scope
+    #   <%= appui(:room_card, scope: { room: room }) do %>
+    #     <%= appui(:room_card, :status) %>
+    #     <%= appui(:room_card, :meta) %>
+    #   <% end %>
     #
     # @example Render a collection
-    #   appui(:pricing_card, collection: @plans)
+    #   <%= appui(:pricing_card, collection: @plans) %>
     def appui(component, part = nil, collection: nil, ui: nil, scope: nil, **kwargs, &block)
       kiso_render_component(
         component, part,
@@ -61,10 +100,20 @@ module Kiso
 
     # Renders a themed HTML element for host app components.
     #
-    # Identical to {ComponentHelper#kui_tag} — provided as a naming
-    # convenience so host app partials use +appui_tag+ alongside +appui()+.
+    # This is an alias for {ComponentHelper#kui_tag}, provided as a naming
+    # convenience so host app partials use +appui_tag+ alongside +appui()+
+    # for visual consistency.
     #
-    # @see ComponentHelper#kui_tag
+    # @see ComponentHelper#kui_tag  for full parameter documentation
+    #
+    # @example In a host app component partial
+    #   <%# app/views/components/_pricing_card.html.erb %>
+    #   <%= appui_tag :div, theme: AppThemes::Default::PricingCard,
+    #       slot: "pricing-card", css_classes: css_classes,
+    #       variants: { featured: featured },
+    #       **component_options do %>
+    #     <%= yield %>
+    #   <% end %>
     def appui_tag(...)
       kui_tag(...)
     end
