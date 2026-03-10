@@ -32,6 +32,8 @@ docs:
         href: /guide/dark-mode
       - title: Theming
         href: /guide/theming
+      - title: CSS Variables
+        href: /guide/css-variables
 
   - heading: Components
     items:

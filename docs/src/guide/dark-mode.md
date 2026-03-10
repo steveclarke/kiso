@@ -58,7 +58,8 @@ Kiso's compound variants always pair these correctly. When you use
 ## Customizing the palette
 
 Override CSS custom properties in your Tailwind stylesheet to match your
-brand:
+brand. See the [CSS Variables Reference](/guide/css-variables) for every
+available token with light and dark defaults.
 
 ```css
 @import "tailwindcss";

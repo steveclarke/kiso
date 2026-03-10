@@ -110,7 +110,8 @@ See each component's docs page for its available slots.
 
 Kiso's semantic tokens (`bg-primary`, `text-foreground`, etc.) resolve to CSS
 custom properties. Override them in your Tailwind stylesheet to match your
-brand:
+brand. See the [CSS Variables Reference](/guide/css-variables) for the
+complete list of overridable tokens.
 
 ```css
 @import "tailwindcss";
