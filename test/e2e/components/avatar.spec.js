@@ -24,10 +24,10 @@ test.describe("Avatar component", () => {
     })
   })
 
-  test("renders all three sizes", async ({ page }) => {
+  test("renders all four sizes", async ({ page }) => {
     await page.goto(`${BASE}/sizes`)
     const avatars = page.getByTestId("avatar")
-    await expect(avatars).toHaveCount(3)
+    await expect(avatars).toHaveCount(4)
   })
 
   test("renders badge sub-part", async ({ page }) => {
