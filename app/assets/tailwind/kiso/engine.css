@@ -51,11 +51,24 @@
 
 /* === Structural Tokens ===
    Framework-level layout values. Host apps override in their own @theme block:
-     @theme { --kiso-radius: 0.5rem; --kiso-container: 64rem; } */
+     @theme { --kiso-radius: 0.5rem; --kiso-container: 64rem; }
+
+   Radius scale — computed from --kiso-radius using Nuxt UI multipliers.
+   Changing --kiso-radius shifts the entire scale proportionally. At the
+   default 0.25rem, computed values match Tailwind's built-in defaults. */
 
 @theme {
-  --kiso-radius: 0.375rem;
+  --kiso-radius: 0.25rem;
   --kiso-container: 80rem;
+
+  --radius-xs:  calc(var(--kiso-radius) * 0.5);
+  --radius-sm:  var(--kiso-radius);
+  --radius-md:  calc(var(--kiso-radius) * 1.5);
+  --radius-lg:  calc(var(--kiso-radius) * 2);
+  --radius-xl:  calc(var(--kiso-radius) * 3);
+  --radius-2xl: calc(var(--kiso-radius) * 4);
+  --radius-3xl: calc(var(--kiso-radius) * 6);
+  --radius-4xl: calc(var(--kiso-radius) * 8);
 }
 
 /* === Semantic Color Tokens ===
