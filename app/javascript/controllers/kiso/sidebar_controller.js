@@ -50,7 +50,9 @@ export default class extends Controller {
    */
   connect() {
     this._handleNavClick = (event) => {
-      if (event.target.closest('[data-slot="nav-item"] a, [data-slot="nav-item"][href]')) {
+      // Matches both: nav-item that IS a link (current Kiso markup: <a data-slot="nav-item">)
+      // and a link nested inside a nav-item (defensive for host app customization)
+      if (event.target.closest('[data-slot="nav-item"][href], [data-slot="nav-item"] a')) {
         this.closeOnMobile()
       }
     }
