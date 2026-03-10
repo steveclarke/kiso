@@ -1,0 +1,23 @@
+Description:
+  Sets up Kiso in your application. Creates a well-commented initializer
+  with preset, theme, and icon configuration examples.
+
+  Optionally generates a DESIGN_SYSTEM.md with your app's spacing,
+  typography, color, and component conventions.
+
+Examples:
+  bin/rails generate kiso:install
+
+    Creates:
+      config/initializers/kiso.rb
+
+    Optionally creates (interactive prompt):
+      DESIGN_SYSTEM.md
+
+  bin/rails generate kiso:install --no-skip-design-system --app-name="My App"
+
+    Creates both files without interactive prompts.
+
+  bin/rails generate kiso:install --skip-design-system
+
+    Creates only the initializer, skips the design system doc.

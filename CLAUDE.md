@@ -543,6 +543,7 @@ bin/deploy --only docs        # Deploy docs only (kisoui.com)
 bin/release                   # Tag and release a new gem version
 bin/release --npm 0.1.1       # Release npm package kiso-ui
 bin/release 0.2.0 --npm 0.1.1 # Release both gem and npm
+bin/rails g kiso:install                     # Set up Kiso (initializer + optional design system)
 bin/rails g kiso:component name              # Scaffold a host app component
 bin/rails g kiso:framework_component name   # Scaffold a Kiso engine component (internal)
 bin/smoke-test                # Run automated smoke tests for all features

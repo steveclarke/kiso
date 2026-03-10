@@ -1,0 +1,190 @@
+# <%= @app_name %> Design System
+
+Built on [Kiso UI](https://kisoui.com). Reference this document before
+building any UI — it defines the visual conventions that keep
+<%= @app_name %> consistent.
+
+---
+
+## Color Palette
+
+<%= @app_name %> uses Kiso's semantic color tokens. Components reference
+tokens like `bg-primary` and `text-foreground` — never raw palette shades.
+
+| Token | Purpose |
+|-------|---------|
+| `primary` | Brand color, primary actions |
+| `secondary` | Secondary actions |
+| `success` | Positive feedback, confirmations |
+| `info` | Informational messages |
+| `warning` | Caution, non-destructive alerts |
+| `error` | Errors, destructive actions |
+| `neutral` | Default, non-colored UI |
+
+Every color has a `-foreground` companion for accessible text:
+`bg-primary text-primary-foreground`.
+
+**Customize your brand colors** in your Tailwind stylesheet:
+
+```css
+@theme {
+  --color-primary: var(--color-violet-600);
+  --color-primary-foreground: var(--color-white);
+}
+```
+
+See the full list of overridable tokens:
+[CSS Variables Reference](https://kisoui.com/guide/css-variables)
+
+---
+
+## Typography Hierarchy
+
+| Role | Classes | When to use |
+|------|---------|-------------|
+| Page title | `text-lg font-semibold` | Top-level page headings |
+| Section title | `text-base font-semibold` | Section headings within a page |
+| Card title | `text-sm font-semibold` | Card and dialog titles |
+| Body | `text-sm` | Body text, descriptions, menu items |
+| Caption | `text-xs` | Timestamps, counts, helper text, badges |
+| Label | `text-sm font-medium` | Form labels, button text |
+
+**Rules:**
+- Never go below `text-xs` (12px)
+- `font-semibold` for primary headings, `font-medium` for interactive
+  elements, default weight for body text
+- Inputs use `text-base md:text-sm` (larger on mobile for zoom prevention)
+
+---
+
+## Spacing Scale
+
+### Interactive Element Heights
+
+| Size | Class | Examples |
+|------|-------|----------|
+| xs | `h-7` | Icon buttons, compact actions |
+| sm | `h-8` | Small buttons, small inputs |
+| md (default) | `h-9` | Buttons, inputs, selects |
+| lg | `h-10` | Large buttons |
+| xl | `h-11` | Extra-large buttons |
+
+### Padding
+
+| Context | Classes | Examples |
+|---------|---------|----------|
+| Interactive (default) | `px-3 py-2` | Buttons, inputs |
+| Interactive (small) | `px-3 py-1.5` | Small buttons |
+| Interactive (compact) | `px-2 py-1` | Extra-small buttons |
+| Menu items | `px-2 py-1.5` | Dropdown, select, command items |
+| Large containers | `p-6` | Card, Dialog |
+| Medium containers | `p-4` | Popover, Sheet header |
+| Compact containers | `p-2` | Sidebar sections |
+
+### Gaps
+
+| Class | When to use |
+|-------|-------------|
+| `gap-1` | Tight lists — sidebar menus, accordion items |
+| `gap-1.5` | Between small elements — breadcrumb items |
+| `gap-2` | **Default.** Icon + text, label + control, most siblings |
+| `gap-3` | Radio/checkbox groups, form field spacing |
+| `gap-4` | Between major sections inside a container |
+| `gap-6` | Top-level container divisions (card header/content/footer) |
+
+### Border Radius
+
+Controlled by the `--kiso-radius` CSS variable. Override it to shift the
+entire scale:
+
+```css
+@theme {
+  --kiso-radius: 0.375rem; /* rounder */
+  --kiso-radius: 0;        /* sharp, no rounding */
+}
+```
+
+Or use a preset in `config/initializers/kiso.rb`:
+
+```ruby
+config.apply_preset(:rounded)  # buttons → rounded-full, cards → rounded-2xl
+config.apply_preset(:sharp)    # minimal rounding everywhere
+```
+
+---
+
+## Component Conventions
+
+Use `kui()` components instead of raw HTML. Components handle styling,
+dark mode, accessibility, and consistent structure.
+
+### Page structure
+
+```erb
+<%%= kui(:app) do %>
+  <%%= kui(:header) { "..." } %>
+  <%%= kui(:main) do %>
+    <%%= kui(:container) do %>
+      <%%= yield %>
+    <%% end %>
+  <%% end %>
+  <%%= kui(:footer) { "..." } %>
+<%% end %>
+```
+
+### Content cards
+
+```erb
+<%%= kui(:card) do %>
+  <%%= kui(:card, :header) do %>
+    <%%= kui(:card, :title) { "Title" } %>
+    <%%= kui(:card, :description) { "Description" } %>
+  <%% end %>
+  <%%= kui(:card, :content) { "..." } %>
+  <%%= kui(:card, :footer) { "..." } %>
+<%% end %>
+```
+
+### Forms
+
+```erb
+<%%= kui(:field_group) do %>
+  <%%= kui(:field) do %>
+    <%%= kui(:field, :label) { "Email" } %>
+    <%%= kui(:input, name: "email", type: "email") %>
+    <%%= kui(:field, :description) { "We'll never share your email." } %>
+  <%% end %>
+  <%%= kui(:field) do %>
+    <%%= kui(:field, :label) { "Password" } %>
+    <%%= kui(:input, name: "password", type: "password") %>
+  <%% end %>
+<%% end %>
+```
+
+### Empty states
+
+```erb
+<%%= kui(:empty, icon: "inbox", title: "No messages", description: "...") %>
+```
+
+### Feedback
+
+```erb
+<%%= kui(:alert, color: :success) do %>
+  <%%= kui(:alert, :title) { "Saved" } %>
+  <%%= kui(:alert, :description) { "Your changes have been saved." } %>
+<%% end %>
+```
+
+---
+
+## Anti-patterns
+
+| Don't | Do instead |
+|-------|------------|
+| Raw `<div>`, `<button>`, `<input>` HTML | Use `kui(:card)`, `kui(:button)`, `kui(:input)` |
+| Arbitrary spacing (`p-[13px]`, `gap-5`) | Use the documented spacing scale |
+| Raw color classes (`bg-blue-500`, `text-zinc-600`) | Use semantic tokens (`bg-primary`, `text-muted-foreground`) |
+| Tailwind `dark:` prefixes | Kiso handles dark mode via CSS variable swapping |
+| Inline styles for layout | Use Tailwind utilities from the spacing scale |
+| Custom font sizes (`text-[11px]`) | Use `text-xs`, `text-sm`, `text-base`, `text-lg` |

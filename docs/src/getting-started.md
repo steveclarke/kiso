@@ -24,8 +24,14 @@ gem "kiso"
 bundle install
 ```
 
-The engine auto-registers view helpers, importmap pins, and asset paths. No
-additional configuration is needed to start using components.
+The engine auto-registers view helpers, importmap pins, and asset paths.
+
+Run the install generator to scaffold a starter initializer (and optionally
+a design system document for your app):
+
+```bash
+bin/rails generate kiso:install
+```
 
 ## Set up Tailwind CSS
 
