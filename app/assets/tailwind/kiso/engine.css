@@ -54,8 +54,25 @@
      @theme { --kiso-radius: 0.5rem; --kiso-container: 64rem; } */
 
 @theme {
-  --kiso-radius: 0.375rem;
+  /* Kiso's base radius unit — our custom variable, namespaced to avoid
+     collisions. Host apps override this one value to shift the entire
+     border-radius scale proportionally. */
+  --kiso-radius: 0.25rem;
   --kiso-container: 80rem;
+
+  /* Override Tailwind's built-in --radius-* scale with values computed from
+     --kiso-radius (same multiplier system as Nuxt UI's --ui-radius).
+     This wires rounded-sm, rounded-md, rounded-lg etc. through our base
+     variable. At the default 0.25rem, computed values match Tailwind's
+     defaults exactly — so this is invisible until a host app changes it. */
+  --radius-xs:  calc(var(--kiso-radius) * 0.5);
+  --radius-sm:  var(--kiso-radius);
+  --radius-md:  calc(var(--kiso-radius) * 1.5);
+  --radius-lg:  calc(var(--kiso-radius) * 2);
+  --radius-xl:  calc(var(--kiso-radius) * 3);
+  --radius-2xl: calc(var(--kiso-radius) * 4);
+  --radius-3xl: calc(var(--kiso-radius) * 6);
+  --radius-4xl: calc(var(--kiso-radius) * 8);
 }
 
 /* === Semantic Color Tokens ===

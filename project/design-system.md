@@ -120,8 +120,30 @@ override them in their own `@theme` block — no need to touch component themes.
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `--kiso-radius` | `0.375rem` | Base border radius |
+| `--kiso-radius` | `0.25rem` | Base radius unit (Nuxt UI multiplier scale) |
 | `--kiso-container` | `80rem` | Max content width |
+
+### Radius Scale
+
+Computed from `--kiso-radius` using multipliers (same system as Nuxt UI's
+`--ui-radius`). At the default `0.25rem`, values match Tailwind's built-in
+defaults exactly. Changing `--kiso-radius` shifts the entire scale
+proportionally.
+
+| Variable | Multiplier | Default | Tailwind utility |
+|----------|------------|---------|------------------|
+| `--radius-xs` | × 0.5 | `0.125rem` | `rounded-xs` |
+| `--radius-sm` | × 1 | `0.25rem` | `rounded-sm` |
+| `--radius-md` | × 1.5 | `0.375rem` | `rounded-md` |
+| `--radius-lg` | × 2 | `0.5rem` | `rounded-lg` |
+| `--radius-xl` | × 3 | `0.75rem` | `rounded-xl` |
+| `--radius-2xl` | × 4 | `1rem` | `rounded-2xl` |
+| `--radius-3xl` | × 6 | `1.5rem` | `rounded-3xl` |
+| `--radius-4xl` | × 8 | `2rem` | `rounded-4xl` |
+
+Ruby presets (`rounded.rb`, `sharp.rb`) work on top of the scale — they
+override which scale point each component uses (e.g., buttons → `rounded-full`,
+cards → `rounded-2xl`), which is orthogonal to what the scale points resolve to.
 
 ### Dashboard
 
@@ -144,7 +166,7 @@ dashboard layout components are used.
 ```css
 /* In your app's Tailwind CSS file */
 @theme {
-  --kiso-radius: 0.5rem;    /* rounder corners */
+  --kiso-radius: 0.375rem;  /* rounder corners (1.5× default) */
   --kiso-container: 64rem;  /* narrower content */
   --sidebar-width: 18rem;   /* wider sidebar */
 }
@@ -406,9 +428,24 @@ Customize Kiso's structural CSS variables in your Tailwind CSS:
 
 ```css
 @theme {
-  --kiso-radius: 0.5rem;
+  --kiso-radius: 0.375rem;  /* 1.5× default — rounder corners */
   --kiso-container: 64rem;
 }
+```
+
+The radius scale is computed from `--kiso-radius` using multipliers. Changing
+this one variable shifts `rounded-sm` through `rounded-4xl` proportionally:
+
+| `--kiso-radius` | `rounded-md` | `rounded-lg` | Effect |
+|-----------------|--------------|---------------|--------|
+| `0` | `0` | `0` | Sharp (no rounding) |
+| `0.25rem` | `0.375rem` | `0.5rem` | Default |
+| `0.375rem` | `0.5625rem` | `0.75rem` | Rounder |
+| `0.5rem` | `0.75rem` | `1rem` | Very round |
+
+Ruby presets (`:rounded`, `:sharp`) layer on top — they change which scale
+point each component uses, not the scale itself. Both systems combine:
+change `--kiso-radius` for global feel, use presets for per-component choices.
 ```
 
 ### Generate a design system
