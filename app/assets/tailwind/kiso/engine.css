@@ -49,6 +49,15 @@
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+/* === Structural Tokens ===
+   Framework-level layout values. Host apps override in their own @theme block:
+     @theme { --kiso-radius: 0.5rem; --kiso-container: 64rem; } */
+
+@theme {
+  --kiso-radius: 0.375rem;
+  --kiso-container: 80rem;
+}
+
 /* === Semantic Color Tokens ===
    Purpose-named tokens that flip in dark mode. Components use bg-primary,
    text-foreground, etc. — never raw palette shades or dark: prefixes.
