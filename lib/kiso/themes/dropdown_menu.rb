@@ -21,7 +21,7 @@ module Kiso
 
     # The dropdown panel containing menu items.
     DropdownMenuContent = ClassVariants.build(
-      base: "bg-background text-foreground z-50 min-w-32 " \
+      base: "bg-background text-foreground z-50 min-w-32 whitespace-nowrap " \
             "overflow-x-hidden overflow-y-auto rounded-md ring ring-inset ring-border p-1 shadow-md"
     )
 
@@ -101,7 +101,7 @@ module Kiso
 
     # Panel for nested sub-menu items (same as {DropdownMenuContent} but +shadow-lg+).
     DropdownMenuSubContent = ClassVariants.build(
-      base: "bg-background text-foreground z-50 min-w-32 " \
+      base: "bg-background text-foreground z-50 min-w-32 whitespace-nowrap " \
             "overflow-hidden rounded-md ring ring-inset ring-border p-1 shadow-lg"
     )
   end
