@@ -1,0 +1,10 @@
+/* Default display for buttons — lives in @layer components so utility classes
+   (including `hidden`) override via the higher-priority utilities layer. When
+   a utility like `hidden` is removed via JS, this rule restores inline-flex.
+   Fixes: https://github.com/steveclarke/kiso/issues/200 */
+
+@layer components {
+  [data-slot="button"] {
+    display: inline-flex;
+  }
+}
