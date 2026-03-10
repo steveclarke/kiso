@@ -53,7 +53,13 @@ npm run test:e2e              # Playwright E2E tests
 
 A release with broken tests is a broken release. Fix failures first.
 
-### 4. Dry run
+### 4. Audit documentation
+
+Run `/update-docs` to verify all documentation reflects the current state —
+design system, component docs, skills references, and CLAUDE.md. Fix anything
+stale before releasing. A release with outdated docs misleads users.
+
+### 5. Dry run
 
 ```bash
 bin/release --dry-run <version>
@@ -62,7 +68,7 @@ bin/release --dry-run <version>
 If any check fails (dirty tree, not on master, tests fail), resolve before
 proceeding.
 
-### 5. Execute release
+### 6. Execute release
 
 ```bash
 bin/release -y <version>
@@ -76,7 +82,7 @@ The script will:
 5. Create a GitHub Release (auto-marked as prerelease for `pre`/`alpha`/`beta`/`rc`)
 6. GitHub Actions pushes the gem to RubyGems
 
-### 6. Write release notes
+### 7. Write release notes
 
 The auto-generated GitHub Release notes are just a diff link. Host app
 developers (Outport, etc.) depend on proper release notes to know what
