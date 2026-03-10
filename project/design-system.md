@@ -201,9 +201,16 @@ in the Semantic Color Tokens section above.
 ## Spatial System
 
 Extracted from shadcn/ui v4 source code. These values are the spatial
-foundation — every component must draw from these scales. No arbitrary values
-(`text-[8px]`, `h-[1.15rem]`). If Tailwind doesn't have a class for it, don't
-use it.
+foundation — every Kiso component and every host-app component built with
+Kiso must draw from these scales. No arbitrary values (`text-[8px]`,
+`h-[1.15rem]`). If Tailwind doesn't have a class for it, don't use it.
+
+These are not CSS variables — they're documented scales that agents and
+developers reference when choosing Tailwind utilities. The consistency
+comes from using these tables as a lookup, not from runtime token resolution.
+Spacing and typography do not need CSS variables because they're applied via
+Tailwind utility classes in component themes, which is the same approach
+shadcn/ui and Nuxt UI use.
 
 ### Heights (interactive elements)
 
