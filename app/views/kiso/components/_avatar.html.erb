@@ -11,7 +11,7 @@
   <% else %>
     <% if text.present? %>
       <% fallback_classes = ui[:fallback].to_s %>
-      <% fallback_classes = "bg-transparent #{fallback_classes}" if color %>
+      <% fallback_classes = "bg-transparent text-inherit #{fallback_classes}" if color %>
       <%= tag.span class: Kiso::Themes::AvatarFallback.render(size: size, class: fallback_classes),
           data: { slot: "avatar-fallback" } do %>
         <%= text %>
