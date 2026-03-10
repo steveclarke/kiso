@@ -21,5 +21,10 @@ module Kiso
     def scrollable_body
       render_with_template
     end
+
+    # @label Remote Trigger
+    def remote_trigger
+      render_with_template
+    end
   end
 end

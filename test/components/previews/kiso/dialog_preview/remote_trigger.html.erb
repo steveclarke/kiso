@@ -1,0 +1,32 @@
+<%# Dialog opened by a trigger outside its DOM scope via kiso--dialog-trigger %>
+<div class="flex gap-4">
+  <%= kui(:button,
+    data: {
+      controller: "kiso--dialog-trigger",
+      kiso__dialog_trigger_dialog_id_value: "remote-demo",
+      action: "kiso--dialog-trigger#open"
+    }) { "Open from outside" } %>
+
+  <%= kui(:button, variant: :outline,
+    data: {
+      controller: "kiso--dialog-trigger",
+      kiso__dialog_trigger_dialog_id_value: "remote-demo",
+      action: "kiso--dialog-trigger#toggle"
+    }) { "Toggle from outside" } %>
+</div>
+
+<%= kui(:dialog, id: "remote-demo") do %>
+  <%= kui(:dialog, :header) do %>
+    <%= kui(:dialog, :title) { "Remote Trigger" } %>
+    <%= kui(:dialog, :description) { "This dialog was opened by a button outside its scope." } %>
+  <% end %>
+  <%= kui(:dialog, :footer) do %>
+    <%= kui(:button, variant: :outline,
+      data: {
+        controller: "kiso--dialog-trigger",
+        kiso__dialog_trigger_dialog_id_value: "remote-demo",
+        action: "kiso--dialog-trigger#close"
+      }) { "Close from trigger" } %>
+  <% end %>
+  <%= kui(:dialog, :close) %>
+<% end %>
