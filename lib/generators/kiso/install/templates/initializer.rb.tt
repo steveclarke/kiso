@@ -1,0 +1,40 @@
+# frozen_string_literal: true
+
+Kiso.configure do |config|
+  # --- Style Preset ---
+  # Apply a pre-built style preset. Presets adjust border-radius, padding,
+  # and other visual properties across all components.
+  #
+  # Available presets:
+  #   :rounded — softer corners (buttons → rounded-full, cards → rounded-2xl)
+  #   :sharp   — minimal rounding (buttons → rounded-sm, cards → rounded-lg)
+  #
+  # config.apply_preset(:rounded)
+
+  # --- Global Theme Overrides ---
+  # Override component styles globally. These apply to every instance of the
+  # component — use css_classes: on individual calls for one-off overrides.
+  #
+  # Accepts: base:, variants:, compound_variants:, defaults:, ui:
+  #
+  # config.theme[:button] = { base: "rounded-full" }
+  # config.theme[:card]   = { base: "rounded-xl shadow-lg" }
+  # config.theme[:badge]  = { defaults: { variant: :outline } }
+  #
+  # Override inner sub-part elements with ui:
+  # config.theme[:card] = { ui: { header: "p-8", footer: "px-8" } }
+
+  # --- Icon Customization ---
+  # Swap default component icons. Keys are semantic names, values are icon
+  # identifiers passed to kiso_icon (e.g. "heroicons:chevron-right").
+  #
+  # config.icons[:chevron_right] = "heroicons:chevron-right"
+  # config.icons[:x] = "heroicons:x-mark"
+  # config.icons[:search] = "heroicons:magnifying-glass"
+
+  # --- App Theme ---
+  # Theme directory for appui() components. Themes live in app/themes/<name>/.
+  # Default: :default (app/themes/default/)
+  #
+  # config.app_theme = :default
+end
