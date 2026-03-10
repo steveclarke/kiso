@@ -401,6 +401,7 @@ Kiso-specific checks on top of the universal finalize skill.
 - [ ] Follow-on issues created for deferred work
 - [ ] Issues on project board with correct status
 - [ ] `MEMORY.md` updated with learnings
+- [ ] `/update-docs` audit — design system, skills, and docs site reflect current state
 
 ## Linting & Formatting
 
