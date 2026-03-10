@@ -51,16 +51,20 @@
 
 /* === Structural Tokens ===
    Framework-level layout values. Host apps override in their own @theme block:
-     @theme { --kiso-radius: 0.5rem; --kiso-container: 64rem; }
-
-   Radius scale — computed from --kiso-radius using Nuxt UI multipliers.
-   Changing --kiso-radius shifts the entire scale proportionally. At the
-   default 0.25rem, computed values match Tailwind's built-in defaults. */
+     @theme { --kiso-radius: 0.5rem; --kiso-container: 64rem; } */
 
 @theme {
+  /* Kiso's base radius unit — our custom variable, namespaced to avoid
+     collisions. Host apps override this one value to shift the entire
+     border-radius scale proportionally. */
   --kiso-radius: 0.25rem;
   --kiso-container: 80rem;
 
+  /* Override Tailwind's built-in --radius-* scale with values computed from
+     --kiso-radius (same multiplier system as Nuxt UI's --ui-radius).
+     This wires rounded-sm, rounded-md, rounded-lg etc. through our base
+     variable. At the default 0.25rem, computed values match Tailwind's
+     defaults exactly — so this is invisible until a host app changes it. */
   --radius-xs:  calc(var(--kiso-radius) * 0.5);
   --radius-sm:  var(--kiso-radius);
   --radius-md:  calc(var(--kiso-radius) * 1.5);
