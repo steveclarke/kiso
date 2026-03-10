@@ -2,5 +2,5 @@
 
 module Kiso
   # @return [String] the current gem version
-  VERSION = "0.4.3.pre"
+  VERSION = "0.5.0.pre"
 end
