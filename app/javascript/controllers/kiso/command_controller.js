@@ -29,6 +29,8 @@ import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
  *
  * @fires kiso--command:select - When an item is selected.
  *   Detail: `{ value: string, item: HTMLElement }`.
+ * @fires command:escape - When Escape is pressed in the input. Bubbles up to
+ *   the parent `kiso--command-dialog` controller for dialog close handling.
  */
 export default class extends Controller {
   static targets = ["input", "list", "empty", "group", "item"]

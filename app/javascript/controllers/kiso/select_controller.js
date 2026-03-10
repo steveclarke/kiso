@@ -293,13 +293,21 @@ export default class extends Controller {
     }
   }
 
-  /** @private */
+  /**
+   * Attaches global listeners for outside-click and keyboard navigation.
+   *
+   * @private
+   */
   _addGlobalListeners() {
     document.addEventListener("click", this._handleOutsideClick, true)
     document.addEventListener("keydown", this._handleKeydown)
   }
 
-  /** @private */
+  /**
+   * Removes global listeners for outside-click and keyboard navigation.
+   *
+   * @private
+   */
   _removeGlobalListeners() {
     document.removeEventListener("click", this._handleOutsideClick, true)
     document.removeEventListener("keydown", this._handleKeydown)

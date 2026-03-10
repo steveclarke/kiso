@@ -20,7 +20,8 @@ import { startPositioning } from "kiso-ui/utils/positioning"
  *
  * @property {HTMLElement} triggerTarget - Button that opens/closes the popover
  * @property {HTMLElement} contentTarget - The floating panel
- * @property {HTMLElement} [anchorTarget] - Optional alternate positioning reference
+ * @property {HTMLElement} [anchorTarget] - Optional alternate positioning reference element.
+ *   When present, the popover is positioned relative to this element instead of the trigger.
  */
 export default class extends Controller {
   static targets = ["trigger", "content", "anchor"]
@@ -164,7 +165,12 @@ export default class extends Controller {
     }
   }
 
-  /** @private */
+  /**
+   * Maps `data-align` attribute values to Floating UI placement strings.
+   *
+   * @type {Record<string, string>}
+   * @private
+   */
   static _alignToPlacement = {
     start: "bottom-start",
     center: "bottom",
@@ -240,13 +246,21 @@ export default class extends Controller {
     }
   }
 
-  /** @private */
+  /**
+   * Attaches global listeners for outside-click and keyboard navigation.
+   *
+   * @private
+   */
   _addGlobalListeners() {
     document.addEventListener("click", this._handleOutsideClick, true)
     document.addEventListener("keydown", this._handleKeydown)
   }
 
-  /** @private */
+  /**
+   * Removes global listeners for outside-click and keyboard navigation.
+   *
+   * @private
+   */
   _removeGlobalListeners() {
     document.removeEventListener("click", this._handleOutsideClick, true)
     document.removeEventListener("keydown", this._handleKeydown)

@@ -2,10 +2,20 @@ import { Controller } from "@hotwired/stimulus"
 import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
 import { startPositioning } from "kiso-ui/utils/positioning"
 
-/** @type {WeakMap<HTMLElement, {enterHandler: Function, leaveHandler: Function}>} */
+/**
+ * Tracks mouseenter/mouseleave handlers attached to sub-content elements,
+ * enabling cleanup when sub-menus close.
+ *
+ * @type {WeakMap<HTMLElement, {enterHandler: Function, leaveHandler: Function}>}
+ */
 const _subHandlers = new WeakMap()
 
-/** @type {WeakMap<HTMLElement, Function>} */
+/**
+ * Tracks Floating UI position cleanup functions for sub-content elements.
+ * Each entry is the cleanup function returned by `startPositioning()`.
+ *
+ * @type {WeakMap<HTMLElement, Function>}
+ */
 const _subPositionCleanups = new WeakMap()
 
 /**
@@ -234,7 +244,7 @@ export default class extends Controller {
    * Opens a sub-menu on hover, closing sibling sub-menus first.
    * Cancels any pending close timeout.
    *
-   * @param {Event} event - Mouseenter event from a sub-trigger element
+   * @param {MouseEvent} event - Mouseenter event from a sub-trigger element
    */
   openSubOnHover(event) {
     if (this._closeSubTimeout) {
@@ -670,13 +680,21 @@ export default class extends Controller {
       .forEach((el) => el.removeAttribute("data-highlighted"))
   }
 
-  /** @private */
+  /**
+   * Attaches global listeners for outside-click and keyboard navigation.
+   *
+   * @private
+   */
   _addGlobalListeners() {
     document.addEventListener("click", this._handleOutsideClick, true)
     document.addEventListener("keydown", this._handleKeydown)
   }
 
-  /** @private */
+  /**
+   * Removes global listeners for outside-click and keyboard navigation.
+   *
+   * @private
+   */
   _removeGlobalListeners() {
     document.removeEventListener("click", this._handleOutsideClick, true)
     document.removeEventListener("keydown", this._handleKeydown)

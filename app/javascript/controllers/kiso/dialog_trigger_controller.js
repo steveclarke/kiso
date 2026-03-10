@@ -64,7 +64,7 @@ export default class extends Controller {
    * Finds the dialog element and its Stimulus controller, then
    * calls the provided callback with the controller instance.
    *
-   * @param {function} callback - Receives the dialog controller
+   * @param {function(Controller): void} callback - Receives the kiso--dialog controller instance
    * @private
    */
   _withDialogController(callback) {

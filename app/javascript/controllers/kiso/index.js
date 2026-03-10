@@ -1,3 +1,23 @@
+/**
+ * Kiso UI Stimulus controller registry.
+ *
+ * Exports all Kiso Stimulus controllers and provides a `start()` helper
+ * to register them with a Stimulus application in one call.
+ *
+ * @module controllers/kiso
+ *
+ * @example Using start() to register all controllers at once
+ *   import KisoUi from "kiso-ui"
+ *   import { Application } from "@hotwired/stimulus"
+ *
+ *   const application = Application.start()
+ *   KisoUi.start(application)
+ *
+ * @example Importing individual controllers
+ *   import { KisoDialogController } from "kiso-ui"
+ *   application.register("kiso--dialog", KisoDialogController)
+ */
+
 import KisoAlertController from "./alert_controller.js"
 import KisoComboboxController from "./combobox_controller.js"
 import KisoCommandController from "./command_controller.js"
@@ -16,6 +36,11 @@ import KisoToggleGroupController from "./toggle_group_controller.js"
 import KisoTooltipController from "./tooltip_controller.js"
 
 const KisoUi = {
+  /**
+   * Registers all Kiso Stimulus controllers with the given application.
+   *
+   * @param {import("@hotwired/stimulus").Application} application - The Stimulus application instance
+   */
   start(application) {
     application.register("kiso--alert", KisoAlertController)
     application.register("kiso--combobox", KisoComboboxController)

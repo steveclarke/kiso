@@ -4,6 +4,10 @@ import { Controller } from "@hotwired/stimulus"
  * Command dialog controller. Opens with a configurable keyboard shortcut
  * (default: Cmd/Ctrl+K) and closes with Escape. Wraps the native `<dialog>` element.
  *
+ * Listens for a custom `command:escape` event bubbled from the nested
+ * `kiso--command` controller to close the dialog when Escape is pressed
+ * inside the command input.
+ *
  * @example
  *   <dialog data-controller="kiso--command-dialog"
  *           data-kiso--command-dialog-shortcut-value="k"
