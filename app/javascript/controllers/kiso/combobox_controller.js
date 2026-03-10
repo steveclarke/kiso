@@ -604,12 +604,20 @@ export default class extends Controller {
     }
   }
 
-  /** @private */
+  /**
+   * Attaches global listeners for outside-click detection.
+   *
+   * @private
+   */
   _addGlobalListeners() {
     document.addEventListener("click", this._handleOutsideClick, true)
   }
 
-  /** @private */
+  /**
+   * Removes global listeners for outside-click detection.
+   *
+   * @private
+   */
   _removeGlobalListeners() {
     document.removeEventListener("click", this._handleOutsideClick, true)
   }

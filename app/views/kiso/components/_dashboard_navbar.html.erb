@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Top navigation bar for the dashboard layout. Typically contains sidebar toggle
+    buttons, breadcrumbs, and user actions. %>
 <%= content_tag :header,
     class: Kiso::Themes::DashboardNavbar.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dashboard-navbar"),

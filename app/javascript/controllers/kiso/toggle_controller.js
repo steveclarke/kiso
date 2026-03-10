@@ -4,6 +4,8 @@ import { Controller } from "@hotwired/stimulus"
  * Manages pressed state for a standalone toggle button.
  * Toggles `data-state` between "on" and "off" and updates `aria-pressed`.
  *
+ * For grouped toggles, use the `kiso--toggle-group` controller instead.
+ *
  * @example
  *   <button data-controller="kiso--toggle"
  *           data-action="click->kiso--toggle#toggle"

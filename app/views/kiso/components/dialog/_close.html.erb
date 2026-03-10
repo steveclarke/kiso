@@ -1,4 +1,5 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Dialog close button. Yields a block to override the default X icon. %>
 <% content = capture { yield }.presence %>
 <%= tag.button type: "button",
     class: Kiso::Themes::DialogClose.render(class: css_classes),

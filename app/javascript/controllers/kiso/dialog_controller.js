@@ -84,7 +84,12 @@ export default class extends Controller {
   }
 
   /**
-   * Responds to Stimulus Value changes for external open/close control.
+   * Stimulus value change callback. Responds to changes to `openValue`
+   * for external open/close control (e.g., via Turbo morphing or
+   * programmatic attribute updates).
+   *
+   * Skipped during initial `connect()` since that method handles the
+   * initial open state directly.
    */
   openValueChanged() {
     // Skip during connect — handled in connect() directly

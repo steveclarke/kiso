@@ -1,4 +1,5 @@
 <%# locals: (src:, alt: "", css_classes: "", **component_options) %>
+<%# Avatar image that hides itself on load error, revealing the fallback text beneath. %>
 <%= tag.img src: src, alt: alt,
     class: Kiso::Themes::AvatarImage.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "avatar-image"),

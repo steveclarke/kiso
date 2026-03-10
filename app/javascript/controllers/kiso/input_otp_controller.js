@@ -27,8 +27,8 @@ import { Controller } from "@hotwired/stimulus"
  *
  * @property {HTMLInputElement} inputTarget - The transparent real input element
  * @property {HTMLElement[]} slotTargets - Visual slot div elements
- * @property {Number} lengthValue - Expected OTP code length
- * @property {String} patternValue - Regex pattern for allowed characters (default: digits only)
+ * @property {number} lengthValue - Expected OTP code length (default: 6)
+ * @property {string} patternValue - Regex pattern for allowed characters (default: "\\d", digits only)
  *
  * @fires kiso--input-otp:change - When the OTP value changes.
  *   Detail: `{ value: string }`
@@ -101,7 +101,9 @@ export default class extends Controller {
 
   /**
    * Re-syncs the active slot after keydown events that may change selection
-   * (arrow keys, backspace, delete, home, end).
+   * (arrow keys, backspace, delete, home, end). Uses `requestAnimationFrame`
+   * to wait until the browser has processed the key event and updated
+   * `selectionStart`.
    *
    * @private
    */

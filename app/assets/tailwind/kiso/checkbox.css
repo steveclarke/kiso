@@ -1,5 +1,16 @@
-/* Checkbox indicator — CSS ::after for the checkmark since native <input>
-   can't contain child elements. Uses mask-image with the Lucide Check icon. */
+/* ── Checkbox ────────────────────────────────────────────────────────────────
+   Checkmark indicator via CSS ::after pseudo-element.
+
+   Why CSS instead of ERB?
+   Native <input type="checkbox"> cannot contain child elements, so the
+   checkmark must be rendered as a pseudo-element. The indicator uses
+   mask-image with an inline SVG (Lucide Check icon) and currentColor for
+   the fill, which inherits the text color set by compound variants — this
+   keeps the checkmark color in sync with the checkbox's checked state
+   styling (e.g., text-primary-foreground on a bg-primary background).
+
+   The grid + place-content: center pattern ensures the ::after checkmark
+   is perfectly centered within the checkbox regardless of its size. */
 
 [data-component="checkbox"] {
   display: grid;

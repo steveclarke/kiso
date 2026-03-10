@@ -1,17 +1,36 @@
 # frozen_string_literal: true
 
 module Kiso
+  # Utility methods for color calculations, used by the Avatar component
+  # for automatic contrast text color on arbitrary background colors.
+  #
+  # @see Configuration#contrast_threshold
   module ColorUtils
     module_function
 
+    # Default luminance threshold for the contrast calculation.
+    # 0.42 is a perceptual midpoint per Lea Verou's research that produces
+    # better results on saturated chromatic colors than the WCAG mathematical
+    # midpoint of 0.179.
     DEFAULT_CONTRAST_THRESHOLD = 0.42
 
-    # Returns "white" or "black" based on WCAG relative luminance.
+    # Returns the optimal text color ("white" or "black") for a given
+    # background color, based on WCAG relative luminance.
+    #
     # Uses a perceptual threshold (default 0.42) rather than the
     # mathematical midpoint of 0.179, per Lea Verou's research on
     # contrast color generation. The higher threshold produces better
     # results on saturated chromatic colors (e.g. Tailwind 500-shade
-    # palette). Accepts 3-digit (#abc) or 6-digit (#aabbcc) hex strings.
+    # palette).
+    #
+    # @param hex [String] a hex color string, 3-digit (#abc) or 6-digit (#aabbcc)
+    # @param threshold [Float, nil] luminance threshold override; defaults to
+    #   {Configuration#contrast_threshold}
+    # @return [String] "white" or "black"
+    #
+    # @example
+    #   ColorUtils.contrast_text_color("#3b82f6")  # => "white"
+    #   ColorUtils.contrast_text_color("#fbbf24")  # => "black"
     def contrast_text_color(hex, threshold: nil)
       threshold ||= Kiso.config.contrast_threshold
 

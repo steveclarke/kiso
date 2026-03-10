@@ -30,9 +30,9 @@ import { Controller } from "@hotwired/stimulus"
  * @property {HTMLElement} trackTarget - The background track element
  * @property {HTMLElement} rangeTarget - The filled range portion
  * @property {HTMLElement} thumbTarget - The draggable thumb handle
- * @property {Number} minValue - Minimum slider value
- * @property {Number} maxValue - Maximum slider value
- * @property {Number} stepValue - Step increment
+ * @property {number} minValue - Minimum slider value (default: 0)
+ * @property {number} maxValue - Maximum slider value (default: 100)
+ * @property {number} stepValue - Step increment (default: 1)
  *
  * @fires kiso--slider:change - When the slider value changes.
  *   Detail: `{ value: number }`

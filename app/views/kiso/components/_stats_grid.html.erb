@@ -1,4 +1,5 @@
 <%# locals: (columns: 4, css_classes: "", **component_options) %>
+<%# Responsive grid layout for stats_card components. %>
 <%= content_tag :div,
     class: Kiso::Themes::StatsGrid.render(columns: columns, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "stats-grid"),

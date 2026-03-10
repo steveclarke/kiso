@@ -1,9 +1,12 @@
 <%# locals: (variant: :outline, size: :md, disabled: false,
              css_classes: "", **component_options) %>
+<%# Multi-line text input. Yield a block to set default content (initial value). %>
 <% component_options[:disabled] = true if disabled %>
 <%= content_tag :textarea,
     class: Kiso::Themes::Textarea.render(variant: variant, size: size, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "textarea"),
     **component_options do %>
+  <%# capture { yield }.presence renders block content as the textarea's initial value,
+      or nil if no block was provided (avoids rendering empty whitespace). %>
   <%= capture { yield }.presence %>
 <% end %>

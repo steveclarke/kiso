@@ -1,4 +1,6 @@
 <%# locals: (type: :single, variant: :default, size: :default, css_classes: "", **component_options) %>
+<%# Group of toggle buttons with single or multiple selection. The Stimulus controller
+    manages selection state and passes variant/size down to child toggle_group/items. %>
 <%= content_tag :div,
     class: Kiso::Themes::ToggleGroup.render(class: css_classes),
     role: "group",

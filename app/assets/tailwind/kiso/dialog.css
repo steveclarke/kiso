@@ -1,6 +1,26 @@
-/* Dialog and Alert Dialog entry/exit animations and scroll lock. */
+/* ── Dialog & Alert Dialog ────────────────────────────────────────────────────
+   Entry/exit animations, scroll lock, and reduced-motion support for both
+   Dialog and Alert Dialog components.
 
-/* Entry */
+   Why CSS instead of ERB?
+   Both components use the native <dialog> element with showModal(). Animations
+   on open/close, the ::backdrop fade, and scroll locking on the <html> element
+   require CSS — they cannot be expressed as Tailwind utility classes.
+
+   Animation lifecycle (managed by the kiso--dialog Stimulus controller):
+   1. Open:  controller calls dialog.showModal() → browser sets [open] →
+             CSS triggers fade-in + scale-up on both backdrop and content.
+   2. Close: controller sets data-state="closing" → CSS triggers fade-out +
+             scale-down with `forwards` fill → animationend fires → controller
+             calls dialog.close() and removes data-state.
+
+   Selectors use :is() to target both dialog and alert-dialog with shared
+   rules, avoiding duplication.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ── Entry animations ──────────────────────────────────────────────────────
+   Triggered by the native [open] attribute when showModal() is called.
+   Backdrop fades in; content fades in and scales up from 95%. */
 :is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[open] {
   animation: kiso-dialog-backdrop-in 200ms ease-out;
 }
@@ -8,7 +28,10 @@
   animation: kiso-dialog-content-in 200ms ease-out;
 }
 
-/* Exit — data-state="closing" set by Stimulus before calling .close() */
+/* ── Exit animations ──────────────────────────────────────────────────────
+   Triggered by data-state="closing" which the Stimulus controller sets
+   before calling .close(). Uses `forwards` fill mode to hold the final
+   frame (opacity: 0) until the controller removes the dialog from view. */
 :is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[data-state="closing"] {
   animation: kiso-dialog-backdrop-out 200ms ease-in forwards;
 }
@@ -16,12 +39,18 @@
   animation: kiso-dialog-content-out 200ms ease-in forwards;
 }
 
+/* ── Keyframes ─────────────────────────────────────────────────────────── */
+
+/* Backdrop: simple opacity fade */
 @keyframes kiso-dialog-backdrop-in {
   from { opacity: 0; }
 }
 @keyframes kiso-dialog-backdrop-out {
   to { opacity: 0; }
 }
+
+/* Content: opacity fade combined with a subtle scale transform (95% → 100%
+   on entry, 100% → 95% on exit) for a "zoom in" feel. */
 @keyframes kiso-dialog-content-in {
   from { opacity: 0; transform: scale(0.95); }
 }
@@ -29,13 +58,18 @@
   to { opacity: 0; transform: scale(0.95); }
 }
 
-/* Scroll lock — prevent body scroll when modal dialog is open */
+/* ── Scroll lock ──────────────────────────────────────────────────────────
+   Prevent background scrolling when a modal dialog is open. The :modal
+   pseudo-class ensures this only applies to dialogs opened with showModal()
+   (not dialog.show()). scrollbar-gutter: stable prevents layout shift when
+   the scrollbar disappears. */
 html:has(:is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[open]:modal) {
   overflow: hidden;
   scrollbar-gutter: stable;
 }
 
-/* Respect reduced motion */
+/* ── Reduced motion ───────────────────────────────────────────────────────
+   Disable all dialog animations for users who prefer reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   :is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[open],
   :is(dialog[data-slot="dialog"], dialog[data-slot="alert-dialog"])[open] > :is([data-slot="dialog-content"], [data-slot="alert-dialog-content"]),

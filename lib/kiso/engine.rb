@@ -1,11 +1,17 @@
+# frozen_string_literal: true
+
 module Kiso
   # Rails engine that integrates Kiso into host applications.
   #
   # Registers initializers for:
+  # - i18n locale loading
   # - ClassVariants merger (TailwindMerge for class deduplication)
   # - Global theme overrides ({ThemeOverrides})
-  # - View helpers ({ComponentHelper}, {IconHelper})
+  # - View helpers (+kui()+, +appui()+, +kiso_icon()+, +kiso_theme_script()+)
   # - Importmap and asset pipeline paths
+  # - Propshaft tailwind stub filtering
+  # - Theme hot-reloading in development
+  # - App theme loading from +app/themes/+
   # - Lookbook preview path registration
   class Engine < ::Rails::Engine
     isolate_namespace Kiso
@@ -36,7 +42,8 @@ module Kiso
       Kiso::ThemeOverrides.apply!
     end
 
-    # Makes {ComponentHelper}, {AppComponentHelper}, and {IconHelper} available in all views.
+    # Makes all Kiso view helpers available: {UiContextHelper}, {ComponentHelper},
+    # {AppComponentHelper}, {IconHelper}, and {ThemeHelper}.
     initializer "kiso.helpers" do
       ActiveSupport.on_load(:action_view) do
         include Kiso::UiContextHelper

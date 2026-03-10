@@ -1,4 +1,6 @@
 <%# locals: (orientation: :horizontal, decorative: true, css_classes: "", **component_options) %>
+<%# Visual divider line. Set decorative: false to expose a semantic separator
+    role to assistive technology. %>
 <%= tag.div(
     role: (decorative ? "none" : "separator"),
     aria: (decorative ? {} : { orientation: orientation }),

@@ -35,8 +35,8 @@ import { Controller } from "@hotwired/stimulus"
  *        aria-hidden="true"></div>
  * </div>
  *
- * @property {Element[]} triggerTargets - Toggle/collapse buttons that control the sidebar
- * @property {Element} scrimTarget   - The mobile overlay scrim
+ * @property {HTMLElement[]} triggerTargets - Toggle/collapse buttons that control the sidebar
+ * @property {HTMLElement} scrimTarget - The mobile overlay scrim element
  */
 export default class extends Controller {
   static targets = ["trigger", "scrim"]

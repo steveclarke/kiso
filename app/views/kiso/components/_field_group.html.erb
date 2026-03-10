@@ -1,4 +1,5 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Vertical stack of Field components with consistent spacing. %>
 <%= content_tag :div,
     class: Kiso::Themes::FieldGroup.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "field-group"),

@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Command palette with search filtering and keyboard navigation.
+    Composes with command/input, command/list, command/group, command/item sub-parts. %>
 <%= content_tag :div,
     class: Kiso::Themes::Command.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "command", controller: "kiso--command"),

@@ -1,21 +1,24 @@
-/* Kiso Color Palette: Green
+/* ── Kiso Color Palette: Green ────────────────────────────────────────────────
    A fresh, natural green palette — great for eco, health, or finance apps.
    Based on shadcn/ui's Green theme with OKLCH color values.
 
+   Palettes override Kiso's default semantic color tokens (defined in engine.css)
+   using a [data-palette] attribute selector. See blue.css for full documentation.
+
    Usage:
-     1. Import in your CSS: @import "../builds/tailwind/kiso/palettes/green.css";
+     1. Import in your Tailwind CSS: @import "kiso/palettes/green.css";
      2. Add to your HTML: <html data-palette="green"> or <body data-palette="green">
-*/
+   ──────────────────────────────────────────────────────────────────────────── */
 
 [data-palette="green"] {
-  /* Brand / action colors — vivid green */
+  /* ── Brand / action colors — vivid green ── */
   --color-primary: oklch(0.648 0.2 131.684);
   --color-primary-foreground: oklch(0.986 0.031 120.757);
 
   --color-secondary: oklch(0.967 0.001 286.375);
   --color-secondary-foreground: oklch(0.21 0.006 285.885);
 
-  /* Surface tokens — zinc neutrals */
+  /* ── Surface tokens — zinc neutrals ── */
   --color-background: oklch(1 0 0);
   --color-foreground: oklch(0.141 0.005 285.823);
 
@@ -36,6 +39,7 @@
   --color-ring: oklch(0.648 0.2 131.684);
 }
 
+/* Dark mode overrides */
 .dark [data-palette="green"],
 [data-palette="green"].dark {
   --color-primary: oklch(0.648 0.2 131.684);

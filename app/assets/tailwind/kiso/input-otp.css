@@ -1,4 +1,17 @@
-/* InputOTP caret blink animation — the blinking cursor in the active empty slot. */
+/* ── Input OTP ───────────────────────────────────────────────────────────────
+   Caret animation and separator-adjacent border-radius for the OTP input
+   component (kui(:input_otp)).
+
+   Why CSS instead of ERB?
+   1. The blinking caret requires a @keyframes animation.
+   2. Separator-adjacent slot rounding requires :has() and adjacent-sibling
+      selectors, which cannot be expressed as Tailwind utility classes.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ── Caret blink animation ─────────────────────────────────────────────────
+   A blinking cursor shown in the active (focused, empty) OTP slot. Registered
+   as a Tailwind animation token via @theme inline so it can be applied with
+   the `animate-caret-blink` utility class in the theme module. */
 
 @theme inline {
   --animate-caret-blink: caret-blink 1s ease-out infinite;
@@ -9,9 +22,16 @@
   20%, 50% { opacity: 0; }
 }
 
-/* Separator-adjacent rounding — when a separator sits inside a group,
-   round the slot edges next to it so each visual cluster has proper corners.
-   Also reset the negative margin so the slot after a separator starts fresh. */
+/* ── Separator-adjacent slot rounding ──────────────────────────────────────
+   OTP slots are visually joined (negative margin, no individual rounding) to
+   form a continuous row. When a separator element sits between slots, the
+   slots on either side of it need rounded corners to form distinct visual
+   groups. The :has() selector rounds the right edge of the slot before a
+   separator, and the adjacent-sibling selector rounds the left edge of the
+   slot after a separator (and resets its negative margin).
+
+   Uses @layer utilities so these rules participate in Tailwind's specificity
+   layer, matching the border-radius utilities used on the first/last slots. */
 
 @layer utilities {
   [data-slot="input-otp-slot"]:has(+ [data-slot="input-otp-separator"]) {

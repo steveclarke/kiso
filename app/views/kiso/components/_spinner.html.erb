@@ -1,4 +1,6 @@
 <%# locals: (label: nil, css_classes: "", **component_options) %>
+<%# Animated loading spinner rendered via kiso_component_icon. Uses role="status"
+    for screen reader announcements. %>
 <%= kiso_component_icon(:spinner,
     role: "status",
     aria: { label: label || t("kiso.spinner.loading") },

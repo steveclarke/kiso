@@ -1,4 +1,6 @@
 <%# locals: (color: :primary, size: :md, checked: false, ui: {}, css_classes: "", **component_options) %>
+<%# Toggle switch built on a hidden checkbox with role="switch". The <label> wraps
+    the hidden input and a visible thumb span, using peer-checked: for state styling. %>
 <% component_options[:type] = :checkbox
    component_options[:role] = :switch
    component_options[:checked] = true if checked %>

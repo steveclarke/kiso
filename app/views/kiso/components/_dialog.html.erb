@@ -1,4 +1,7 @@
 <%# locals: (open: false, ui: {}, css_classes: "", **component_options) %>
+<%# Modal dialog using native <dialog> with showModal(). Dismissable via Escape
+    key or backdrop click (unlike AlertDialog). Composes with dialog/header,
+    dialog/title, dialog/description, dialog/body, dialog/footer, dialog/close. %>
 <%= content_tag :dialog,
     class: Kiso::Themes::Dialog.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dialog",

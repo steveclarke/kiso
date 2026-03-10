@@ -1,7 +1,9 @@
 module Kiso
   module Themes
-    # @return [String] shared base classes for all pagination link-type elements.
-    #   Matches shadcn's buttonVariants base (ghost/outline neutral).
+    # Shared base classes for all pagination link-type elements.
+    # Matches shadcn's buttonVariants base (ghost/outline neutral).
+    #
+    # @return [String]
     PAGINATION_LINK_BASE = "inline-flex items-center justify-center whitespace-nowrap rounded-md " \
                            "text-sm font-medium transition-all " \
                            "focus-visible:outline-2 focus-visible:outline-offset-2 " \
@@ -9,8 +11,11 @@ module Kiso
                            "aria-disabled:cursor-not-allowed aria-disabled:opacity-50 " \
                            "#{Shared::SVG_BASE}"
 
-    # @return [Hash] shared active/inactive variants for pagination links.
-    #   +active: true+ renders outline neutral style, +active: false+ renders ghost.
+    # Shared active/inactive variants for pagination links.
+    # +active: true+ renders outline neutral style (current page),
+    # +active: false+ renders ghost style (other pages).
+    #
+    # @return [Hash{Symbol => Hash}]
     PAGINATION_ACTIVE_VARIANTS = {
       active: {
         true => "ring ring-inset text-foreground bg-background ring-accented " \

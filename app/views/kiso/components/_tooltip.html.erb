@@ -1,4 +1,7 @@
 <%# locals: (text: nil, kbds: nil, side: :top, align: :center, delay: 0, ui: {}, css_classes: "", **component_options) %>
+<%# Tooltip positioned via Floating UI using the popover API. Pass text: for a simple
+    tooltip with optional keyboard shortcut hints (kbds:). Without text:, compose
+    manually with tooltip/trigger and tooltip/content sub-parts. %>
 <%= tag.div(
     class: css_classes.presence,
     data: kiso_prepare_options(component_options, slot: "tooltip",

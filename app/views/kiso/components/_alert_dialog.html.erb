@@ -1,9 +1,12 @@
 <%# locals: (open: false, size: :default, ui: {}, css_classes: "", **component_options) %>
+<%# Non-dismissible confirmation dialog using native <dialog> with showModal().
+    Requires role="alertdialog" for screen readers. Pass id: to enable automatic
+    aria-labelledby/aria-describedby linking with title and description sub-parts. %>
 <%
   # Store the dialog id on the view context so child sub-part partials
   # (_title, _description) can auto-generate matching aria-labelledby /
-  # aria-describedby id attributes without requiring the caller to pass
-  # the id through each nested kui() call.
+  # aria-describedby ids without requiring the caller to thread the id
+  # through each nested kui() call.
   @_kiso_alert_dialog_id = component_options[:id]
   aria = {}
   if @_kiso_alert_dialog_id

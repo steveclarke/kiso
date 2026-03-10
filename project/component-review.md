@@ -153,6 +153,25 @@ If the component includes a Stimulus controller, verify it has full JSDoc:
 - Private methods: `@private` tag, plus `@param`/`@returns` if non-trivial
 - Reference: `app/javascript/controllers/kiso/select_controller.js`
 
+### Check 13: Code documentation completeness
+
+Verify all file types have proper documentation per `CLAUDE.md` Code
+Documentation Standards:
+
+- **Theme module** — YARD comment block with description, `@example`, variants
+  list, and `shadcn base:` reference. Sub-part constants have brief comments.
+- **ERB partials** — 1-3 line comment after `locals:` explaining what the
+  component renders, HTML strategy, and notable behavior. Non-obvious patterns
+  (`capture { yield }.presence`, view context state sharing) documented inline.
+  Simple leaf sub-parts exempt.
+- **CSS file** (if present) — Header comment explaining what the file does and
+  why CSS is needed. Non-obvious rules have inline explanations.
+- **Stimulus controller** (if present) — covered by Check 12.
+
+**Common mistakes:** Missing YARD on theme modules (especially sub-part
+constants), no ERB comment on components with complex behavior (dialog,
+combobox, sidebar), CSS files with no header explaining their purpose.
+
 ---
 
 ## Report format
@@ -176,6 +195,7 @@ If the component includes a Stimulus controller, verify it has full JSDoc:
 | 10 | Lint and tests | PASS/FAIL | details |
 | 11 | E2E tests cover correct tier | PASS/FAIL | details |
 | 12 | JSDoc on Stimulus controllers | PASS/FAIL/N/A | details |
+| 13 | Code documentation completeness | PASS/FAIL | details |
 
 ### Verdict: PASS / NEEDS FIXES
 

@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", ui: {}, **component_options) %>
+<%# Tooltip content panel using popover="manual" for visibility control.
+    Positioned by Floating UI via the parent tooltip's Stimulus controller. %>
 <%= tag.div(
     class: Kiso::Themes::TooltipContent.render(class: css_classes),
     role: "tooltip",

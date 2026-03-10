@@ -1,4 +1,7 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Floating popover positioned via Floating UI. Uses position: relative as the
+    anchor reference for absolute positioning of the content panel.
+    Composes with popover/trigger, popover/anchor, and popover/content sub-parts. %>
 <%= content_tag :div,
     class: css_classes.presence,
     data: kiso_prepare_options(component_options, slot: "popover", controller: "kiso--popover"),

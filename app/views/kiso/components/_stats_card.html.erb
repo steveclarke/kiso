@@ -1,4 +1,6 @@
 <%# locals: (variant: :outline, css_classes: "", **component_options) %>
+<%# Metric display card. Composes with stats_card/header, stats_card/label,
+    stats_card/value, and stats_card/description sub-parts. %>
 <%= content_tag :div,
     class: Kiso::Themes::StatsCard.render(variant: variant, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "stats-card"),

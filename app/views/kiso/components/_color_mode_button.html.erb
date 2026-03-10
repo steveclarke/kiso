@@ -1,4 +1,6 @@
 <%# locals: (size: :md, css_classes: "", **component_options) %>
+<%# Light/dark mode toggle button. Swaps sun/moon icons via CSS visibility
+    controlled by the .dark class on <html>. Uses the kiso--theme Stimulus controller. %>
 <%= content_tag :button,
     class: Kiso::Themes::ColorModeButton.render(size: size, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "color-mode-button",

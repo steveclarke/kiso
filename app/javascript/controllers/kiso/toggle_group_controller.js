@@ -77,6 +77,7 @@ export default class extends Controller {
    * Wraps around at boundaries.
    *
    * @param {KeyboardEvent} event
+   * @private
    */
   #handleKeydown = (event) => {
     const items = this.itemTargets.filter((item) => !item.disabled)
@@ -113,6 +114,8 @@ export default class extends Controller {
    * Dispatches a "change" event with the currently selected value(s).
    * Single mode emits `{ value: string | null }`,
    * multiple mode emits `{ value: string[] }`.
+   *
+   * @private
    */
   #dispatchChange() {
     const selectedValues = this.itemTargets

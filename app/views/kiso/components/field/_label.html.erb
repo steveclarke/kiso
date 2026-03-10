@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Wraps the base Label component with field-specific styling and a data-slot override.
+    Manually merges the data-slot because this delegates to kui(:label) which sets its own slot. %>
 <% component_options[:data] = (component_options[:data] || {}).merge(slot: "field-label") %>
 <%= kui(:label,
     css_classes: Kiso::Themes::FieldLabel.render(class: css_classes),

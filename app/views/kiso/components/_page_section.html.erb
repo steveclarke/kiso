@@ -1,4 +1,6 @@
 <%# locals: (orientation: :horizontal, ui: {}, css_classes: "", **component_options) %>
+<%# Page content section with horizontal or vertical orientation. Composes with
+    page_section/header, page_section/body, page_section/title, page_section/description. %>
 <%= content_tag :section,
     class: Kiso::Themes::PageSection.render(orientation: orientation, class: css_classes),
     data: kiso_prepare_options(component_options, slot: "page-section"),

@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Sidebar navigation container. Composes with nav/section, nav/section_title,
+    and nav/item sub-parts. Typically placed inside a dashboard_sidebar. %>
 <%= content_tag :nav,
     class: Kiso::Themes::Nav.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "nav"),

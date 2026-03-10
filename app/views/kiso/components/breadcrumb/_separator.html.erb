@@ -1,9 +1,12 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Breadcrumb separator between items. Defaults to a chevron-right icon;
+    yield a block to replace with a custom separator. %>
 <%= content_tag :li,
     class: Kiso::Themes::BreadcrumbSeparator.render(class: css_classes),
     role: "presentation",
     aria: { hidden: "true" },
     data: kiso_prepare_options(component_options, slot: "breadcrumb-separator"),
     **component_options do %>
+  <%# capture { yield }.presence returns nil when no block content, falling back to default icon. %>
   <%= capture { yield }.presence || kiso_component_icon(:chevron_right, class: "size-3.5") %>
 <% end %>

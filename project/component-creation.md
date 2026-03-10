@@ -29,7 +29,16 @@ File: `lib/kiso/themes/{name}.rb`
 ```ruby
 module Kiso
   module Themes
-    # shadcn: [paste the shadcn classes as a comment]
+    # Brief description of the component and what it renders.
+    #
+    # @example
+    #   ComponentName.render(variant: :outline, size: :md)
+    #
+    # Variants:
+    # - +variant+ — :outline (default), :solid, :soft, :subtle
+    # - +size+ — :sm, :md (default), :lg
+    #
+    # shadcn base: [paste the original shadcn classes for reference]
     ComponentName = ClassVariants.build(
       base: "...",
       variants: { ... },
@@ -39,6 +48,10 @@ module Kiso
 end
 ```
 
+- **YARD comment block on every theme constant** — description, `@example`,
+  variants list, and `shadcn base:` reference. Sub-part constants get a brief
+  comment (what it styles, HTML element, data-slot). See `CLAUDE.md` Code
+  Documentation Standards.
 - Copy Tailwind classes from shadcn for layout, spacing, typography
 - For colored components: copy the compound variant block VERBATIM from `lib/kiso/themes/badge.rb` — only change the `base:` string
 - Replace `border` with `ring ring-inset ring-border` for outline variants
@@ -76,6 +89,9 @@ Sub-part partial: `app/views/kiso/components/{name}/_{part}.html.erb`
 ```
 
 Rules:
+- **Component comment after locals** — 1-3 line ERB comment explaining what the
+  component renders, its HTML strategy, and notable behavior. Simple leaf
+  sub-parts don't need this. See `CLAUDE.md` Code Documentation Standards.
 - `text-foreground` on every container component root
 - Strict locals on every partial
 - `css_classes: ""` and `**component_options` on every partial
@@ -350,6 +366,16 @@ For composed usage via `kui(:component, :part)`:
 
 ---
 
+## CSS file conventions
+
+If the component needs a CSS file (`app/assets/tailwind/kiso/{name}.css`):
+
+- **File header comment** — explain what the file does and why CSS is needed
+  (transitions, animations, pseudo-states, UA overrides that ERB can't express)
+- **Inline comments on non-obvious rules** — UA stylesheet overrides, `@layer`
+  reasoning, animation lifecycles, `:where()` specificity strategies
+- See `CLAUDE.md` Code Documentation Standards for the full format
+
 ## Stimulus controller conventions
 
 Follow all JS conventions in `CLAUDE.md` (bare specifier imports, JSDoc, event
@@ -411,6 +437,9 @@ Verify before committing:
 - [ ] All files: theme, require in kiso.rb, partials, previews, E2E tests, docs page, nav entry, skills ref
 - [ ] `Closes #N` in PR body
 - [ ] Stimulus controllers have full JSDoc (class, methods, properties, events)
+- [ ] Theme module has YARD comment (description, `@example`, variants, `shadcn base:`)
+- [ ] ERB partials have component comment after `locals:` (non-trivial components)
+- [ ] CSS files have header comment explaining why CSS is needed
 - [ ] Lint passes
 - [ ] Tests pass
 - [ ] All previews return 200
@@ -451,6 +480,9 @@ Verify before committing:
 | Lookbook dark mode | Preview wrapper `div`s must include `text-foreground` so text/icons are visible in dark mode. |
 | Update docs | `skills/kiso/references/components.md` + docs page. |
 | JSDoc on all JS | Every Stimulus controller, method, property, and event. `@example`, `@property`, `@fires`, `@param`, `@returns`, `@private`. |
+| YARD on theme modules | Description, `@example`, variants list, `shadcn base:` reference. Sub-part constants get brief comments. |
+| ERB component comments | 1-3 line comment after `locals:` on non-trivial components. Document non-obvious patterns inline. |
+| CSS file headers | Every CSS file: header explaining purpose and why CSS is needed. Inline comments on non-obvious rules. |
 | Bare specifier imports | **Never use relative imports** (`./utils/...`). Use bare specifiers: `"kiso-ui/utils/positioning"`. |
 | Shared JS utils | Use `positionBelow()`, `highlightItem()`/`wrapIndex()`, `FOCUSABLE_SELECTOR`. Never reimplement. |
 | Shared theme constants | Use `Shared::SVG_BASE`, `ITEM_SEPARATOR`, etc. from `lib/kiso/themes/shared.rb`. |

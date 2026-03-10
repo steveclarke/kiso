@@ -30,6 +30,9 @@ import { startPositioning } from "kiso-ui/utils/positioning"
  * @property {HTMLElement} triggerTarget - Element that activates the tooltip on hover/focus
  * @property {HTMLElement} contentTarget - The floating tooltip panel (popover)
  * @property {HTMLElement} arrowTarget - Arrow element positioned by Floating UI
+ * @property {string} sideValue - Which side to place the tooltip: "top", "bottom", "left", or "right" (default: "top")
+ * @property {string} alignValue - Alignment along the side: "start", "center", or "end" (default: "center")
+ * @property {number} delayValue - Delay in milliseconds before showing the tooltip (default: 0)
  *
  * @fires kiso--tooltip:show - When the tooltip becomes visible
  * @fires kiso--tooltip:hide - When the tooltip is hidden

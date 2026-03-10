@@ -1,33 +1,57 @@
-/* Tooltip entry/exit animations and arrow positioning. */
+/* ── Tooltip ─────────────────────────────────────────────────────────────────
+   Display overrides, popover UA stylesheet resets, entry/exit animations,
+   and reduced-motion support for the Tooltip component.
 
-/* Tooltip root — inline-flex via @layer components so utilities can override */
+   Why CSS instead of ERB?
+   Tooltips use [popover="manual"] for positioning (via Floating UI) and need
+   CSS to work around browser UA stylesheet conflicts, animate entry/exit,
+   and handle the :popover-open pseudo-class. None of this can be expressed
+   as Tailwind utility classes.
+
+   Key browser issue: the UA stylesheet hides [popover]:not(:popover-open)
+   with display: none in the UA layer. But Tailwind's `flex` utility class
+   (in the author layer) has higher specificity and overrides it, making
+   non-open popovers visible. We fix this with an explicit author-layer rule.
+   See MEMORY.md for the full explanation.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ── Root display ──────────────────────────────────────────────────────────
+   Same pattern as Button: @layer components so utility classes can override. */
 @layer components {
   [data-slot="tooltip"] {
     display: inline-flex;
   }
 }
 
-/* The browser UA stylesheet hides [popover]:not(:popover-open) with
-   display: none, but Tailwind's `flex` utility (author layer) overrides it.
-   Explicitly enforce hidden state for non-open popovers. */
+/* ── Popover UA stylesheet overrides ──────────────────────────────────────
+   Two browser UA stylesheet behaviors must be explicitly overridden:
+
+   1. Hidden state: the UA hides non-open popovers with display: none, but
+      Tailwind's `flex` utility (author layer) overrides the UA layer. This
+      rule enforces hidden state in the author layer to match the UA intent.
+
+   2. Positioning reset: browsers apply inset: 0, margin: auto, and
+      width/height: fit-content to :popover-open elements, which fights
+      Floating UI's inline positioning styles. We reset inset and margin
+      so Floating UI has full control over placement. */
 [data-slot="tooltip-content"]:not(:popover-open) {
   display: none;
 }
 
-/* Reset UA popover styles — browsers apply inset: 0, margin: auto, and
-   width/height: fit-content to [popover]:popover-open, which overrides
-   Floating UI's inline-style positioning. */
 [data-slot="tooltip-content"] {
   inset: unset;
   margin: 0;
 }
 
-/* Entry animation — fade + scale from 95% */
+/* ── Entry/exit animations ────────────────────────────────────────────────
+   data-state is set by the kiso--tooltip Stimulus controller:
+   - "open" on show (after showPopover()) → fade in + scale up from 95%
+   - "closed" on hide (before hidePopover()) → fade out + scale down to 95%
+     with `forwards` fill to hold opacity: 0 until hidePopover() removes it */
 [data-slot="tooltip-content"][data-state="open"] {
   animation: kiso-tooltip-in 150ms ease-out;
 }
 
-/* Exit animation — fade out + scale to 95% */
 [data-slot="tooltip-content"][data-state="closed"] {
   animation: kiso-tooltip-out 100ms ease-in forwards;
 }
@@ -39,7 +63,9 @@
   to { opacity: 0; transform: scale(0.95); }
 }
 
-/* Respect reduced motion */
+/* ── Reduced motion ───────────────────────────────────────────────────────
+   Disable animations for users who prefer reduced motion. The tooltip will
+   still appear/disappear, just without the fade/scale transition. */
 @media (prefers-reduced-motion: reduce) {
   [data-slot="tooltip-content"][data-state="open"],
   [data-slot="tooltip-content"][data-state="closed"] {

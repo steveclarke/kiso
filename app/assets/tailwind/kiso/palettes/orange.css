@@ -1,21 +1,24 @@
-/* Kiso Color Palette: Orange
+/* ── Kiso Color Palette: Orange ───────────────────────────────────────────────
    A warm, energetic palette — great for creative, food, or community apps.
    Based on shadcn/ui's Orange theme with OKLCH color values.
 
+   Palettes override Kiso's default semantic color tokens (defined in engine.css)
+   using a [data-palette] attribute selector. See blue.css for full documentation.
+
    Usage:
-     1. Import in your CSS: @import "../builds/tailwind/kiso/palettes/orange.css";
+     1. Import in your Tailwind CSS: @import "kiso/palettes/orange.css";
      2. Add to your HTML: <html data-palette="orange"> or <body data-palette="orange">
-*/
+   ──────────────────────────────────────────────────────────────────────────── */
 
 [data-palette="orange"] {
-  /* Brand / action colors — warm orange */
+  /* ── Brand / action colors — warm orange ── */
   --color-primary: oklch(0.646 0.222 41.116);
   --color-primary-foreground: oklch(0.98 0.016 73.684);
 
   --color-secondary: oklch(0.97 0.001 106.424);
   --color-secondary-foreground: oklch(0.216 0.006 56.043);
 
-  /* Surface tokens — warm stone neutrals */
+  /* ── Surface tokens — warm stone neutrals ── */
   --color-background: oklch(1 0 0);
   --color-foreground: oklch(0.147 0.004 49.25);
 
@@ -36,6 +39,7 @@
   --color-ring: oklch(0.646 0.222 41.116);
 }
 
+/* Dark mode overrides */
 .dark [data-palette="orange"],
 [data-palette="orange"].dark {
   --color-primary: oklch(0.705 0.213 47.604);

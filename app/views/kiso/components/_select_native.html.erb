@@ -1,4 +1,6 @@
 <%# locals: (variant: :outline, size: :md, disabled: false, ui: {}, css_classes: "", **component_options) %>
+<%# Native <select> element with a styled chevron icon overlay. Yield <option>
+    elements as the block content. For a custom dropdown, use select instead. %>
 <%= content_tag :div,
     class: Kiso::Themes::SelectNativeWrapper.render(class: ui[:wrapper]),
     data: {slot: "select-native-wrapper"} do %>

@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Secondary toolbar below the navbar. Composes with dashboard_toolbar/left
+    and dashboard_toolbar/right for split layouts. %>
 <%= content_tag :div,
     class: Kiso::Themes::DashboardToolbar.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dashboard-toolbar"),

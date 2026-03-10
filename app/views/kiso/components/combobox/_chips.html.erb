@@ -1,10 +1,13 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Container for multi-select chips. Includes a <template> element that the
+    Stimulus controller clones to create new chips dynamically when items are selected. %>
 <%= content_tag :div,
     class: Kiso::Themes::ComboboxChips.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "combobox-chips",
       kiso__combobox_target: "chips"),
     **component_options do %>
   <%= yield %>
+  <%# Chip template cloned by Stimulus for dynamically-added selections. %>
   <%= tag.template data: { kiso__combobox_target: "chipTemplate" } do %>
     <%= tag.span class: Kiso::Themes::ComboboxChip.render,
                 data: { slot: "combobox-chip", kiso__combobox_target: "chip" } do %>

@@ -25,7 +25,8 @@ import { Controller } from "@hotwired/stimulus"
  *   <!-- kui(:select) with light/dark/system items -->
  * </div>
  *
- * @fires kiso:theme-change on document.documentElement when theme changes
+ * @fires kiso:theme-change - Dispatched on `document.documentElement` when the theme changes.
+ *   Detail: `{ theme: "light" | "dark" | "system" }`.
  */
 export default class extends Controller {
   /**

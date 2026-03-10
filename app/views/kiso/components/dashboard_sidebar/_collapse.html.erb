@@ -1,4 +1,6 @@
 <%# locals: (css_classes: "", **component_options) %>
+<%# Sidebar collapse toggle for desktop. Shows open/closed panel icons that swap
+    visibility based on sidebar state via CSS. Placed inside the sidebar itself. %>
 <%= content_tag :button,
     class: Kiso::Themes::DashboardSidebarCollapse.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dashboard-sidebar-collapse",
