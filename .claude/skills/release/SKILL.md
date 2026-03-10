@@ -44,7 +44,21 @@ Propose a concrete version string based on the bump reasoning. Wait for the user
 
 The current convention while the gem is pre-stable: use `x.y.z.pre` (e.g. `0.2.0.pre`). Switch to `x.y.z` when declaring stable.
 
-### Step 3 — Dry run
+### Step 3 — Run the full test suite
+
+**Before the dry run, run ALL tests yourself.** `bin/release` only runs
+Ruby tests and StandardRB — it does NOT run E2E tests. You must run them:
+
+```bash
+bundle exec rake test        # Ruby unit tests
+npm run test:e2e              # Playwright E2E tests
+```
+
+Both must pass with zero failures before proceeding. If anything fails,
+fix it first. Do not skip this step — a release with broken tests is a
+broken release.
+
+### Step 4 — Dry run
 
 Run the release script in dry-run mode with the confirmed version:
 
@@ -54,7 +68,7 @@ bin/release --dry-run <version>
 
 Show the full output. If any check fails (dirty tree, not on master, tests fail, etc.), stop and help resolve the issue before proceeding.
 
-### Step 4 — Execute release
+### Step 5 — Execute release
 
 On user confirmation, run:
 
@@ -70,7 +84,7 @@ The script will:
 5. Create a GitHub Release (auto-marked as prerelease for `pre`/`alpha`/`beta`/`rc` versions)
 6. GitHub Actions pushes the gem to RubyGems
 
-### Step 5 — Write release notes
+### Step 6 — Write release notes
 
 **This is not optional.** The auto-generated GitHub Release notes are just a
 diff link — useless for downstream consumers. Host app developers (Outport,
