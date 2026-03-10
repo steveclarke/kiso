@@ -1,5 +1,5 @@
 module Kiso
-  # Theme definitions for all Kiso components.
+  # Namespace for all Kiso component theme definitions.
   #
   # Each constant is a +ClassVariants+ instance that maps variant options
   # to Tailwind CSS class strings. Call +.render+ with variant options to
@@ -22,25 +22,45 @@ module Kiso
     # SelectSeparator with +pointer-events-none+) should remain inline to
     # preserve shadcn fidelity.
     module Shared
+      # SVG child element base classes: disables pointer events, prevents shrinking,
+      # and sets default icon size when not explicitly sized.
+      #
       # Used by: Button, Toggle, ToggleGroupItem, SelectTrigger, SelectItem,
       # ComboboxItem, CommandItem, DropdownMenuItem, DropdownMenuSubTrigger,
       # DropdownMenuCheckboxItem, DropdownMenuRadioItem (via CHECKABLE_ITEM),
       # PaginationLink/Previous/Next (via PAGINATION_LINK_BASE)
+      #
+      # @return [String]
       SVG_BASE = "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 
-      # Used by: ComboboxSeparator, DropdownMenuSeparator
-      # (CommandSeparator omits my-1, SelectSeparator adds pointer-events-none — both per shadcn)
+      # Horizontal separator line for items in dropdown-style menus.
+      #
+      # Used by: ComboboxSeparator, DropdownMenuSeparator.
+      # CommandSeparator omits +my-1+, SelectSeparator adds +pointer-events-none+ --
+      # both per shadcn, so they remain inline.
+      #
+      # @return [String]
       ITEM_SEPARATOR = "bg-border -mx-1 my-1 h-px"
 
-      # Used by: ComboboxLabel, SelectLabel
-      # (CommandGroupHeading adds font-medium — per shadcn)
+      # Non-interactive group heading in dropdown-style menus.
+      #
+      # Used by: ComboboxLabel, SelectLabel.
+      # CommandGroupHeading adds +font-medium+ per shadcn, so it remains inline.
+      #
+      # @return [String]
       MENU_LABEL = "text-muted-foreground px-2 py-1.5 text-xs"
 
-      # Used by: CommandShortcut, DropdownMenuShortcut
+      # Keyboard shortcut hint aligned to the right of a menu item.
+      #
+      # Used by: CommandShortcut, DropdownMenuShortcut.
+      #
+      # @return [String]
       MENU_SHORTCUT = "text-muted-foreground ml-auto text-xs tracking-widest"
 
       # Shared base for checkbox and radio items in DropdownMenu.
-      # These are structurally identical — same layout, same interactive states.
+      # These are structurally identical -- same layout, same interactive states.
+      #
+      # @return [String]
       CHECKABLE_ITEM = "relative flex cursor-default items-center gap-2 rounded-sm " \
                        "py-1.5 pr-2 pl-8 text-sm outline-none select-none " \
                        "data-[highlighted]:bg-elevated data-[highlighted]:text-foreground " \

@@ -1,5 +1,16 @@
 module Kiso
   module Themes
+    # Light/dark mode toggle button with sun and moon icons.
+    #
+    # Uses the +kiso--theme+ Stimulus controller to cycle between
+    # light and dark modes. Icon visibility is controlled via CSS
+    # (see +color-mode-button.css+).
+    #
+    # @example
+    #   ColorModeButton.render(size: :md)
+    #
+    # Variants:
+    # - +size+ -- :sm, :md (default), :lg
     ColorModeButton = ClassVariants.build(
       base: "inline-flex items-center justify-center rounded-md text-foreground/50 hover:text-foreground hover:bg-accent transition-colors duration-150 shrink-0 cursor-pointer",
       variants: {

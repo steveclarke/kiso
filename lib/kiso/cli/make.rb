@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
-# Generates scaffolding for new Kiso components.
+# Generates scaffolding for new Kiso engine components.
 #
-# Creates theme module, ERB partial, Lookbook preview, and updates
-# the require list and skill reference docs.
+# Creates theme module, ERB partial, Lookbook preview templates, and
+# updates +lib/kiso.rb+ requires and skill reference docs.
+#
+# This is the CLI equivalent of +kiso:framework_component+ Rails generator,
+# but intended for quick use without loading the Rails environment.
 #
 # @example
 #   $ bin/kiso make component alert

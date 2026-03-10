@@ -1,6 +1,10 @@
 module Kiso
   module Themes
-    # @return [Array<Symbol>] the seven semantic colors available to all colored components
+    # The seven semantic colors shared by all colored components.
+    # Used by compound variant definitions in Badge, Alert, Button, Checkbox,
+    # RadioGroup, Switch, and others.
+    #
+    # @return [Array<Symbol>]
     COLORS = %i[primary secondary success info warning error neutral].freeze
 
     # Inline badge for status labels, counts, and tags.
