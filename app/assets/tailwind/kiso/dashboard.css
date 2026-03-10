@@ -203,8 +203,11 @@
      sidebar element switches to a fixed-position overlay that slides in from
      the left. A semi-transparent scrim appears behind it. */
   @media (max-width: 767px) {
-    /* Remove the sidebar column from the grid on mobile */
+    /* Remove the sidebar column from the grid on mobile.
+       --sidebar-mobile-width caps the sidebar so the scrim remains
+       visible and tappable for dismiss (#208). */
     [data-slot="dashboard-group"] {
+      --sidebar-mobile-width: min(var(--sidebar-width), 85dvw);
       grid-template-columns: 0 1fr;
     }
 
@@ -214,8 +217,8 @@
       inset-block: 0;
       inset-inline-start: 0;
       z-index: var(--z-sidebar);
-      width: 100dvw;
-      transform: translateX(-100dvw);
+      width: var(--sidebar-mobile-width);
+      transform: translateX(-100%);
       transition: transform var(--sidebar-duration) var(--ease-out-expo);
     }
 
@@ -224,9 +227,9 @@
       transform: translateX(0);
     }
 
-    /* Inner nav fills the full viewport width on mobile */
+    /* Inner nav matches mobile sidebar width */
     [data-slot="dashboard-sidebar-inner"] {
-      width: 100dvw;
+      width: var(--sidebar-mobile-width);
     }
 
     /* Semi-transparent scrim behind the open sidebar overlay.

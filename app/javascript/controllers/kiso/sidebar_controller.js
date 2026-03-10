@@ -9,6 +9,9 @@ import { Controller } from "@hotwired/stimulus"
  * boolean attribute and persists the preference to a cookie for
  * FOUC-free server-side restoration on the next page load.
  *
+ * On mobile, the sidebar auto-closes when a nav item link is clicked
+ * so users don't have to manually dismiss it after every navigation.
+ *
  * Register as `kiso--sidebar` (the engine index does this automatically).
  *
  * @example
@@ -42,6 +45,25 @@ export default class extends Controller {
   static targets = ["trigger", "scrim"]
 
   /**
+   * Sets up event delegation for auto-closing the sidebar on mobile
+   * when a nav item link is clicked.
+   */
+  connect() {
+    this._handleNavClick = (event) => {
+      // Matches both: nav-item that IS a link (current Kiso markup: <a data-slot="nav-item">)
+      // and a link nested inside a nav-item (defensive for host app customization)
+      if (event.target.closest('[data-slot="nav-item"][href], [data-slot="nav-item"] a')) {
+        this.closeOnMobile()
+      }
+    }
+    this.element.addEventListener("click", this._handleNavClick)
+  }
+
+  disconnect() {
+    this.element.removeEventListener("click", this._handleNavClick)
+  }
+
+  /**
    * Toggles the sidebar open/closed state.
    *
    * Flips `data-sidebar-open` on the controller element, syncs
@@ -56,8 +78,8 @@ export default class extends Controller {
   /**
    * Closes the sidebar on mobile viewports only.
    *
-   * Connected to the scrim click event. Tapping the overlay outside
-   * the mobile sidebar dismisses it without affecting desktop layout.
+   * Connected to the scrim click event and nav item click delegation.
+   * Dismisses the sidebar without affecting desktop layout.
    */
   closeOnMobile() {
     if (matchMedia("(max-width: 767px)").matches) {
