@@ -20,5 +20,10 @@ module Kiso
     def sizes
       render_with_template
     end
+
+    # @label Custom Colors
+    def custom_colors
+      render_with_template
+    end
   end
 end

@@ -23,19 +23,34 @@ source: lib/kiso/themes/avatar.rb
 | `alt` | `String` | `""` |
 | `text` | `String` | `nil` |
 | `size` | `Symbol` | `:md` |
+| `color` | `String` | `nil` |
+| `ui` | `Hash` | `{}` |
 | `css_classes` | `String` | `""` |
 
 ## Sizes
 
-Three sizes: `:sm` (24px), `:md` (32px), `:lg` (40px).
+Four sizes: `:xs` (20px), `:sm` (24px), `:md` (32px), `:lg` (40px).
 
 ```erb
+<%%= kui(:avatar, size: :xs, text: "XS") %>
 <%%= kui(:avatar, size: :sm, text: "SM") %>
 <%%= kui(:avatar, size: :md, text: "MD") %>
 <%%= kui(:avatar, size: :lg, text: "LG") %>
 ```
 
 <%= render "component_preview", component: "kiso/avatar", scenario: "sizes" %>
+
+## Custom Colors
+
+Pass a CSS color value to `color:` for per-user or per-entity backgrounds.
+Use `css_classes:` to set the text color for contrast.
+
+```erb
+<%%= kui(:avatar, text: "SC", color: "#e11d48", css_classes: "text-white") %>
+<%%= kui(:avatar, text: "JD", color: "#2563eb", css_classes: "text-white") %>
+```
+
+<%= render "component_preview", component: "kiso/avatar", scenario: "custom_colors" %>
 
 ## With Badge
 
