@@ -57,6 +57,61 @@ class Kiso::ComponentHelperTest < ActionView::TestCase
     assert_includes html, 'id="my-id"'
   end
 
+  # --- kiso_prepare_options ---
+
+  test "kiso_prepare_options sets data-slot" do
+    opts = {}
+    result = kiso_prepare_options(opts, slot: "badge")
+    assert_equal "badge", result[:slot]
+  end
+
+  test "kiso_prepare_options merges user data attributes" do
+    opts = {data: {turbo_frame: "results"}}
+    result = kiso_prepare_options(opts, slot: "badge")
+    assert_equal "results", result[:turbo_frame]
+    assert_equal "badge", result[:slot]
+  end
+
+  test "kiso_prepare_options concatenates data-action from user and component" do
+    opts = {data: {action: "click->my-controller#doThing"}}
+    result = kiso_prepare_options(opts, slot: "item", action: "click->kiso--dropdown-menu#selectItem")
+    assert_equal "click->my-controller#doThing click->kiso--dropdown-menu#selectItem", result[:action]
+  end
+
+  test "kiso_prepare_options concatenates data-controller from user and component" do
+    opts = {data: {controller: "my-controller"}}
+    result = kiso_prepare_options(opts, slot: "widget", controller: "kiso--toggle")
+    assert_equal "my-controller kiso--toggle", result[:controller]
+  end
+
+  test "kiso_prepare_options preserves user-only data-action" do
+    opts = {data: {action: "click->my-controller#doThing"}}
+    result = kiso_prepare_options(opts, slot: "item")
+    assert_equal "click->my-controller#doThing", result[:action]
+  end
+
+  test "kiso_prepare_options preserves component-only data-action" do
+    opts = {}
+    result = kiso_prepare_options(opts, slot: "item", action: "click->kiso--dropdown-menu#selectItem")
+    assert_equal "click->kiso--dropdown-menu#selectItem", result[:action]
+  end
+
+  test "kiso_prepare_options user data attributes do not overwrite component defaults" do
+    opts = {data: {slot: "custom", turbo_frame: "results"}}
+    result = kiso_prepare_options(opts, slot: "badge")
+    # Component's slot wins (merged on top)
+    assert_equal "badge", result[:slot]
+    assert_equal "results", result[:turbo_frame]
+  end
+
+  test "kiso_prepare_options raises on class: key" do
+    assert_raises(ArgumentError) do
+      kiso_prepare_options({class: "foo"}, slot: "badge")
+    end
+  end
+
+  # --- kui_tag (continued) ---
+
   test "kui_tag does not leak variant keys into HTML attributes" do
     theme = ClassVariants.build(
       base: "shrink-0",
