@@ -7,7 +7,7 @@ module Kiso
     DEFAULT_CONTRAST_THRESHOLD = 0.42
 
     # Returns "white" or "black" based on WCAG relative luminance.
-    # Uses a perceptual threshold (default 0.45) rather than the
+    # Uses a perceptual threshold (default 0.42) rather than the
     # mathematical midpoint of 0.179, per Lea Verou's research on
     # contrast color generation. The higher threshold produces better
     # results on saturated chromatic colors (e.g. Tailwind 500-shade

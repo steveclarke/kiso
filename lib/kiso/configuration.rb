@@ -35,7 +35,7 @@ module Kiso
 
     # @return [Float] luminance threshold for contrast text color calculation.
     #   Colors with luminance above this value get black text, below get white.
-    #   Default is 0.45 (perceptual midpoint per Lea Verou's research).
+    #   Default is 0.42 (perceptual midpoint per Lea Verou's research).
     #
     # @example Tune for a darker palette
     #   Kiso.configure do |config|

@@ -24,6 +24,7 @@ source: lib/kiso/themes/avatar.rb
 | `text` | `String` | `nil` |
 | `size` | `Symbol` | `:md` |
 | `color` | `String` | `nil` |
+| `contrast_threshold` | `Float` | `nil` |
 | `ui` | `Hash` | `{}` |
 | `css_classes` | `String` | `""` |
 
@@ -42,12 +43,24 @@ Four sizes: `:xs` (20px), `:sm` (24px), `:md` (32px), `:lg` (40px).
 
 ## Custom Colors
 
-Pass a CSS color value to `color:` for per-user or per-entity backgrounds.
-Use `css_classes:` to set the text color for contrast.
+Pass a hex color value to `color:` for per-user or per-entity backgrounds.
+Text contrast (white or black) is computed automatically using WCAG relative
+luminance.
 
 ```erb
-<%%= kui(:avatar, text: "SC", color: "#e11d48", css_classes: "text-white") %>
-<%%= kui(:avatar, text: "JD", color: "#2563eb", css_classes: "text-white") %>
+<%%= kui(:avatar, text: "SC", color: "#e11d48") %>
+<%%= kui(:avatar, text: "JD", color: "#2563eb") %>
+<%%= kui(:avatar, text: "YL", color: "#eab308") %>
+```
+
+The default threshold (0.42) works well for Tailwind 500-shade palettes. Override
+per-instance with `contrast_threshold:` or globally via `Kiso.configure`:
+
+```ruby
+# config/initializers/kiso.rb
+Kiso.configure do |config|
+  config.contrast_threshold = 0.36
+end
 ```
 
 <%= render "component_preview", component: "kiso/avatar", scenario: "custom_colors" %>
