@@ -1,5 +1,5 @@
-<%# locals: (src: nil, alt: "", text: nil, size: :md, color: nil, ui: {}, css_classes: "", **component_options) %>
-<% text_color = Kiso::ColorUtils.contrast_text_color(color) if color %>
+<%# locals: (src: nil, alt: "", text: nil, size: :md, color: nil, contrast_threshold: nil, ui: {}, css_classes: "", **component_options) %>
+<% text_color = Kiso::ColorUtils.contrast_text_color(color, threshold: contrast_threshold) if color %>
 <%= content_tag :span,
     class: Kiso::Themes::Avatar.render(size: size, class: css_classes),
     style: (color ? "background-color: #{color}; color: #{text_color};" : nil),

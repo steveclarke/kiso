@@ -33,10 +33,21 @@ module Kiso
     #   end
     attr_accessor :app_theme
 
+    # @return [Float] luminance threshold for contrast text color calculation.
+    #   Colors with luminance above this value get black text, below get white.
+    #   Default is 0.45 (perceptual midpoint per Lea Verou's research).
+    #
+    # @example Tune for a darker palette
+    #   Kiso.configure do |config|
+    #     config.contrast_threshold = 0.36
+    #   end
+    attr_accessor :contrast_threshold
+
     def initialize
       @icons = default_icons
       @theme = {}
       @app_theme = :default
+      @contrast_threshold = Kiso::ColorUtils::DEFAULT_CONTRAST_THRESHOLD
     end
 
     # Resolves the active app theme directory path relative to the given root.
