@@ -1,21 +1,24 @@
-/* Kiso Color Palette: Violet
+/* ── Kiso Color Palette: Violet ───────────────────────────────────────────────
    A rich, creative purple palette — great for design tools or premium brands.
    Based on shadcn/ui's Violet theme with OKLCH color values.
 
+   Palettes override Kiso's default semantic color tokens (defined in engine.css)
+   using a [data-palette] attribute selector. See blue.css for full documentation.
+
    Usage:
-     1. Import in your CSS: @import "../builds/tailwind/kiso/palettes/violet.css";
+     1. Import in your Tailwind CSS: @import "kiso/palettes/violet.css";
      2. Add to your HTML: <html data-palette="violet"> or <body data-palette="violet">
-*/
+   ──────────────────────────────────────────────────────────────────────────── */
 
 [data-palette="violet"] {
-  /* Brand / action colors — vivid violet */
+  /* ── Brand / action colors — vivid violet ── */
   --color-primary: oklch(0.541 0.281 293.009);
   --color-primary-foreground: oklch(0.969 0.016 293.756);
 
   --color-secondary: oklch(0.967 0.001 286.375);
   --color-secondary-foreground: oklch(0.21 0.006 285.885);
 
-  /* Surface tokens — gray neutrals */
+  /* ── Surface tokens — gray neutrals ── */
   --color-background: oklch(1 0 0);
   --color-foreground: oklch(0.13 0.028 261.692);
 
@@ -36,6 +39,7 @@
   --color-ring: oklch(0.541 0.281 293.009);
 }
 
+/* Dark mode overrides */
 .dark [data-palette="violet"],
 [data-palette="violet"].dark {
   --color-primary: oklch(0.606 0.25 292.717);

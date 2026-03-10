@@ -1,25 +1,44 @@
+/* ── Slider ──────────────────────────────────────────────────────────────────
+   Thumb positioning and disabled state for the custom Slider component.
+
+   Why CSS instead of ERB?
+   The slider thumb is positioned via inline `left: N%` styles set by the
+   kiso--slider Stimulus controller. CSS handles the centering transform
+   (translateX(-50%)) and vertical alignment that must work in concert with
+   that dynamic inline style. The disabled state uses :has(input:disabled)
+   which cannot be expressed as a Tailwind utility.
+
+   Uses @layer components so utility classes can override if needed.
+   ──────────────────────────────────────────────────────────────────────────── */
+
 @layer components {
-  /* Center the thumb over its left % position */
+  /* Center the thumb horizontally over its left % position, and vertically
+     within the track. The negative margin-top pulls the thumb up by half
+     its own height (--thumb-offset) so it sits centered on the track line. */
   [data-slot="slider-thumb"] {
     transform: translateX(-50%);
     top: 50%;
     margin-top: calc(-1 * var(--thumb-offset, 0.5rem));
   }
 
-  /* Size-specific thumb offsets (half the thumb size) */
+  /* Size-specific thumb offsets — each size variant has a different thumb
+     diameter, so the vertical centering offset must match. Uses :where()
+     to keep specificity low (0,0,0 for the class selector), allowing
+     the theme module's size classes to remain the authority on thumb size. */
   [data-slot="slider"] :where([data-slot="slider-thumb"].size-3) {
-    --thumb-offset: 0.375rem;
+    --thumb-offset: 0.375rem;  /* half of 0.75rem (size-3) */
   }
 
   [data-slot="slider"] :where([data-slot="slider-thumb"].size-4) {
-    --thumb-offset: 0.5rem;
+    --thumb-offset: 0.5rem;    /* half of 1rem (size-4) */
   }
 
   [data-slot="slider"] :where([data-slot="slider-thumb"].size-5) {
-    --thumb-offset: 0.625rem;
+    --thumb-offset: 0.625rem;  /* half of 1.25rem (size-5) */
   }
 
-  /* Disabled state */
+  /* Disabled state — dim the entire slider and prevent interaction.
+     Uses :has(input:disabled) to detect the hidden range input's state. */
   [data-slot="slider"]:has(input:disabled) {
     opacity: 0.5;
     pointer-events: none;

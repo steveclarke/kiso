@@ -1,37 +1,51 @@
 /* ── Kiso Dashboard Layout ────────────────────────────────────────────────────
-   Tokens and mechanics for the full-screen sidebar + topbar dashboard shell.
-   Bundled with the engine — all apps get these tokens and layout rules.
+   CSS grid mechanics, tokens, and state-driven rules for the full-screen
+   sidebar + topbar dashboard shell (kui(:dashboard_group) and friends).
 
-   Host apps can override any token in their own @theme block:
-     @theme { --sidebar-width: 18rem; }
- */
+   Why CSS instead of ERB?
+   The dashboard layout uses CSS Grid with animated column widths, fixed
+   positioning for mobile overlays, pseudo-state-driven visibility, and
+   custom Tailwind variants — none of which can be expressed as Tailwind
+   utility classes in ERB templates. The sidebar open/close animation,
+   grid template transitions, mobile overlay transform, and scrim backdrop
+   all require real CSS rules.
 
-/* ── Tokens ──────────────────────────────────────────────────────────────── */
+   Host apps can override any @theme token in their own @theme block:
+     @theme { --sidebar-width: 18rem; --topbar-height: 4rem; }
+
+   All selectors target [data-slot="..."] attributes (shadcn v4 convention)
+   rather than class names, making them resilient to theme customization.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ── Design Tokens ───────────────────────────────────────────────────────── */
 
 @theme {
-  /* Sidebar geometry */
+  /* Sidebar geometry — fixed width when open (collapses to 0 when closed) */
   --sidebar-width:             16rem;
 
-  /* Layout heights */
+  /* Topbar row height — sidebar header matches this to align horizontally */
   --topbar-height:             3.5rem;
 
-  /* Sidebar surface tokens (light mode defaults) */
+  /* Sidebar surface tokens (light mode defaults).
+     These are separate from the main semantic tokens because the sidebar
+     can have its own distinct color scheme (e.g., a dark sidebar in an
+     otherwise light app). */
   --sidebar-background:        var(--color-white);
   --sidebar-foreground:        var(--color-zinc-900);
   --sidebar-border:            var(--color-zinc-200);
   --sidebar-accent:            var(--color-zinc-100);
   --sidebar-accent-foreground: var(--color-zinc-700);
 
-  /* Animation */
+  /* Animation timing for sidebar open/close transitions */
   --sidebar-duration:          220ms;
   --ease-out-expo:             cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Z-index stack */
+  /* Z-index stack — sidebar above topbar for mobile overlay */
   --z-topbar:  30;
   --z-sidebar: 40;
 }
 
-/* Dark mode sidebar token overrides */
+/* Dark mode overrides for sidebar-specific surface tokens */
 .dark {
   --sidebar-background:        var(--color-zinc-950);
   --sidebar-foreground:        var(--color-zinc-100);
@@ -40,11 +54,13 @@
   --sidebar-accent-foreground: var(--color-zinc-300);
 }
 
-/* ── Sidebar state variants ──────────────────────────────────────────────────
-   Custom Tailwind variants for showing/hiding content based on sidebar state.
-   Works on any descendant of dashboard_group. Compose with breakpoints:
-     kui-sidebar-open:lg:hidden    — hide on desktop when sidebar expanded
-     kui-sidebar-closed:lg:hidden  — hide on desktop when sidebar collapsed  */
+/* ── Sidebar State Variants (Tailwind v4 @custom-variant) ────────────────────
+   Register custom Tailwind variants that activate based on sidebar open/close
+   state. These let ERB templates use conditional classes without JS:
+     kui-sidebar-open:lg:hidden    — hide on desktop when sidebar is expanded
+     kui-sidebar-closed:lg:hidden  — hide on desktop when sidebar is collapsed
+   The variant matches any descendant of an element with the data-sidebar-open
+   attribute (set by the kiso--sidebar Stimulus controller on dashboard_group). */
 
 @custom-variant kui-sidebar-open {
   [data-sidebar-open="true"] & {
@@ -58,53 +74,71 @@
   }
 }
 
-/* ── Layout mechanics ─────────────────────────────────────────────────────── */
+/* ── Layout Mechanics ─────────────────────────────────────────────────────────
+   All layout rules live in @layer components so Tailwind utility classes
+   (in the higher-priority @layer utilities) can override them when needed.
+
+   Grid structure (default "sidebar" layout):
+   ┌─────────────┬──────────────────────────┐
+   │  sidebar     │  topbar (navbar)         │  row 1: --topbar-height
+   │  (full       ├──────────────────────────┤
+   │   height)    │  panel (main content)    │  row 2: 1fr
+   └─────────────┴──────────────────────────┘
+   col 1: sidebar   col 2: 1fr
+   ──────────────────────────────────────────────────────────────────────────── */
 
 @layer components {
-  /* Drive --sidebar-current-width from the data attribute set by sidebar controller */
+
+  /* ── Sidebar width state ─────────────────────────────────────────────────
+     The kiso--sidebar Stimulus controller sets data-sidebar-open on the
+     dashboard_group element. These rules translate that attribute into a
+     CSS variable that drives the grid column width. */
   [data-sidebar-open="true"]  { --sidebar-current-width: var(--sidebar-width); }
   [data-sidebar-open="false"] { --sidebar-current-width: 0rem; }
 
-  /* Hide sidebar border when collapsed to prevent ghost border at 0 width */
+  /* Prevent a 1px ghost border when sidebar is fully collapsed */
   [data-sidebar-open="false"] [data-slot="dashboard-sidebar"] {
     border-right-width: 0;
   }
 
-  /* Flat 2×2 grid: topbar row + sidebar/panel row */
+  /* ── Grid container ──────────────────────────────────────────────────── */
+
+  /* 2-row, 2-column grid with animated sidebar column */
   [data-slot="dashboard-group"] {
     grid-template-rows: var(--topbar-height) 1fr;
     grid-template-columns: var(--sidebar-current-width) 1fr;
     transition: grid-template-columns var(--sidebar-duration) var(--ease-out-expo);
   }
 
-  /* Topbar spans panel column only (sidebar owns full height) */
+  /* Topbar occupies column 2 only (sidebar spans both rows in column 1) */
   [data-slot="dashboard-navbar"] {
     grid-column: 2;
   }
 
-  /*
-    Sidebar: spans full height (both grid rows). background-color and
-    border-right-color are set here (not via Tailwind arbitrary classes)
-    because bg-[--css-var] classes don't generate reliably.
-  */
+  /* Sidebar spans full height (row 1 through last row).
+     background-color and border-right-color reference sidebar-specific CSS
+     variables and are set here rather than via Tailwind arbitrary classes
+     because bg-(--css-var) classes in @theme are tree-shaken if not
+     referenced elsewhere. */
   [data-slot="dashboard-sidebar"] {
     grid-row: 1 / -1;
     background-color: var(--sidebar-background);
     border-right: 1px solid var(--sidebar-border);
   }
 
-  /* Sidebar header: matches topbar height, bottom border */
+  /* Sidebar header aligns with the topbar height */
   [data-slot="dashboard-sidebar-header"] {
     height: var(--topbar-height);
     border-bottom: 1px solid var(--sidebar-border);
   }
 
-  /* Sidebar footer: top border */
   [data-slot="dashboard-sidebar-footer"] {
     border-top: 1px solid var(--sidebar-border);
   }
 
-  /* Inner nav: always sidebar-width, flex column for header/nav/footer layout */
+  /* Inner nav container: fixed at --sidebar-width so content doesn't reflow
+     during the grid column animation (the outer column shrinks, clipping
+     the overflow from this fixed-width inner element). */
   [data-slot="dashboard-sidebar-inner"] {
     width: var(--sidebar-width);
     height: 100%;
@@ -114,13 +148,16 @@
     color: var(--sidebar-foreground);
   }
 
-  /* Panel: row 2, col 2 */
+  /* Main content panel: row 2, column 2 */
   [data-slot="dashboard-panel"] {
     grid-column: 2;
     grid-row: 2;
   }
 
-  /* ── Navbar layout variant: navbar spans full width, sidebar below ────── */
+  /* ── "Navbar" layout variant ─────────────────────────────────────────────
+     Alternative layout where the navbar spans the full width (both columns)
+     and the sidebar sits below it instead of spanning full height. Activated
+     by data-layout="navbar" on the dashboard_group element. */
   [data-layout="navbar"] [data-slot="dashboard-navbar"] {
     grid-column: 1 / -1;
   }
@@ -128,16 +165,20 @@
     grid-row: auto;
   }
 
-  /* Scrim: hidden on desktop */
+  /* Scrim overlay: hidden on desktop, shown on mobile when sidebar is open */
   [data-slot="dashboard-scrim"] { display: none; }
 
-  /* ── Collapse button icon switching ────────────────────────────────────── */
+  /* ── Collapse button icon switching ──────────────────────────────────────
+     The sidebar collapse button shows different icons depending on whether
+     the sidebar is open or closed (e.g., chevron-left vs chevron-right). */
   [data-sidebar-open="true"] [data-slot="collapse-icon-open"]   { display: inline; }
   [data-sidebar-open="true"] [data-slot="collapse-icon-closed"]  { display: none; }
   [data-sidebar-open="false"] [data-slot="collapse-icon-open"]  { display: none; }
   [data-sidebar-open="false"] [data-slot="collapse-icon-closed"] { display: inline; }
 
-  /* ── Nav section (details/summary) ───────────────────────────────────── */
+  /* ── Nav section accordion (native <details>/<summary>) ─────────────────
+     Chevron rotates 180deg when the section is expanded. Uses CSS transition
+     rather than JS for smooth animation. */
   [data-slot="nav-section-chevron"] {
     transition: transform 200ms ease;
   }
@@ -145,7 +186,9 @@
     transform: rotate(180deg);
   }
 
-  /* ── Nav item sidebar context ────────────────────────────────────────── */
+  /* ── Nav item hover/active states inside sidebar ────────────────────────
+     Nav items use the sidebar's own accent tokens (not the global accent
+     tokens) so the sidebar can have an independent color scheme. */
   [data-slot="dashboard-sidebar-inner"] [data-slot="nav-item"]:hover {
     background-color: var(--sidebar-accent);
     color: var(--sidebar-accent-foreground);
@@ -155,14 +198,17 @@
     color: var(--sidebar-accent-foreground);
   }
 
-  /* ── Mobile: sidebar becomes a fixed full-width overlay ───────────────── */
+  /* ── Mobile (< md breakpoint): sidebar becomes a full-width overlay ────
+     On small screens, the sidebar column collapses to 0 in the grid and the
+     sidebar element switches to a fixed-position overlay that slides in from
+     the left. A semi-transparent scrim appears behind it. */
   @media (max-width: 767px) {
-    /* Collapse sidebar column to 0 on mobile */
+    /* Remove the sidebar column from the grid on mobile */
     [data-slot="dashboard-group"] {
       grid-template-columns: 0 1fr;
     }
 
-    /* Sidebar switches from grid column to fixed overlay */
+    /* Sidebar becomes a fixed overlay that slides in from the left */
     [data-slot="dashboard-sidebar"] {
       position: fixed;
       inset-block: 0;
@@ -173,16 +219,20 @@
       transition: transform var(--sidebar-duration) var(--ease-out-expo);
     }
 
+    /* Slide sidebar into view when open */
     [data-sidebar-open="true"] [data-slot="dashboard-sidebar"] {
       transform: translateX(0);
     }
 
-    /* Inner nav fills the full-width sidebar on mobile */
+    /* Inner nav fills the full viewport width on mobile */
     [data-slot="dashboard-sidebar-inner"] {
       width: 100dvw;
     }
 
-    /* Scrim: appears behind the sidebar overlay on mobile */
+    /* Semi-transparent scrim behind the open sidebar overlay.
+       z-index is one below the sidebar so it sits behind the sidebar
+       but above the main content. Clicking the scrim closes the sidebar
+       (handled by the kiso--sidebar Stimulus controller). */
     [data-sidebar-open="true"] [data-slot="dashboard-scrim"] {
       display: block;
       position: fixed;

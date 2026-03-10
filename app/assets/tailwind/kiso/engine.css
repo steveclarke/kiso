@@ -1,7 +1,23 @@
-/* Kiso Engine CSS — imported by host apps via tailwindcss-rails engine bundling.
-   Component CSS files go here for transitions, animations, and pseudo-states
-   that are awkward to express in ERB. Most styling lives in Ruby theme modules
-   (lib/kiso/themes/) as computed Tailwind classes. */
+/* ── Kiso Engine CSS ──────────────────────────────────────────────────────────
+   Main entry point for Kiso's CSS, imported by host apps via tailwindcss-rails
+   engine bundling. This file aggregates:
+
+   1. Per-component CSS for transitions, animations, pseudo-states, and layout
+      mechanics that ERB partials cannot express (most styling lives in Ruby
+      theme modules at lib/kiso/themes/ as computed Tailwind classes).
+   2. Tailwind @source directives so the engine's own class references are
+      scanned during the host app's Tailwind build.
+   3. @font-face declarations for the Geist typeface family.
+   4. @theme blocks defining structural tokens (radius, container) and the full
+      semantic color system (light + dark mode via .dark class).
+   5. @layer base defaults for <body>.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* === Component CSS Imports ===
+   Each file handles CSS-only concerns for a specific component or component
+   family: animations, pseudo-element indicators, popover overrides, layout
+   grid mechanics, etc. If a component needs no CSS beyond Tailwind utilities,
+   it does not have a file here. */
 
 @import "./button.css";
 @import "./checkbox.css";
@@ -13,18 +29,22 @@
 @import "./slider.css";
 @import "./tooltip.css";
 
-/* Scan Kiso's own files so host apps don't need to know the gem's internals.
+/* === Tailwind Source Scanning ===
+   Tell Tailwind v4 to scan Kiso's own source files for class references.
+   Without these, utility classes referenced in ERB partials, helpers, theme
+   modules, and presets would not be generated in the host app's CSS output.
    Paths are relative to THIS file (app/assets/tailwind/kiso/engine.css).
-   Count carefully — wrong paths fail SILENTLY (classes just won't generate). */
+   WARNING: wrong paths fail SILENTLY — classes simply won't generate. */
 @source "../../../views";              /* → app/views              */
 @source "../../../helpers";            /* → app/helpers            */
 @source "../../../../lib/kiso/themes";  /* → lib/kiso/themes        */
 @source "../../../../lib/kiso/presets"; /* → lib/kiso/presets       */
 
 /* === Geist Font (by Vercel) ===
-   Self-hosted variable fonts — no CDN dependency.
-   Licensed under the SIL Open Font License (see OFL.txt).
-   Host apps can override --font-sans / --font-mono in their own @theme block. */
+   Self-hosted variable fonts loaded from the engine's asset pipeline — no CDN
+   dependency. Licensed under the SIL Open Font License (see OFL.txt in the
+   fonts directory). Host apps can override --font-sans / --font-mono in their
+   own @theme block to use a different typeface. */
 
 @font-face {
   font-family: "Geist";
@@ -42,46 +62,61 @@
   src: url("/kiso/GeistMonoVF.woff2") format("woff2");
 }
 
-/* Set Geist as the default sans and mono fonts.
-   Host apps can override by redefining --font-sans / --font-mono. */
+/* Register Geist as the default sans and mono font stacks.
+   Using @theme inline so these values are inlined into the generated CSS
+   rather than emitted as separate custom properties (reduces output size).
+   Host apps can override by redefining --font-sans / --font-mono in their
+   own @theme block — Tailwind v4 merges @theme blocks, last definition wins. */
 @theme inline {
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 /* === Structural Tokens ===
-   Framework-level layout values. Host apps override in their own @theme block:
+   Framework-level layout primitives that host apps can tune. These are
+   namespaced with --kiso- to avoid collisions with Tailwind's own variables.
+   Override in the host app's own @theme block:
      @theme { --kiso-radius: 0.5rem; --kiso-container: 64rem; } */
 
 @theme {
-  /* Kiso's base radius unit — our custom variable, namespaced to avoid
-     collisions. Host apps override this one value to shift the entire
-     border-radius scale proportionally. */
+  /* Base radius unit — the single knob that controls the entire border-radius
+     scale. Namespaced as --kiso-radius (our variable) vs --radius-* (Tailwind's
+     built-in scale that we override below). */
   --kiso-radius: 0.25rem;
+
+  /* Maximum content width, used by the Container component. */
   --kiso-container: 80rem;
 
-  /* Override Tailwind's built-in --radius-* scale with values computed from
-     --kiso-radius (same multiplier system as Nuxt UI's --ui-radius).
-     This wires rounded-sm, rounded-md, rounded-lg etc. through our base
-     variable. At the default 0.25rem, computed values match Tailwind's
-     defaults exactly — so this is invisible until a host app changes it. */
-  --radius-xs:  calc(var(--kiso-radius) * 0.5);
-  --radius-sm:  var(--kiso-radius);
-  --radius-md:  calc(var(--kiso-radius) * 1.5);
-  --radius-lg:  calc(var(--kiso-radius) * 2);
-  --radius-xl:  calc(var(--kiso-radius) * 3);
-  --radius-2xl: calc(var(--kiso-radius) * 4);
-  --radius-3xl: calc(var(--kiso-radius) * 6);
-  --radius-4xl: calc(var(--kiso-radius) * 8);
+  /* Computed radius scale — overrides Tailwind's built-in --radius-* variables
+     with values derived from --kiso-radius using the same multiplier system as
+     Nuxt UI's --ui-radius. This wires rounded-sm, rounded-md, rounded-lg, etc.
+     through our base variable so changing --kiso-radius shifts every component's
+     border-radius proportionally.
+
+     At the default 0.25rem, computed values match Tailwind's defaults exactly,
+     making this invisible until a host app changes --kiso-radius. */
+  --radius-xs:  calc(var(--kiso-radius) * 0.5);   /* 0.125rem */
+  --radius-sm:  var(--kiso-radius);                /* 0.25rem  */
+  --radius-md:  calc(var(--kiso-radius) * 1.5);    /* 0.375rem */
+  --radius-lg:  calc(var(--kiso-radius) * 2);      /* 0.5rem   */
+  --radius-xl:  calc(var(--kiso-radius) * 3);      /* 0.75rem  */
+  --radius-2xl: calc(var(--kiso-radius) * 4);      /* 1rem     */
+  --radius-3xl: calc(var(--kiso-radius) * 6);      /* 1.5rem   */
+  --radius-4xl: calc(var(--kiso-radius) * 8);      /* 2rem     */
 }
 
 /* === Semantic Color Tokens ===
-   Purpose-named tokens that flip in dark mode. Components use bg-primary,
-   text-foreground, etc. — never raw palette shades or dark: prefixes.
+   Purpose-named CSS custom properties that flip automatically in dark mode
+   (via the .dark class below). Components reference these tokens through
+   Tailwind utilities — bg-primary, text-foreground, border-border, etc. —
+   and never use raw palette shades or Tailwind dark: prefixes.
 
-   Two ways to customize brand colors:
+   Each semantic color has a -foreground companion for accessible text pairing:
+   bg-primary + text-primary-foreground is always readable.
 
-   1. Define a shade scale (Tailwind-native):
+   Host apps can customize brand colors in two ways:
+
+   1. Define a shade scale (Tailwind-native approach):
         @theme {
           --color-primary-50:  oklch(...);
           --color-primary-500: oklch(...);
@@ -92,10 +127,15 @@
 
    2. Override the semantic token directly:
         @theme { --color-primary: oklch(0.55 0.10 237); }
+
+   See project/design-system.md for the full token table and compound variant
+   formulas that use these tokens.
 */
 
 @theme {
-  /* Brand / action colors — auto-wire from shade scale, fall back to defaults */
+  /* ── Brand / Action Colors ──
+     Auto-wire from shade scale (if host defines --color-*-500 etc.),
+     falling back to Tailwind's built-in palette colors as defaults. */
   --color-primary: var(--color-primary-500, var(--color-rose-500));
   --color-primary-foreground: var(--color-primary-50, white);
 
@@ -114,31 +154,40 @@
   --color-error: var(--color-error-500, var(--color-red-600));
   --color-error-foreground: var(--color-error-50, white);
 
-  /* Surface tokens */
-  --color-background: white;
-  --color-foreground: var(--color-zinc-950);
+  /* ── Surface Tokens ──
+     Neutral tokens for page backgrounds, text, borders, and UI chrome.
+     These map to Tailwind's zinc scale by default. */
+  --color-background: white;               /* Page background */
+  --color-foreground: var(--color-zinc-950); /* Default text color */
 
-  --color-muted: var(--color-zinc-100);
-  --color-muted-foreground: var(--color-zinc-500);
+  --color-muted: var(--color-zinc-100);           /* Subdued backgrounds (e.g., table headers) */
+  --color-muted-foreground: var(--color-zinc-500); /* Secondary/helper text */
 
-  --color-accent: var(--color-zinc-100);
-  --color-accent-foreground: var(--color-zinc-900);
+  --color-accent: var(--color-zinc-100);           /* Interactive hover backgrounds */
+  --color-accent-foreground: var(--color-zinc-900); /* Text on accent backgrounds */
 
-  --color-inverted: var(--color-zinc-900);
-  --color-inverted-foreground: white;
-  --color-elevated: var(--color-zinc-100);
-  --color-accented: var(--color-zinc-300);
+  --color-inverted: var(--color-zinc-900);    /* Inverse surface (solid neutral variant bg) */
+  --color-inverted-foreground: white;         /* Text on inverted surface */
+  --color-elevated: var(--color-zinc-100);    /* Soft/subtle neutral variant background */
+  --color-accented: var(--color-zinc-300);    /* Subtle neutral variant ring color */
 
-  --color-border: var(--color-zinc-200);
-  --color-border-accented: var(--color-zinc-300);
+  --color-border: var(--color-zinc-200);          /* Default borders (cards, inputs) */
+  --color-border-accented: var(--color-zinc-300); /* Emphasized borders */
 
-  --color-ring: var(--color-zinc-400);
+  --color-ring: var(--color-zinc-400);  /* Focus rings */
 }
 
 /* === Dark Mode ===
-   Redefine tokens under .dark — components never use dark: prefixes. */
+   Redefine every semantic token under .dark so components never need Tailwind
+   dark: prefixes. The .dark class is set on <html> by kiso_theme_script (a
+   blocking inline script that runs before first paint to avoid FOUC).
+
+   Brand colors shift from shade 500 → 400 (brighter on dark backgrounds).
+   Foreground companions shift from shade 50 → 950 (dark text on bright bg).
+   Surface tokens invert: light grays become dark grays, white becomes near-black. */
 
 .dark {
+  /* ── Brand / Action Colors (dark) ── */
   --color-primary: var(--color-primary-400, var(--color-rose-400));
   --color-primary-foreground: var(--color-primary-950, var(--color-zinc-950));
 
@@ -157,6 +206,7 @@
   --color-error: var(--color-error-400, var(--color-red-400));
   --color-error-foreground: var(--color-error-950, var(--color-zinc-950));
 
+  /* ── Surface Tokens (dark) ── */
   --color-background: var(--color-zinc-950);
   --color-foreground: var(--color-zinc-50);
 
@@ -178,9 +228,16 @@
 }
 
 /* === Page Defaults ===
-   Kiso automatically applies sensible base styles to <body> so host apps
-   start with the correct colors and rendering. Uses @layer base (lowest
-   Tailwind priority) — utility classes on <body> override automatically. */
+   Apply sensible base styles to <body> so host apps start with the correct
+   semantic colors and font rendering. Uses @layer base (lowest Tailwind
+   priority) so any utility classes on <body> override automatically.
+
+   - bg-background / text-foreground: wires semantic tokens, auto-flips in
+     dark mode without host app doing anything
+   - antialiased: subpixel rendering for crisp text
+   - font-synthesis-weight: none: prevents browsers from synthesizing bold
+     weights for the variable font (Geist handles all weights natively)
+   - text-rendering: optimizeLegibility: enables kerning and ligatures */
 
 @layer base {
   body {

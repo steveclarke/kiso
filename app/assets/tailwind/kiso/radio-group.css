@@ -1,7 +1,14 @@
-/* RadioGroupItem indicator — CSS ::after for the filled circle dot since
-   native <input type="radio"> can't contain child elements. Uses currentColor
-   which inherits from checked:text-{color}-foreground set by compound variants.
-   Follows the same pattern as Checkbox (mask-image with currentColor). */
+/* ── Radio Group ─────────────────────────────────────────────────────────────
+   Filled-circle indicator via CSS ::after pseudo-element for radio inputs.
+
+   Why CSS instead of ERB?
+   Native <input type="radio"> cannot contain child elements, so the selected
+   indicator dot must be rendered as a pseudo-element. Same pattern as
+   Checkbox — uses currentColor for the fill, which inherits the text color
+   set by compound variants (e.g., checked:text-primary-foreground).
+
+   The grid + place-content: center pattern centers the ::after dot within
+   the radio circle regardless of its size variant. */
 
 [data-radio-group-part="item"] {
   display: grid;

@@ -1,6 +1,18 @@
-/* ── Color Mode Components ────────────────────────────────────────────────────
-   Icon visibility for the color mode button. The .dark class on <html> drives
-   which icon is shown — sun in light mode, moon in dark mode. */
+/* ── Color Mode Button ────────────────────────────────────────────────────────
+   Icon visibility toggling for the light/dark mode button (kui(:color_mode_button)).
+
+   Why CSS instead of ERB?
+   The icon swap must respond to the .dark class on <html>, which is set by a
+   blocking script before first paint. Using CSS ensures the correct icon
+   (sun or moon) is visible immediately — no Stimulus controller or JS needed
+   for the initial render. The kiso--theme controller handles toggling after
+   that.
+
+   Uses @layer components so utility classes on the icon elements can override
+   if needed.
+
+   Light mode: sun icon visible, moon icon hidden.
+   Dark mode:  moon icon visible, sun icon hidden. */
 
 @layer components {
   [data-slot="color-mode-icon-dark"] { display: none; }

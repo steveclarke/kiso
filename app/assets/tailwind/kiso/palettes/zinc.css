@@ -1,21 +1,24 @@
-/* Kiso Color Palette: Zinc
-   A neutral, cool-toned palette using the Zinc scale.
-   Based on shadcn/ui's Zinc theme with OKLCH color values.
+/* ── Kiso Color Palette: Zinc ─────────────────────────────────────────────────
+   A neutral, cool-toned palette using the Zinc scale — minimal color,
+   maximum content focus. Based on shadcn/ui's Zinc theme with OKLCH values.
+
+   Palettes override Kiso's default semantic color tokens (defined in engine.css)
+   using a [data-palette] attribute selector. See blue.css for full documentation.
 
    Usage:
-     1. Import in your CSS: @import "../builds/tailwind/kiso/palettes/zinc.css";
+     1. Import in your Tailwind CSS: @import "kiso/palettes/zinc.css";
      2. Add to your HTML: <html data-palette="zinc"> or <body data-palette="zinc">
-*/
+   ──────────────────────────────────────────────────────────────────────────── */
 
 [data-palette="zinc"] {
-  /* Brand / action colors — zinc primary (near-black in light, near-white in dark) */
+  /* ── Brand / action colors — near-black primary (inverts in dark mode) ── */
   --color-primary: oklch(0.21 0.006 285.885);
   --color-primary-foreground: oklch(0.985 0 0);
 
   --color-secondary: oklch(0.967 0.001 286.375);
   --color-secondary-foreground: oklch(0.21 0.006 285.885);
 
-  /* Surface tokens */
+  /* ── Surface tokens ── */
   --color-background: oklch(1 0 0);
   --color-foreground: oklch(0.141 0.005 285.823);
 
@@ -36,6 +39,7 @@
   --color-ring: oklch(0.705 0.015 286.067);
 }
 
+/* Dark mode overrides */
 .dark [data-palette="zinc"],
 [data-palette="zinc"].dark {
   --color-primary: oklch(0.92 0.004 286.32);

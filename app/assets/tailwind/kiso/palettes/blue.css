@@ -1,21 +1,29 @@
-/* Kiso Color Palette: Blue
+/* ── Kiso Color Palette: Blue ─────────────────────────────────────────────────
    A professional blue palette — classic SaaS/enterprise feel.
    Based on shadcn/ui's Blue theme with OKLCH color values.
 
+   Palettes override Kiso's default semantic color tokens (defined in engine.css)
+   using a [data-palette] attribute selector. This lets host apps switch color
+   schemes without redefining @theme variables.
+
    Usage:
-     1. Import in your CSS: @import "../builds/tailwind/kiso/palettes/blue.css";
+     1. Import in your Tailwind CSS: @import "kiso/palettes/blue.css";
      2. Add to your HTML: <html data-palette="blue"> or <body data-palette="blue">
-*/
+
+   Dark mode is handled by a companion rule below that targets either
+   `.dark [data-palette="blue"]` (dark class on an ancestor) or
+   `[data-palette="blue"].dark` (dark class on the same element).
+   ──────────────────────────────────────────────────────────────────────────── */
 
 [data-palette="blue"] {
-  /* Brand / action colors — vibrant blue */
+  /* ── Brand / action colors — vibrant blue ── */
   --color-primary: oklch(0.488 0.243 264.376);
   --color-primary-foreground: oklch(0.97 0.014 254.604);
 
   --color-secondary: oklch(0.967 0.001 286.375);
   --color-secondary-foreground: oklch(0.21 0.006 285.885);
 
-  /* Surface tokens — slate-tinted neutrals */
+  /* ── Surface tokens — slate-tinted neutrals ── */
   --color-background: oklch(1 0 0);
   --color-foreground: oklch(0.13 0.028 261.692);
 
@@ -36,6 +44,7 @@
   --color-ring: oklch(0.488 0.243 264.376);
 }
 
+/* Dark mode overrides */
 .dark [data-palette="blue"],
 [data-palette="blue"].dark {
   --color-primary: oklch(0.42 0.18 266);
