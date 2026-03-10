@@ -1,7 +1,8 @@
 <%# locals: (src: nil, alt: "", text: nil, size: :md, color: nil, ui: {}, css_classes: "", **component_options) %>
+<% text_color = Kiso::ColorUtils.contrast_text_color(color) if color %>
 <%= content_tag :span,
     class: Kiso::Themes::Avatar.render(size: size, class: css_classes),
-    style: (color ? "background-color: #{color};" : nil),
+    style: (color ? "background-color: #{color}; color: #{text_color};" : nil),
     data: kiso_prepare_options(component_options, slot: "avatar", size: size),
     **component_options do %>
   <% content = capture { yield }.presence %>
@@ -10,7 +11,7 @@
   <% else %>
     <% if text.present? %>
       <% fallback_classes = ui[:fallback].to_s %>
-      <% fallback_classes = "bg-transparent text-inherit #{fallback_classes}" if color %>
+      <% fallback_classes = "bg-transparent #{fallback_classes}" if color %>
       <%= tag.span class: Kiso::Themes::AvatarFallback.render(size: size, class: fallback_classes),
           data: { slot: "avatar-fallback" } do %>
         <%= text %>

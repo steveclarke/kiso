@@ -3,6 +3,7 @@
 require "class_variants"
 require "tailwind_merge"
 require "kiso/version"
+require "kiso/color_utils"
 require "kiso/configuration"
 require "kiso/presets"
 require "kiso/theme_overrides"
