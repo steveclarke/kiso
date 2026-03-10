@@ -130,6 +130,42 @@ The dialog opens via `showModal()`. Common trigger patterns:
 <button data-action="kiso--dialog#open">Open</button>
 ```
 
+### Remote Trigger
+
+When the trigger button lives outside the dialog's DOM scope (e.g., a toolbar
+button opening a dialog rendered elsewhere on the page), use the
+`kiso--dialog-trigger` controller:
+
+```erb
+<%%# Dialog rendered anywhere on the page %>
+<%%= kui(:dialog, id: "invite-dialog") do %>
+  <%%= kui(:dialog, :header) do %>
+    <%%= kui(:dialog, :title) { "Invite teammate" } %>
+  <%% end %>
+  <%%= kui(:dialog, :body) do %>
+    <%%= kui(:field) do %>
+      <%%= kui(:field, :label) { "Email" } %>
+      <%%= kui(:input, name: "email", type: "email") %>
+    <%% end %>
+  <%% end %>
+  <%%= kui(:dialog, :footer) do %>
+    <%%= kui(:button, data: { action: "kiso--dialog#close" }) { "Cancel" } %>
+    <%%= kui(:button) { "Send invite" } %>
+  <%% end %>
+<%% end %>
+
+<%%# Trigger from a toolbar, sidebar, or any other scope %>
+<%%= kui(:button,
+    data: {
+      controller: "kiso--dialog-trigger",
+      kiso__dialog_trigger_dialog_id_value: "invite-dialog",
+      action: "kiso--dialog-trigger#open"
+    }) { "Invite" } %>
+```
+
+The trigger controller supports three actions: `open`, `close`, and `toggle`.
+Works with both `kui(:dialog)` and `kui(:alert_dialog)`.
+
 ## Closing the Dialog
 
 Three ways to close:
