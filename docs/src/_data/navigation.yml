@@ -110,6 +110,10 @@ docs:
         href: /components/combobox
       - title: Field
         href: /components/field
+      - title: FieldGroup
+        href: /components/field_group
+      - title: FieldSet
+        href: /components/field_set
       - title: Input
         href: /components/input
       - title: InputOTP
@@ -126,5 +130,7 @@ docs:
         href: /components/textarea
       - title: InputGroup
         href: /components/input_group
+      - title: Label
+        href: /components/label
       - title: Switch
         href: /components/switch

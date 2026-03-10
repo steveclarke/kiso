@@ -111,6 +111,50 @@ When referencing Nuxt UI source code, use this translation:
 
 ---
 
+## Structural Tokens (CSS Variables)
+
+These CSS custom properties control framework-level layout values. Host apps
+override them in their own `@theme` block — no need to touch component themes.
+
+### Global
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--kiso-radius` | `0.375rem` | Base border radius |
+| `--kiso-container` | `80rem` | Max content width |
+
+### Dashboard
+
+Defined in `app/assets/tailwind/kiso/dashboard.css`. Only present when the
+dashboard layout components are used.
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--sidebar-width` | `16rem` | Sidebar panel width |
+| `--topbar-height` | `3.5rem` | Top navigation bar height |
+| `--sidebar-background` | white / zinc-950 | Sidebar surface color (light/dark) |
+| `--sidebar-foreground` | zinc-900 / zinc-100 | Sidebar text color (light/dark) |
+| `--sidebar-border` | zinc-200 / zinc-800 | Sidebar divider color (light/dark) |
+| `--sidebar-accent` | zinc-100 / zinc-800 | Sidebar hover/active surface (light/dark) |
+| `--sidebar-accent-foreground` | zinc-700 / zinc-300 | Sidebar hover/active text (light/dark) |
+| `--sidebar-duration` | `220ms` | Sidebar open/close animation duration |
+
+### Overriding tokens
+
+```css
+/* In your app's Tailwind CSS file */
+@theme {
+  --kiso-radius: 0.5rem;    /* rounder corners */
+  --kiso-container: 64rem;  /* narrower content */
+  --sidebar-width: 18rem;   /* wider sidebar */
+}
+```
+
+Color tokens (`--color-primary`, `--color-background`, etc.) are documented
+in the Semantic Color Tokens section above.
+
+---
+
 ## Rules
 
 1. **Compound variant formulas are identical across components.** Badge, Alert,
@@ -157,9 +201,16 @@ When referencing Nuxt UI source code, use this translation:
 ## Spatial System
 
 Extracted from shadcn/ui v4 source code. These values are the spatial
-foundation — every component must draw from these scales. No arbitrary values
-(`text-[8px]`, `h-[1.15rem]`). If Tailwind doesn't have a class for it, don't
-use it.
+foundation — every Kiso component and every host-app component built with
+Kiso must draw from these scales. No arbitrary values (`text-[8px]`,
+`h-[1.15rem]`). If Tailwind doesn't have a class for it, don't use it.
+
+These are not CSS variables — they're documented scales that agents and
+developers reference when choosing Tailwind utilities. The consistency
+comes from using these tables as a lookup, not from runtime token resolution.
+Spacing and typography do not need CSS variables because they're applied via
+Tailwind utility classes in component themes, which is the same approach
+shadcn/ui and Nuxt UI use.
 
 ### Heights (interactive elements)
 
@@ -313,3 +364,54 @@ values — don't invent new ones. Example for a component needing xs → xl:
 
 This is a reference scale. Not every component needs all 5 sizes — most
 should match shadcn and use a single size or 2–3 variants (sm, default, lg).
+
+---
+
+## For Host Apps
+
+This section is for developers building applications with Kiso — not for
+contributing to Kiso itself. These are the values and patterns your components
+should follow for visual consistency with Kiso's built-in components.
+
+### Use the spatial scales above
+
+When building custom components (via `appui()` or plain ERB), draw from the
+same scales Kiso uses. The tables above are your reference:
+
+- **Heights** — `h-7` through `h-11` for interactive elements
+- **Padding** — `px-2`/`py-1` (compact) through `px-4`/`py-2` (large)
+- **Gaps** — `gap-1` (tight) through `gap-6` (major sections)
+- **Font sizes** — `text-xs` (labels) through `text-lg` (modal titles)
+- **Border radius** — `rounded-md` (interactive), `rounded-lg` (containers), `rounded-xl` (cards)
+- **Icon sizes** — `size-3` (compact) through `size-5` (large)
+
+### Use semantic color tokens
+
+Never use raw Tailwind palette shades (`text-zinc-500`, `bg-blue-600`).
+Use Kiso's semantic tokens: `text-foreground`, `bg-primary`,
+`text-muted-foreground`, `bg-elevated`, etc. These automatically adapt
+to dark mode and theme presets.
+
+### Follow the typography hierarchy
+
+| Context | Title | Description |
+|---------|-------|-------------|
+| Page header | `text-lg font-semibold` | `text-sm text-muted-foreground` |
+| Card | `font-semibold leading-none` | `text-sm text-muted-foreground` |
+| Form field | `text-sm font-medium` (label) | `text-sm text-muted-foreground` |
+
+### Override structural tokens
+
+Customize Kiso's structural CSS variables in your Tailwind CSS:
+
+```css
+@theme {
+  --kiso-radius: 0.5rem;
+  --kiso-container: 64rem;
+}
+```
+
+### Generate a design system
+
+Run `rails generate kiso:design_system` to scaffold a complete design
+system document for your app, pre-populated with Kiso's defaults. See #191.
