@@ -52,20 +52,9 @@ module Kiso
 
         return unless should_generate
 
-        @app_name = if options[:app_name].present?
-          options[:app_name]
-        elsif options[:skip_design_system] == false
-          # Non-interactive mode (--no-skip-design-system) without --app-name
-          "My App"
-        else
-          response = ask(<<~PROMPT)
-            What's your app called? This is just a friendly name for the document
-            header (e.g. "Outport", "My App"). [default: My App]
-          PROMPT
-          response.presence || "My App"
-        end
-
+        @app_name = resolve_app_name
         template "design_system.md.tt", "DESIGN_SYSTEM.md"
+        @design_system_created = true
       end
 
       def print_next_steps
@@ -73,7 +62,7 @@ module Kiso
         say "Kiso installed!", :green
         say ""
         say "  Initializer: config/initializers/kiso.rb"
-        say "  Design System: DESIGN_SYSTEM.md" if File.exist?(File.join(destination_root, "DESIGN_SYSTEM.md"))
+        say "  Design System: DESIGN_SYSTEM.md" if @design_system_created
         say ""
         say "Next steps:"
         say "  1. Add Kiso's CSS to your Tailwind stylesheet:"
@@ -87,7 +76,16 @@ module Kiso
 
       private
 
-      attr_reader :app_name
+      def resolve_app_name
+        return options[:app_name] if options[:app_name].present?
+        return "My App" if options[:skip_design_system] == false
+
+        response = ask(<<~PROMPT)
+          What's your app called? This is just a friendly name for the document
+          header (e.g. "Outport", "My App"). [default: My App]
+        PROMPT
+        response.presence || "My App"
+      end
     end
   end
 end
