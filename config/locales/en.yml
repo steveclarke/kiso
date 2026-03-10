@@ -24,6 +24,8 @@ en:
       collapse: "Collapse sidebar"
     dialog:
       close: "Close"
+    spinner:
+      loading: "Loading"
     pagination:
       label: "pagination"
       more_pages: "More pages"

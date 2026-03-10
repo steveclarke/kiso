@@ -1,0 +1,10 @@
+<div class="flex items-center gap-4">
+  <%= kui(:button, disabled: true) do %>
+    <%= kui(:spinner, css_classes: "size-3") %>
+    Loading…
+  <% end %>
+  <%= kui(:button, variant: :outline, disabled: true) do %>
+    <%= kui(:spinner, css_classes: "size-3") %>
+    Please wait
+  <% end %>
+</div>

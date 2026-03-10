@@ -87,7 +87,8 @@ module Kiso
         menu: "menu",
         minus: "minus",
         panel_left_close: "panel-left-close",
-        panel_left_open: "panel-left-open"
+        panel_left_open: "panel-left-open",
+        spinner: "loader-circle"
       }
     end
   end

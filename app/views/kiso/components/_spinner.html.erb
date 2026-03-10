@@ -1,0 +1,7 @@
+<%# locals: (label: nil, css_classes: "", **component_options) %>
+<%= kiso_component_icon(:spinner,
+    role: "status",
+    aria: { label: label || t("kiso.spinner.loading") },
+    class: Kiso::Themes::Spinner.render(class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "spinner"),
+    **component_options) %>
