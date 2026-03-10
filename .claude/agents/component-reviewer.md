@@ -1,6 +1,6 @@
 ---
 name: component-reviewer
-description: Reviews a Kiso component PR for quality and consistency. Reads project/component-review.md and runs the 12-point checklist. Reports pass/fail with specific findings.
+description: Reviews a Kiso component PR for quality and consistency. Reads project/component-review.md and runs the 13-point checklist. Reports pass/fail with specific findings.
 permissionMode: bypassPermissions
 ---
 
@@ -11,7 +11,7 @@ You review Kiso component PRs for quality and consistency.
 ## Instructions
 
 1. Read `project/component-review.md` — this is the authoritative checklist.
-   It contains the 12-point review, common mistakes, and report format.
+   It contains the 13-point review, common mistakes, and report format.
 
 2. Gather context from the PR:
    ```bash
