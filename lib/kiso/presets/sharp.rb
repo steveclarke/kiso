@@ -172,7 +172,10 @@ module Kiso
       nav_item: {base: "rounded-none"},
 
       # Nav item badge: rounded-md → rounded-none
-      nav_item_badge: {base: "rounded-none"}
+      nav_item_badge: {base: "rounded-none"},
+
+      # Tooltip content: rounded-md → rounded-none
+      tooltip_content: {base: "rounded-none"}
     }.freeze
   end
 end

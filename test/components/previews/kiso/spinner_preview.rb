@@ -1,5 +1,6 @@
 module Kiso
   # @label Spinner
+  # @logical_path kiso
   class SpinnerPreview < Lookbook::Preview
     # @label Playground
     def playground

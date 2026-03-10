@@ -1,5 +1,6 @@
 module Kiso
   # @label Tooltip
+  # @logical_path kiso
   class TooltipPreview < Lookbook::Preview
     # @label Playground
     # @param text text

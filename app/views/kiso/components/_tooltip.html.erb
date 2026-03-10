@@ -1,7 +1,6 @@
 <%# locals: (text: nil, kbds: nil, side: :top, align: :center, delay: 0, ui: {}, css_classes: "", **component_options) %>
 <%= tag.div(
     class: css_classes.presence,
-    style: "display: inline-flex;",
     data: kiso_prepare_options(component_options, slot: "tooltip",
       controller: "kiso--tooltip",
       kiso__tooltip_side_value: side,

@@ -1,5 +1,12 @@
 /* Tooltip entry/exit animations and arrow positioning. */
 
+/* Tooltip root — inline-flex via @layer components so utilities can override */
+@layer components {
+  [data-slot="tooltip"] {
+    display: inline-flex;
+  }
+}
+
 /* The browser UA stylesheet hides [popover]:not(:popover-open) with
    display: none, but Tailwind's `flex` utility (author layer) overrides it.
    Explicitly enforce hidden state for non-open popovers. */

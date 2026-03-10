@@ -130,7 +130,10 @@ module Kiso
       nav_item: {base: "rounded-full"},
 
       # Nav item badge: rounded-md → rounded-full
-      nav_item_badge: {base: "rounded-full"}
+      nav_item_badge: {base: "rounded-full"},
+
+      # Tooltip content: rounded-md → rounded-xl
+      tooltip_content: {base: "rounded-xl"}
     }.freeze
   end
 end
