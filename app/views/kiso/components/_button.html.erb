@@ -1,14 +1,16 @@
 <%# locals: (color: :primary, variant: :solid, size: :md, block: false,
              type: :button, href: nil, method: nil, disabled: false,
-             form: {}, css_classes: "", **component_options) %>
+             loading: false, form: {}, css_classes: "", **component_options) %>
 <%# Polymorphic button that renders as <button>, <a>, or button_to depending on props.
     With href: renders an anchor tag. With href: + method: (non-GET) renders a Rails
-    button_to form for safe non-GET navigation. Without href: renders a plain <button>. %>
+    button_to form for safe non-GET navigation. Without href: renders a plain <button>.
+    With loading: true, prepends an animated spinner and disables the button. %>
 <%
   css = Kiso::Themes::Button.render(
     color: color, variant: variant, size: size, block: block, class: css_classes)
   data = kiso_prepare_options(component_options, slot: "button")
   use_button_to = href.present? && method.present? && method.to_s != "get"
+  is_disabled = disabled || loading
 %>
 <% if use_button_to %>
   <%= button_to href,
@@ -16,21 +18,27 @@
       class: css,
       form_class: "contents",
       data: data,
-      disabled: disabled || nil,
+      disabled: is_disabled || nil,
       form: form.presence,
+      aria: loading ? { busy: true } : {},
       **component_options do %>
+    <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
     <%= yield %>
   <% end %>
 <% elsif href.present? %>
   <% component_options[:href] = href
-     component_options[:"aria-disabled"] = true if disabled %>
+     component_options[:"aria-disabled"] = true if is_disabled
+     component_options[:"aria-busy"] = true if loading %>
   <%= content_tag :a, class: css, data: data, **component_options do %>
+    <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
     <%= yield %>
   <% end %>
 <% else %>
   <% component_options[:type] = type
-     component_options[:disabled] = true if disabled %>
+     component_options[:disabled] = true if is_disabled
+     component_options[:"aria-busy"] = true if loading %>
   <%= content_tag :button, class: css, data: data, **component_options do %>
+    <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
     <%= yield %>
   <% end %>
 <% end %>
