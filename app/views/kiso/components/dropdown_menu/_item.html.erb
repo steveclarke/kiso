@@ -11,7 +11,9 @@
     inset: (inset ? "" : nil),
     variant: (variant == :destructive ? "destructive" : nil),
     disabled: (disabled ? "true" : nil))
-  shared_attrs = { role: "menuitem", tabindex: "-1", aria: { disabled: (disabled || nil) } }
+  component_options[:role] = "menuitem"
+  component_options[:tabindex] = "-1"
+  component_options[:aria] = { disabled: (disabled || nil) }
   use_button_to = href.present? && method.present? && method.to_s != "get"
 %>
 <% if use_button_to %>
@@ -22,18 +24,17 @@
       data: data,
       disabled: disabled || nil,
       form: form.presence,
-      **shared_attrs,
       **component_options do %>
     <%= yield %>
   <% end %>
 <% elsif href.present? %>
   <% component_options[:href] = href
      component_options[:"aria-disabled"] = true if disabled %>
-  <%= content_tag :a, class: css, data: data, **shared_attrs, **component_options do %>
+  <%= content_tag :a, class: css, data: data, **component_options do %>
     <%= yield %>
   <% end %>
 <% else %>
-  <%= content_tag :div, class: css, data: data, **shared_attrs, **component_options do %>
+  <%= content_tag :div, class: css, data: data, **component_options do %>
     <%= yield %>
   <% end %>
 <% end %>

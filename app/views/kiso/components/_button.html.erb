@@ -11,6 +11,7 @@
   data = kiso_prepare_options(component_options, slot: "button")
   use_button_to = href.present? && method.present? && method.to_s != "get"
   is_disabled = disabled || loading
+  component_options[:"aria-busy"] = true if loading
 %>
 <% if use_button_to %>
   <%= button_to href,
@@ -20,23 +21,20 @@
       data: data,
       disabled: is_disabled || nil,
       form: form.presence,
-      aria: loading ? { busy: true } : {},
       **component_options do %>
     <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
     <%= yield %>
   <% end %>
 <% elsif href.present? %>
   <% component_options[:href] = href
-     component_options[:"aria-disabled"] = true if is_disabled
-     component_options[:"aria-busy"] = true if loading %>
+     component_options[:"aria-disabled"] = true if is_disabled %>
   <%= content_tag :a, class: css, data: data, **component_options do %>
     <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
     <%= yield %>
   <% end %>
 <% else %>
   <% component_options[:type] = type
-     component_options[:disabled] = true if is_disabled
-     component_options[:"aria-busy"] = true if loading %>
+     component_options[:disabled] = true if is_disabled %>
   <%= content_tag :button, class: css, data: data, **component_options do %>
     <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
     <%= yield %>
