@@ -5,5 +5,5 @@ module Kiso
   # Updated by +bin/release+.
   #
   # @return [String]
-  VERSION = "0.6.0.pre"
+  VERSION = "0.6.1.pre"
 end
