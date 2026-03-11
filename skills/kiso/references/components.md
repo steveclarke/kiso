@@ -10,7 +10,7 @@ All colored components use **identical compound variant formulas** — see `proj
 
 | Component | Key locals | Reference |
 |---|---|---|
-| `avatar` | `src`, `alt`, `text`, `size` (xs/sm/md/lg), `color` (CSS color for bg). Sub-parts: image, fallback, badge, group, group_count | [avatar.md](components/avatar.md) |
+| `avatar` | `src`, `alt`, `text`, `size` (xs/sm/md/lg/xl/2xl), `color` (CSS color for bg). Sub-parts: image, fallback, badge, group, group_count | [avatar.md](components/avatar.md) |
 
 ## Layout
 
