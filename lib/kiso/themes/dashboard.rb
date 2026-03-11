@@ -42,13 +42,15 @@ module Kiso
     )
 
     # Top section of the sidebar (e.g., logo, search).
+    # Fixed height matches the topbar; items-center vertically centers content.
     DashboardSidebarHeader = ClassVariants.build(
-      base: "shrink-0 flex flex-col gap-2 p-2"
+      base: "shrink-0 flex items-center gap-2 p-2"
     )
 
-    # Bottom section of the sidebar (e.g., user menu).
+    # Bottom section of the sidebar (e.g., user menu, action buttons).
+    # Horizontal layout for the common "avatar + action button" pattern.
     DashboardSidebarFooter = ClassVariants.build(
-      base: "shrink-0 flex flex-col gap-2 p-2"
+      base: "shrink-0 flex items-center gap-2 p-2"
     )
 
     # Mobile-only button to open/close the sidebar overlay.
