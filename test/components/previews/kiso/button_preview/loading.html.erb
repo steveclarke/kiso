@@ -1,0 +1,21 @@
+<div class="space-y-4">
+  <p class="text-sm text-muted-foreground">Loading buttons show a spinner and are disabled</p>
+  <div class="flex flex-wrap gap-3 items-center">
+    <%= kui(:button, loading: true) { "Saving..." } %>
+    <%= kui(:button, loading: true, variant: :outline) { "Loading" } %>
+    <%= kui(:button, loading: true, variant: :soft) { "Please wait" } %>
+    <%= kui(:button, loading: true, variant: :ghost) { "Ghost" } %>
+  </div>
+
+  <p class="text-sm text-muted-foreground">Loading with different sizes</p>
+  <div class="flex flex-wrap gap-3 items-center">
+    <%= kui(:button, loading: true, size: :sm) { "Small" } %>
+    <%= kui(:button, loading: true, size: :md) { "Medium" } %>
+    <%= kui(:button, loading: true, size: :lg) { "Large" } %>
+  </div>
+
+  <p class="text-sm text-muted-foreground">Loading link (aria-disabled + aria-busy)</p>
+  <div class="flex flex-wrap gap-3 items-center">
+    <%= kui(:button, href: "#", loading: true) { "Loading Link" } %>
+  </div>
+</div>

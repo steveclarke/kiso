@@ -46,6 +46,11 @@ module Kiso
       render_with_template
     end
 
+    # @label Smart Tag
+    def smart_tag
+      render_with_template
+    end
+
     # @label Destructive
     def destructive
       render_with_template

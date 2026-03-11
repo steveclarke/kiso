@@ -23,6 +23,7 @@ source: lib/kiso/themes/button.rb
 | `size:` | `:xs` \| `:sm` \| `:md` \| `:lg` \| `:xl` | `:md` |
 | `block:` | `Boolean` | `false` |
 | `disabled:` | `Boolean` | `false` |
+| `loading:` | `Boolean` | `false` |
 | `type:` | `:button` \| `:submit` \| `:reset` | `:button` |
 | `href:` | `String` \| `nil` | `nil` |
 | `method:` | `:delete` \| `:post` \| `:put` \| `:patch` \| `nil` | `nil` |
@@ -93,6 +94,23 @@ For `<button>`, sets the native `disabled` attribute. For `<a>`, sets
 ```erb
 <%%= kui(:button, disabled: true) { "Unavailable" } %>
 <%%= kui(:button, href: "#", disabled: true) { "Disabled Link" } %>
+```
+
+### Loading
+
+Shows an animated spinner before the content, disables the button, and sets
+`aria-busy="true"`. The spinner inherits its size from the button.
+
+```erb
+<%%= kui(:button, loading: true) { "Saving..." } %>
+<%%= kui(:button, loading: true, variant: :outline) { "Loading" } %>
+```
+
+Works across all tag variants (button, link, button_to):
+
+```erb
+<%%= kui(:button, type: :submit, loading: true) { "Submitting..." } %>
+<%%= kui(:button, href: "#", loading: true) { "Loading Link" } %>
 ```
 
 ### Block
@@ -241,6 +259,7 @@ focus-visible states:
 | `type` | `"button"` (default, not `"submit"`) |
 | `disabled` | Native attribute on `<button>` |
 | `aria-disabled` | Set on `<a>` when `disabled: true` |
+| `aria-busy` | Set when `loading: true` |
 
 ### Keyboard
 
