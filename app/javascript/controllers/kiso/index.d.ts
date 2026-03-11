@@ -6,6 +6,7 @@ declare const KisoUi: {
 
 export default KisoUi
 export const KisoAlertController: typeof Controller
+export const KisoButtonLoadingController: typeof Controller
 export const KisoComboboxController: typeof Controller
 export const KisoCommandController: typeof Controller
 export const KisoCommandDialogController: typeof Controller
