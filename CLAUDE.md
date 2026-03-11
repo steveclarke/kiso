@@ -451,11 +451,11 @@ gh project item-edit --project-id PVT_kwHNBRnOAUCSOg --id PVTI_xxx --field-id PV
 
 | Status | Option ID |
 |--------|-----------|
-| Someday | `b0767535` |
-| Backlog | `1913d265` |
-| Up Next | `3b515411` |
-| In Progress | `f174b9f7` |
-| Done | `da46eb59` |
+| Backlog | `57035eea` |
+| Up Next | `8e2027b0` |
+| In Progress | `3d0aad59` |
+| Waiting | `4974cf98` |
+| Done | `6d842610` |
 
 ## Git & PRs
 
