@@ -30,13 +30,15 @@ source: lib/kiso/themes/avatar.rb
 
 ## Sizes
 
-Four sizes: `:xs` (20px), `:sm` (24px), `:md` (32px), `:lg` (40px).
+Six sizes: `:xs` (20px), `:sm` (24px), `:md` (32px), `:lg` (40px), `:xl` (64px), `:2xl` (80px).
 
 ```erb
 <%%= kui(:avatar, size: :xs, text: "XS") %>
 <%%= kui(:avatar, size: :sm, text: "SM") %>
 <%%= kui(:avatar, size: :md, text: "MD") %>
 <%%= kui(:avatar, size: :lg, text: "LG") %>
+<%%= kui(:avatar, size: :xl, text: "XL") %>
+<%%= kui(:avatar, size: :"2xl", text: "2X") %>
 ```
 
 <%= render "component_preview", component: "kiso/avatar", scenario: "sizes" %>

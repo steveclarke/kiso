@@ -2,7 +2,7 @@
 
 An image element with a fallback for representing the user. Pure CSS, no JavaScript.
 
-**Locals:** `src:` (String), `alt:` (String), `text:` (String), `size:` (xs/sm/md/lg), `color:` (String, hex), `contrast_threshold:` (Float), `ui:` (Hash), `css_classes:`, `**component_options`
+**Locals:** `src:` (String), `alt:` (String), `text:` (String), `size:` (xs/sm/md/lg/xl/2xl), `color:` (String, hex), `contrast_threshold:` (Float), `ui:` (Hash), `css_classes:`, `**component_options`
 
 **Sub-parts:** `kui(:avatar, :image)`, `kui(:avatar, :fallback)`, `kui(:avatar, :badge)`, `kui(:avatar, :group)`, `kui(:avatar, :group_count)`
 
@@ -35,7 +35,7 @@ An image element with a fallback for representing the user. Pure CSS, no JavaScr
 <% end %>
 ```
 
-**Size variants:** `:xs` (20px), `:sm` (24px), `:md` (32px), `:lg` (40px). Badge scales automatically via `group-data-[size]` selectors.
+**Size variants:** `:xs` (20px), `:sm` (24px), `:md` (32px), `:lg` (40px), `:xl` (64px), `:2xl` (80px). Badge scales automatically via `group-data-[size]` selectors.
 
 **Auto-contrast:** When `color:` is a hex string, text color (white/black) is computed automatically via WCAG luminance. Default threshold is 0.42. Override per-instance with `contrast_threshold:` or globally via `Kiso.config.contrast_threshold`.
 
