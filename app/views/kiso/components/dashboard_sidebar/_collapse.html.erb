@@ -1,6 +1,7 @@
-<%# locals: (css_classes: "", **component_options) %>
+<%# locals: (open_icon: nil, closed_icon: nil, css_classes: "", **component_options) %>
 <%# Sidebar collapse toggle for desktop. Shows open/closed panel icons that swap
-    visibility based on sidebar state via CSS. Placed inside the sidebar itself. %>
+    visibility based on sidebar state via CSS. Placed inside the sidebar itself.
+    Pass open_icon: / closed_icon: to override the default panel icons per-instance. %>
 <%= content_tag :button,
     class: Kiso::Themes::DashboardSidebarCollapse.render(class: css_classes),
     data: kiso_prepare_options(component_options, slot: "dashboard-sidebar-collapse",
@@ -9,6 +10,6 @@
     aria: { label: t("kiso.dashboard_sidebar.collapse"), expanded: "false", controls: "dashboard-sidebar" },
     type: "button",
     **component_options do %>
-  <span data-slot="collapse-icon-open"><%= kiso_component_icon(:panel_left_close) %></span>
-  <span data-slot="collapse-icon-closed"><%= kiso_component_icon(:panel_left_open) %></span>
+  <span data-slot="collapse-icon-open"><%= open_icon || kiso_component_icon(:panel_left_close) %></span>
+  <span data-slot="collapse-icon-closed"><%= closed_icon || kiso_component_icon(:panel_left_open) %></span>
 <% end %>

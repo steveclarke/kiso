@@ -53,6 +53,8 @@ application layout file:
 | `kui(:dashboard_sidebar, :toggle)` | `<button>` | Mobile-only hamburger toggle (`lg:hidden`) |
 | `kui(:dashboard_sidebar, :collapse)` | `<button>` | Desktop-only collapse button (`hidden lg:flex`) |
 | `kui(:dashboard_sidebar)` | `<aside>` | Collapsible sidebar navigation area |
+| `kui(:dashboard_sidebar, :header)` | `<div>` | Top section of sidebar (logo, collapse button) |
+| `kui(:dashboard_sidebar, :footer)` | `<div>` | Bottom section of sidebar (sign-out, color mode) |
 | `kui(:dashboard_toolbar)` | `<div>` | Secondary action bar with `:left` and `:right` sub-parts |
 | `kui(:dashboard_panel)` | `<main>` | Main content area |
 | `kui(:nav)` | `<nav>` | Navigation wrapper with `:section` and `:item` sub-parts |
@@ -79,6 +81,15 @@ The `layout:` prop controls the grid structure:
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
 
+### DashboardSidebar :collapse
+
+| Local | Type | Default |
+|-------|------|---------|
+| `open_icon:` | `String` \| `nil` | `nil` (uses `panel_left_close` icon) |
+| `closed_icon:` | `String` \| `nil` | `nil` (uses `panel_left_open` icon) |
+| `css_classes:` | `String` | `""` |
+| `**component_options` | `Hash` | `{}` |
+
 ### DashboardNavbar :toggle
 
 | Local | Type | Default |
@@ -94,6 +105,9 @@ Default layout (:sidebar) — sidebar spans full height, navbar in panel column:
 DashboardGroup (grid root, kiso--sidebar controller)
 ├── DashboardSidebar (collapsible aside, spans both rows)
 │   └── sidebar-inner (auto-rendered scroll container)
+│       ├── DashboardSidebar :header (optional, top section)
+│       ├── ... sidebar content ...
+│       └── DashboardSidebar :footer (optional, bottom section)
 ├── DashboardNavbar (topbar, panel column only)
 │   └── DashboardNavbar :toggle (hamburger button)
 ├── DashboardPanel (main content)
@@ -106,6 +120,9 @@ DashboardGroup (grid root, kiso--sidebar controller)
 │   └── DashboardNavbar :toggle (hamburger button)
 ├── DashboardSidebar (collapsible aside)
 │   └── sidebar-inner (auto-rendered scroll container)
+│       ├── DashboardSidebar :header (optional, top section)
+│       ├── ... sidebar content ...
+│       └── DashboardSidebar :footer (optional, bottom section)
 ├── DashboardPanel (main content)
 └── scrim (auto-rendered mobile overlay)
 ```
@@ -147,7 +164,7 @@ Place your logo, search bar, user menu, and other topbar elements inside
 
 ### Custom Toggle Icons
 
-The toggle buttons render a default icon (`menu` for the hamburger) but accept
+The toggle button renders a default icon (`menu` for the hamburger) but accepts
 a block to replace it with any content:
 
 ```erb
@@ -156,18 +173,26 @@ a block to replace it with any content:
 <%% end %>
 ```
 
-To change the default icon globally (without passing a block every time),
-override it in your initializer:
+The collapse button has two state-dependent icons (open/closed) that swap via
+CSS. Override them per-instance with `open_icon:` and `closed_icon:`:
+
+```erb
+<%%= kui(:dashboard_sidebar, :collapse,
+    open_icon: kiso_icon("chevron-left", class: "size-4"),
+    closed_icon: kiso_icon("chevron-right", class: "size-4")) %>
+```
+
+To change default icons globally (without passing props every time),
+override them in your initializer:
 
 ```ruby
 # config/initializers/kiso.rb
 Kiso.configure do |config|
-  config.icons[:menu] = "align-justify"
+  config.icons[:menu] = "align-justify"             # toggle
+  config.icons[:panel_left_close] = "chevron-left"   # collapse (open state)
+  config.icons[:panel_left_open] = "chevron-right"   # collapse (closed state)
 end
 ```
-
-The collapse button icons (`:panel_left_close` and `:panel_left_open`) can
-also be overridden globally via `config.icons`.
 
 ### Sidebar Content
 
@@ -291,6 +316,60 @@ on the toggle instead:
   <%# ... breadcrumbs, user menu, etc. ... %>
 <%% end %>
 ```
+
+### Page-Specific Sidebar Content
+
+Use Rails' `content_for` to inject per-page content into the sidebar from
+any view. Define a yield point in your layout:
+
+```erb
+<%# In layouts/dashboard.html.erb %>
+<%%= kui(:dashboard_sidebar) do %>
+  <%%= kui(:nav) do %>
+    <%# ... shared nav items ... %>
+  <%% end %>
+  <%% if content_for?(:sidebar) %>
+    <%%= yield :sidebar %>
+  <%% end %>
+  <%%= kui(:dashboard_sidebar, :footer) do %>
+    <%%= kui(:color_mode_button) %>
+  <%% end %>
+<%% end %>
+```
+
+Then populate it from any view:
+
+```erb
+<%# In app/views/rooms/show.html.erb %>
+<%% content_for :sidebar do %>
+  <div class="p-4">
+    <h3 class="text-sm font-medium text-foreground">Participants</h3>
+    <%# ... room-specific sidebar content ... %>
+  </div>
+<%% end %>
+```
+
+### Navbar Logo with Sidebar State
+
+When your sidebar header shows a logo, hide the duplicate navbar logo on
+desktop using the `kui-sidebar-open:` variant:
+
+```erb
+<%%= kui(:dashboard_navbar) do %>
+  <%%= kui(:dashboard_sidebar, :toggle) %>
+  <div class="kui-sidebar-open:lg:hidden flex items-center gap-2">
+    <%%= image_tag "logo.svg", class: "h-6 w-6" %>
+    <span class="font-semibold">MyApp</span>
+  </div>
+  <div class="flex-1"></div>
+  <%%= kui(:color_mode_button) %>
+<%% end %>
+```
+
+The logo appears in the navbar when the sidebar is collapsed (giving users
+a brand anchor), and hides when the sidebar opens (since the sidebar header
+already shows it). On mobile the sidebar is an overlay, so the navbar logo
+stays visible.
 
 ### Custom CSS Tokens
 

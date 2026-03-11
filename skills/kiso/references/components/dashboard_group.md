@@ -8,8 +8,10 @@ compose into a responsive 2x2 CSS grid.
 **Locals (dashboard_navbar, dashboard_sidebar, dashboard_panel, dashboard_toolbar):** `css_classes:`, `**component_options`
 
 **Sub-parts:**
-- `kui(:dashboard_sidebar, :toggle)` — mobile-only hamburger (`lg:hidden`)
-- `kui(:dashboard_sidebar, :collapse)` — desktop-only collapse (`hidden lg:flex`)
+- `kui(:dashboard_sidebar, :toggle)` — mobile-only hamburger (`lg:hidden`), accepts block for custom icon
+- `kui(:dashboard_sidebar, :collapse)` — desktop-only collapse (`hidden lg:flex`), accepts `open_icon:` / `closed_icon:` props
+- `kui(:dashboard_sidebar, :header)` — top section of sidebar (logo, collapse button)
+- `kui(:dashboard_sidebar, :footer)` — bottom section of sidebar (sign-out, color mode)
 - `kui(:dashboard_toolbar, :left)` / `kui(:dashboard_toolbar, :right)` — toolbar slots
 
 **Defaults:** `sidebar_open: nil` (reads `cookies[:sidebar_open]`)
@@ -56,13 +58,21 @@ compose into a responsive 2x2 CSS grid.
 ```
 For multiple controllers: `active: controller_name.in?(%w[settings billing])`
 
-**Custom toggle icons:** Toggle buttons accept a block to override the default icon:
+**Custom toggle icons:** Toggle accepts a block to override the default icon:
 ```erb
 <%= kui(:dashboard_sidebar, :toggle) do %>
   <%= kiso_icon("align-justify", class: "size-4") %>
 <% end %>
 ```
-Or override globally: `Kiso.configure { |c| c.icons[:menu] = "align-justify" }`
+
+Collapse accepts `open_icon:` and `closed_icon:` props for per-instance overrides:
+```erb
+<%= kui(:dashboard_sidebar, :collapse,
+    open_icon: kiso_icon("chevron-left", class: "size-4"),
+    closed_icon: kiso_icon("chevron-right", class: "size-4")) %>
+```
+
+Or override globally: `Kiso.configure { |c| c.icons[:menu] = "align-justify" }` (also `:panel_left_close`, `:panel_left_open`)
 
 **Sidebar state variants:** `kui-sidebar-open:` and `kui-sidebar-closed:` — custom Tailwind variants for showing/hiding any descendant based on sidebar state. Compose with breakpoints:
 
@@ -94,7 +104,41 @@ To keep the navbar on desktop but hide just the toggle when sidebar is open:
 <%= kui(:dashboard_sidebar, :toggle, css_classes: "kui-sidebar-open:lg:hidden") %>
 ```
 
-**Theme modules:** `Kiso::Themes::DashboardGroup`, `DashboardNavbar`, `DashboardSidebar`, `DashboardSidebarToggle`, `DashboardSidebarCollapse`, `DashboardToolbar`, `DashboardToolbarLeft`, `DashboardToolbarRight`, `DashboardPanel` (`lib/kiso/themes/dashboard.rb`)
+**Recipes:**
+
+Page-specific sidebar content — use `content_for` to inject per-page content into the sidebar from any view:
+```erb
+<%# In layouts/dashboard.html.erb %>
+<%= kui(:dashboard_sidebar) do %>
+  <%= kui(:nav) { ... } %>
+  <% if content_for?(:sidebar) %>
+    <%= yield :sidebar %>
+  <% end %>
+  <%= kui(:dashboard_sidebar, :footer) do %>
+    <%= kui(:color_mode_button) %>
+  <% end %>
+<% end %>
+
+<%# In any view %>
+<% content_for :sidebar do %>
+  <div class="p-4">Page-specific sidebar content here</div>
+<% end %>
+```
+
+Navbar logo with sidebar state — hide the navbar logo on desktop when the sidebar is open (since the sidebar header already shows it):
+```erb
+<%= kui(:dashboard_navbar) do %>
+  <%= kui(:dashboard_sidebar, :toggle) %>
+  <div class="kui-sidebar-open:lg:hidden flex items-center gap-2">
+    <%= image_tag "logo.svg", class: "h-6 w-6" %>
+    <span class="font-semibold">MyApp</span>
+  </div>
+  <div class="flex-1"></div>
+  <%= kui(:color_mode_button) %>
+<% end %>
+```
+
+**Theme modules:** `Kiso::Themes::DashboardGroup`, `DashboardNavbar`, `DashboardSidebar`, `DashboardSidebarToggle`, `DashboardSidebarCollapse`, `DashboardSidebarHeader`, `DashboardSidebarFooter`, `DashboardToolbar`, `DashboardToolbarLeft`, `DashboardToolbarRight`, `DashboardPanel` (`lib/kiso/themes/dashboard.rb`)
 
 **Nav theme modules:** `Kiso::Themes::Nav`, `NavSection`, `NavSectionTitle`, `NavSectionContent`, `NavItem`, `NavItemBadge` (`lib/kiso/themes/nav.rb`)
 
