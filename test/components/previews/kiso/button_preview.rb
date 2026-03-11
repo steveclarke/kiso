@@ -54,6 +54,11 @@ module Kiso
       render_with_template
     end
 
+    # @label Loading
+    def loading
+      render_with_template
+    end
+
     # @label Form Method
     # @param method select { choices: [delete, post, put, patch] }
     # @param variant select { choices: [solid, outline, soft, subtle, ghost, link] }

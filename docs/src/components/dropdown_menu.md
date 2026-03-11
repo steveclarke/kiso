@@ -35,6 +35,9 @@ source: lib/kiso/themes/dropdown_menu.rb
 | `variant:` | `:default` \| `:destructive` | `:default` |
 | `inset:` | Boolean | `false` |
 | `disabled:` | Boolean | `false` |
+| `href:` | `String` \| `nil` | `nil` |
+| `method:` | `:delete` \| `:post` \| `:put` \| `:patch` \| `nil` | `nil` |
+| `form:` | `Hash` | `{}` |
 | `css_classes:` | String | `""` |
 | `**component_options` | Hash | `{}` |
 
@@ -182,6 +185,32 @@ Use `variant: :destructive` for irreversible actions like delete.
     <%%= kui(:dropdown_menu, :item) { "Option A" } %>
     <%%= kui(:dropdown_menu, :item) { "Option B" } %>
   <%% end %>
+<%% end %>
+```
+
+### Smart Tag (Item)
+
+Items support `href:` for navigation and `method:` for form submissions.
+When `href:` is present, the item renders as `<a>` instead of `<div>`.
+When `method:` is also present (non-GET), it renders via Rails `button_to`.
+
+```erb
+<%%# Link item — renders <a> %>
+<%%= kui(:dropdown_menu, :item, href: profile_path) do %>
+  <%%= kiso_icon("user") %>
+  Profile
+<%% end %>
+
+<%%# Form submission — renders button_to %>
+<%%= kui(:dropdown_menu, :item, href: archive_path(@room), method: :patch) do %>
+  <%%= kiso_icon("archive") %>
+  Archive
+<%% end %>
+
+<%%# Destructive form action %>
+<%%= kui(:dropdown_menu, :item, href: room_path(@room), method: :delete, variant: :destructive) do %>
+  <%%= kiso_icon("trash-2") %>
+  Delete
 <%% end %>
 ```
 

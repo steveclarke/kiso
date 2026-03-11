@@ -1,0 +1,28 @@
+<div class="text-foreground flex items-center justify-center p-8">
+  <%= kui(:dropdown_menu) do %>
+    <%= kui(:dropdown_menu, :trigger) do %>
+      <%= kui(:button, variant: :outline) { "Actions" } %>
+    <% end %>
+    <%= kui(:dropdown_menu, :content, css_classes: "w-56") do %>
+      <%= kui(:dropdown_menu, :label) { "Navigation" } %>
+      <%= kui(:dropdown_menu, :item, href: "#profile") do %>
+        <%= kiso_icon("user") %>
+        Profile (link)
+      <% end %>
+      <%= kui(:dropdown_menu, :item, href: "#settings") do %>
+        <%= kiso_icon("settings") %>
+        Settings (link)
+      <% end %>
+      <%= kui(:dropdown_menu, :separator) %>
+      <%= kui(:dropdown_menu, :label) { "Actions" } %>
+      <%= kui(:dropdown_menu, :item, href: "#archive", method: :patch) do %>
+        <%= kiso_icon("archive") %>
+        Archive (form)
+      <% end %>
+      <%= kui(:dropdown_menu, :item, href: "#delete", method: :delete, variant: :destructive) do %>
+        <%= kiso_icon("trash-2") %>
+        Delete (form)
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
