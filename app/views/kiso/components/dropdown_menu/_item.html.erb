@@ -1,7 +1,7 @@
 <%# locals: (variant: :default, inset: false, disabled: false,
              href: nil, method: nil, form: {},
              css_classes: "", **component_options) %>
-<%# Clickable menu action. Polymorphic tag: <div> by default, <a> when href:
+<%# Clickable menu action. Polymorphic tag: <button> by default, <a> when href:
     is provided, button_to form when href: + method: (non-GET). %>
 <%
   css = Kiso::Themes::DropdownMenuItem.render(variant: variant, class: css_classes)
@@ -34,7 +34,9 @@
     <%= yield %>
   <% end %>
 <% else %>
-  <%= content_tag :div, class: css, data: data, **component_options do %>
+  <% component_options[:type] = :button
+     component_options[:disabled] = true if disabled %>
+  <%= content_tag :button, class: css, data: data, **component_options do %>
     <%= yield %>
   <% end %>
 <% end %>

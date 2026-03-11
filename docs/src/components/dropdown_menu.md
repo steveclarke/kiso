@@ -190,9 +190,9 @@ Use `variant: :destructive` for irreversible actions like delete.
 
 ### Smart Tag (Item)
 
-Items support `href:` for navigation and `method:` for form submissions.
-When `href:` is present, the item renders as `<a>` instead of `<div>`.
-When `method:` is also present (non-GET), it renders via Rails `button_to`.
+Items render as `<button type="button">` by default. When `href:` is present,
+the item renders as `<a>`. When `method:` is also present (non-GET), it
+renders via Rails `button_to`.
 
 ```erb
 <%%# Link item — renders <a> %>
