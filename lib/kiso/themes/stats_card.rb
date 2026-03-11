@@ -15,7 +15,7 @@ module Kiso
     #
     # Related: {StatsGrid} for responsive grid layout of multiple stats cards.
     StatsCard = ClassVariants.build(
-      base: "flex flex-col gap-2 rounded-xl p-4 text-foreground",
+      base: "flex flex-col gap-2 rounded-xl p-4 text-foreground min-w-0 overflow-hidden",
       variants: {
         variant: {
           outline: "bg-background ring ring-inset ring-border shadow-sm",

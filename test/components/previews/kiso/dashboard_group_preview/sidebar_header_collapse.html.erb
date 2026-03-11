@@ -1,0 +1,60 @@
+<%# Sidebar header collapse pattern (Linear/Notion style).
+    The collapse button lives in the sidebar header, and the navbar
+    is hidden on desktop (lg:hidden) since the sidebar owns the toggle. %>
+<div class="w-full overflow-hidden rounded-lg border border-border" style="height: 480px;">
+  <%= kui(:dashboard_group, sidebar_open: true, css_classes: "h-full") do %>
+    <%= kui(:dashboard_navbar, css_classes: "lg:hidden") do %>
+      <%= kui(:dashboard_sidebar, :toggle) %>
+    <% end %>
+
+    <%= kui(:dashboard_sidebar) do %>
+      <%= kui(:dashboard_sidebar, :header) do %>
+        <div class="flex items-center gap-1.5 flex-1 min-w-0">
+          <div class="flex items-center justify-center w-6 h-6 rounded-md bg-primary shrink-0">
+            <%= kiso_icon("layers", class: "size-3.5 text-primary-foreground") %>
+          </div>
+          <span class="font-semibold text-sm truncate">Kiso App</span>
+        </div>
+        <%= kui(:dashboard_sidebar, :collapse) %>
+      <% end %>
+      <%= kui(:nav, css_classes: "flex-1 overflow-y-auto") do %>
+        <%= kui(:nav, :section, title: "Main") do %>
+          <%= kui(:nav, :item, href: "#", icon: "layout-dashboard", active: true) { "Dashboard" } %>
+          <%= kui(:nav, :item, href: "#", icon: "bar-chart-3") { "Analytics" } %>
+          <%= kui(:nav, :item, href: "#", icon: "users") { "Team" } %>
+        <% end %>
+        <%= kui(:nav, :section, title: "Settings") do %>
+          <%= kui(:nav, :item, href: "#", icon: "settings") { "General" } %>
+          <%= kui(:nav, :item, href: "#", icon: "credit-card") { "Billing" } %>
+        <% end %>
+      <% end %>
+      <%= kui(:dashboard_sidebar, :footer) do %>
+        <div class="flex items-center gap-2 w-full px-1">
+          <%= kui(:avatar, size: :sm, text: "SC", css_classes: "bg-primary text-primary-foreground") %>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium truncate">Steve Clarke</p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%= kui(:dashboard_panel) do %>
+      <div class="p-6 space-y-4">
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">Overview</h1>
+          <p class="text-muted-foreground text-sm mt-0.5">Collapse button is in the sidebar header — navbar is hidden on desktop.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <%= kui(:stats_card) do %>
+            <%= kui(:stats_card, :header) { kui(:stats_card, :label) { "Revenue" } } %>
+            <%= kui(:stats_card, :value) { "$47,821" } %>
+          <% end %>
+          <%= kui(:stats_card) do %>
+            <%= kui(:stats_card, :header) { kui(:stats_card, :label) { "Users" } } %>
+            <%= kui(:stats_card, :value) { "2,847" } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

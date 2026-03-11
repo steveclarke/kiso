@@ -17,6 +17,11 @@ module Kiso
       render_with_template
     end
 
+    # @label Sidebar Header Collapse
+    def sidebar_header_collapse
+      render_with_template
+    end
+
     # @label Navbar Layout
     def navbar_layout
       render_with_template

@@ -247,6 +247,51 @@ only affect desktop behavior.
 | `kui-sidebar-open:` | Sidebar is expanded (`data-sidebar-open="true"`) |
 | `kui-sidebar-closed:` | Sidebar is collapsed (`data-sidebar-open="false"`) |
 
+### Sidebar Header Collapse Pattern
+
+Apps like Linear and Notion place the collapse button in the sidebar header
+instead of the navbar. In this pattern, the navbar toggle (hamburger) should
+only appear on mobile or when the sidebar is closed on desktop — otherwise
+you'd have two buttons that do the same thing:
+
+```erb
+<%%= kui(:dashboard_navbar, css_classes: "lg:hidden") do %>
+  <%%= kui(:dashboard_sidebar, :toggle) %>
+<%% end %>
+
+<%%= kui(:dashboard_sidebar) do %>
+  <%%= kui(:dashboard_sidebar, :header) do %>
+    <div class="flex items-center gap-1.5 flex-1 min-w-0">
+      <%%= image_tag "logo.svg", class: "h-6 w-6 shrink-0" %>
+      <span class="font-semibold text-sm truncate">MyApp</span>
+    </div>
+    <%%= kui(:dashboard_sidebar, :collapse) %>
+  <%% end %>
+  <%%= kui(:nav) do %>
+    <%# ... nav items ... %>
+  <%% end %>
+<%% end %>
+```
+
+Key classes:
+- **`lg:hidden` on the navbar** — hides the entire navbar row on desktop.
+  On mobile the sidebar is an overlay, so the navbar hamburger toggle is
+  still needed.
+- **Collapse button in sidebar header** — the collapse button moves
+  into the sidebar header alongside the logo, so users can collapse from
+  within the sidebar itself.
+
+If you want the navbar to remain visible on desktop (e.g., for breadcrumbs
+or user actions) but just hide the toggle, use `kui-sidebar-open:lg:hidden`
+on the toggle instead:
+
+```erb
+<%%= kui(:dashboard_navbar) do %>
+  <%%= kui(:dashboard_sidebar, :toggle, css_classes: "kui-sidebar-open:lg:hidden") %>
+  <%# ... breadcrumbs, user menu, etc. ... %>
+<%% end %>
+```
+
 ### Custom CSS Tokens
 
 Override layout tokens in your app's Tailwind CSS:

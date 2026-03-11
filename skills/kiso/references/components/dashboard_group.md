@@ -74,6 +74,26 @@ Or override globally: `Kiso.configure { |c| c.icons[:menu] = "align-justify" }`
 <div class="hidden kui-sidebar-closed:lg:block">icon</div>
 ```
 
+**Sidebar header collapse pattern (Linear/Notion):** Move the collapse button into the sidebar header and hide the navbar on desktop:
+```erb
+<%= kui(:dashboard_navbar, css_classes: "lg:hidden") do %>
+  <%= kui(:dashboard_sidebar, :toggle) %>
+<% end %>
+
+<%= kui(:dashboard_sidebar) do %>
+  <%= kui(:dashboard_sidebar, :header) do %>
+    <div class="flex items-center gap-1.5 flex-1 min-w-0">Logo</div>
+    <%= kui(:dashboard_sidebar, :collapse) %>
+  <% end %>
+  ...
+<% end %>
+```
+
+To keep the navbar on desktop but hide just the toggle when sidebar is open:
+```erb
+<%= kui(:dashboard_sidebar, :toggle, css_classes: "kui-sidebar-open:lg:hidden") %>
+```
+
 **Theme modules:** `Kiso::Themes::DashboardGroup`, `DashboardNavbar`, `DashboardSidebar`, `DashboardSidebarToggle`, `DashboardSidebarCollapse`, `DashboardToolbar`, `DashboardToolbarLeft`, `DashboardToolbarRight`, `DashboardPanel` (`lib/kiso/themes/dashboard.rb`)
 
 **Nav theme modules:** `Kiso::Themes::Nav`, `NavSection`, `NavSectionTitle`, `NavSectionContent`, `NavItem`, `NavItemBadge` (`lib/kiso/themes/nav.rb`)
