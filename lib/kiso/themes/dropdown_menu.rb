@@ -31,7 +31,7 @@ module Kiso
     # Variants:
     # - +variant+ — :default, :destructive
     DropdownMenuItem = ClassVariants.build(
-      base: "relative flex cursor-default items-center gap-2 rounded-sm " \
+      base: "relative flex w-full cursor-default items-center gap-2 rounded-sm " \
             "px-2 py-1.5 text-sm outline-none select-none " \
             "data-[highlighted]:bg-elevated data-[highlighted]:text-foreground " \
             "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 " \
