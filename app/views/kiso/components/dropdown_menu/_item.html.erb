@@ -1,15 +1,39 @@
-<%# locals: (variant: :default, inset: false, disabled: false, css_classes: "", **component_options) %>
-<%= content_tag :div,
-    class: Kiso::Themes::DropdownMenuItem.render(variant: variant, class: css_classes),
-    role: "menuitem",
-    tabindex: "-1",
-    data: kiso_prepare_options(component_options, slot: "dropdown-menu-item",
-      kiso__dropdown_menu_target: "item",
-      action: "click->kiso--dropdown-menu#selectItem",
-      inset: (inset ? "" : nil),
-      variant: (variant == :destructive ? "destructive" : nil),
-      disabled: (disabled ? "true" : nil)),
-    aria: {disabled: (disabled || nil)},
-    **component_options do %>
-  <%= yield %>
+<%# locals: (variant: :default, inset: false, disabled: false,
+             href: nil, method: nil, form: {},
+             css_classes: "", **component_options) %>
+<%# Clickable menu action. Polymorphic tag: <div> by default, <a> when href:
+    is provided, button_to form when href: + method: (non-GET). %>
+<%
+  css = Kiso::Themes::DropdownMenuItem.render(variant: variant, class: css_classes)
+  data = kiso_prepare_options(component_options, slot: "dropdown-menu-item",
+    kiso__dropdown_menu_target: "item",
+    action: "click->kiso--dropdown-menu#selectItem",
+    inset: (inset ? "" : nil),
+    variant: (variant == :destructive ? "destructive" : nil),
+    disabled: (disabled ? "true" : nil))
+  shared_attrs = { role: "menuitem", tabindex: "-1", aria: { disabled: (disabled || nil) } }
+  use_button_to = href.present? && method.present? && method.to_s != "get"
+%>
+<% if use_button_to %>
+  <%= button_to href,
+      method: method,
+      class: css,
+      form_class: "contents w-full",
+      data: data,
+      disabled: disabled || nil,
+      form: form.presence,
+      **shared_attrs,
+      **component_options do %>
+    <%= yield %>
+  <% end %>
+<% elsif href.present? %>
+  <% component_options[:href] = href
+     component_options[:"aria-disabled"] = true if disabled %>
+  <%= content_tag :a, class: css, data: data, **shared_attrs, **component_options do %>
+    <%= yield %>
+  <% end %>
+<% else %>
+  <%= content_tag :div, class: css, data: data, **shared_attrs, **component_options do %>
+    <%= yield %>
+  <% end %>
 <% end %>
