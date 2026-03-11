@@ -32,6 +32,7 @@ module Kiso
           say_status :skip, initializer_path, :yellow
         else
           template "initializer.rb.tt", initializer_path
+          @initializer_created = true
         end
       end
 
@@ -40,14 +41,10 @@ module Kiso
         when true then false
         when false then true
         else
-          yes?(<<~PROMPT)
-
-            Would you like to generate a Design System document?
-            This creates DESIGN_SYSTEM.md with your app's spacing, typography, color,
-            and component conventions — useful for team alignment and AI coding agents.
-
-            Generate DESIGN_SYSTEM.md? (y/n)
-          PROMPT
+          say ""
+          say "Would you like to generate a Design System document? This creates DESIGN_SYSTEM.md with your app's spacing, typography, color, and component conventions — useful for team alignment and AI coding agents."
+          say ""
+          yes?("Generate DESIGN_SYSTEM.md? (y/n)")
         end
 
         return unless should_generate
@@ -58,10 +55,12 @@ module Kiso
       end
 
       def print_next_steps
+        return unless @initializer_created || @design_system_created
+
         say ""
         say "Kiso installed!", :green
         say ""
-        say "  Initializer: config/initializers/kiso.rb"
+        say "  Initializer: config/initializers/kiso.rb" if @initializer_created
         say "  Design System: DESIGN_SYSTEM.md" if @design_system_created
         say ""
         say "Next steps:"
@@ -80,10 +79,8 @@ module Kiso
         return options[:app_name] if options[:app_name].present?
         return "My App" if options[:skip_design_system] == false
 
-        response = ask(<<~PROMPT)
-          What's your app called? This is just a friendly name for the document
-          header (e.g. "Outport", "My App"). [default: My App]
-        PROMPT
+        say 'What\'s your app called? This is just a friendly name for the document header (e.g. "Outport", "My App").'
+        response = ask("App name [My App]:")
         response.presence || "My App"
       end
     end
