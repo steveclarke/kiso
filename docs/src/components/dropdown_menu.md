@@ -255,6 +255,7 @@ The dropdown menu uses the `kiso--dropdown-menu` Stimulus controller for:
 - Radio group exclusive selection
 - Click outside dismisses
 - Type-ahead character search
+- Deferred close on item select (actions on items fire before menu hides)
 
 Register the controller via `KisoUi.start(application)` in your Stimulus setup.
 

@@ -86,7 +86,7 @@ All colored components use **identical compound variant formulas** — see `proj
 |---|---|---|
 | `alert` | `icon`, `color`, `variant` (solid/outline/soft/subtle), `close`. Sub-parts: title, description, actions. Stimulus: `kiso--alert` | [alert.md](components/alert.md) |
 | `badge` | `color`, `variant` (solid/outline/soft/subtle), `size` (xs-xl) | [badge.md](components/badge.md) |
-| `button` | `color`, `variant` (solid/outline/soft/subtle/ghost/link), `size` (xs-xl), `loading:` (spinner + disabled), `method:` (delete/post/put/patch), `form:` | [button.md](components/button.md) |
+| `button` | `color`, `variant` (solid/outline/soft/subtle/ghost/link), `size` (xs-xl), `loading:` (spinner + disabled), `loading_auto:` (Turbo form auto-loading), `method:` (delete/post/put/patch), `form:` | [button.md](components/button.md) |
 | `color_mode_button` | `size` (sm/md/lg). Toggles light/dark via `kiso--theme#toggle`. Icons: `kiso_component_icon(:sun/:moon)` | [color_mode_button.md](components/color_mode_button.md) |
 | `color_mode_select` | `size` (sm/md). Three-way select (light/dark/system). Composes `kui(:select)`, dispatches to `kiso--theme#set` | [color_mode_select.md](components/color_mode_select.md) |
 | `kbd` | `size` (sm/md/lg). Sub-part: group | [kbd.md](components/kbd.md) |

@@ -24,6 +24,7 @@ source: lib/kiso/themes/button.rb
 | `block:` | `Boolean` | `false` |
 | `disabled:` | `Boolean` | `false` |
 | `loading:` | `Boolean` | `false` |
+| `loading_auto:` | `Boolean` | `false` |
 | `type:` | `:button` \| `:submit` \| `:reset` | `:button` |
 | `href:` | `String` \| `nil` | `nil` |
 | `method:` | `:delete` \| `:post` \| `:put` \| `:patch` \| `nil` | `nil` |
@@ -112,6 +113,18 @@ Works across all tag variants (button, link, button_to):
 <%%= kui(:button, type: :submit, loading: true) { "Submitting..." } %>
 <%%= kui(:button, href: "#", loading: true) { "Loading Link" } %>
 ```
+
+### Loading Auto
+
+Automatically enters loading state on Turbo form submission and restores
+when the response arrives. No custom Stimulus controllers needed.
+
+```erb
+<%%= kui(:button, type: :submit, loading_auto: true) { "Save" } %>
+```
+
+Uses the `kiso--button-loading` Stimulus controller under the hood. Listens
+for `turbo:submit-start` and `turbo:submit-end` on the closest form.
 
 ### Block
 
