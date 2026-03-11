@@ -158,7 +158,10 @@ export default class extends Controller {
     if (item.dataset.disabled === "true") return
 
     this.dispatch("select", { detail: { item } })
-    this.close()
+    // Defer close to the next frame so other click handlers on the item
+    // (e.g. dialog triggers, custom actions) complete before the menu
+    // hides and removes elements from view. See #233.
+    requestAnimationFrame(() => this.close())
   }
 
   /**

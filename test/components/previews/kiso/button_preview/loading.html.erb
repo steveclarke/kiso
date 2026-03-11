@@ -18,4 +18,11 @@
   <div class="flex flex-wrap gap-3 items-center">
     <%= kui(:button, href: "#", loading: true) { "Loading Link" } %>
   </div>
+
+  <p class="text-sm text-muted-foreground">Loading auto (Turbo form — submit to see spinner)</p>
+  <div class="flex flex-wrap gap-3 items-center">
+    <form action="#" method="post">
+      <%= kui(:button, type: :submit, loading_auto: true) { "Save" } %>
+    </form>
+  </div>
 </div>
