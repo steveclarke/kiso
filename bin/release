@@ -369,6 +369,11 @@ if [ "$NPM_RELEASE" = true ]; then
     gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Updating package.json...")" -- \
       npm version "$NPM_VERSION" --no-git-tag-version
     gum style --foreground "$GREEN" "✓ Updated package.json"
+
+    # Sync package-lock.json with the new version
+    gum spin --spinner points --title "$(gum style --foreground "$BLUE" "Syncing package-lock.json...")" -- \
+      npm install --package-lock-only --ignore-scripts
+    gum style --foreground "$GREEN" "✓ Updated package-lock.json"
   else
     gum style --foreground "$GREEN" "✓ package.json already at ${NPM_VERSION}"
   fi
@@ -383,13 +388,13 @@ GIT_ADD_FILES=""
 COMMIT_MSG=""
 
 if [ "$GEM_RELEASE" = true ] && [ "$NPM_RELEASE" = true ]; then
-  GIT_ADD_FILES="lib/kiso/version.rb package.json"
+  GIT_ADD_FILES="lib/kiso/version.rb package.json package-lock.json"
   COMMIT_MSG="Release v${NEW_VERSION} + kiso-ui npm-v${NPM_VERSION}"
 elif [ "$GEM_RELEASE" = true ]; then
   GIT_ADD_FILES="lib/kiso/version.rb"
   COMMIT_MSG="Release v${NEW_VERSION}"
 else
-  GIT_ADD_FILES="package.json"
+  GIT_ADD_FILES="package.json package-lock.json"
   COMMIT_MSG="Release kiso-ui npm-v${NPM_VERSION}"
 fi
 
