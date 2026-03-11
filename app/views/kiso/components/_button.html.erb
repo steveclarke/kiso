@@ -37,7 +37,8 @@
   <% end %>
 <% else %>
   <% component_options[:type] = type
-     component_options[:disabled] = true if is_disabled %>
+     component_options[:disabled] = true if is_disabled
+     component_options[:form] = form if form.is_a?(String) %>
   <%= content_tag :button, class: css, data: data, **component_options do %>
     <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
     <%= yield %>
