@@ -1,16 +1,15 @@
 /* ── Button ──────────────────────────────────────────────────────────────────
    Default display value for the Button component.
 
-   Why CSS instead of a Tailwind class?
-   The theme module applies `inline-flex` via Tailwind, but Tailwind utilities
-   live in @layer utilities — the highest-priority layer. That means when JS
-   removes a `hidden` class, the button's `inline-flex` (also in utilities)
-   has no cascade advantage to restore visibility. Placing the default display
-   in @layer components (lower priority) lets utility classes like `hidden`
-   override it naturally, while still restoring inline-flex when `hidden` is
-   removed.
+   Why CSS in addition to the theme class?
+   The theme module includes `inline-flex` so the class string is
+   self-contained (works on link_to, button_to, etc. without data-slot).
+   This @layer components rule provides a lower-priority fallback for
+   kui(:button) elements so that utility classes like `hidden` can override
+   display naturally, restoring inline-flex when `hidden` is removed.
 
-   Fixes: https://github.com/steveclarke/kiso/issues/200 */
+   Fixes: https://github.com/steveclarke/kiso/issues/200
+   See also: https://github.com/steveclarke/kiso/issues/229 */
 
 @layer components {
   [data-slot="button"] {
