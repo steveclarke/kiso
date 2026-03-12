@@ -1,0 +1,67 @@
+/* ── Progress ─────────────────────────────────────────────────────────
+ * Indeterminate animation keyframes for the progress indicator.
+ * 8 keyframes: 4 animation styles × 2 orientations (horizontal/vertical).
+ *
+ * Why CSS: @keyframes definitions and prefers-reduced-motion media
+ * queries cannot be expressed in ERB/Tailwind utilities.
+ * ──────────────────────────────────────────────────────────────────── */
+
+/* === Carousel === */
+
+@keyframes carousel {
+  0%, 100% { width: 50%; }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes carousel-vertical {
+  0%, 100% { height: 50%; }
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+/* === Carousel Inverse === */
+
+@keyframes carousel-inverse {
+  0%, 100% { width: 50%; }
+  0% { transform: translateX(200%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes carousel-inverse-vertical {
+  0%, 100% { height: 50%; }
+  0% { transform: translateY(200%); }
+  100% { transform: translateY(-100%); }
+}
+
+/* === Swing === */
+
+@keyframes swing {
+  0%, 100% { width: 50%; transform: translateX(-25%); }
+  50% { transform: translateX(125%); }
+}
+
+@keyframes swing-vertical {
+  0%, 100% { height: 50%; transform: translateY(-25%); }
+  50% { transform: translateY(125%); }
+}
+
+/* === Elastic === */
+
+@keyframes elastic {
+  0%, 100% { width: 50%; margin-left: 25%; }
+  50% { width: 90%; margin-left: 5%; }
+}
+
+@keyframes elastic-vertical {
+  0%, 100% { height: 50%; margin-top: 25%; }
+  50% { height: 90%; margin-top: 5%; }
+}
+
+/* === Reduced motion === */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="progress-indicator"][data-state="indeterminate"] {
+    animation-duration: 0s !important;
+  }
+}

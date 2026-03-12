@@ -1,0 +1,74 @@
+<%# locals: (value: nil, max: 100, status: false, color: :primary, size: :md, animation: :carousel, orientation: :horizontal, inverted: false, ui: {}, css_classes: "", **component_options) %>
+<%# Div-based progress bar with optional status text and step labels.
+    Indeterminate state when value: is nil (animated indicator via CSS).
+    Steps mode when max: is an array of labels. %>
+<% is_indeterminate = value.nil? %>
+<% has_steps = max.is_a?(Array) %>
+<% real_max = has_steps ? [max.length - 1, 1].max : [max.to_i, 1].max %>
+<% percent = is_indeterminate ? 0 : ((value.to_f / real_max) * 100).clamp(0, 100) %>
+<%
+  vertical = orientation == :vertical
+
+  # Indicator transform
+  if is_indeterminate
+    indicator_style = nil
+  elsif vertical
+    indicator_style = inverted ? "transform: translateY(#{100 - percent}%)" : "transform: translateY(-#{100 - percent}%)"
+  else
+    indicator_style = inverted ? "transform: translateX(#{100 - percent}%)" : "transform: translateX(-#{100 - percent}%)"
+  end
+%>
+<%= content_tag :div,
+    class: Kiso::Themes::Progress.render(orientation: orientation, class: css_classes),
+    data: kiso_prepare_options(component_options, slot: "progress", orientation: orientation),
+    **component_options do %>
+  <% if !is_indeterminate && status %>
+    <%= tag.div(
+        class: Kiso::Themes::ProgressStatus.render(orientation: orientation, size: size, class: ui[:status]),
+        style: vertical ? "height: #{percent}%" : "width: #{percent}%",
+        data: {slot: "progress-status"}) do %>
+      <%= "#{percent.round}%" %>
+    <% end %>
+  <% end %>
+  <%= tag.div(
+      class: Kiso::Themes::ProgressTrack.render(orientation: orientation, size: size, class: ui[:track]),
+      role: "progressbar",
+      aria: {
+        valuenow: (is_indeterminate ? nil : value),
+        valuemin: 0,
+        valuemax: real_max,
+        label: component_options.dig(:aria, :label) || t("kiso.progress.label")
+      },
+      style: "transform: translateZ(0)",
+      data: {slot: "progress-track"}) do %>
+    <%= tag.div(
+        class: Kiso::Themes::ProgressIndicator.render(color: color, animation: animation, orientation: orientation, class: ui[:indicator]),
+        style: indicator_style,
+        data: {
+          slot: "progress-indicator",
+          state: is_indeterminate ? "indeterminate" : "loading"
+        }) %>
+  <% end %>
+  <% if has_steps %>
+    <%= tag.div(
+        class: Kiso::Themes::ProgressSteps.render(color: color, size: size, class: ui[:steps]),
+        data: {slot: "progress-steps"}) do %>
+      <% max.each_with_index do |step_label, index| %>
+        <%
+          step_variant = if index == value && index == 0
+            :first
+          elsif index == value && index == real_max
+            :last
+          elsif index == value
+            :active
+          else
+            :other
+          end
+        %>
+        <%= tag.div(step_label,
+            class: Kiso::Themes::ProgressStep.render(step: step_variant, class: ui[:step]),
+            data: {slot: "progress-step"}) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

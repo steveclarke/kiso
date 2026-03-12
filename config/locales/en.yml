@@ -28,6 +28,8 @@ en:
       loading: "Loading"
     tooltip:
       label: "Tooltip"
+    progress:
+      label: "Progress"
     pagination:
       label: "pagination"
       more_pages: "More pages"
