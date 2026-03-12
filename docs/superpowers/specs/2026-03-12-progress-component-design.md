@@ -46,8 +46,9 @@ Tailwind control. Pure CSS — no Stimulus controller.
     60%
   </div>
 
-  <!-- Track bar -->
-  <div data-slot="progress-base"
+  <!-- Track bar (role on track, not root, because root wraps non-progressbar
+       content like status text and step labels) -->
+  <div data-slot="progress-track"
        role="progressbar"
        aria-valuenow="60"
        aria-valuemin="0"
@@ -80,7 +81,7 @@ indicator, omit `aria-valuenow`.
 | `status` | Boolean | false | Show percentage text above bar |
 | `color` | Symbol | :primary | primary, secondary, success, info, warning, error, neutral |
 | `size` | Symbol | :md | xs, sm, md, lg, xl |
-| `animation` | Symbol | :carousel | carousel, carousel_inverse, swing, elastic |
+| `animation` | Symbol | :carousel | carousel, carousel_inverse, swing, elastic (Ruby snake_case; CSS keyframes use kebab-case) |
 | `orientation` | Symbol | :horizontal | horizontal, vertical |
 | `inverted` | Boolean | false | Reverse fill direction |
 | `ui` | Hash | {} | Per-slot class overrides |
@@ -93,8 +94,9 @@ Six constants in `lib/kiso/themes/progress.rb`:
 ### Progress (root)
 
 ```ruby
+# shadcn base: (no direct equivalent — shadcn wraps in Radix ProgressRoot)
 Progress = ClassVariants.build(
-  base: "gap-2",
+  base: "text-foreground gap-2",
   variants: {
     orientation: {
       horizontal: "w-full flex flex-col",
@@ -105,10 +107,11 @@ Progress = ClassVariants.build(
 )
 ```
 
-### ProgressBase (track)
+### ProgressTrack
 
 ```ruby
-ProgressBase = ClassVariants.build(
+# shadcn base: bg-primary/20 relative h-2 w-full overflow-hidden rounded-full
+ProgressTrack = ClassVariants.build(
   base: "relative overflow-hidden rounded-full bg-accented",
   variants: {
     orientation: {
@@ -140,6 +143,7 @@ ProgressBase = ClassVariants.build(
 ### ProgressIndicator
 
 ```ruby
+# shadcn base: bg-primary h-full w-full flex-1 transition-all
 ProgressIndicator = ClassVariants.build(
   base: "rounded-full size-full transition-transform duration-200 ease-out",
   variants: {
@@ -191,6 +195,8 @@ ProgressSteps = ClassVariants.build(
       info: "text-info",
       warning: "text-warning",
       error: "text-error",
+      # text-inverted (not text-inverted-foreground) — step labels sit on the
+      # page background, so we want dark-on-light / light-on-dark text.
       neutral: "text-inverted"
     },
     size: {
@@ -209,7 +215,7 @@ ProgressStep = ClassVariants.build(
   variants: {
     step: {
       active: "opacity-100",
-      first: "opacity-100 text-muted-foreground",
+      first: "opacity-100 opacity-50",  # inherits parent text-{color} at reduced opacity
       other: "opacity-0",
       last: ""
     }
@@ -226,9 +232,21 @@ ensures the grid cell is always sized to the widest label.
 
 File: `app/assets/tailwind/kiso/progress.css`
 
-10 `@keyframes` definitions for 4 animation styles × horizontal/vertical
-(plus RTL for carousel variants). Applied via compound variants in the
-indicator theme when `data-state="indeterminate"`.
+10 `@keyframes` definitions:
+
+1. `carousel` (horizontal LTR)
+2. `carousel-rtl` (horizontal RTL)
+3. `carousel-vertical`
+4. `carousel-inverse` (horizontal LTR)
+5. `carousel-inverse-rtl` (horizontal RTL)
+6. `carousel-inverse-vertical`
+7. `swing` (horizontal)
+8. `swing-vertical`
+9. `elastic` (horizontal)
+10. `elastic-vertical`
+
+Applied via compound variants in the indicator theme when
+`data-state="indeterminate"`.
 
 The ERB partial adds animation classes to the indicator only when value is
 nil. Animation class format:
@@ -250,7 +268,7 @@ Implemented via compound variants on orientation × inverted.
 
 ## ARIA
 
-- `role="progressbar"` on the track (`progress-base`)
+- `role="progressbar"` on the track (`progress-track`)
 - `aria-valuenow` = current value (omitted when indeterminate)
 - `aria-valuemin` = 0
 - `aria-valuemax` = numeric max
@@ -271,7 +289,7 @@ Minimal — the component is primarily visual. Label used as fallback
 ## Presets
 
 - **rounded**: no change needed (already `rounded-full`)
-- **sharp**: `rounded-full` → `rounded-none` on base + indicator
+- **sharp**: `rounded-full` → `rounded-none` on track + indicator
 
 ## Deliverables
 
