@@ -54,11 +54,23 @@ export default class extends Controller {
     this._tooltipId = this.contentTarget.id || `tooltip-${crypto.randomUUID().slice(0, 8)}`
     this.contentTarget.id = this._tooltipId
     this._triggerEl.setAttribute("aria-describedby", this._tooltipId)
+
+    // Strip native title tooltip to prevent double tooltip
+    if (this._triggerEl.hasAttribute("title")) {
+      this._originalTitle = this._triggerEl.getAttribute("title")
+      this._triggerEl.removeAttribute("title")
+    }
   }
 
   disconnect() {
     this._cleanupPosition?.()
     this._clearTimers()
+
+    // Restore native title attribute
+    if (this._originalTitle != null) {
+      this._triggerEl.setAttribute("title", this._originalTitle)
+      this._originalTitle = null
+    }
   }
 
   /**

@@ -12,7 +12,7 @@ module Kiso
     # Kiso: bg-inverted text-inverted-foreground (semantic equivalents)
     TooltipContent = ClassVariants.build(
       base: "bg-inverted text-inverted-foreground px-3 py-1.5 text-xs rounded-md " \
-            "flex items-center gap-1.5 select-none w-max max-w-xs"
+            "flex items-center gap-1.5 select-none w-max max-w-xs overflow-hidden"
     )
 
     # Arrow element pointing from tooltip content to the trigger.
