@@ -4,7 +4,7 @@
     Steps mode when max: is an array of labels. %>
 <% is_indeterminate = value.nil? %>
 <% has_steps = max.is_a?(Array) %>
-<% real_max = has_steps ? [max.length - 1, 0].max : [max.to_i, 1].max %>
+<% real_max = has_steps ? [max.length - 1, 1].max : [max.to_i, 1].max %>
 <% percent = is_indeterminate ? 0 : ((value.to_f / real_max) * 100).clamp(0, 100) %>
 <%
   vertical = orientation == :vertical
