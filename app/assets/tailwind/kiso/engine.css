@@ -28,6 +28,7 @@
 @import "./input-otp.css";
 @import "./slider.css";
 @import "./tooltip.css";
+@import "./progress.css";
 
 /* === Tailwind Source Scanning ===
    Tell Tailwind v4 to scan Kiso's own source files for class references.
