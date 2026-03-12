@@ -1,6 +1,6 @@
 /* ── Progress ─────────────────────────────────────────────────────────
  * Indeterminate animation keyframes for the progress indicator.
- * 10 keyframes: 4 animation styles × horizontal/vertical (+2 RTL).
+ * 8 keyframes: 4 animation styles × 2 orientations (horizontal/vertical).
  *
  * Why CSS: @keyframes definitions and prefers-reduced-motion media
  * queries cannot be expressed in ERB/Tailwind utilities.
@@ -9,34 +9,28 @@
 /* === Carousel === */
 
 @keyframes carousel {
-  0%, 100% { width: 50%; transform: translateX(-100%); }
+  0%, 100% { width: 50%; }
+  0% { transform: translateX(-100%); }
   100% { transform: translateX(200%); }
 }
 
-@keyframes carousel-rtl {
-  0%, 100% { width: 50%; transform: translateX(100%); }
-  100% { transform: translateX(-200%); }
-}
-
 @keyframes carousel-vertical {
-  0%, 100% { height: 50%; transform: translateY(-100%); }
+  0%, 100% { height: 50%; }
+  0% { transform: translateY(-100%); }
   100% { transform: translateY(200%); }
 }
 
 /* === Carousel Inverse === */
 
 @keyframes carousel-inverse {
-  0%, 100% { width: 50%; transform: translateX(200%); }
+  0%, 100% { width: 50%; }
+  0% { transform: translateX(200%); }
   100% { transform: translateX(-100%); }
 }
 
-@keyframes carousel-inverse-rtl {
-  0%, 100% { width: 50%; transform: translateX(-200%); }
-  100% { transform: translateX(100%); }
-}
-
 @keyframes carousel-inverse-vertical {
-  0%, 100% { height: 50%; transform: translateY(200%); }
+  0%, 100% { height: 50%; }
+  0% { transform: translateY(200%); }
   100% { transform: translateY(-100%); }
 }
 

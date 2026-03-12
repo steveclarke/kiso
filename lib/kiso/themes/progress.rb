@@ -60,6 +60,8 @@ module Kiso
 
     # Indicator (fill bar) — color axis maps directly to bg-{color}.
     # No variant axis (solid/outline/soft/subtle) — just direct color.
+    # Indeterminate animations gated by data-[state=indeterminate]: selector
+    # so the class is always present but only activates when indeterminate.
     #
     # shadcn base: bg-primary h-full w-full flex-1 transition-all
     ProgressIndicator = ClassVariants.build(
@@ -73,9 +75,35 @@ module Kiso
           warning: "bg-warning",
           error: "bg-error",
           neutral: "bg-inverted"
+        },
+        animation: {
+          carousel: "", carousel_inverse: "", swing: "", elastic: ""
+        },
+        orientation: {
+          horizontal: "", vertical: ""
         }
       },
-      defaults: {color: :primary}
+      compound_variants: [
+        # == indeterminate animation: horizontal ==
+        {animation: :carousel, orientation: :horizontal,
+         class: "data-[state=indeterminate]:animate-[carousel_2s_ease-in-out_infinite]"},
+        {animation: :carousel_inverse, orientation: :horizontal,
+         class: "data-[state=indeterminate]:animate-[carousel-inverse_2s_ease-in-out_infinite]"},
+        {animation: :swing, orientation: :horizontal,
+         class: "data-[state=indeterminate]:animate-[swing_2s_ease-in-out_infinite]"},
+        {animation: :elastic, orientation: :horizontal,
+         class: "data-[state=indeterminate]:animate-[elastic_2s_ease-in-out_infinite]"},
+        # == indeterminate animation: vertical ==
+        {animation: :carousel, orientation: :vertical,
+         class: "data-[state=indeterminate]:animate-[carousel-vertical_2s_ease-in-out_infinite]"},
+        {animation: :carousel_inverse, orientation: :vertical,
+         class: "data-[state=indeterminate]:animate-[carousel-inverse-vertical_2s_ease-in-out_infinite]"},
+        {animation: :swing, orientation: :vertical,
+         class: "data-[state=indeterminate]:animate-[swing-vertical_2s_ease-in-out_infinite]"},
+        {animation: :elastic, orientation: :vertical,
+         class: "data-[state=indeterminate]:animate-[elastic-vertical_2s_ease-in-out_infinite]"}
+      ],
+      defaults: {color: :primary, animation: :carousel, orientation: :horizontal}
     )
 
     # Status text showing percentage above/beside the bar.
