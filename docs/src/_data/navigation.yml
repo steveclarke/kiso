@@ -87,6 +87,8 @@ docs:
         href: /components/pagination
       - title: Popover
         href: /components/popover
+      - title: Progress
+        href: /components/progress
       - title: Separator
         href: /components/separator
       - title: Skeleton
