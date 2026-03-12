@@ -53,6 +53,7 @@ require "kiso/themes/skeleton"
 require "kiso/themes/spinner"
 require "kiso/themes/tooltip"
 require "kiso/themes/slider"
+require "kiso/themes/progress"
 require "kiso/themes/layout"
 require "kiso/icons"
 
