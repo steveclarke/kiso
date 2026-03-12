@@ -136,6 +136,10 @@ module Kiso
       slider_track: {base: "rounded-none"},
       slider_thumb: {base: "rounded-none"},
 
+      # Progress: rounded-full → rounded-none
+      progress_track: {base: "rounded-none"},
+      progress_indicator: {base: "rounded-none"},
+
       # RadioGroup indicator: rounded-full → rounded-none
       radio_group_item: {base: "rounded-none"},
 
