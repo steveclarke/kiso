@@ -38,21 +38,6 @@ jobs:
             core.setOutput('kiso_title', issue.title);
             core.setOutput('should_notify', 'true');
 
-      - name: Select token for downstream org
-        id: token
-        env:
-          DOWNSTREAM_REPO: ${{ steps.parse.outputs.repo }}
-          PAT_PERSONAL: ${{ secrets.DOWNSTREAM_PAT }}
-          PAT_SEVENVIEW: ${{ secrets.DOWNSTREAM_PAT_SEVENVIEW }}
-        if: steps.parse.outputs.should_notify == 'true'
-        run: |
-          OWNER="${DOWNSTREAM_REPO%%/*}"
-          if [ "$OWNER" = "sevenview" ]; then
-            echo "pat=${PAT_SEVENVIEW}" >> "$GITHUB_OUTPUT"
-          else
-            echo "pat=${PAT_PERSONAL}" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Comment on downstream issue
         if: steps.parse.outputs.should_notify == 'true'
         uses: actions/github-script@v8
@@ -62,7 +47,7 @@ jobs:
           KISO_ISSUE: ${{ steps.parse.outputs.kiso_issue }}
           KISO_TITLE: ${{ steps.parse.outputs.kiso_title }}
         with:
-          github-token: ${{ steps.token.outputs.pat }}
+          github-token: ${{ secrets.DOWNSTREAM_PAT_MYUNIO }}
           script: |
             const [owner, repo] = process.env.DOWNSTREAM_REPO.split('/');
             const issueNumber = parseInt(process.env.DOWNSTREAM_ISSUE);
