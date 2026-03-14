@@ -17,6 +17,13 @@ set -euo pipefail
 #
 ################################################################################
 
+# Load .env if present (for outport-managed ports, etc.)
+if [ -f .env ]; then
+  set -a
+  source .env
+  set +a
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DUMMY_DIR="${SCRIPT_DIR}/../test/dummy"
 SOCKET="${DUMMY_DIR}/tmp/overmind.sock"

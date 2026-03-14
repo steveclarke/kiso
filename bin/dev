@@ -30,6 +30,13 @@ set -euo pipefail
 #
 ################################################################################
 
+# Load .env if present (for outport-managed ports, etc.)
+if [ -f .env ]; then
+  set -a
+  source .env
+  set +a
+fi
+
 # Configuration
 PROCFILE="Procfile.dev"
 SOCKET="tmp/overmind.sock"
