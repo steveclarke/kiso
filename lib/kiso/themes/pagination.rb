@@ -37,7 +37,7 @@ module Kiso
 
     # Flex row container for pagination items.
     PaginationContent = ClassVariants.build(
-      base: "flex flex-row items-center gap-1"
+      base: "flex flex-row flex-wrap items-center justify-center gap-1"
     )
 
     # Wrapper for a single pagination element (link, ellipsis, etc.).
