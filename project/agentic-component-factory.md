@@ -259,7 +259,6 @@ per component), which git auto-merges cleanly.
    reference
 4. **Local reference repos** — git submodules of shadcn-ui and Nuxt UI
    that agents read directly
-5. **Overmind** — process manager that agents can start/stop/restart
-   for dev server management
+5. **Foreman** — process manager that agents use to start dev servers
 6. **`gh` CLI** — agents create PRs programmatically with proper issue
    linking

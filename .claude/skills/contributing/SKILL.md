@@ -100,11 +100,10 @@ EOF
 ## Commands
 
 ```bash
-bin/dev                         # All services via Overmind (Lookbook :4001 + docs :4000)
-bin/dev -- -l web,css           # Lookbook + Tailwind only (no docs)
+bin/dev                         # All services via Foreman (Lookbook :4001 + docs :4000)
+bin/dev -m web=1,css=1,docs=0   # Lookbook + Tailwind only (no docs)
 bin/worktree start              # Start on worktree-assigned port
 bin/worktree port               # Show port for current worktree
-overmind restart web            # Restart Lookbook server
 bundle exec rake test           # Run Ruby tests
 npm run test:unit               # Run JS unit tests (Vitest)
 npm run test:e2e                # Run Playwright E2E tests (needs bin/dev)

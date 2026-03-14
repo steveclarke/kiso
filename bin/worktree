@@ -132,15 +132,15 @@ cmd_start() {
   lb_port=$(lookbook_port)
   docs_p=$(docs_port)
 
-  local services="web,css,docs"
+  local formation=""
   if [ "${1:-}" = "--no-docs" ]; then
-    services="web,css"
+    formation="-m web=1,css=1,css-engine=1,docs=0"
     echo "Starting Lookbook on port $lb_port..."
   else
     echo "Starting Lookbook on port $lb_port, docs on port $docs_p..."
   fi
 
-  LOOKBOOK_PORT=$lb_port DOCS_PORT=$docs_p exec bin/dev -- -l "$services"
+  LOOKBOOK_PORT=$lb_port DOCS_PORT=$docs_p exec bin/dev $formation
 }
 
 cmd_stop() {

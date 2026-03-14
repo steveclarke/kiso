@@ -161,7 +161,7 @@ Lookbook-specific source paths:
 
 The generated file at `lookbook/app/assets/builds/tailwind/kiso.css` is
 gitignored. It is created automatically when `tailwindcss:watch` or
-`tailwindcss:build` runs (via Overmind's `css` process or `bin/dev`).
+`tailwindcss:build` runs (via Foreman's `css` process or `bin/dev`).
 
 ## Failure modes
 
@@ -181,7 +181,7 @@ expected utility classes (e.g., `inline-flex`, `rounded-md`).
 
 ### bin/dev crashes on startup
 
-**Symptom**: Overmind starts then immediately stops all processes. The `css`
+**Symptom**: Foreman starts then immediately stops all processes. The `css`
 process exits first.
 
 **Cause**: The generated file doesn't exist yet (clean checkout) and

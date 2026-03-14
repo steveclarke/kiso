@@ -157,7 +157,7 @@ separation of concerns in the file structure.
 |------|--------|
 | `Procfile.dev` | Added `css-engine` process with detailed comments |
 | `test/dummy/Procfile.dev` | Added `css-engine` process |
-| `.overmind.env` | Added `css-engine` to `OVERMIND_CAN_DIE` |
+| `.overmind.env` | _(removed — migrated to Foreman)_ |
 
 ---
 

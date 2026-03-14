@@ -38,7 +38,7 @@ bin/dev
 ```
 
 This starts [Lookbook](https://lookbook.build) on port 4001 and the
-[docs site](https://kisoui.com) on port 4000, both via Overmind.
+[docs site](https://kisoui.com) on port 4000 via Foreman.
 
 If you cloned without `--recurse-submodules`, run `bin/vendor init` to
 fetch the vendor repos.

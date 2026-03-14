@@ -22,7 +22,6 @@ README.md
 
 # Dev tools
 /.bundle
-/.overmind.env
 /.standard.yml
 /.tool-versions
 Procfile.dev

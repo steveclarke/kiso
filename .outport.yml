@@ -1,14 +1,11 @@
 name: kiso
 services:
   lookbook:
-    preferred_port: 4001
     env_var: LOOKBOOK_PORT
     protocol: http
   docs:
-    preferred_port: 4000
     env_var: DOCS_PORT
     protocol: http
   dummy:
-    preferred_port: 4002
     env_var: DUMMY_PORT
     protocol: http
