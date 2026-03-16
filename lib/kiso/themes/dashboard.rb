@@ -75,7 +75,7 @@ module Kiso
 
     # Right-aligned content area within {DashboardToolbar}.
     DashboardToolbarRight = ClassVariants.build(
-      base: "flex items-center gap-1.5"
+      base: "ml-auto flex items-center gap-1.5"
     )
   end
 end
