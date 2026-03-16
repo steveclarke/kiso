@@ -3,9 +3,12 @@ services:
   lookbook:
     env_var: LOOKBOOK_PORT
     protocol: http
+    hostname: lookbook.kiso
   docs:
     env_var: DOCS_PORT
     protocol: http
+    hostname: docs.kiso
   dummy:
     env_var: DUMMY_PORT
     protocol: http
+    hostname: kiso
