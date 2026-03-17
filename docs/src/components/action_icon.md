@@ -8,7 +8,7 @@ source: lib/kiso/themes/action_icon.rb
 
 ## Quick Start
 
-<%= render "component_preview", comp: "action_icon", scenario: "playground" %>
+<%= render "component_preview", component: "kiso/action_icon", scenario: "playground" %>
 
 ```erb
 <%%= kui(:action_icon, icon: "pencil", title: "Edit") %>
@@ -29,7 +29,7 @@ source: lib/kiso/themes/action_icon.rb
 
 ## Sizes
 
-<%= render "component_preview", comp: "action_icon", scenario: "sizes" %>
+<%= render "component_preview", component: "kiso/action_icon", scenario: "sizes" %>
 
 Three sizes optimized for inline use — no fixed heights, padding-only
 sizing.
@@ -42,7 +42,7 @@ sizing.
 
 ## Inline with text
 
-<%= render "component_preview", comp: "action_icon", scenario: "inline_with_text" %>
+<%= render "component_preview", component: "kiso/action_icon", scenario: "inline_with_text" %>
 
 ActionIcon flows inline without overflowing the surrounding line height.
 Choose a size that matches the text context.
