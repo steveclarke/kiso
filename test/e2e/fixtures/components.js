@@ -18,6 +18,7 @@
  * - `exclude` — (optional) axe rule IDs to disable for a11y scans
  */
 export const COMPONENTS = [
+  { name: "action-icon", url: "/preview/kiso/action_icon/playground" },
   { name: "alert", url: "/preview/kiso/alert/playground" },
   { name: "alert-dialog", url: "/preview/kiso/alert_dialog/playground?open=true" },
   { name: "app", url: "/preview/kiso/layout/app/playground" },

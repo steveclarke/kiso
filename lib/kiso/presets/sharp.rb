@@ -5,6 +5,9 @@ module Kiso
     # No border-radius anywhere — geometric, brutalist aesthetic.
     # Applies rounded-none to every component that has border-radius.
     SHARP = {
+      # ActionIcon: rounded-md → rounded-none
+      action_icon: {base: "rounded-none"},
+
       # Buttons: rounded-md → rounded-none
       button: {
         variants: {

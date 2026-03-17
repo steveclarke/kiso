@@ -7,4 +7,5 @@ Rails.application.configure do
   config.server_timing = true
   config.cache_store = :memory_store
   config.active_support.deprecation = :log
+  config.hosts << ".kiso.test"
 end

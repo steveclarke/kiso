@@ -10,6 +10,9 @@ module Kiso
     # - Checkbox — uses rounded-[4px] for checkmark alignment
     # - Shared::CHECKABLE_ITEM — uses rounded-sm for menu items (structural)
     ROUNDED = {
+      # ActionIcon: rounded-md → rounded-full
+      action_icon: {base: "rounded-full"},
+
       # Buttons: rounded-md → rounded-full (pill shape)
       button: {
         variants: {

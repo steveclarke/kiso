@@ -37,6 +37,8 @@ docs:
 
   - heading: Components
     items:
+      - title: ActionIcon
+        href: /components/action_icon
       - title: Alert
         href: /components/alert
       - title: AlertDialog

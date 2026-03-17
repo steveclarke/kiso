@@ -13,7 +13,7 @@ class Kiso::Generators::InstallGeneratorTest < Rails::Generators::TestCase
   end
 
   test "creates initializer with Kiso.configure block" do
-    run_generator
+    run_generator ["--skip-design-system"]
 
     assert_file "config/initializers/kiso.rb" do |content|
       assert_match(/Kiso\.configure do \|config\|/, content)
@@ -21,7 +21,7 @@ class Kiso::Generators::InstallGeneratorTest < Rails::Generators::TestCase
   end
 
   test "initializer includes preset examples" do
-    run_generator
+    run_generator ["--skip-design-system"]
 
     assert_file "config/initializers/kiso.rb" do |content|
       assert_match(/apply_preset/, content)
@@ -31,7 +31,7 @@ class Kiso::Generators::InstallGeneratorTest < Rails::Generators::TestCase
   end
 
   test "initializer includes theme override examples" do
-    run_generator
+    run_generator ["--skip-design-system"]
 
     assert_file "config/initializers/kiso.rb" do |content|
       assert_match(/config\.theme\[:button\]/, content)
@@ -39,7 +39,7 @@ class Kiso::Generators::InstallGeneratorTest < Rails::Generators::TestCase
   end
 
   test "initializer includes icon customization examples" do
-    run_generator
+    run_generator ["--skip-design-system"]
 
     assert_file "config/initializers/kiso.rb" do |content|
       assert_match(/config\.icons/, content)
@@ -47,7 +47,7 @@ class Kiso::Generators::InstallGeneratorTest < Rails::Generators::TestCase
   end
 
   test "initializer includes app_theme example" do
-    run_generator
+    run_generator ["--skip-design-system"]
 
     assert_file "config/initializers/kiso.rb" do |content|
       assert_match(/app_theme/, content)
@@ -55,10 +55,10 @@ class Kiso::Generators::InstallGeneratorTest < Rails::Generators::TestCase
   end
 
   test "skips initializer when it already exists" do
-    run_generator
+    run_generator ["--skip-design-system"]
     File.write(File.join(destination_root, "config/initializers/kiso.rb"), "# existing")
 
-    run_generator
+    run_generator ["--skip-design-system"]
 
     assert_file "config/initializers/kiso.rb" do |content|
       assert_equal "# existing", content
