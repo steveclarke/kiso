@@ -8,4 +8,5 @@ Rails.application.configure do
   config.cache_store = :memory_store
   config.active_support.deprecation = :log
   config.hosts << ".kiso.test"
+  config.hosts << ".trycloudflare.com"
 end
