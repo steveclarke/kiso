@@ -1,0 +1,45 @@
+<%# locals: (icon:, size: :sm, title: nil, href: nil, method: nil, disabled: false, css_classes: "", **component_options) %>
+<%# Inline icon-only action trigger. Polymorphic tag: <button> by default,
+    <a> with href:, or button_to with href: + method: (non-GET).
+    No fixed height — flows inline with surrounding text. %>
+<%
+  css = Kiso::Themes::ActionIcon.render(size: size, class: css_classes)
+  label = title || t("kiso.action_icon.action")
+  data = kiso_prepare_options(component_options, slot: "action-icon")
+  use_button_to = href.present? && method.present? && method.to_s != "get"
+%>
+<% if use_button_to %>
+  <%= button_to href,
+      method: method,
+      class: css,
+      form_class: "contents",
+      data: data,
+      disabled: disabled || nil,
+      title: title,
+      aria: { label: label },
+      **component_options do %>
+    <%= kiso_icon(icon) %>
+  <% end %>
+<% elsif href.present? %>
+  <% component_options[:href] = href
+     component_options[:"aria-disabled"] = true if disabled %>
+  <%= content_tag :a,
+      class: css,
+      data: data,
+      title: title,
+      aria: { label: label },
+      **component_options do %>
+    <%= kiso_icon(icon) %>
+  <% end %>
+<% else %>
+  <%= content_tag :button,
+      class: css,
+      data: data,
+      type: "button",
+      disabled: disabled || nil,
+      title: title,
+      aria: { label: label },
+      **component_options do %>
+    <%= kiso_icon(icon) %>
+  <% end %>
+<% end %>

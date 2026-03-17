@@ -11,9 +11,11 @@
  * @module mobile-audit
  */
 
-import { chromium } from "playwright"
 import { writeFileSync, mkdirSync } from "node:fs"
 import { resolve } from "node:path"
+
+import { chromium } from "playwright"
+
 import { COMPONENTS } from "./fixtures/components.js"
 
 const PORT = process.env.LOOKBOOK_PORT ?? 4001
@@ -322,7 +324,11 @@ function generateReport(results) {
  * @returns {string}
  */
 function escapeHtml(str) {
-  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
 }
 
 // ── Main ──────────────────────────────────────────────────────────────

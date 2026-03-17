@@ -1,5 +1,7 @@
 en:
   kiso:
+    action_icon:
+      action: "Action"
     alert:
       dismiss: "Dismiss"
     breadcrumb:

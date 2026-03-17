@@ -1,5 +1,5 @@
-import { test, expect } from "./fixtures/index.js"
 import { COMPONENTS } from "./fixtures/components.js"
+import { test, expect } from "./fixtures/index.js"
 
 /**
  * Dark mode E2E tests — verify every component renders correctly
