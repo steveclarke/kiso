@@ -461,13 +461,16 @@ export default class extends Controller {
   }
 
   /**
-   * Positions the dropdown content relative to the trigger.
+   * Positions the dropdown content relative to the trigger using fixed
+   * positioning to escape ancestor overflow clipping (e.g., DashboardToolbar).
    * Starts auto-updating on scroll/resize.
    *
    * @private
    */
   _positionContent() {
-    this._cleanupPosition = startPositioning(this.triggerTarget, this.contentTarget)
+    this._cleanupPosition = startPositioning(this.triggerTarget, this.contentTarget, {
+      strategy: "fixed",
+    })
   }
 
   /**
