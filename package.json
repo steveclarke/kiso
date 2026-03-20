@@ -27,7 +27,9 @@
   "exports": {
     ".": "./app/javascript/controllers/kiso/index.js",
     "./controllers/*": "./app/javascript/controllers/kiso/*",
-    "./utils/*": "./app/javascript/kiso/utils/*"
+    "./utils/highlight": "./app/javascript/kiso/utils/highlight.js",
+    "./utils/positioning": "./app/javascript/kiso/utils/positioning.js",
+    "./utils/focusable": "./app/javascript/kiso/utils/focusable.js"
   },
   "scripts": {
     "lint": "oxlint",

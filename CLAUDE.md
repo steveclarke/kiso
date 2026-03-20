@@ -178,10 +178,12 @@ Consistency is more important than any individual improvement.
   import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
   ```
   These resolve via `pin_all_from` in `config/importmap.rb` for Rails apps
-  and via `package.json` `exports` for bundler apps. Both use wildcards,
-  so new util files in `app/javascript/kiso/utils/` are picked up
-  automatically — no config changes needed. **Never use relative imports
-  for shared utils.**
+  and via `package.json` `exports` for bundler apps. Importmaps use
+  wildcards (`pin_all_from`), but **`package.json` exports must be
+  explicit per-file entries** — not wildcard patterns like `./utils/*`.
+  esbuild doesn't resolve wildcard subpath exports when imports omit
+  `.js` extensions. When adding a new util file, add an explicit export
+  entry in `package.json`. **Never use relative imports for shared utils.**
 - **Vendored third-party JS dependencies** — when a component needs a
   third-party JS library (like Floating UI for positioning), the engine
   **vendors the browser ESM build** in `app/javascript/kiso/vendor/` and
