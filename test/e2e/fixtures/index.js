@@ -15,6 +15,21 @@ import { test as base, expect } from "@playwright/test"
  */
 export const test = base.extend({
   /**
+   * Override page to wait for Stimulus controllers after navigation.
+   * Stimulus connects asynchronously via dynamic import() after the load
+   * event, so page.goto() can resolve before controllers are interactive.
+   * networkidle waits until no network requests for 500ms, ensuring all
+   * dynamic imports from eagerLoadControllersFrom have completed.
+   */
+  page: async ({ page }, use) => {
+    const originalGoto = page.goto.bind(page)
+    page.goto = async (url, options = {}) => {
+      return originalGoto(url, { waitUntil: "networkidle", ...options })
+    }
+    await use(page)
+  },
+
+  /**
    * Run an axe accessibility scan on the current page.
    * Configured for WCAG 2.1 AA compliance with baked-in exclusions:
    * - document-title, html-has-lang: Lookbook preview chrome, not component code

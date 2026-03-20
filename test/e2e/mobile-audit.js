@@ -186,7 +186,6 @@ function generateReport(results) {
   const timestamp = new Date().toLocaleString()
   const totalComponents = results.length
   const errorCount = results.filter((r) => r.error).length
-  const issueComponents = results.filter((r) => r.findings.length > 0 && !r.error)
 
   const counts = {
     overflow: 0,

@@ -1,4 +1,9 @@
+import { existsSync } from "node:fs"
+
 import { defineConfig, devices } from "@playwright/test"
+
+// Load .env so LOOKBOOK_PORT matches what bin/dev (foreman) uses
+if (existsSync(".env")) process.loadEnvFile(".env")
 
 const PORT = process.env.LOOKBOOK_PORT ?? 4001
 const BASE_URL = `http://localhost:${PORT}`
