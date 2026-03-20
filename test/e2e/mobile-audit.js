@@ -176,6 +176,24 @@ async function runChecks(page) {
   return findings
 }
 
+/** @param {string} severity */
+const severityBadge = (severity) =>
+  severity === "error"
+    ? '<span style="background:#ef4444;color:white;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">ERROR</span>'
+    : '<span style="background:#f59e0b;color:white;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">WARNING</span>'
+
+/** @param {string} type */
+const typeBadge = (type) => {
+  const colors = {
+    overflow: "#dc2626",
+    clipping: "#d97706",
+    "touch-target": "#7c3aed",
+    truncation: "#2563eb",
+  }
+  const color = colors[type] || "#6b7280"
+  return `<span style="background:${color}20;color:${color};padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase">${type}</span>`
+}
+
 /**
  * Generate the self-contained HTML report.
  *
@@ -203,27 +221,11 @@ function generateReport(results) {
   const totalIssues = Object.values(counts).reduce((a, b) => a + b, 0)
 
   // Sort: errors first, then components with findings, then clean
-  const sorted = [...results].sort((a, b) => {
+  const sorted = [...results].toSorted((a, b) => {
     if (a.error && !b.error) return -1
     if (!a.error && b.error) return 1
     return b.findings.length - a.findings.length
   })
-
-  const severityBadge = (severity) =>
-    severity === "error"
-      ? '<span style="background:#ef4444;color:white;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">ERROR</span>'
-      : '<span style="background:#f59e0b;color:white;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600">WARNING</span>'
-
-  const typeBadge = (type) => {
-    const colors = {
-      overflow: "#dc2626",
-      clipping: "#d97706",
-      "touch-target": "#7c3aed",
-      truncation: "#2563eb",
-    }
-    const color = colors[type] || "#6b7280"
-    return `<span style="background:${color}20;color:${color};padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase">${type}</span>`
-  }
 
   const componentCards = sorted
     .map((r) => {
