@@ -1,6 +1,0 @@
-web: bin/rails server -p ${DUMMY_PORT:-5000}
-css: bin/rails tailwindcss:watch
-
-# Engine CSS change detector (requires: brew install entr)
-# See root Procfile.dev and project/decisions/005-engine-css-watcher.md.
-css-engine: while true; do find ../../app/assets/tailwind/kiso -name "*.css" | entr -d -p touch app/assets/tailwind/application.css; done

@@ -18,12 +18,5 @@ FileUtils.chdir APP_ROOT do
   system("bundle check --gemfile docs/Gemfile") || system!("bundle install --gemfile docs/Gemfile")
   system!("npm install --prefix docs")
 
-  puts "\n== Installing foreman =="
-  if system("gem list foreman -i --silent")
-    puts "foreman already installed."
-  else
-    system! "gem install foreman"
-  end
-
   puts "\n== Done! Run bin/dev to start. =="
 end

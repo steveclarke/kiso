@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# Print dev URLs and ports. Runs after lookbook is healthy.
+
+if command -v outport > /dev/null 2>&1; then
+  outport ports
+  echo ""
+fi
+
+# Stay alive so process-compose keeps this process running
+exec tail -f /dev/null

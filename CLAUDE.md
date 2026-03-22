@@ -392,8 +392,10 @@ app/helpers/kiso/             kui(), kiso_prepare_options(), kiso_theme_script()
 app/javascript/controllers/kiso/  Stimulus controllers (namespaced kiso--)
 app/javascript/kiso/utils/    Shared JS utilities (positioning, highlight, focusable)
 test/components/previews/     Lookbook preview classes + templates
-test/dummy/                   Integration test app (bin/dummy → port 5000)
-lookbook/                     Lookbook dev app (bin/dev → port 4001)
+test/dummy/                   Integration test app (bin/dummy)
+lookbook/                     Lookbook dev app (bin/dev)
+process-compose.yml           Dev service orchestration (see DEVSTACK.md)
+DEVSTACK.md                   Dev environment documentation
 skills/kiso/                  AI skill (component reference, theming guide)
 project/                      Architecture docs, design system, decisions
 docs/                         Bridgetown docs site (published documentation)
@@ -517,10 +519,17 @@ Kiso-specific checks on top of the universal finalize skill.
 
 ## Commands
 
+See `DEVSTACK.md` for full dev environment documentation.
+
 ```bash
-bin/dev                       # Start all services (Lookbook :4001 + docs :4000)
-bin/dev -m web=1,css=1,docs=0 # Start specific services only
-bin/dummy                     # Start dummy integration app (port 5000)
+bin/dev                       # Start all services (TUI dashboard)
+bin/dev -D                    # Start headless (for agents)
+bin/dev stop                  # Stop all services
+bin/dev status                # Show service status
+bin/dev restart lookbook      # Restart a service
+bin/dev logs lookbook         # Show logs for a service
+bin/dummy                     # Start dummy integration app
+bin/dummy stop                # Stop dummy app
 bundle exec rake test         # Run Ruby tests
 npm run test                  # Run all JS tests (unit + E2E)
 bundle exec standardrb --fix  # Lint & auto-format Ruby

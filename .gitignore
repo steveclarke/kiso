@@ -22,5 +22,6 @@ node_modules/
 test-results/
 playwright-report/
 .claude/worktrees/
+.pc/
 .DS_Store
 .env

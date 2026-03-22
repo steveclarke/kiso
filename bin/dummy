@@ -2,35 +2,35 @@
 set -euo pipefail
 
 ################################################################################
-# bin/dummy — Start test/dummy app via Foreman
+# bin/dummy — Start test/dummy integration app via process-compose
 ################################################################################
 #
 # USAGE
 # -----
-#   bin/dummy                           Start on port 5000 (foreground)
-#   bin/dummy -m web=1,css=1            Start specific services
-#   DUMMY_PORT=3001 bin/dummy           Start on a custom port
+#   bin/dummy                         Start dummy app (TUI dashboard)
+#   bin/dummy -D                      Start headless (for agents)
+#   bin/dummy stop                    Stop dummy services
+#   bin/dummy status                  Show service status
+#   bin/dummy logs <service>          Show logs for a service
+#   bin/dummy restart <service>       Restart a service
+#
+# Uses the root process-compose.yml with only dummy services enabled.
+# Runs on a separate UDS socket so it won't conflict with bin/dev.
 #
 ################################################################################
 
-# Load .env if present (for outport-managed ports, etc.)
-if [ -f .env ]; then
-  set -a
-  source .env
-  set +a
-fi
+# Separate UDS socket for the dummy stack (appends -dummy to avoid bin/dev conflict)
+pc_sock="${TMPDIR:-/tmp}process-compose-$(basename "$(pwd)")-dummy.sock"
+pc_flags=(-U -u "$pc_sock")
 
-if ! gem list foreman -i --silent; then
-  echo "Installing foreman..."
-  gem install foreman
-fi
-
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-DUMMY_DIR="${SCRIPT_DIR}/../test/dummy"
-
-echo "Starting dummy app..."
-echo "  Dummy app → http://localhost:${DUMMY_PORT:-5000}"
-echo ""
-
-cd "$DUMMY_DIR"
-exec foreman start -f Procfile.dev "$@"
+case "${1:-}" in
+  -D)        shift; process-compose up -D "${pc_flags[@]}" dummy dummy-css dummy-css-engine "$@" ;;
+  stop)      process-compose "${pc_flags[@]}" down ;;
+  status)
+    fmt="--output wide"; [[ "${2:-}" == "--json" ]] && fmt="--output json"
+    process-compose "${pc_flags[@]}" process list $fmt 2>/dev/null || { echo "Dummy app is not running. Start it with: bin/dummy"; exit 1; }
+    ;;
+  logs)      process-compose "${pc_flags[@]}" process logs "${2:?specify a service}" ;;
+  restart)   process-compose "${pc_flags[@]}" process restart "${2:?specify a service}" ;;
+  *)         process-compose up "${pc_flags[@]}" dummy dummy-css dummy-css-engine "$@" ;;
+esac

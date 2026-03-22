@@ -2,38 +2,43 @@
 set -euo pipefail
 
 ################################################################################
-# bin/dev — Start development services via Foreman
+# bin/dev — Start development services via process-compose
 ################################################################################
 #
 # USAGE
 # -----
-#   bin/dev                           Start all services (foreground)
-#   bin/dev -m web=1,css=1,docs=0     Start specific services
+#   bin/dev                           Start all services (TUI dashboard)
+#   bin/dev -D                        Start headless (for agents)
+#   bin/dev stop                      Stop all services
+#   bin/dev status                    Show service status (table)
+#   bin/dev status --json             Show service status (JSON)
+#   bin/dev logs <service>            Show logs for a service
+#   bin/dev restart <service>         Restart a service
 #
-# SERVICES (defined in Procfile.dev)
-# ----------------------------------
-#   web         Lookbook Rails server (port $LOOKBOOK_PORT, default 4001)
-#   css         Tailwind CSS watcher
-#   css-engine  Engine CSS change detector (requires entr)
-#   docs        Bridgetown docs site (port $DOCS_PORT, default 4000)
+# SERVICES (defined in process-compose.yml)
+# -----------------------------------------
+#   lookbook     Lookbook Rails server (port $LOOKBOOK_PORT)
+#   css          Tailwind CSS watcher
+#   css-engine   Engine CSS change detector (requires entr)
+#   docs         Bridgetown docs site (port $DOCS_PORT)
+#   urls         Dev URL display
 #
 ################################################################################
 
-# Load .env if present (for outport-managed ports, etc.)
-if [ -f .env ]; then
-  set -a
-  source .env
-  set +a
-fi
+# UDS-only server: no TCP port, deterministic socket path.
+# Uses directory basename for worktree isolation — each worktree gets its own
+# socket (e.g., process-compose-kiso.sock vs process-compose-169-feature.sock).
+pc_sock="${TMPDIR:-/tmp}process-compose-$(basename "$(pwd)").sock"
+pc_flags=(-U -u "$pc_sock")
 
-if ! gem list foreman -i --silent; then
-  echo "Installing foreman..."
-  gem install foreman
-fi
-
-echo "Starting services..."
-echo "  Lookbook → http://localhost:${LOOKBOOK_PORT:-4001}"
-echo "  Docs     → http://localhost:${DOCS_PORT:-4000}"
-echo ""
-
-exec foreman start -f Procfile.dev "$@"
+case "${1:-}" in
+  -D)        shift; process-compose up -D "${pc_flags[@]}" "$@" ;;
+  stop)      process-compose "${pc_flags[@]}" down ;;
+  status)
+    fmt="--output wide"; [[ "${2:-}" == "--json" ]] && fmt="--output json"
+    process-compose "${pc_flags[@]}" process list $fmt 2>/dev/null || { echo "Dev environment is not running. Start it with: bin/dev"; exit 1; }
+    ;;
+  logs)      process-compose "${pc_flags[@]}" process logs "${2:?specify a service}" ;;
+  restart)   process-compose "${pc_flags[@]}" process restart "${2:?specify a service}" ;;
+  *)         process-compose up "${pc_flags[@]}" "$@" ;;
+esac

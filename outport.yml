@@ -11,4 +11,4 @@ services:
   dummy:
     env_var: DUMMY_PORT
     protocol: http
-    hostname: kiso.test
+    hostname: dummy.kiso.test

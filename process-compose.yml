@@ -1,0 +1,67 @@
+version: "0.5"
+
+log_level: info
+
+shell:
+  shell_command: "bash"
+  shell_argument: "-lc"
+
+processes:
+  lookbook:
+    command: eval "$(mise activate bash)" && cd lookbook && bin/rails server -p ${LOOKBOOK_PORT:-4001}
+    readiness_probe:
+      exec:
+        command: "curl -sf http://127.0.0.1:${LOOKBOOK_PORT:-4001}/up"
+      initial_delay_seconds: 3
+      period_seconds: 5
+      failure_threshold: 10
+
+  css:
+    command: eval "$(mise activate bash)" && cd lookbook && bin/rails 'tailwindcss:watch[always]'
+    depends_on:
+      lookbook:
+        condition: process_started
+
+  # Engine CSS change detector (requires: brew install entr)
+  #
+  # The Tailwind CLI watcher (css process) only monitors directories from @source
+  # directives. Engine CSS files in app/assets/tailwind/kiso/ are linked via
+  # @import — not @source — so changes to component CSS (tooltip.css, dialog.css,
+  # etc.) are invisible to the watcher. This process uses entr(1) to watch the
+  # engine CSS directory and touch the Lookbook input file on change.
+  # See project/decisions/005-engine-css-watcher.md.
+  css-engine:
+    command: while true; do find app/assets/tailwind/kiso -name "*.css" | entr -d -p touch lookbook/app/assets/tailwind/application.css; done
+    depends_on:
+      lookbook:
+        condition: process_started
+
+  docs:
+    command: eval "$(mise activate bash)" && cd docs && bin/bridgetown start -P ${DOCS_PORT:-4000}
+
+  urls:
+    command: bin/dev-urls
+    depends_on:
+      lookbook:
+        condition: process_healthy
+
+  # ── Dummy integration app (disabled by default) ──────────────────────
+  # Start with: bin/dummy
+
+  dummy:
+    command: eval "$(mise activate bash)" && cd test/dummy && bin/rails server -p ${DUMMY_PORT:-5000}
+    disabled: true
+
+  dummy-css:
+    command: eval "$(mise activate bash)" && cd test/dummy && bin/rails 'tailwindcss:watch[always]'
+    disabled: true
+    depends_on:
+      dummy:
+        condition: process_started
+
+  dummy-css-engine:
+    command: while true; do find app/assets/tailwind/kiso -name "*.css" | entr -d -p touch test/dummy/app/assets/tailwind/application.css; done
+    disabled: true
+    depends_on:
+      dummy:
+        condition: process_started
