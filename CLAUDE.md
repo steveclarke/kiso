@@ -15,19 +15,13 @@ Stimulus.
   identical formulas — no exceptions. Every component uses spatial values
   from the established scales — no arbitrary values.
 - `project/component-strategy.md` — class_variants patterns, compound variants,
-  theming, override system, dark mode.
+  theming, override system, dark mode, two-layer architecture.
+- `project/code-documentation.md` — YARD, ERB, CSS, and JSDoc standards with
+  examples. Read before writing docs on any file type.
+- `project/finalize-checklist.md` — per-component and per-PR checklists
+  (triggered via `/finalize`).
 - `.claude/skills/contributing/SKILL.md` — component creation workflow and checklist
 - `skills/kiso/` — AI skill with component reference (update when adding components)
-- `VISION.md` — why Kiso exists, design principles
-
-## Architecture
-
-Two layers (CSS files only for transitions/pseudo-states):
-1. **Ruby Theme Modules** (`lib/kiso/themes/`) — variant definitions using
-   `class_variants` + `tailwind_merge`. This is where component styles live.
-   Hot-reloaded in development — no server restart needed after edits.
-2. **ERB Partials** (`app/views/kiso/components/`) — strict locals, computed
-   class strings from theme modules, composition via `yield` and sub-parts.
 
 ## Framework Mindset
 
@@ -43,400 +37,108 @@ Consistency is more important than any individual improvement.
 
 - **Global theme overrides** — host apps override component styles globally
   via `Kiso.configure { |c| c.theme[:button] = { base: "rounded-full" } }`.
-  Overrides are applied once at boot via `ClassVariants::Instance#merge`.
   Layer order: theme default < global config < per-instance `css_classes:`.
   See `project/component-strategy.md` Override System section.
 - **Computed Tailwind classes in ERB** — theme modules define variant class
   strings, partials render them. No `@apply` in CSS. CSS files only for
   transitions, animations, pseudo-states that ERB can't express.
 - **Two-axis variants (Nuxt UI pattern)** — components with colors use
-  `color:` + `variant:` axes with compound variants. Colors: primary,
-  secondary, success, info, warning, error, neutral. Variants: solid,
-  outline, soft, subtle. **Compound variant formulas are identical across
-  all colored components** — copy from an existing component (Badge), never
-  invent new formulas. See `project/design-system.md`.
+  `color:` + `variant:` axes with compound variants. **Compound variant
+  formulas are identical across all colored components** — copy from an
+  existing component (Badge), never invent new formulas. See
+  `project/design-system.md`.
 - **Semantic tokens** — `bg-primary`, `text-foreground`, `bg-muted`, etc.
   Components never use raw palette shades or `dark:` prefixes.
 - **Tailwind v4 CSS variable syntax** — use **parentheses** for CSS variable
-  references: `bg-(--my-color)`, `border-(--sidebar-border)`. Parentheses
-  auto-wrap in `var()`. **Never use square brackets** for CSS variables —
-  `bg-[--my-color]` passes the value literally without `var()` and is broken
-  in v4. Square brackets are only for literal arbitrary values like
-  `text-[11px]` or `min-h-[49px]`.
+  references: `bg-(--my-color)`. **Never use square brackets** for CSS
+  variables — `bg-[--my-color]` is broken in v4. Square brackets are only
+  for literal arbitrary values like `text-[11px]`.
 - **`text-foreground` on container components** — Kiso uses CSS variable
-  swapping for dark mode (`.dark {}` block), not Tailwind `dark:` prefixes.
-  The browser default text color is black and doesn't change automatically.
-  Every component that displays text must set `text-foreground` on its
-  root container so children inherit the correct color in dark mode. See
-  Card, Table, and Empty for examples.
+  swapping for dark mode, not `dark:` prefixes. Every component that
+  displays text must set `text-foreground` on its root container so
+  children inherit correct color in dark mode.
 - **Foreground pairing** — every color has a `-foreground` companion.
   `bg-primary text-primary-foreground` is always accessible. This includes
   `inverted` → `inverted-foreground`.
 - **Inherit parent color for secondary text inside colored components** —
-  description text inherits the parent text color at full opacity. Never use
-  `text-muted-foreground` inside colored components (it's absolute zinc-500,
+  description text inherits parent text color at full opacity. Never use
+  `text-muted-foreground` inside colored components (absolute zinc-500,
   unreadable on colored backgrounds).
-- **shadcn is the structural source of truth** — when building a component,
-  match shadcn's implementation div-for-div, class-for-class
-  (`vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/`). Copy their
-  Tailwind utility classes for layout, spacing, typography, and structure.
-  Only deviate where Kiso's variant system or semantic tokens require it.
-- **Component names must match shadcn exactly** — use the same name shadcn
-  uses for the component and all its sub-parts. If shadcn calls it `empty`,
-  we call it `empty` — not `empty_state`. If shadcn calls a sub-part
-  `header`, we call it `header`. Check the shadcn source file name and
-  exported component names before naming anything.
-- **Nuxt UI is the theming source of truth** — check the Nuxt UI theme file
-  (`vendor/nuxt-ui/src/theme/`) for variant formulas and token usage.
-  This is where `color:` × `variant:` axes, compound variants, and the
-  outline/soft/subtle system come from. shadcn provides the skeleton,
-  Nuxt UI provides the paint.
+- **shadcn is the structural source of truth** — match shadcn's
+  implementation div-for-div, class-for-class from
+  `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/`. Only deviate where
+  Kiso's variant system or semantic tokens require it.
+- **Component names must match shadcn exactly** — same name for component
+  and all sub-parts. Check shadcn source file name before naming anything.
+- **Nuxt UI is the theming source of truth** — check
+  `vendor/nuxt-ui/src/theme/` for variant formulas and token usage.
+  shadcn provides the skeleton, Nuxt UI provides the paint.
 - **`css_classes:` override** — single override point for the root element,
-  merged via tailwind_merge. Conflicting classes are resolved automatically.
+  merged via tailwind_merge.
 - **`ui:` prop for per-slot overrides** — compound components accept
-  `ui: { slot_name: "classes" }` to override inner sub-part styles.
-  Self-rendering partials (Alert, Dialog, Slider, Switch, etc.) declare
-  `ui: {}` in strict locals and apply overrides via
-  `Kiso::Themes::SubPart.render(class: ui[:slot_name])`. Composed
-  sub-parts inherit overrides automatically via a request-scoped context
-  stack in the `kui()` helper — no partial changes needed. Global config
-  supports `ui:` key: `config.theme[:card] = { ui: { header: "p-8" } }`.
-  Four layers: theme default < global config (base + ui) < instance ui: <
-  instance css_classes:. See `project/decisions/004-per-slot-ui-prop.md`.
+  `ui: { slot_name: "classes" }` for inner sub-part styles. Four layers:
+  theme default < global config < instance `ui:` < instance `css_classes:`.
+  See `project/decisions/004-per-slot-ui-prop.md`.
 - **`appui()` for host app components** — mirrors `kui()` for app-specific
-  components. Themes live in `app/themes/{theme_name}/` (default: `default`),
-  partials in `app/views/components/`. Same `css_classes:` and `ui:` override
-  system, but no global config layer — you own the source. Generate with
-  `bin/rails generate kiso:component name`. See `appui()` helper for
-  full API.
-- **Theme presets** — pre-built style overrides applied at boot via
-  `Kiso.configure { |c| c.apply_preset(:rounded) }`. Ship with `:rounded`
-  and `:sharp`. Presets are monolithic (not composable). Preset files live
-  in `lib/kiso/presets/` and must be included in the Tailwind `@source`
-  directive in `engine.css`.
-- **Component generators** — `bin/rails generate kiso:component name`
-  scaffolds theme, partial, and views for host app components in
-  `app/themes/` and `app/views/components/`. Supports `--sub-parts`
-  and `--theme`. `bin/rails generate kiso:framework_component name`
-  scaffolds Kiso engine components (internal, not shipped in gem).
-- **`data-slot` for component identity (shadcn v4 convention)** — every
-  component and sub-part gets `data-slot="name"` in kebab-case. Root:
-  `data-slot="card"`, sub-parts: `data-slot="card-header"`. Used for CSS
-  targeting (`has-[[data-slot=...]]`), testing, and Stimulus. Stimulus
-  controllers (`data-controller`, `data-action`, `data-*-target`) are
-  added separately when behavior is needed.
+  components. Themes in `app/themes/{theme_name}/`, partials in
+  `app/views/components/`. Generate with `bin/rails g kiso:component name`.
+- **Theme presets** — `:rounded` and `:sharp`, applied at boot via
+  `Kiso.configure { |c| c.apply_preset(:rounded) }`. Preset files in
+  `lib/kiso/presets/` must be in the Tailwind `@source` directive.
+- **`data-slot` for component identity** — every component and sub-part
+  gets `data-slot="name"` in kebab-case. Root: `data-slot="card"`,
+  sub-parts: `data-slot="card-header"`.
 - **Native HTML5 first** — `<dialog>`, `[popover]`, `<details>`, `<progress>`
   before reaching for Stimulus.
-- **Props for common patterns, yield for override** — if 90% of usages look
-  the same, accept props (`title:`, `description:`, `icon:`) and handle
-  layout internally. Yield block replaces all internal structure for full
-  control. Props are guardrails for agent-written code.
-- **`kiso_component_icon` for default icons in partials** — when a component
-  renders a built-in default icon (separator chevron, pagination arrows,
-  close button X), use `kiso_component_icon(:semantic_name)` instead of
-  `kiso_icon("icon-name")`. This lets host apps swap icons globally via
-  `Kiso.config.icons[:semantic_name] = "heroicons:chevron-right"`. See
-  `lib/kiso/configuration.rb` for the registry of semantic icon names.
-  `kiso_icon("name")` is still used for user-specified icons in app code.
-- **Tag helpers for Stimulus data attributes** — always use `tag.*` helpers
-  with `data:` hash for inner elements that need Stimulus attributes. Rails
-  converts double underscores to double dashes:
-  `data: { kiso__combobox_target: "input" }` → `data-kiso--combobox-target`.
-  Never write raw `data-kiso--*` attributes in HTML.
-- **Never use `block_given?` in ERB partials** — Rails wraps every partial
-  in a block internally, so `block_given?` is always `true` regardless of
-  whether the caller passed a block. For "default content with optional
-  block override", use `capture { yield }.presence` instead:
-  ```erb
-  <%= capture { yield }.presence || kiso_component_icon(:chevron_right) %>
-  ```
-  For multi-line defaults, assign first:
-  ```erb
-  <% content = capture { yield }.presence %>
-  ```
-  This pattern is safe because `kui()` passes `block ||= proc {}` to every
-  render call. Without the empty proc, `yield` in a blockless partial would
-  bubble up the ERB rendering chain and capture the layout's `<%= yield %>`
-  (the entire page template). The empty proc gives `yield` something to
-  call, returning empty → `.presence` returns nil → default content renders.
-  **Never bypass `kui()` to render Kiso partials directly** — the empty
-  proc guard only works through the helper.
-- **Composition over configuration** — Card = Header + Title + Content + Footer.
-  Small partials, flexibly combined.
-- **Sub-part naming** — sub-parts always use `kui(:component, :part)`, never
-  `kui(:component_part)`. Files live in `component/_part.html.erb`. Data
-  slots use kebab-case: `data-slot="alert-title"`, `data-slot="card-header"`.
+- **Props for common patterns, yield for override** — accept props for the
+  90% case, yield block replaces all internal structure for full control.
+- **`kiso_component_icon` for default icons** — use
+  `kiso_component_icon(:semantic_name)` for built-in icons (chevrons, close
+  X). Lets host apps swap icons globally. See `lib/kiso/configuration.rb`.
+- **Tag helpers for Stimulus data attributes** — use `tag.*` helpers with
+  `data:` hash. Rails converts double underscores to double dashes:
+  `data: { kiso__combobox_target: "input" }`. Never write raw `data-kiso--*`.
+- **Never use `block_given?` in ERB partials** — always `true` in Rails
+  partials. Use `capture { yield }.presence` instead. Never bypass `kui()`
+  to render Kiso partials directly — it passes `block ||= proc {}` to
+  prevent yield bubbling. See `_dialog.html.erb` for the pattern.
+- **Composition over configuration** — Card = Header + Title + Content +
+  Footer. Small partials, flexibly combined.
+- **Sub-part naming** — `kui(:component, :part)`, never `kui(:component_part)`.
+  Files: `component/_part.html.erb`. Data slots: `data-slot="card-header"`.
 - **Strict locals on every partial** — `<%# locals: (color: :primary) %>`
-- **Bare specifier imports for shared utils** — Kiso must support both
-  importmaps (Rails) and npm bundlers (esbuild/Vite). Relative imports
-  (`./utils/highlight`) don't work with importmaps because Propshaft serves
-  fingerprinted filenames that relative URLs can't resolve. Instead, import
-  shared utilities using bare specifiers that match the npm package name:
-  ```javascript
-  import { highlightItem, wrapIndex } from "kiso-ui/utils/highlight"
-  import { startPositioning } from "kiso-ui/utils/positioning"
-  import { FOCUSABLE_SELECTOR } from "kiso-ui/utils/focusable"
-  ```
-  These resolve via `pin_all_from` in `config/importmap.rb` for Rails apps
-  and via `package.json` `exports` for bundler apps. Importmaps use
-  wildcards (`pin_all_from`), but **`package.json` exports must be
-  explicit per-file entries** — not wildcard patterns like `./utils/*`.
-  esbuild doesn't resolve wildcard subpath exports when imports omit
-  `.js` extensions. When adding a new util file, add an explicit export
-  entry in `package.json`. **Never use relative imports for shared utils.**
-- **Vendored third-party JS dependencies** — when a component needs a
-  third-party JS library (like Floating UI for positioning), the engine
-  **vendors the browser ESM build** in `app/javascript/kiso/vendor/` and
-  **pins it in the engine's `config/importmap.rb`**. The engine's importmap
-  merges into the host app automatically — host apps don't configure
-  anything for importmap apps. Bundler apps install via npm (peer
-  dependency). **Never use CDN pins** — CDN fetches are async, happen
-  after `load` event, and cause race conditions with Stimulus controller
-  loading. Follow the pattern of `stimulus-rails` (vendors `stimulus.min.js`)
-  and `turbo-rails` (vendors `turbo.js`). See
-  `project/decisions/002-floating-ui-positioning.md` for rationale.
-  Vendored files go in `.oxlintrc.json` and `.oxfmtrc.json` ignore patterns.
-  Add as `dependencies` in `package.json` (so bundler apps get it
-  automatically via `npm install kiso-ui`) and as `devDependencies` for
-  local development/testing.
-- **i18n for all user-visible text** — every hardcoded string (ARIA labels,
-  visible text, screen-reader text, placeholders) must use
-  `t("kiso.component_name.key")` with a default English translation in
-  `config/locales/en.yml`. Host apps override via standard Rails locale
-  files. Components with configurable label parameters use
-  `label ||= t("kiso.component_name.key")` so per-instance overrides
-  still work.
-- **JSDoc on all JavaScript** — every Stimulus controller, method, property,
-  and event must have JSDoc comments. Class-level: `@example` with HTML usage,
-  `@property` for targets/values, `@fires` for dispatched events. Methods:
-  `@param`, `@returns`, `@private` as appropriate. See existing controllers
-  in `app/javascript/controllers/kiso/` for the expected format.
-
-## Code Documentation Standards
-
-Every file type has documentation requirements. Comments should explain
-**why**, not just **what** — if the code is self-evident, don't comment it.
-But always document: non-obvious patterns, design decisions, variant/sub-part
-inventories, and anything an agent or new contributor would need to understand
-the file's role. Reference files for each format below.
-
-### Ruby theme modules (`lib/kiso/themes/`)
-
-Every theme module gets a YARD-style comment block at the top:
-
-```ruby
-# Clickable button with color, variant, and size axes.
-#
-# Renders as a +<button>+ by default; the partial switches to +<a>+ when
-# +href:+ is provided (smart tag).
-#
-# @example
-#   Button.render(color: :primary, variant: :solid, size: :md)
-#
-# Variants:
-# - +color+ — :primary (default), :secondary, :success, :info, :warning, :error, :neutral
-# - +variant+ — :solid (default), :outline, :soft, :subtle, :ghost, :link
-# - +size+ — :xs, :sm, :md (default), :lg, :xl
-```
-
-Sub-part constants get a brief comment: what it styles, its HTML element,
-and its `data-slot`. Compound variant sections use `# == solid ==` separators.
-Reference: `lib/kiso/themes/button.rb`, `lib/kiso/themes/dashboard.rb`.
-
-### Ruby helpers and infrastructure (`app/helpers/`, `lib/kiso/`)
-
-Full YARD docs on all classes, modules, and public methods:
-- `@param` with type and description
-- `@return` with type
-- `@yield` for block-accepting methods
-- `@example` showing ERB template usage (helpers are the public API)
-- `@note` for gotchas (CSP nonce, thread safety, placement requirements)
-- `@see` cross-references to related methods/modules
-
-Reference: `app/helpers/kiso/component_helper.rb`,
-`app/helpers/kiso/icon_helper.rb`.
-
-### ERB partials (`app/views/kiso/components/`)
-
-After the `locals:` declaration, add a 1-3 line ERB comment explaining:
-- What the component renders and its HTML element strategy
-- Notable behavior (Stimulus controller, Floating UI, native `<dialog>`, etc.)
-- Which sub-parts it composes with (if applicable)
-
-```erb
-<%# locals: (open: false, ui: {}, css_classes: "", **component_options) %>
-<%# Native <dialog> with showModal(). Entry/exit CSS animations driven by
-    data-state attribute. Managed by kiso--dialog Stimulus controller. %>
-```
-
-Also document non-obvious ERB patterns inline:
-- `capture { yield }.presence` — explain the default-vs-override intent
-- View context state sharing (e.g., `@_kiso_alert_dialog_id`)
-- Complex conditional rendering branches
-
-Simple leaf sub-parts (e.g., `card/_content`, `table/_row`) where the
-component name is fully self-documenting don't need comments.
-Reference: `app/views/kiso/components/_dialog.html.erb`,
-`app/views/kiso/components/_button.html.erb`.
-
-### CSS files (`app/assets/tailwind/kiso/`)
-
-Every CSS file gets a header comment explaining:
-- What the file does and **why CSS is needed** (ERB can't express it)
-- The component's CSS mechanics (animations, pseudo-states, grid layout)
-
-```css
-/* ── Tooltip ──────────────────────────────────────────────────────────
- * Fixes popover UA stylesheet conflicts and provides entry/exit
- * animations via data-state attribute lifecycle.
- *
- * Why CSS: [popover] elements need UA display override and animation
- * keyframes that ERB can't express.
- * ──────────────────────────────────────────────────────────────────── */
-```
-
-Document non-obvious rules inline: UA stylesheet overrides, `@layer`
-reasoning, `:where()` specificity strategies, `@custom-variant` usage,
-animation lifecycles. Reference: `app/assets/tailwind/kiso/dashboard.css`,
-`app/assets/tailwind/kiso/dialog.css`.
-
-### JavaScript (`app/javascript/`)
-
-(See JSDoc convention above.) Additionally:
-- `@module` tag on utility modules and the controller index
-- Module-level description with `@example` blocks
-- Stimulus values/targets: use correct lowercase types (`number`, `string`,
-  `boolean` — not `Number`, `String`)
-
-Reference: `app/javascript/controllers/kiso/select_controller.js`,
-`app/javascript/kiso/utils/positioning.js`.
+- **Bare specifier imports** — use `"kiso-ui/utils/highlight"` not relative
+  paths. Required for importmap compatibility. When adding a new util, add
+  an explicit export entry in `package.json`. See existing controllers.
+- **Vendored third-party JS** — vendor browser ESM builds in
+  `app/javascript/kiso/vendor/`, pin in engine's `config/importmap.rb`.
+  **Never use CDN pins.** See `project/decisions/002-floating-ui-positioning.md`.
+- **i18n for all user-visible text** — use `t("kiso.component_name.key")`
+  with defaults in `config/locales/en.yml`. Components with configurable
+  labels: `label ||= t("kiso.component_name.key")`.
+- **JSDoc on all JavaScript** — see `project/code-documentation.md` for
+  full spec. Reference: `app/javascript/controllers/kiso/select_controller.js`.
 
 ## Dark Mode System
 
-**`kiso_theme_script` helper** — outputs a blocking inline `<script>` in
-`<head>` that reads localStorage → cookie → `prefers-color-scheme` and sets
-`.dark` on `<html>` before first paint. Zero server-side code needed. CSP-safe
-via `nonce: true`. Developers add one line to their layout:
+**`kiso_theme_script`** — blocking inline `<script>` in `<head>` that sets
+`.dark` on `<html>` before first paint. CSP-safe via `nonce: true`.
 
-```erb
-<head>
-  <%= kiso_theme_script %>
-  <%= stylesheet_link_tag "tailwind" %>
-</head>
-```
+**`kiso--theme` Stimulus controller** — `toggle()` cycles light/dark,
+`set()` accepts "light"/"dark"/"system". Persists to localStorage + cookie.
 
-**`kiso--theme` Stimulus controller** — handles toggling. `toggle()` cycles
-light ↔ dark. `set()` accepts "light", "dark", or "system" via event detail.
-Persists to both localStorage and cookie.
-
-**Color mode components:**
-- `kui(:color_mode_button)` — light/dark toggle with sun/moon icons
-- `kui(:color_mode_select)` — dropdown with Light/Dark/System options
-
-## Dashboard Layout
-
-**Components, not layouts.** The engine ships composable `kui()` components.
-Host apps own their layout file — the engine never renders `<html>` or `<body>`.
-
-```erb
-<%= kui(:dashboard_group) do %>
-  <%= kui(:dashboard_navbar) do %>
-    <%= kui(:dashboard_sidebar, :toggle) %>
-    <%= kui(:dashboard_sidebar, :collapse) %>
-    <%= kui(:color_mode_button) %>
-  <% end %>
-  <%= kui(:dashboard_sidebar) { yield :sidebar } %>
-  <%= kui(:dashboard_panel) { yield } %>
-<% end %>
-```
-
-`dashboard_group` reads `cookies[:sidebar_open]` itself — no `before_action`
-needed in host controllers. CSS mechanics (grid layout, sidebar animation,
-mobile overlay) live in `app/assets/tailwind/kiso/dashboard.css` using
-`[data-slot]` selectors.
-
-## Component Pattern
-
-```ruby
-# lib/kiso/themes/badge.rb — variant definitions
-Kiso::Themes::Badge = ClassVariants.build(
-  base: "inline-flex items-center rounded-md font-medium",
-  variants: { ... },
-  compound_variants: [ ... ],
-  defaults: { color: :primary, variant: :soft, size: :md }
-)
-```
-
-```erb
-<%# app/views/kiso/components/_badge.html.erb %>
-<%# locals: (color: :primary, variant: :soft, size: :md, css_classes: "", **component_options) %>
-<%= content_tag :span,
-    class: Kiso::Themes::Badge.render(color: color, variant: variant, size: size, class: css_classes),
-    data: kiso_prepare_options(component_options, slot: "badge"),
-    **component_options do %>
-  <%= yield %>
-<% end %>
-```
-
-## File Structure
-
-```
-lib/kiso/themes/              Ruby theme modules (ClassVariants definitions)
-lib/kiso/presets/             Pre-built style preset overrides (rounded, sharp)
-lib/generators/kiso/          Component scaffolding generators
-app/views/kiso/components/    ERB partials (rendered via kui() helper)
-app/views/components/         Host app component partials (via appui())
-app/themes/{theme_name}/      Host app component themes (via appui())
-app/assets/tailwind/kiso/     Component CSS (engine.css + per-component mechanics)
-app/helpers/kiso/             kui(), kiso_prepare_options(), kiso_theme_script()
-app/javascript/controllers/kiso/  Stimulus controllers (namespaced kiso--)
-app/javascript/kiso/utils/    Shared JS utilities (positioning, highlight, focusable)
-test/components/previews/     Lookbook preview classes + templates
-test/dummy/                   Integration test app (bin/dummy)
-lookbook/                     Lookbook dev app (bin/dev)
-process-compose.yml           Dev service orchestration (see DEVSTACK.md)
-DEVSTACK.md                   Dev environment documentation
-skills/kiso/                  AI skill (component reference, theming guide)
-project/                      Architecture docs, design system, decisions
-docs/                         Bridgetown docs site (published documentation)
-```
+**Components:** `kui(:color_mode_button)` (toggle), `kui(:color_mode_select)`
+(dropdown with Light/Dark/System).
 
 ## Docs Site (Bridgetown)
 
-**Deployment:** Both the docs site (kisoui.com) and Lookbook
-(lookbook.kisoui.com) deploy via **Kamal** using `bin/deploy`. There
-are no GitHub Actions for deployment — it is always a manual step run
-after `bin/release`. See `config/deploy.docs.yml` and
-`config/deploy.yml` for the Kamal configs.
+**ERB escaping gotcha:** Bridgetown evaluates all `.md` files as ERB —
+including fenced code blocks. **Double the `%`** in code examples:
+`<%%=` → `<%=`, `<%%` → `<%`, `%%>` → `%>`. Only unescaped `<%= %>`
+should be intentional Bridgetown helpers.
 
-```bash
-bin/deploy                    # Deploy both docs + Lookbook
-bin/deploy --only docs        # Deploy docs only
-bin/deploy --only lookbook    # Deploy Lookbook only
-```
-
-**ERB escaping:** Bridgetown processes **all `.md` files as ERB
-templates**. Every `<%` tag in a markdown file is evaluated as real
-Ruby — including those inside fenced code blocks.
-
-**All ERB tags in code examples must be escaped by doubling the `%`:**
-
-| You write | Renders as |
-|-----------|-----------|
-| `<%%=` | `<%= ` |
-| `<%%` | `<%` |
-| `%%>` | `%>` |
-| `<%%= kui(:badge) %>` | `<%= kui(:badge) %>` |
-
-The only unescaped `<%= ... %>` calls should be intentional Bridgetown
-helpers like `<%= render "component_preview", ... %>`.
-
-## Dependencies
-
-- Rails >= 8.0
-- class_variants ~> 1.1 (variant definitions, Ruby cva equivalent)
-- tailwind_merge ~> 1.0 (class deduplication)
-- Host app owns the Tailwind build (works with tailwindcss-rails or cssbundling-rails)
+Deploy via Kamal: `bin/deploy` (both), `bin/deploy --only docs`,
+`bin/deploy --only lookbook`.
 
 ## GitHub Project
 
@@ -469,46 +171,6 @@ gh project item-edit --project-id PVT_kwHNBRnOAUCSOg --id PVTI_xxx --field-id PV
   auto-closes the issue on merge.
 - **Do not commit without explicit permission** from the user.
 
-## Finalize Checklist
-
-Run `/finalize` or ask "are we ready to merge?" to trigger this. These are
-Kiso-specific checks on top of the universal finalize skill.
-
-**Per component:**
-- [ ] Theme module in `lib/kiso/themes/` + required in `lib/kiso.rb`
-- [ ] ERB partial with `data-slot`, `css_classes:`, strict locals
-- [ ] Default icons use `kiso_component_icon(:name)` — no raw SVGs anywhere
-- [ ] Icon names registered in `lib/kiso/configuration.rb`
-- [ ] `type: "button"` on all `<button>` elements
-- [ ] Self-rendering partials accept `ui: {}` and apply to inner themed elements
-- [ ] Stimulus data attributes via `tag.*` helpers with `data:` hash — no raw HTML
-- [ ] Lookbook preview with `@logical_path` grouping (Form, Color Mode, Dashboard, etc.)
-- [ ] Docs page at `docs/src/components/{name}.md` (no `# Title` — frontmatter handles it)
-- [ ] Entry in `docs/src/_data/navigation.yml` (alphabetical)
-- [ ] Entry in `skills/kiso/references/components.md`
-- [ ] JSDoc on all JS controllers (`@example`, `@property`, `@fires`, `@param`)
-- [ ] Theme module has YARD comment (description, `@example`, variants, `shadcn base:`)
-- [ ] ERB partials have component comment after `locals:` (non-trivial components)
-- [ ] CSS files have header comment explaining why CSS is needed
-- [ ] `frozen_string_literal` consistency with existing files
-- [ ] All user-visible text and ARIA labels use `t("kiso.component_name.key")` with entries in `config/locales/en.yml`
-- [ ] Preset entries in `lib/kiso/presets/rounded.rb` and `sharp.rb` (if component has border-radius)
-- [ ] Entry in `test/e2e/dark-mode.spec.js` `COMPONENTS` array (dark mode a11y)
-
-**Per PR:**
-- [ ] `bundle exec standardrb --fix` — clean
-- [ ] `npm run lint && npm run fmt:check` — clean
-- [ ] `bundle exec rake test` — all pass
-- [ ] Visual check in Lookbook and/or dummy app
-- [ ] Dark mode verified (if applicable)
-- [ ] PR description reflects actual scope
-- [ ] `Closes #N` in PR body
-- [ ] Parent epic updated with current status
-- [ ] Follow-on issues created for deferred work
-- [ ] Issues on project board with correct status
-- [ ] `MEMORY.md` updated with learnings
-- [ ] `/update-docs` audit — design system, skills, and docs site reflect current state
-
 ## Linting & Formatting
 
 - **Ruby**: `bundle exec standardrb --fix`
@@ -525,26 +187,15 @@ See `DEVSTACK.md` for full dev environment documentation.
 bin/dev                       # Start all services (TUI dashboard)
 bin/dev -D                    # Start headless (for agents)
 bin/dev stop                  # Stop all services
-bin/dev status                # Show service status
-bin/dev restart lookbook      # Restart a service
-bin/dev logs lookbook         # Show logs for a service
 bin/dummy                     # Start dummy integration app
-bin/dummy stop                # Stop dummy app
 bundle exec rake test         # Run Ruby tests
 npm run test                  # Run all JS tests (unit + E2E)
 bundle exec standardrb --fix  # Lint & auto-format Ruby
 npm run lint                  # Lint JS (oxlint)
-npm run lint:fix              # Lint JS with auto-fix
 npm run fmt                   # Format JS (oxfmt)
 npm run fmt:check             # Check JS formatting (CI)
-bin/deploy                    # Deploy both services to production (Kamal + 1Password)
-bin/deploy --only lookbook    # Deploy Lookbook only (lookbook.kisoui.com)
-bin/deploy --only docs        # Deploy docs only (kisoui.com)
+bin/deploy                    # Deploy docs + Lookbook (Kamal + 1Password)
 bin/release                   # Tag and release a new gem version
 bin/release --npm 0.1.1       # Release npm package kiso-ui
-bin/release 0.2.0 --npm 0.1.1 # Release both gem and npm
-bin/rails g kiso:install                     # Set up Kiso (initializer + optional design system)
-bin/rails g kiso:component name              # Scaffold a host app component
-bin/rails g kiso:framework_component name   # Scaffold a Kiso engine component (internal)
 bin/smoke-test                # Run automated smoke tests for all features
 ```
