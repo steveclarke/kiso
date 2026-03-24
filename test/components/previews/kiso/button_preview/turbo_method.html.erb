@@ -1,0 +1,24 @@
+<%# Buttons using turbo: true for broadcast-safe non-GET navigation.
+    Renders <a data-turbo-method="..."> instead of a form wrapper.
+    Inspect source to see the data-turbo-method attribute. %>
+<div class="space-y-4">
+  <p class="text-sm text-muted-foreground">Configurable (inspect source to see data-turbo-method)</p>
+  <div class="flex flex-wrap gap-3 items-center">
+    <%= kui(:button, href: "#", method: method, turbo: true, variant: variant, color: color) do %>
+      <%= kiso_icon("log-out") %> Sign out
+    <% end %>
+  </div>
+
+  <p class="text-sm text-muted-foreground">Common patterns</p>
+  <div class="flex flex-wrap gap-3 items-center">
+    <%= kui(:button, href: "#", method: :delete, turbo: true, variant: :ghost, color: :neutral) do %>
+      <%= kiso_icon("log-out") %> Sign out
+    <% end %>
+    <%= kui(:button, href: "#", method: :post, turbo: true, variant: :outline) do %>
+      <%= kiso_icon("archive") %> Archive
+    <% end %>
+    <%= kui(:button, href: "#", method: :delete, turbo: true, color: :error) do %>
+      <%= kiso_icon("trash-2") %> Delete
+    <% end %>
+  </div>
+</div>

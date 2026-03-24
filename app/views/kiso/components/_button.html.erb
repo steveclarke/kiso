@@ -1,9 +1,11 @@
 <%# locals: (color: :primary, variant: :solid, size: :md, block: false,
-             type: :button, href: nil, method: nil, disabled: false,
+             type: :button, href: nil, method: nil, turbo: false, disabled: false,
              loading: false, loading_auto: false, form: {}, css_classes: "", **component_options) %>
-<%# Polymorphic button that renders as <button>, <a>, or button_to depending on props.
-    With href: renders an anchor tag. With href: + method: (non-GET) renders a Rails
-    button_to form for safe non-GET navigation. Without href: renders a plain <button>.
+<%# Polymorphic button that renders as <button>, <a>, or form+button depending on props.
+    With href: renders an anchor tag. With href: + method: (non-GET) renders an explicit
+    form with hidden method override and CSRF token. With turbo: true + method: renders
+    an anchor with data-turbo-method (broadcast-safe, no CSRF token needed).
+    Without href: renders a plain <button>.
     With loading: true, prepends an animated spinner and disables the button.
     With loading_auto: true, attaches kiso--button-loading Stimulus controller for
     automatic loading state on Turbo form submissions. %>
@@ -12,25 +14,32 @@
     color: color, variant: variant, size: size, block: block, class: css_classes)
   data = kiso_prepare_options(component_options, slot: "button",
     **(loading_auto ? { controller: "kiso--button-loading" } : {}))
-  use_button_to = href.present? && method.present? && method.to_s != "get"
+  use_button_to = href.present? && method.present? && method.to_s != "get" && !turbo
   is_disabled = disabled || loading
   component_options[:"aria-busy"] = true if loading
 %>
 <% if use_button_to %>
-  <%= button_to href,
-      method: method,
-      class: css,
-      form_class: "contents",
-      data: data,
-      disabled: is_disabled || nil,
-      form: form.presence,
-      **component_options do %>
-    <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
-    <%= yield %>
+  <%
+    form_attrs = { class: "contents" }
+    form_attrs.merge!(form) if form.present?
+    form_attrs[:method] = "post"
+    form_attrs[:action] = href
+  %>
+  <%= content_tag :form, **form_attrs do %>
+    <% if method.to_s != "post" %>
+      <%= tag :input, type: "hidden", name: "_method", value: method, autocomplete: "off" %>
+    <% end %>
+    <%= tag :input, type: "hidden", name: "authenticity_token", value: form_authenticity_token, autocomplete: "off" %>
+    <%= content_tag :button, class: css, type: "submit", data: data,
+        disabled: is_disabled || nil, **component_options do %>
+      <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
+      <%= yield %>
+    <% end %>
   <% end %>
 <% elsif href.present? %>
   <% component_options[:href] = href
-     component_options[:"aria-disabled"] = true if is_disabled %>
+     component_options[:"aria-disabled"] = true if is_disabled
+     data[:turbo_method] = method if turbo && method.present? && method.to_s != "get" %>
   <%= content_tag :a, class: css, data: data, **component_options do %>
     <%= kiso_component_icon(:spinner, class: "animate-spin") if loading %>
     <%= yield %>

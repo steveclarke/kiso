@@ -28,6 +28,7 @@ source: lib/kiso/themes/button.rb
 | `type:` | `:button` \| `:submit` \| `:reset` | `:button` |
 | `href:` | `String` \| `nil` | `nil` |
 | `method:` | `:delete` \| `:post` \| `:put` \| `:patch` \| `nil` | `nil` |
+| `turbo:` | `Boolean` | `false` |
 | `form:` | `Hash` | `{}` |
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
@@ -73,8 +74,8 @@ compound variant formulas. Ghost and link are Button-only additions.
 ### Smart Tag
 
 When `href:` is present, renders `<a>` instead of `<button>`. When `method:`
-is also present (e.g. `:delete`, `:post`), renders via Rails `button_to` —
-wrapping the styled button in a `<form>` for non-GET HTTP methods.
+is also present (e.g. `:delete`, `:post`), wraps the styled button in a
+`<form>` with hidden method override and CSRF token for non-GET HTTP methods.
 
 ```erb
 <%%# Renders <button> %>
@@ -156,13 +157,12 @@ size via `[&_svg:not([class*='size-'])]:size-4`.
 <%% end %>
 ```
 
-### Form Method (button_to)
+### Form Method
 
 For destructive or state-changing actions that need non-GET HTTP methods
-(sign out, delete, archive), pass `method:` along with `href:`. This renders
-via Rails `button_to`, wrapping the button in a `<form>` with a hidden
-`_method` field. The form uses `display: contents` so it's invisible to
-flex/grid layout.
+(sign out, delete, archive), pass `method:` along with `href:`. This wraps
+the button in a `<form>` with a hidden `_method` field and CSRF token. The
+form uses `display: contents` so it's invisible to flex/grid layout.
 
 ```erb
 <%%= kui(:button, href: session_path, method: :delete, variant: :ghost) do %>
@@ -189,9 +189,24 @@ For form-level attributes (e.g. Turbo Frame targeting), use `form:`:
 ```
 
 **Note:** Do not place a `method:` button inside an existing `<form>` — this
-creates invalid nested forms (same limitation as raw `button_to`). For full
-control over the form wrapper, use `button_to` directly with
-`Kiso::Themes::Button.render(...)` for styling.
+creates invalid nested forms. Use `turbo: true` instead (see below), or use
+`button_to` directly with `Kiso::Themes::Button.render(...)` for styling.
+
+### Turbo Method
+
+When rendering inside ActionCable broadcasts or Turbo Streams (no request
+context), the form approach can't generate a valid CSRF token. Pass
+`turbo: true` to render an `<a data-turbo-method="...">` instead — Turbo
+reads the CSRF token from the page's `<meta>` tag at click time.
+
+```erb
+<%%= kui(:button, href: session_path, method: :delete, turbo: true, variant: :ghost) do %>
+  <%%= kiso_icon("log-out") %> Sign out
+<%% end %>
+```
+
+This is safe inside existing `<form>` elements since it renders a link, not
+a nested form.
 
 ## Examples
 

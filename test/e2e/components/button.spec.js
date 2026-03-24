@@ -81,6 +81,24 @@ test.describe("Button component", () => {
     })
   })
 
+  test.describe("turbo method", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(`${BASE}/turbo_method`)
+    })
+
+    test("renders as anchor, not form", async ({ page }) => {
+      const link = page.locator("a[data-slot='button']").first()
+      await expect(link).toBeVisible()
+      await expect(link).toHaveAttribute("href", "#")
+      await expect(page.locator("form.contents")).not.toBeAttached()
+    })
+
+    test("anchor has data-turbo-method attribute", async ({ page }) => {
+      const link = page.locator("a[data-slot='button']").first()
+      await expect(link).toHaveAttribute("data-turbo-method", "delete")
+    })
+  })
+
   test("passes WCAG 2.1 AA", async ({ page, checkA11y }) => {
     await page.goto(`${BASE}/playground`)
     const results = await checkA11y()

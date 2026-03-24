@@ -37,6 +37,7 @@ source: lib/kiso/themes/dropdown_menu.rb
 | `disabled:` | Boolean | `false` |
 | `href:` | `String` \| `nil` | `nil` |
 | `method:` | `:delete` \| `:post` \| `:put` \| `:patch` \| `nil` | `nil` |
+| `turbo:` | `Boolean` | `false` |
 | `form:` | `Hash` | `{}` |
 | `css_classes:` | String | `""` |
 | `**component_options` | Hash | `{}` |

@@ -1,8 +1,9 @@
 <%# locals: (variant: :default, inset: false, disabled: false,
-             href: nil, method: nil, form: {},
+             href: nil, method: nil, turbo: false, form: {},
              css_classes: "", **component_options) %>
 <%# Clickable menu action. Polymorphic tag: <button> by default, <a> when href:
-    is provided, button_to form when href: + method: (non-GET). %>
+    is provided, form+button when href: + method: (non-GET). With turbo: true +
+    method: renders an anchor with data-turbo-method (broadcast-safe). %>
 <%
   css = Kiso::Themes::DropdownMenuItem.render(variant: variant, class: css_classes)
   data = kiso_prepare_options(component_options, slot: "dropdown-menu-item",
@@ -14,22 +15,29 @@
   component_options[:role] = "menuitem"
   component_options[:tabindex] = "-1"
   component_options[:aria] = { disabled: (disabled || nil) }
-  use_button_to = href.present? && method.present? && method.to_s != "get"
+  use_button_to = href.present? && method.present? && method.to_s != "get" && !turbo
 %>
 <% if use_button_to %>
-  <%= button_to href,
-      method: method,
-      class: css,
-      form_class: "contents w-full",
-      data: data,
-      disabled: disabled || nil,
-      form: form.presence,
-      **component_options do %>
-    <%= yield %>
+  <%
+    form_attrs = { class: "contents w-full" }
+    form_attrs.merge!(form) if form.present?
+    form_attrs[:method] = "post"
+    form_attrs[:action] = href
+  %>
+  <%= content_tag :form, **form_attrs do %>
+    <% if method.to_s != "post" %>
+      <%= tag :input, type: "hidden", name: "_method", value: method, autocomplete: "off" %>
+    <% end %>
+    <%= tag :input, type: "hidden", name: "authenticity_token", value: form_authenticity_token, autocomplete: "off" %>
+    <%= content_tag :button, class: css, type: "submit", data: data,
+        disabled: disabled || nil, **component_options do %>
+      <%= yield %>
+    <% end %>
   <% end %>
 <% elsif href.present? %>
   <% component_options[:href] = href
-     component_options[:"aria-disabled"] = true if disabled %>
+     component_options[:"aria-disabled"] = true if disabled
+     data[:turbo_method] = method if turbo && method.present? && method.to_s != "get" %>
   <%= content_tag :a, class: css, data: data, **component_options do %>
     <%= yield %>
   <% end %>

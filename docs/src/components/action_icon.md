@@ -23,6 +23,7 @@ source: lib/kiso/themes/action_icon.rb
 | `title:` | `String` | `nil` |
 | `href:` | `String` | `nil` |
 | `method:` | `Symbol` | `nil` |
+| `turbo:` | `Boolean` | `false` |
 | `disabled:` | `Boolean` | `false` |
 | `css_classes:` | `String` | `""` |
 | `**component_options` | `Hash` | `{}` |
@@ -49,8 +50,8 @@ Choose a size that matches the text context.
 
 ## Links
 
-Renders as `<a>` with `href:`, or as a `button_to` form when combined
-with `method:`.
+Renders as `<a>` with `href:`, or wraps in a `<form>` when combined
+with `method:`. Use `turbo: true` for broadcast-safe link rendering.
 
 ```erb
 <%%= kui(:action_icon, icon: "external-link", title: "Open",
@@ -58,6 +59,9 @@ with `method:`.
 
 <%%= kui(:action_icon, icon: "trash", title: "Delete",
     href: "/items/1", method: :delete) %>
+
+<%%= kui(:action_icon, icon: "trash", title: "Delete",
+    href: "/items/1", method: :delete, turbo: true) %>
 ```
 
 ## Destructive actions

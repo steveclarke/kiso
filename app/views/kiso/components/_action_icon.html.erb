@@ -1,28 +1,30 @@
-<%# locals: (icon:, size: :sm, title: nil, href: nil, method: nil, disabled: false, css_classes: "", **component_options) %>
+<%# locals: (icon:, size: :sm, title: nil, href: nil, method: nil, turbo: false, disabled: false, css_classes: "", **component_options) %>
 <%# Inline icon-only action trigger. Polymorphic tag: <button> by default,
-    <a> with href:, or button_to with href: + method: (non-GET).
+    <a> with href:, or form+button with href: + method: (non-GET).
+    With turbo: true + method: renders an anchor with data-turbo-method.
     No fixed height — flows inline with surrounding text. %>
 <%
   css = Kiso::Themes::ActionIcon.render(size: size, class: css_classes)
   label = title || t("kiso.action_icon.action")
   data = kiso_prepare_options(component_options, slot: "action-icon")
-  use_button_to = href.present? && method.present? && method.to_s != "get"
+  use_button_to = href.present? && method.present? && method.to_s != "get" && !turbo
 %>
 <% if use_button_to %>
-  <%= button_to href,
-      method: method,
-      class: css,
-      form_class: "contents",
-      data: data,
-      disabled: disabled || nil,
-      title: title,
-      aria: { label: label },
-      **component_options do %>
-    <%= kiso_icon(icon) %>
+  <%= content_tag :form, class: "contents", method: "post", action: href do %>
+    <% if method.to_s != "post" %>
+      <%= tag :input, type: "hidden", name: "_method", value: method, autocomplete: "off" %>
+    <% end %>
+    <%= tag :input, type: "hidden", name: "authenticity_token", value: form_authenticity_token, autocomplete: "off" %>
+    <%= content_tag :button, class: css, type: "submit", data: data,
+        disabled: disabled || nil, title: title, aria: { label: label },
+        **component_options do %>
+      <%= kiso_icon(icon) %>
+    <% end %>
   <% end %>
 <% elsif href.present? %>
   <% component_options[:href] = href
-     component_options[:"aria-disabled"] = true if disabled %>
+     component_options[:"aria-disabled"] = true if disabled
+     data[:turbo_method] = method if turbo && method.present? && method.to_s != "get" %>
   <%= content_tag :a,
       class: css,
       data: data,
