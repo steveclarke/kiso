@@ -31,11 +31,24 @@ jobs:
               return;
             }
 
+            // Map from: labels to PAT secret names
+            const patMap = {
+              'from:outport': 'DOWNSTREAM_PAT_MYUNIO',
+              'from:approvethis': 'DOWNSTREAM_PAT_SEVENVIEW',
+            };
+
+            const patName = patMap[fromLabel];
+            if (!patName) {
+              core.warning(`No PAT configured for label "${fromLabel}" — add it to the patMap in this workflow`);
+              return;
+            }
+
             const [, repo, issueNumber] = match;
             core.setOutput('repo', repo);
             core.setOutput('issue_number', issueNumber);
             core.setOutput('kiso_issue', String(issue.number));
             core.setOutput('kiso_title', issue.title);
+            core.setOutput('pat_name', patName);
             core.setOutput('should_notify', 'true');
 
       - name: Comment on downstream issue
@@ -47,21 +60,35 @@ jobs:
           KISO_ISSUE: ${{ steps.parse.outputs.kiso_issue }}
           KISO_TITLE: ${{ steps.parse.outputs.kiso_title }}
         with:
-          github-token: ${{ secrets.DOWNSTREAM_PAT_MYUNIO }}
+          github-token: ${{ steps.parse.outputs.pat_name == 'DOWNSTREAM_PAT_SEVENVIEW' && secrets.DOWNSTREAM_PAT_SEVENVIEW || secrets.DOWNSTREAM_PAT_MYUNIO }}
           script: |
             const [owner, repo] = process.env.DOWNSTREAM_REPO.split('/');
             const issueNumber = parseInt(process.env.DOWNSTREAM_ISSUE);
             const kisoIssue = process.env.KISO_ISSUE;
             const kisoTitle = process.env.KISO_TITLE;
 
-            await github.rest.issues.createComment({
-              owner, repo,
-              issue_number: issueNumber,
-              body: `## Upstream resolved \u{1F389}\n\nKiso issue steveclarke/kiso#${kisoIssue} ("${kisoTitle}") has been closed.\n\nYou can now clean up this workaround or refactor to use the new feature. Run \`bin/upstream\` to see all items ready for cleanup.`
-            });
+            // Verify the repo exists and is accessible with this token
+            try {
+              await github.rest.repos.get({ owner, repo });
+            } catch (e) {
+              core.warning(`Cannot access ${owner}/${repo} (HTTP ${e.status}) — repo may have been renamed or PAT may lack access. Skipping notification.`);
+              return;
+            }
 
-            await github.rest.issues.addLabels({
-              owner, repo,
-              issue_number: issueNumber,
-              labels: ['upstream-resolved']
-            });
+            try {
+              await github.rest.issues.createComment({
+                owner, repo,
+                issue_number: issueNumber,
+                body: `## Upstream resolved \u{1F389}\n\nKiso issue steveclarke/kiso#${kisoIssue} ("${kisoTitle}") has been closed.\n\nYou can now clean up this workaround or refactor to use the new feature. Run \`bin/upstream\` to see all items ready for cleanup.`
+              });
+
+              await github.rest.issues.addLabels({
+                owner, repo,
+                issue_number: issueNumber,
+                labels: ['upstream-resolved']
+              });
+
+              core.info(`Notified ${owner}/${repo}#${issueNumber}`);
+            } catch (e) {
+              core.warning(`Failed to notify ${owner}/${repo}#${issueNumber} (HTTP ${e.status}): ${e.message}`);
+            }
