@@ -2,13 +2,10 @@ name: kiso
 services:
   lookbook:
     env_var: LOOKBOOK_PORT
-    protocol: http
     hostname: lookbook.kiso.test
   docs:
     env_var: DOCS_PORT
-    protocol: http
     hostname: docs.kiso.test
   dummy:
     env_var: DUMMY_PORT
-    protocol: http
     hostname: dummy.kiso.test
