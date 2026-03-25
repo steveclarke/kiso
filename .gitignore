@@ -23,5 +23,6 @@ test-results/
 playwright-report/
 .claude/worktrees/
 .pc/
+.pc_env
 .DS_Store
 .env

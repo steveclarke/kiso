@@ -9,3 +9,8 @@ services:
   dummy:
     env_var: DUMMY_PORT
     hostname: dummy.kiso.test
+
+computed:
+  PC_SOCKET_PATH:
+    value: "/tmp/process-compose-${project_name}${instance:+-${instance}}.sock"
+    env_file: .pc_env
