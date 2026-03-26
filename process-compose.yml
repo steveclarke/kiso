@@ -11,7 +11,7 @@ processes:
     command: eval "$(mise activate bash)" && cd lookbook && bin/rails server -p ${LOOKBOOK_PORT:-4001}
     readiness_probe:
       exec:
-        command: "curl -sf http://127.0.0.1:${LOOKBOOK_PORT:-4001}/up"
+        command: "curl -sf ${HEALTH_CHECK_URL}"
       initial_delay_seconds: 3
       period_seconds: 5
       failure_threshold: 10

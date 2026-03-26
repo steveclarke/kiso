@@ -3,6 +3,9 @@ services:
   lookbook:
     env_var: LOOKBOOK_PORT
     hostname: lookbook.kiso.test
+    env_file:
+      - .env
+      - .pc_env
   docs:
     env_var: DOCS_PORT
     hostname: docs.kiso.test
@@ -11,6 +14,9 @@ services:
     hostname: dummy.kiso.test
 
 computed:
+  HEALTH_CHECK_URL:
+    value: "${lookbook.url:direct}/up"
+    env_file: .pc_env
   PC_SOCKET_PATH:
     value: "/tmp/process-compose-${project_name}${instance:+-${instance}}.sock"
     env_file: .pc_env
