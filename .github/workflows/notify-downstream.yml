@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Check for downstream reference
         id: parse
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const issue = context.payload.issue;
@@ -53,7 +53,7 @@ jobs:
 
       - name: Comment on downstream issue
         if: steps.parse.outputs.should_notify == 'true'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           DOWNSTREAM_REPO: ${{ steps.parse.outputs.repo }}
           DOWNSTREAM_ISSUE: ${{ steps.parse.outputs.issue_number }}
