@@ -15,7 +15,7 @@ jobs:
         # TODO: Firefox/WebKit disabled due to flaky NS_ERROR_NET_RESET failures
         browser: [chromium]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: ruby/setup-ruby@v1
         with:
